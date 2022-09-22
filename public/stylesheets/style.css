@@ -1,8 +1,15 @@
+@import "fonts.css";
+
+html{
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight:normal;
+  font-style:normal;
+}
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #b700ff;
 }

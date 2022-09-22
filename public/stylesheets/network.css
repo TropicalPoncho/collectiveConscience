@@ -1,0 +1,23 @@
+#neuralNetwork{
+    position : absolute;
+	width : 100%;
+	min-height: 100%;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.floatingInfo{
+    position: absolute;
+    top:  5%;
+    left: 5%;
+    max-width: 40%;
+    color: white;
+    text-align: justify;
+    font-size: 14px;
+}
+a{
+    margin-right: 10px;
+    background-color: #8AE2C8;
+}

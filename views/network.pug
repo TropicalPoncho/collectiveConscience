@@ -1,5 +1,66 @@
 extends layout
+block css
+  link(rel='stylesheet', type="text/css", href='/stylesheets/network.css')
+block js
+  script(src="//unpkg.com/3d-force-graph")
+  script(src="//unpkg.com/three")
+  script(src="//unpkg.com/three-spritetext")
+  script(src="//unpkg.com/three/examples/js/postprocessing/Pass.js")
+  script(src="//unpkg.com/three/examples/js/shaders/CopyShader.js")
+  script(src="//unpkg.com/three/examples/js/shaders/LuminosityHighPassShader.js")
+  script(src="//unpkg.com/three/examples/js/postprocessing/UnrealBloomPass.js")
+  script(type="importmap").
+    {
+        "imports": {
+            "three": "//unpkg.com/three@0.144.0/build/three.module.js",
+            "three/addons/": "//unpkg.com/three@0.144.0/examples/jsm/"
+        }
+    }
+  script(type="x-shader/x-vertex", id="vertexshader").
+    uniform float amplitude;
 
+    attribute vec3 displacement;
+    attribute vec3 customColor;
+
+    varying vec3 vColor;
+
+    void main() {
+
+      vec3 newPosition = position + amplitude * displacement;
+
+      vColor = customColor;
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+
+    }
+  script(type="x-shader/x-fragment", id="fragmentshader").
+    uniform vec3 color;
+    uniform float opacity;
+
+    varying vec3 vColor;
+
+    void main() {
+
+      gl_FragColor = vec4( vColor * color, opacity );
+
+    }
+  script(type="module", src="/javascripts/neuralNetworkRender.js")
+  script var neurons = !{JSON.stringify(neurons)}
 block content
-  h1= title
-  p Welcome to #{title}
+  #neuralNetwork
+  .floatingInfo
+    #pieceExplained
+      h3 SOMA?
+      p  Acá va la explicación del evento y de la obra 
+      | amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    #entranceDiv
+      p Acá iran los botones para comprar la entrada al evento
+      a(type='button' class='waves-effect waves-light btn' href='') Comprar Entrada
+    #shareDiv(class='row')
+      p Acá van los btns para compartir
+      a(type='button' class='waves-effect waves-light btn s3' href='') Compartir Ig
+      span(class='s1')
+      a(type='button' class='waves-effect waves-light btn s3' href='') Compartir Historia
+      span(class='s1')
+      a(type='button' class='waves-effect waves-light btn s3' href='') Compartir Wpp
+

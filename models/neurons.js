@@ -2,9 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //Defino el schema:
-const synapseSchema = new Schema({
-	fromId: {type: mongoose.ObjectId, required: true},
+const neuronSchema = new Schema({
+	fromId: [{type: mongoose.ObjectId}],
+	name: String,
+	imgPath: String,
 	IP: String ,
+	graphVal: Number,
 	location: {
 		latitud: String,
 		longitud: String,
@@ -16,4 +19,4 @@ const synapseSchema = new Schema({
 });
 
 //Exporto el modelo:
-module.exports = mongoose.model('synapses', synapseSchema);
+module.exports = mongoose.model('neurons', neuronSchema);

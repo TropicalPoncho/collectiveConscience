@@ -1,0 +1,16 @@
+extends layout
+block nav
+  nav
+  .nav-wrapper
+    ul#nav-mobile(class='center hide-on-med-and-down')
+      li
+        a(href='') Quien
+      li
+        a(href='') Manifiesto
+      li
+        a(href='') Experiencias
+      li
+        a(href='') Galeria
+block content
+  h1= title
+  p Welcome to #{title}
