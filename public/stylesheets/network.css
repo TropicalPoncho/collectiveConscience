@@ -7,17 +7,76 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+
 }
+
+/* .floatingInfo:after {
+    animation: grain 8s steps(10) infinite;
+    background-image: url("/images/noise.png");
+    content: "";
+    height: 300%;
+    left: -50%;
+    opacity: 0.3;
+    position: fixed;
+    top: -100%;
+    width: 300%;
+}  */
+
+@keyframes grain {
+    0%, 100% { transform:translate(0, 0) }
+    10% { transform:translate(-5%, -10%) }
+    20% { transform:translate(-15%, 5%) }
+    30% { transform:translate(7%, -25%) }
+    40% { transform:translate(-5%, 25%) }
+    50% { transform:translate(-15%, 10%) }
+    60% { transform:translate(15%, 0%) }
+    70% { transform:translate(0%, 15%) }
+    80% { transform:translate(3%, 35%) }
+    90% { transform:translate(-10%, 10%) }
+  }
+
 .floatingInfo{
     position: absolute;
-    top:  5%;
+    top:  10%;
     left: 5%;
     max-width: 40%;
+    max-height: 90%;
+    overflow: scroll;
     color: white;
     text-align: justify;
     font-size: 14px;
 }
-a{
+
+.btn{
     margin-right: 10px;
-    background-color: #8AE2C8;
+    color: #111;
+    background-color: #FFBC00;
+    margin-bottom: 10px;
 }
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+#navScene{
+    position: absolute;
+    top: 10px;
+    max-height: 20%;
+    width:100%;
+}
+.hidden{
+    display: none;
+}
+
+ul{
+    list-style: none;
+}
+/* Tropical Colors:
+8AE2C8
+578CCB
+9900FF
+FF0074
+FFBC00
+111111
+FFFFFF
+*/

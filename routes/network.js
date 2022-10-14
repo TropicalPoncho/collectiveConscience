@@ -1,51 +1,28 @@
-var express = require('express');
+const express = require('express');
+const asyncify = require('express-asyncify');
 var createError = require('http-errors');
-var router = express.Router();
+ 
+const app = express();
+const router = asyncify(express.Router());
+ 
 
-const Synapse = require('../models/synapses');
-const Neuron = require('../models/neurons');
+const NeuronsService = require('../services/neuronsService');
+const NeuronsServiceInstance = new NeuronsService();
 
-//config:
-const limit = 30;
-
-/* GET network home page. */
-router.get('/', function(req, res, next) {
-  renderNetwork();
-});
-
-router.get('/synapses', function(req, res, next) {
-  renderNetwork(req, res);
-});
-
-//To mannually create a neuron
-router.post('/neurons', function(req, res, next) {
-	if(req.body.fromId){
-		Neuron.countDocuments({_id: req.body.fromId}, function (err, count){ 
-			if(count == 0){
-				console.log('Error!', err);
-				res.send('Error en server!');
-			}
+// GET Network
+router.get('/', async (req, res, next) => {
+	NeuronsServiceInstance.getAll(req.query.page).then(result => {
+		console.log(result);
+		res.render("network", {
+			neurons: result,
+			fromId: req.query.fromId
 		});
-	}
-  	const neuron = new Neuron({
-		name: req.body.name,
-		fromId: req.body.fromId,
-		graphVal: req.body.graphVal,
-		imgPath: req.body.imgPath
-	}, (err, msg) => {
-		if(err){
-			console.log("ERROR", err, msg);
-		}
-	});
-
-	neuron.save().then(data => {
-		console.log('Neurona creada');
-		res.send(neuron._id);
-	}).catch((err) => { // Try catch para atrapar posibles errores
-		console.log('Error!', err);
-		res.send('Error en server!');
+	}).catch(err => {
+		console.log(err)
+		next(createError(500));
 	});
 });
+
 
 //When i reach the page, create a synapse
 /**
@@ -53,46 +30,12 @@ router.post('/neurons', function(req, res, next) {
  * - Check if synapse already created by cookies
  * - v2 Check with google account
  * - v3 Mejorar con socket
- */
+ 
 router.get('/invitation', function(req, res, next) {
   let fromId = req.query.fromId;
   if(!fromId) return next(createError(404));
   createSynapse(req, res);
 });
-
-function createSynapse(req, res){
-	
-  	const neuron = new Neuron({
-		fromId: req.query.fromId
-	}, (err, msg) => {
-		if(err){
-			console.log("ERROR", err, msg);
-		}
-	});
-
-	neuron.save().then(data => {
-		console.log('New Synapse ' + data.id);
-    	renderNetwork(req, res);
-	}).catch((err) => { // Try catch para atrapar posibles errores
-		console.log('Error al crear synapsis!', err);
-		res.send('Error en server!');
-	});
-}
-
-function renderNetwork(req, res, lastSynapse = null){
-  const query = Neuron.find();
-  if(lastSynapse){ //if lastSynapse informed
-    query.where('creationDate').lt(lastSynapse.creationDate); //Get the network from here
-  }
-  var page = req.query.page;
-  if(page !== undefined){
-    query.skip(limit*page);
-  }
-  query.limit(limit).exec(function (err,result) {
-    res.render("network",{
-      neurons: result
-    });
-  });
-}
+*/
 
 module.exports = router;

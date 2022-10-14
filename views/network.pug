@@ -9,12 +9,14 @@ block js
   script(src="//unpkg.com/three/examples/js/shaders/CopyShader.js")
   script(src="//unpkg.com/three/examples/js/shaders/LuminosityHighPassShader.js")
   script(src="//unpkg.com/three/examples/js/postprocessing/UnrealBloomPass.js")
+  script(src="/javascripts/threex.keyboardstate.js")
   script(type="importmap").
     {
-        "imports": {
-            "three": "//unpkg.com/three@0.144.0/build/three.module.js",
-            "three/addons/": "//unpkg.com/three@0.144.0/examples/jsm/"
-        }
+      "imports": {
+        "three": "//unpkg.com/three@0.144.0/build/three.module.js",
+        "three/addons/": "//unpkg.com/three@0.144.0/examples/jsm/",
+        "three/nodes": "//unpkg.com/three@0.144.0/examples/jsm/nodes/Nodes.js"
+      }
     }
   script(type="x-shader/x-vertex", id="vertexshader").
     uniform float amplitude;
@@ -40,27 +42,57 @@ block js
     varying vec3 vColor;
 
     void main() {
-
       gl_FragColor = vec4( vColor * color, opacity );
-
     }
-  script(type="module", src="/javascripts/neuralNetworkRender.js")
-  script var neurons = !{JSON.stringify(neurons)}
+  //script(type="module", src="/javascripts/glBlob/Blob.js")
+  script(type="module", src="/javascripts/js.cookie.min.mjs")
+  script(type="module", src="/javascripts/network.js")
+  //script(src="/javascripts/navScene.js")
+  if neurons
+    script var neurons = !{JSON.stringify(neurons)};
+  if fromId
+    script var fromId = !{JSON.stringify(fromId)};
 block content
   #neuralNetwork
-  .floatingInfo
-    #pieceExplained
-      h3 SOMA?
-      p  Acá va la explicación del evento y de la obra 
-      | amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  #navScene(class='navbar-fixed')
+    nav
+      .nav-wrapper
+        a#where.left Cultura del Sur, Temperley, Buenos Aires
+        a#title.center SOMA BETA
+        a#date.right SAB 26.11.22
+  .neuronInfoContainer.floatingInfo
+  #flyerInfo.floatingInfo
+    #introNetwork
+      h5 Experiencia artística Inmersiva
+      p. 
+        Soma Beta es un festival de arte multidisciplinario ...
+      ul
+        li VYNILS DJ SET
+        li ENTRENAMIENTO PERFORMATICO
+        li LIVE SETS
+        li ETC
+    a(class="btn" id="btn_explainNetwork") ¿Qué estoy viendo?
+    #explainNetwork.hidden
+      p. 
+        Los nodos representan personas u organizaciones y las lineas responden a las conexiones entre sí.  
+        Cada persona que accede a la visualización de la obra, es representada automaticamente como un nuevo nodo y
+        un nuevo vinculo que se extiende hacia aquel que sirvió como punto de acceso. 
+      p. 
+        Esta es una obra de arte generativo, dinámica e interactiva, que además de servir como difusión del evento SOMA BETA, 
+        responde a la interacción de quienes acceden a ella como primer acercamiento del eje curatorial del mismo.
+      p. 
+        Este gráfico pretende introducir el eje curatorial de SOMA BETA: existe un patrón que se repite 
+        a nivel físico, natural y social: Desde la red neuronal que conforma 
+        nuestra consciencia, la cual es el soporte de esta gran obra de arte inmersiva y al mismo tiempo 
+        la inmensa red de productoras, espacios, colaboradores y artístas que se conectan para hacer posible su realización.
+      p. 
+        Podés explorar la red, clickeando en aquellas neuronas que tienen nombre para conocer más de los artistas, 
+        del espacio o de las productoras involucradas.
     #entranceDiv
-      p Acá iran los botones para comprar la entrada al evento
-      a(type='button' class='waves-effect waves-light btn' href='') Comprar Entrada
+      a(type='button' class='waves-effect waves-light btn' href='passline.com/somabeta') Comprar Entrada Anticipada
     #shareDiv(class='row')
-      p Acá van los btns para compartir
-      a(type='button' class='waves-effect waves-light btn s3' href='') Compartir Ig
+      p Para que la obra crezca, es importante compartir por este medio:
+      a(type='button' class='waves-effect waves-light btn s3' id="share_story" href='') Compartir Historia
       span(class='s1')
-      a(type='button' class='waves-effect waves-light btn s3' href='') Compartir Historia
-      span(class='s1')
-      a(type='button' class='waves-effect waves-light btn s3' href='') Compartir Wpp
+      a(type='button' class='waves-effect waves-light btn s3' id="share_wpp" href='') Compartir por WhatsApp
 
