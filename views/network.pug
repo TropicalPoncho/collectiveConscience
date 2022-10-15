@@ -47,7 +47,7 @@ block js
   //script(type="module", src="/javascripts/glBlob/Blob.js")
   script(type="module", src="/javascripts/js.cookie.min.mjs")
   script(type="module", src="/javascripts/network.js")
-  //script(src="/javascripts/navScene.js")
+  script(type="module", src="/javascripts/titleObject.js")
   if neurons
     script var neurons = !{JSON.stringify(neurons)};
   if fromId
@@ -55,37 +55,37 @@ block js
 block content
   #neuralNetwork
   #navScene(class='navbar-fixed')
-    nav
-      .nav-wrapper
-        a#where.left Cultura del Sur, Temperley, Buenos Aires
-        a#title.center SOMA BETA
-        a#date.right SAB 26.11.22
   .neuronInfoContainer.floatingInfo
   #flyerInfo.floatingInfo
     #introNetwork
       h5 Experiencia artística Inmersiva
       p. 
-        Soma Beta es un festival de arte multidisciplinario ...
+        Soma Beta es un festival de arte multidisciplinario producido por Tropical Poncho. 
+        Esta edición que se realiza por primera vez en BsAs funcionará como una presentación de lo que ya se hizo y del eje curatorial del festival que tendrá lugar en enero de 2023 en la Patagonia.
+      h6 LINE UP
       ul
-        li VYNILS DJ SET
-        li ENTRENAMIENTO PERFORMATICO
+        li ONLY VINYLS DJ SET
         li LIVE SETS
-        li ETC
+        li DANZA AEREA
+        li ENTRENAMIENTO PERFORMATICO
+        li POESÍA PERFORMÁTICA
+        li PINTURA EN VIVO
+        li EXPOSICIONES
     a(class="btn" id="btn_explainNetwork") ¿Qué estoy viendo?
     #explainNetwork.hidden
       p. 
+        Esta es una obra de arte generativo, dinámica e interactiva, que además de servir como difusión del evento SOMA BETA, 
+        responde a la interacción de quienes acceden a ella como primer acercamiento del eje curatorial del mismo.
+      p(style="font-size:16;").
         Los nodos representan personas u organizaciones y las lineas responden a las conexiones entre sí.  
         Cada persona que accede a la visualización de la obra, es representada automaticamente como un nuevo nodo y
         un nuevo vinculo que se extiende hacia aquel que sirvió como punto de acceso. 
-      p. 
-        Esta es una obra de arte generativo, dinámica e interactiva, que además de servir como difusión del evento SOMA BETA, 
-        responde a la interacción de quienes acceden a ella como primer acercamiento del eje curatorial del mismo.
       p. 
         Este gráfico pretende introducir el eje curatorial de SOMA BETA: existe un patrón que se repite 
         a nivel físico, natural y social: Desde la red neuronal que conforma 
         nuestra consciencia, la cual es el soporte de esta gran obra de arte inmersiva y al mismo tiempo 
         la inmensa red de productoras, espacios, colaboradores y artístas que se conectan para hacer posible su realización.
-      p. 
+      p(style="font-weight: bold;"). 
         Podés explorar la red, clickeando en aquellas neuronas que tienen nombre para conocer más de los artistas, 
         del espacio o de las productoras involucradas.
     #entranceDiv
@@ -96,3 +96,4 @@ block content
       span(class='s1')
       a(type='button' class='waves-effect waves-light btn s3' id="share_wpp" href='') Compartir por WhatsApp
 
+sudo -u nodeUser -H git clone 

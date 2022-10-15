@@ -10,10 +10,9 @@ const Graph = ForceGraph3D()
     (document.getElementById('neuralNetwork'))
     .nodeLabel('name')
     .nodeAutoColorBy('group')
-    .cameraPosition({x: -100, y: 0, z: 10})
-    //.nodeThreeObjectExtend(true)
     //.linkCurvature('curvature')
     //.linkCurveRotation('rotation')
+    .linkWidth(0.3)
     .linkDirectionalParticles(2)
     .linkDirectionalParticleSpeed(d => 4 * 0.001)
     .onNodeClick(node => aimNode(node))
@@ -26,11 +25,11 @@ const Graph = ForceGraph3D()
     });
     //.linkThreeObject(link => CreateLinesThreeObject(link));
 
-/* const bloomPass = new THREE.UnrealBloomPass();
-bloomPass.strength = 0.2;
+const bloomPass = new THREE.UnrealBloomPass();
+bloomPass.strength = 0.3;
 bloomPass.radius = 1;
 bloomPass.threshold = 0.1;
-Graph.postProcessingComposer().addPass(bloomPass); */
+Graph.postProcessingComposer().addPass(bloomPass);
 
 //Execute for the fist neurons:
 ingestGraphData(neurons);
@@ -110,10 +109,10 @@ function CreateNodeThreeObject(node){
         sprite.scale.set(20, 20);
         return sprite;
     }else{
-        return CreateMarbleObject();
+        //return CreateMarbleObject();
         //return CreateNoiseThreeObject();
         //return CreateMirrorThreeObject();
-        //return CreateLinesThreeObject();
+        return CreateLinesThreeObject();
         //return new Blob(1.75, 0.3, 0.5, 1.5, 0.12, Math.PI * 1); 
     }
 }
@@ -207,10 +206,11 @@ function animateNoise(){
 } */
 
 function CreateLinesThreeObject(){
+
     let uniforms = {
         amplitude: { value: 3.0 },
         opacity: { value: 0.3 },
-        color: { value: new THREE.Color( 0xFFBC00 ) }
+        color: { value: new THREE.Color( colorsArray[randomIntFromInterval(0,6)] ) }
     };
     const geometry = new THREE.SphereGeometry( 4, 32, 16 );
 
@@ -268,16 +268,10 @@ function initBackground(){
     video.id = 'video';
     video.type = ' video/ogg; codecs="theora, vorbis" ';
     video.src = "/videos/fluidback.mp4";
+    video.loop = true;
+    video.muted = true;
     video.load(); // must call after setting/changing source
-    var resp = video.play();
-    if (resp!== undefined) {
-        resp.then(_ => {
-            // autoplay starts!
-            video.play();
-        }).catch(error => {
-        //show error
-        });
-    }
+    video.play();
 
     videoImage = document.createElement( 'canvas' );
     videoImage.width = 256;
@@ -455,6 +449,10 @@ function update()
 	
 	if ( keyboard.pressed("r") ) // rewind video
 		video.currentTime = 0;
+
+    if( keyboard.pressed("c") ){
+        console.log(JSON.stringify(Graph.cameraPosition()));
+    }
 	
 }
 
@@ -474,8 +472,6 @@ function render()
 
 	renderer.render( scene, camera );
 }
-
-
 
 
 function generateHeight( width, height ) {

@@ -37,14 +37,14 @@ html, body {
 
 .floatingInfo{
     position: absolute;
-    top:  10%;
+    top:  5%;
     left: 5%;
-    max-width: 40%;
+    max-width: 30%;
     max-height: 90%;
     overflow: scroll;
     color: white;
     text-align: justify;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .btn{
@@ -60,10 +60,12 @@ html, body {
 
 #navScene{
     position: absolute;
+    right: 10px;
     top: 10px;
-    max-height: 20%;
-    width:100%;
+    max-height: 40%;
+    width:50%;
 }
+
 .hidden{
     display: none;
 }
@@ -71,6 +73,7 @@ html, body {
 ul{
     list-style: none;
 }
+
 /* Tropical Colors:
 8AE2C8
 578CCB
