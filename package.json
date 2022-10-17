@@ -11,6 +11,7 @@
     "cookie-parser": "~1.4.4",
     "d3": "^7.6.1",
     "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
     "express": "~4.16.1",
     "express-asyncify": "^1.0.1",
     "http-errors": "~1.6.3",
