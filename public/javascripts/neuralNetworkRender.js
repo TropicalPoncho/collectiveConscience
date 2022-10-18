@@ -38,9 +38,9 @@ export function ingestGraphData(neurons){
     neurons.forEach((item, index, arr) => {
         graphData.nodes.push({ 
             "id": item._id, 
-            "name": item.name ,
+            "name": item.name,
             "img": item.imgPath, 
-            "val": item.graphVal ?? 3,
+            "val": item.graphVal ?? 4,
             "info": item.info ?? null 
         });
         item.fromId.forEach((fromId) => {
@@ -112,7 +112,7 @@ function CreateNodeThreeObject(node){
         //return CreateMarbleObject();
         //return CreateNoiseThreeObject();
         //return CreateMirrorThreeObject();
-        return CreateLinesThreeObject();
+        return CreateLinesThreeObject(node);
         //return new Blob(1.75, 0.3, 0.5, 1.5, 0.12, Math.PI * 1); 
     }
 }
@@ -205,14 +205,14 @@ function animateNoise(){
     return new THREE.Line( geometry, shaderMaterial ); 
 } */
 
-function CreateLinesThreeObject(){
+function CreateLinesThreeObject(node){
 
     let uniforms = {
         amplitude: { value: 3.0 },
         opacity: { value: 0.3 },
         color: { value: new THREE.Color( colorsArray[randomIntFromInterval(0,6)] ) }
     };
-    const geometry = new THREE.SphereGeometry( 4, 32, 16 );
+    const geometry = new THREE.SphereGeometry( node.val , 32, 16 );
 
     const shaderMaterial = new THREE.ShaderMaterial( {
         uniforms: uniforms,
@@ -292,7 +292,7 @@ function initBackground(){
     //Geometry
     const geometry = new THREE.PlaneGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
     geometry.rotateX( - Math.PI / 2 ); 
-    geometry.translate(0,-7000,0);
+    geometry.translate(0,7000,0);
     const data = generateHeight( worldWidth, worldDepth ); 
     const vertices = geometry.attributes.position.array;
     for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
