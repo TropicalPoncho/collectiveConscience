@@ -15,8 +15,8 @@ $(function() {
         });
     }
     
-    var neuron = Cookies.get("neuron");
-    if(neuron == undefined){ //Nueva visita
+   //var neuron = Cookies.get("neuron");
+    //if(neuron == undefined){ //Nueva visita
         if (typeof fromId !== 'undefined'){ //Con el Origen informado
             //Llamo para crear la neurona
             $.post( "/neurons", {fromId: fromId}, function( response ) {
@@ -26,13 +26,14 @@ $(function() {
             });
         }else{ 
             //Si no existe y no informa el fromId?? Nada
+            //TODO: Mostrar cuadro de dialogo para pedir codigo.
         }
-    }else{ //Si ya existe
+    //}else{ //Si ya existe
         //GoToNeuron(neuron) //Apunta a ella ??
-    }
+    //}
 
     $(document).on("click", '#share_wpp', function() {
-        var whatsapp_url = "https://web.whatsapp.com://send?text=";
+        var whatsapp_url = "https://api.whatsapp.com://send?text=";
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             whatsapp_url = "whatsapp://send?text=";
         }

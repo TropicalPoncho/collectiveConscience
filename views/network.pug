@@ -54,9 +54,9 @@ block js
     script var fromId = !{JSON.stringify(fromId)};
 block content
   #neuralNetwork
-  #navScene(class='navbar-fixed')
+  #navScene(class='navbar-fixed').hidden
   .neuronInfoContainer.floatingInfo
-  #flyerInfo.floatingInfo
+  #flyerInfo.floatingInfo.hidden
     #introNetwork
       h5 Experiencia artística Inmersiva
       p. 
@@ -72,6 +72,7 @@ block content
         li PINTURA EN VIVO
         li EXPOSICIONES
     a(class="btn" id="btn_explainNetwork") ¿Qué estoy viendo?
+    a(class="btn" id="btn_captura") capturar
     #explainNetwork.hidden
       p. 
         Esta es una obra de arte generativo, dinámica e interactiva, que además de servir como difusión del evento SOMA BETA, 
@@ -92,6 +93,6 @@ block content
       a(type='button' class='waves-effect waves-light btn' href='passline.com/somabeta') Comprar Entrada Anticipada
     #shareDiv(class='row')
       p Para que la obra crezca, es importante compartir por este medio:
-      a(type='button' class='waves-effect waves-light btn s3' id="share_story" href='') Compartir Historia
-      span(class='s1')
+      //a(type='button' class='waves-effect waves-light btn s3' id="share_story" href='') Compartir Historia
+      //span(class='s1')
       a(type='button' class='waves-effect waves-light btn s3' id="share_wpp" href='') Compartir por WhatsApp

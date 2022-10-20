@@ -1,33 +1,132 @@
 import { ImprovedNoise } from 'three/addons/math/ImprovedNoise.js';
 
+import { LightningStrike } from 'three/addons/geometries/LightningStrike.js';
 /* import { MeshPhysicalNodeMaterial } from 'three/nodes';
+import { floorPowerOfTwo } from 'three/src/math/MathUtils';
 import { nodeFrame } from 'three/addons/renderers/webgl/nodes/WebGLNodes.js';
 import { HDRCubeTextureLoader } from 'three/addons/loaders/HDRCubeTextureLoader.js';   */
 
 var graphData = { "nodes": [], "links": [] };
 
-const Graph = ForceGraph3D()
+var globalDefaultSettings = {
+    nodeSize: 5,
+    linkDistance: 30,
+    cameraDistance: 500,
+    backgroundColor: 0x111111
+};
+
+const Graph = ForceGraph3D({ controlType: 'orbit' })
     (document.getElementById('neuralNetwork'))
     .nodeLabel('name')
     .nodeAutoColorBy('group')
     //.linkCurvature('curvature')
     //.linkCurveRotation('rotation')
     .linkWidth(0.3)
-    .linkDirectionalParticles(2)
+    .linkDirectionalParticles(3)
     .linkDirectionalParticleSpeed(d => 4 * 0.001)
     .onNodeClick(node => aimNode(node))
     .cameraPosition({x:-100,z:30},{x:100,y:-19,z:-100})
     .nodeThreeObject(node => CreateNodeThreeObject(node))
+    .showNavInfo(false)
+    .cameraPosition({ z: globalDefaultSettings.cameraDistance })
+    .onNodeHover(node => consoleLog(node) )
     .onEngineTick(() => {
         //animate();
         //animateBackground();
         //animateNoise();
+        animateParticles();
     });
-    //.linkThreeObject(link => CreateLinesThreeObject(link));
+
+// camera orbit
+let angle = 0;
+setInterval(() => {
+    Graph.cameraPosition({
+    x: globalDefaultSettings.cameraDistance * Math.sin(angle),
+    z: globalDefaultSettings.cameraDistance * Math.cos(angle)
+    });
+    angle += Math.PI / 3000;
+}, 10);
+
+function consoleLog(node){
+    if(node){
+        console.log(node.id);
+    }
+}
+
+/*  Graph.d3Force('link')
+    .distance(link => {
+        (link.distance < 30 && (link.target == '6335d5e37636ed5b3529c543') ) ? 50 : 20;    
+        
+    }); */
+
+//This can be any event. I've got an export button:
+/* $(document).on('click', '#btn_captura',function(){
+    downloads = 0;
+    //Calling this kicks off a loop that repeatedly calls the passed function.
+    a = requestAnimationFrame(download);
+});
+
+function download(){
+  //So we don't call this function a bunch of times, let's cancel the loop after the first
+  if(downloads){
+    cancelAnimationFrame(a);
+  } else {
+    //Obviously, you should swap this out for a selector that gets only the 3D graph
+    $('#neuralNetwork canvas')[0].toBlob(function(blob){
+      //Powered by [FileSaver](https://github.com/eligrey/FileSaver.js/)
+      saveAs(blob, 'a.png');
+    });
+  }
+} */
+
+$(document).on('click', '#btn_captura',function(){
+    takeScreenshot();
+});
+
+function takeScreenshot() {
+
+    // open in new window like this
+    //
+    var w = window.open('', '');
+    w.document.title = "Screenshot";
+    //w.document.body.style.backgroundColor = "red";
+    var img = new Image();
+    // Without 'preserveDrawingBuffer' set to true, we must render now
+    renderer.render(scene, camera);
+    img.src = renderer.domElement.toDataURL();
+    w.document.body.appendChild(img);  
+    
+}
+
+/* var strDownloadMime = "image/octet-stream";
+function saveAsImage() {
+    var imgData, imgNode;
+    try {
+        var strMime = "image/jpeg";
+        imgData = renderer.domElement.toDataURL(strMime);
+        saveFile(imgData.replace(strMime, strDownloadMime), "test.jpg");
+    } catch (e) {
+        console.log(e);
+        return;
+    }
+}
+
+var saveFile = function (strData, filename) {
+    var link = document.createElement('a');
+    if (typeof link.download === 'string') {
+        document.body.appendChild(link); //Firefox requires the link to be in the body
+        link.download = filename;
+        link.href = strData;
+        link.click();
+        document.body.removeChild(link); //remove the link when done
+    } else {
+        location.replace(uri);
+    }
+} */
 
 const bloomPass = new THREE.UnrealBloomPass();
-bloomPass.strength = 0.3;
-bloomPass.radius = 1;
+bloomPass.strength = 0.1;
+bloomPass.radius = 0;
 bloomPass.threshold = 0.1;
 Graph.postProcessingComposer().addPass(bloomPass);
 
@@ -39,16 +138,18 @@ export function ingestGraphData(neurons){
         graphData.nodes.push({ 
             "id": item._id, 
             "name": item.name,
-            "img": item.imgPath, 
-            "val": item.graphVal ?? 4,
-            "info": item.info ?? null 
+            "img": item.imgPath,
+            "imgActive": item.imgActive ?? false,
+            "val": item.graphVal ?? globalDefaultSettings.nodeSize,
+            "info": item.info ?? null
         });
         item.fromId.forEach((fromId) => {
             graphData.links.push({
                 source: fromId,
                 target: item._id,
                 curvature: 0.8, 
-                rotation: Math.PI * 3 / 3
+                rotation: Math.PI * 3 / 3,
+                distance: item.distance ?? globalDefaultSettings.linkDistance
             });
         });
     });
@@ -58,11 +159,11 @@ export function ingestGraphData(neurons){
 function aimNode(node){
     console.log(`node original position: ${node.x} ${node.y} ${node.z}`);
     // Aim at node from outside it
-    const distance = 40;
+    const distance = 60;
     const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
 
     const newPos = node.x || node.y || node.z
-        ? { x: node.x * distRatio, y: (node.y * distRatio)-100, z: node.z * distRatio }
+        ? { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }
         : { x: 0, y: 0, z: distance }; // special case if node is in (0,0,0)
 
     Graph.cameraPosition(
@@ -93,6 +194,7 @@ function ingestNodeInfo(node){
                 });
             }
         }
+        $('.neuronInfoContainer > .neuronInfo').addClass("hidden");
         $neuronInfoElem.removeClass("hidden");
         $("#flyerInfo").addClass("hidden");
     }else{
@@ -102,12 +204,14 @@ function ingestNodeInfo(node){
 }
 
 function CreateNodeThreeObject(node){
-    if(node.img){
+    if(node.img && node.imgActive){
         const imgTexture = new THREE.TextureLoader().load(`/images/${node.img}`);
         var material = new THREE.SpriteMaterial({map: imgTexture, transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
         const sprite = new THREE.Sprite(material);
-        sprite.scale.set(20, 20);
+        sprite.scale.set(50, 50);
         return sprite;
+    }else if(node.id == "6335d5e37636ed5b3529c543"){
+        return CreateParticlesObject();
     }else{
         //return CreateMarbleObject();
         //return CreateNoiseThreeObject();
@@ -125,24 +229,6 @@ function CreateTextThreeObject(){
     return sprite; 
 }
 
-function CreateMirrorThreeObject(){
-    /* const geometry = new THREE.SphereGeometry( 4, 32, 16 ); // radius, segmentsWidth, segmentsHeight
-	var mirrorSphereCamera = new THREE.CubeCamera( 0.1, 5000, 256 );
-	mirrorSphereCamera.renderTarget.minFilter = THREE.LinearMipMapLinearFilter;
-	scene.add( mirrorSphereCamera );
-	var mirrorSphereMaterial = new THREE.MeshPhongMaterial( { emissive: 0x8888aa, envMap: mirrorSphereCamera.renderTarget } );
-	mirrorSphere = new THREE.Mesh( sphereGeom, mirrorSphereMaterial );
-	mirrorSphere.position.set(0, 50, 0);
-	mirrorSphereCamera.position = mirrorSphere.position;
-    return mirrorSphere; */
-
-    const geometry = new THREE.IcosahedronGeometry( 4, 32 );
-    nodeVideoTexture = new THREE.Texture( videoImage );
-    nodeVideoTexture.minFilter = THREE.LinearFilter;
-    nodeVideoTexture.magFilter = THREE.LinearFilter;
-    sphereMaterial = new THREE.MeshBasicMaterial( { envMap: nodeVideoTexture } );
-    return new THREE.Mesh( geometry, sphereMaterial );
-}
 
 /* function CreateNoiseThreeObject(){
       new HDRCubeTextureLoader()
@@ -172,45 +258,13 @@ function animateNoise(){
 
     render();
 } */
-/* function CreateWireframeThreeObject(){
-     let uniforms = {
-        amplitude: { value: 7.0 },
-        opacity: { value: 0.3 },
-        color: { value: new THREE.Color( 0xDDDDDD ) }
-    };
-    const geometry = new THREE.SphereGeometry( 4, 32, 16 );
-
-    const shaderMaterial = new THREE.ShaderMaterial( {
-        uniforms: uniforms,
-        vertexShader: document.getElementById( 'vertexshader' ).textContent,
-        fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-        blending: THREE.AdditiveBlending,
-        depthTest: false,
-        transparent: true
-    } );
-    const count = geometry.attributes.position.count;
-
-    const displacement = new THREE.Float32BufferAttribute( count * 3, 3 );
-    geometry.setAttribute( 'displacement', displacement );
-
-    const customColor = new THREE.Float32BufferAttribute( count * 3, 3 );
-    geometry.setAttribute( 'customColor', customColor );
-
-    const color = new THREE.Color( 0xffffff );
-
-    for ( let i = 0, l = customColor.count; i < l; i ++ ) {
-        color.setHSL( i / l, 0.5, 0.5 );
-        color.toArray( customColor.array, i * customColor.itemSize );
-    }
-    return new THREE.Line( geometry, shaderMaterial ); 
-} */
 
 function CreateLinesThreeObject(node){
 
     let uniforms = {
-        amplitude: { value: 3.0 },
+        amplitude: { value: 7.0 },
         opacity: { value: 0.3 },
-        color: { value: new THREE.Color( colorsArray[randomIntFromInterval(0,6)] ) }
+        color: { value: new THREE.Color( colorsArray[2] ) }
     };
     const geometry = new THREE.SphereGeometry( node.val , 32, 16 );
 
@@ -262,6 +316,12 @@ function initBackground(){
 
     scene.fog = new THREE.Fog(background, 1, 300000);
 
+    if(globalDefaultSettings.backgroundColor){
+        scene.background = new THREE.Color( globalDefaultSettings.backgroundColor ); 
+    }
+    /* const axesHelper = new THREE.AxesHelper( 10000 );
+    scene.add( axesHelper );
+     */
     //Add video texture:
     // create the video element
     video = document.createElement( 'video' );
@@ -292,7 +352,7 @@ function initBackground(){
     //Geometry
     const geometry = new THREE.PlaneGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
     geometry.rotateX( - Math.PI / 2 ); 
-    geometry.translate(0,7000,0);
+    geometry.translate(0,10000,0);
     const data = generateHeight( worldWidth, worldDepth ); 
     const vertices = geometry.attributes.position.array;
     for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
@@ -303,6 +363,10 @@ function initBackground(){
     var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
     let mesh = new THREE.Mesh( geometry, movieMaterial );
     scene.add( mesh );
+
+    //Add Title:
+    
+
 }
 
 const heightMapURL = 'https://i.imgur.com/oYS135g.jpeg';
@@ -426,8 +490,7 @@ function CreateMarbleObject(){
     return new THREE.Mesh(geometry, material)
 }
 
-function animateBackground() 
-{
+function animateBackground() {
     requestAnimationFrame( animateBackground );
 	render();		
 	update();
@@ -463,11 +526,6 @@ function render()
 		videoImageContext.drawImage( video, 0, 0 );
 		if ( videoTexture ) 
 			videoTexture.needsUpdate = true;
-
-        if ( nodeVideoTexture ) 
-            nodeVideoTexture.needsUpdate = true;
-        
-        //sphereMaterial.needsUpdate = true;
 	}
 
 	renderer.render( scene, camera );
@@ -498,80 +556,199 @@ function generateHeight( width, height ) {
 
 }
 
+//Particles Object
+let group;
+let container, stats;
+const particlesData = [];
+let positions, colors;
+let particles;
+let pointCloud;
+let particlePositions;
+let linesMesh;
+
+const maxParticleCount = 120;
+let particleCount = 100;
+let rX, rY, rZ;
+let rHalf;
+
+const effectController = {
+    showDots: false,
+    showLines: true,
+    minDistance: 15,
+    limitConnections: true,
+    maxConnections: 20,
+    particleCount: 100
+};
+
+function randomPosNeg() { return Math.round(Math.random()) * 2 - 1; }
+
+function CreateParticlesObject(){
+
+    rX = 50;
+    rY = 50;
+    rZ = 50;
+    rHalf = rX / 2;
+
+    var group = new THREE.Group();
+
+/*     const helper = new THREE.BoxHelper( new THREE.Mesh( new THREE.BoxGeometry( rX, rY, rZ ) ) );
+    helper.material.color.setHex( 0xFFFFFF );
+    helper.material.blending = THREE.AdditiveBlending;
+    helper.material.transparent = true;
+    group.add( helper ); */
+
+    const segments = maxParticleCount * maxParticleCount;
+
+    positions = new Float32Array( segments * 3 );
+    colors = new Float32Array( segments * 3 );
+
+    const pMaterial = new THREE.PointsMaterial( {
+        color: 0xFFFFFF,
+        size: 0.5,
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        sizeAttenuation: false
+    } );
+
+    particles = new THREE.BufferGeometry();
+    particlePositions = new Float32Array( maxParticleCount * 3 );
+
+    for ( let i = 0; i < maxParticleCount; i ++ ) {
+
+        const x = Math.random() * rX - rX / 2;
+        const y = Math.random() * rY - rY / 2;
+        const z = Math.random() * rZ - rZ / 2;
+
+        particlePositions[ i * 3 ] = x;
+        particlePositions[ i * 3 + 1 ] = y;
+        particlePositions[ i * 3 + 2 ] = z;
+
+        // add it to the geometry
+        particlesData.push( {
+            velocity: new THREE.Vector3( randomPosNeg() * 0.1, randomPosNeg() * 0.1, 0 ),
+            numConnections: 0
+        } );
+
+    }
+
+    particles.setDrawRange( 0, particleCount );
+    particles.setAttribute( 'position', new THREE.BufferAttribute( particlePositions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
+
+    // create the particle system
+    pointCloud = new THREE.Points( particles, pMaterial );
+    group.add( pointCloud );
+
+    const geometry = new THREE.BufferGeometry();
+
+    geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
+    geometry.setAttribute( 'color', new THREE.BufferAttribute( colors, 3 ).setUsage( THREE.DynamicDrawUsage ) );
+
+    geometry.computeBoundingSphere();
+
+    geometry.setDrawRange( 0, 0 );
+
+    const material = new THREE.LineBasicMaterial( {
+        vertexColors: true,
+        blending: THREE.AdditiveBlending,
+        transparent: true
+    } );
+
+    linesMesh = new THREE.LineSegments( geometry, material );
+    group.add( linesMesh );
+    return group;
+}
+
+
+function animateParticles() {
+    let vertexpos = 0;
+    let colorpos = 0;
+    let numConnected = 0;
+
+    for ( let i = 0; i < particleCount; i ++ )
+        particlesData[ i ].numConnections = 0;
+
+    for ( let i = 0; i < particleCount; i ++ ) {
+
+        // get the particle
+        const particleData = particlesData[ i ];
+
+        particlePositions[ i * 3 ] += particleData.velocity.x;
+        particlePositions[ i * 3 + 1 ] += particleData.velocity.y;
+        particlePositions[ i * 3 + 2 ] += particleData.velocity.z;
+
+        if ( particlePositions[ i * 3 + 1 ] < - rHalf || particlePositions[ i * 3 + 1 ] > rHalf )
+            particleData.velocity.y = - particleData.velocity.y;
+
+        if ( particlePositions[ i * 3 ] < - rHalf || particlePositions[ i * 3 ] > rHalf )
+            particleData.velocity.x = - particleData.velocity.x;
+
+        if ( particlePositions[ i * 3 + 2 ] < - rHalf || particlePositions[ i * 3 + 2 ] > rHalf )
+            particleData.velocity.z = - particleData.velocity.z;
+
+        if ( effectController.limitConnections && particleData.numConnections >= effectController.maxConnections )
+            continue;
+
+        // Check collision
+        for ( let j = i + 1; j < particleCount; j ++ ) {
+
+            const particleDataB = particlesData[ j ];
+            if ( effectController.limitConnections && particleDataB.numConnections >= effectController.maxConnections )
+                continue;
+
+            const dx = particlePositions[ i * 3 ] - particlePositions[ j * 3 ];
+            const dy = particlePositions[ i * 3 + 1 ] - particlePositions[ j * 3 + 1 ];
+            const dz = particlePositions[ i * 3 + 2 ] - particlePositions[ j * 3 + 2 ];
+            const dist = Math.sqrt( dx * dx + dy * dy + dz * dz );
+
+            if ( dist < effectController.minDistance ) {
+
+                particleData.numConnections ++;
+                particleDataB.numConnections ++;
+
+                const alpha = 1.0 - dist / effectController.minDistance;
+
+                positions[ vertexpos ++ ] = particlePositions[ i * 3 ];
+                positions[ vertexpos ++ ] = particlePositions[ i * 3 + 1 ];
+                positions[ vertexpos ++ ] = particlePositions[ i * 3 + 2 ];
+
+                positions[ vertexpos ++ ] = particlePositions[ j * 3 ];
+                positions[ vertexpos ++ ] = particlePositions[ j * 3 + 1 ];
+                positions[ vertexpos ++ ] = particlePositions[ j * 3 + 2 ];
+
+                colors[ colorpos ++ ] = alpha;
+                colors[ colorpos ++ ] = alpha;
+                colors[ colorpos ++ ] = alpha;
+
+                colors[ colorpos ++ ] = alpha;
+                colors[ colorpos ++ ] = alpha;
+                colors[ colorpos ++ ] = alpha;
+
+                numConnected ++;
+
+            }
+
+        }
+
+    }
+
+
+    linesMesh.geometry.setDrawRange( 0, numConnected * 2 );
+    linesMesh.geometry.attributes.position.needsUpdate = true;
+    linesMesh.geometry.attributes.color.needsUpdate = true;
+
+    pointCloud.geometry.attributes.position.needsUpdate = true;
+
+    //requestAnimationFrame( animateParticles );
+
+    render();
+}
+
 /* var planeGeo = new THREE.PlaneGeometry(planeSize, planeSize, planeDefinition, planeDefinition);
 var plane = new THREE.Mesh(planeGeo, new THREE.MeshBasicMaterial({
     color: meshColor,
     wireframe: true
 })); */
-
 /* 
     plane.rotation.x -= Math.PI * .5;
     plane.position.set = new THREE.Vector3( -10, -100, 0 );
 */
-
-//wavesBuffer(15,10); 
-
-/* function wavesBuffer( waveSize, magnitude ){
-
-     var pos = planeGeo.attributes.position;
-    let center = new THREE.Vector3(0,0,0);
-    var vec3 = new THREE.Vector3(); // for re-use
-
-    const theTime = performance.now() * .001;
-    for ( var i = 0, l = pos.count; i < l; i ++ ) {
-        vec3.fromBufferAttribute(pos, i);
-        vec3.sub(center);
-        var z = Math.sin( vec3.length() /- waveSize + (theTime)) * magnitude;
-        pos.setZ(i, z);
-    }
-    pos.needsUpdate = true 
-    const worldWidth = 256, worldDepth = 256,
-				worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
-    const data = generateHeight( worldWidth, worldDepth );
-    const vertices = planeGeo.attributes.position.array;
-
-    for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-        vertices[ j + 1 ] = data[ i ] * 10;
-    } 
-} */
-
-/* function updatePlane() {
-    const positionAttribute = planeGeo.geometry.getAttribute( 'position' );
-    const vertex = new THREE.Vector3();
-    for ( let vertexIndex = 0; vertexIndex < positionAttribute.count; vertexIndex ++ ) {
-        vertex.fromBufferAttribute( positionAttribute, vertexIndex );
-        // do something with vertex
-    }
-
-    var vertices = planeGeo.attributes.normal.array[2];
-    for (var i = 0; i < vertices.length ; i++) {
-        vertices[i].z += Math.random() * vertexHeight - vertexHeight;
-        vertices[i]._myZ = vertices[i].z
-    }
-    
-};
- */
-
-/* render();
-
-var count = 0
-function render() {
-    requestAnimationFrame(render);
-    // camera.position.z -= 150;
-    var x = camera.position.x;
-    var z = camera.position.z;
-    camera.position.x = x * Math.cos(0.001) + z * Math.sin(0.001) - 10;
-    camera.position.z = z * Math.cos(0.001) - x * Math.sin(0.001) - 10;
-    camera.lookAt(new THREE.Vector3(0, 8000, 0))
-
-     for (var i = 0; i < planeGeo.vertices.length; i++) {
-        var z = +planeGeo.vertices[i].z;
-        planeGeo.vertices[i].z = Math.sin(( i + count * 0.00002)) * (planeGeo.vertices[i]._myZ - (planeGeo.vertices[i]._myZ* 0.6))
-        plane.geometry.verticesNeedUpdate = true;
-
-        count += 0.1
-    } 
-
-    renderer.render(scene, camera);
-} */
-
