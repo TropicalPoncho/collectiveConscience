@@ -1,4 +1,6 @@
 extends layout
+block head
+  title= 'Tropical Poncho | SOMA BETA'
 block css
   link(rel='stylesheet', type="text/css", href='/stylesheets/network.css')
 block js
@@ -6,10 +8,10 @@ block js
   script(src="//unpkg.com/three")
   script(src="//unpkg.com/three-spritetext")
   script(src="//unpkg.com/three/examples/js/postprocessing/Pass.js")
-  script(src="//unpkg.com/three/examples/js/shaders/CopyShader.js")
+  //script(src="//unpkg.com/three/examples/js/shaders/CopyShader.js")
+  //script(src="/javascripts/threex.keyboardstate.js")
   script(src="//unpkg.com/three/examples/js/shaders/LuminosityHighPassShader.js")
   script(src="//unpkg.com/three/examples/js/postprocessing/UnrealBloomPass.js")
-  script(src="/javascripts/threex.keyboardstate.js")
   script(type="importmap").
     {
       "imports": {
@@ -52,11 +54,14 @@ block js
     script var neurons = !{JSON.stringify(neurons)};
   if fromId
     script var fromId = !{JSON.stringify(fromId)};
+  if myNeuronId
+    script var myNeuronId = !{JSON.stringify(myNeuronId)};
 block content
   #neuralNetwork
-  #navScene(class='navbar-fixed').hidden
+  #navScene(class='navbar-fixed')
+  #flyerDate.floatingCenterTitle 26.11.23
   .neuronInfoContainer.floatingInfo
-  #flyerInfo.floatingInfo.hidden
+  #flyerInfo.floatingInfo
     #introNetwork
       h5 Experiencia artística Inmersiva
       p. 
@@ -72,7 +77,6 @@ block content
         li PINTURA EN VIVO
         li EXPOSICIONES
     a(class="btn" id="btn_explainNetwork") ¿Qué estoy viendo?
-    a(class="btn" id="btn_captura") capturar
     #explainNetwork.hidden
       p. 
         Esta es una obra de arte generativo, dinámica e interactiva, que además de servir como difusión del evento SOMA BETA, 
@@ -95,4 +99,4 @@ block content
       p Para que la obra crezca, es importante compartir por este medio:
       //a(type='button' class='waves-effect waves-light btn s3' id="share_story" href='') Compartir Historia
       //span(class='s1')
-      a(type='button' class='waves-effect waves-light btn s3' id="share_wpp" href='') Compartir por WhatsApp
+      a(type='button' class='waves-effect waves-light btn s3' id="share_wpp") Compartir por WhatsApp

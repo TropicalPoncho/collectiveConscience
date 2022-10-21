@@ -14,8 +14,7 @@ router.get('/', async (req, res, next) => {
 	NeuronsServiceInstance.getAll(req.query.page).then(result => {
 		console.log(result);
 		res.render("network", {
-			neurons: result,
-			fromId: req.query.fromId
+			neurons: result
 		});
 	}).catch(err => {
 		console.log(err)
@@ -23,11 +22,37 @@ router.get('/', async (req, res, next) => {
 	});
 });
 
+//Make synapsis: needs fromId
+router.get('/synapsis/:fromId', async (req, res, next) => {
+	NeuronsServiceInstance.getAll(req.query.page).then(result => {
+		console.log(result);
+		res.render("network", {
+			neurons: result,
+			fromId: req.params.fromId
+		});
+	}).catch(err => {
+		console.log(err)
+		next(createError(500));
+	});
+});
+
+//Get/aims an existing neuron
+router.get('/:myNeuronId', async (req, res, next) => {
+	NeuronsServiceInstance.getAll(req.query.page).then(result => {
+		console.log(result);
+		res.render("network", {
+			neurons: result,
+			myNeuronId: req.params.myNeuronId
+		});
+	}).catch(err => {
+		console.log(err)
+		next(createError(500));
+	});
+});
 
 //When i reach the page, create a synapse
 /**
  * TODO:
- * - Check if synapse already created by cookies
  * - v2 Check with google account
  * - v3 Mejorar con socket
  

@@ -1,10 +1,20 @@
 import { ImprovedNoise } from 'three/addons/math/ImprovedNoise.js';
 
-import { LightningStrike } from 'three/addons/geometries/LightningStrike.js';
+//import { LightningStrike } from 'three/addons/geometries/LightningStrike.js';
 /* import { MeshPhysicalNodeMaterial } from 'three/nodes';
 import { floorPowerOfTwo } from 'three/src/math/MathUtils';
 import { nodeFrame } from 'three/addons/renderers/webgl/nodes/WebGLNodes.js';
 import { HDRCubeTextureLoader } from 'three/addons/loaders/HDRCubeTextureLoader.js';   */
+
+const colorsArray = [
+    "#8AE2C8",
+    "#578CCB",
+    "#9900FF",
+    "#FF0074",
+    "#FFBC00",
+    "#111111",
+    "#FFFFFF"
+];
 
 var graphData = { "nodes": [], "links": [] };
 
@@ -37,12 +47,15 @@ const Graph = ForceGraph3D({ controlType: 'orbit' })
         animateParticles();
     });
 
-// camera orbit
+//Execute for the fist neurons:
+ingestGraphData(neurons);
+
+//Camera orbit
 let angle = 0;
 setInterval(() => {
     Graph.cameraPosition({
-    x: globalDefaultSettings.cameraDistance * Math.sin(angle),
-    z: globalDefaultSettings.cameraDistance * Math.cos(angle)
+        x: globalDefaultSettings.cameraDistance * Math.sin(angle),
+        z: globalDefaultSettings.cameraDistance * Math.cos(angle)
     });
     angle += Math.PI / 3000;
 }, 10);
@@ -56,73 +69,7 @@ function consoleLog(node){
 /*  Graph.d3Force('link')
     .distance(link => {
         (link.distance < 30 && (link.target == '6335d5e37636ed5b3529c543') ) ? 50 : 20;    
-        
     }); */
-
-//This can be any event. I've got an export button:
-/* $(document).on('click', '#btn_captura',function(){
-    downloads = 0;
-    //Calling this kicks off a loop that repeatedly calls the passed function.
-    a = requestAnimationFrame(download);
-});
-
-function download(){
-  //So we don't call this function a bunch of times, let's cancel the loop after the first
-  if(downloads){
-    cancelAnimationFrame(a);
-  } else {
-    //Obviously, you should swap this out for a selector that gets only the 3D graph
-    $('#neuralNetwork canvas')[0].toBlob(function(blob){
-      //Powered by [FileSaver](https://github.com/eligrey/FileSaver.js/)
-      saveAs(blob, 'a.png');
-    });
-  }
-} */
-
-$(document).on('click', '#btn_captura',function(){
-    takeScreenshot();
-});
-
-function takeScreenshot() {
-
-    // open in new window like this
-    //
-    var w = window.open('', '');
-    w.document.title = "Screenshot";
-    //w.document.body.style.backgroundColor = "red";
-    var img = new Image();
-    // Without 'preserveDrawingBuffer' set to true, we must render now
-    renderer.render(scene, camera);
-    img.src = renderer.domElement.toDataURL();
-    w.document.body.appendChild(img);  
-    
-}
-
-/* var strDownloadMime = "image/octet-stream";
-function saveAsImage() {
-    var imgData, imgNode;
-    try {
-        var strMime = "image/jpeg";
-        imgData = renderer.domElement.toDataURL(strMime);
-        saveFile(imgData.replace(strMime, strDownloadMime), "test.jpg");
-    } catch (e) {
-        console.log(e);
-        return;
-    }
-}
-
-var saveFile = function (strData, filename) {
-    var link = document.createElement('a');
-    if (typeof link.download === 'string') {
-        document.body.appendChild(link); //Firefox requires the link to be in the body
-        link.download = filename;
-        link.href = strData;
-        link.click();
-        document.body.removeChild(link); //remove the link when done
-    } else {
-        location.replace(uri);
-    }
-} */
 
 const bloomPass = new THREE.UnrealBloomPass();
 bloomPass.strength = 0.1;
@@ -130,8 +77,16 @@ bloomPass.radius = 0;
 bloomPass.threshold = 0.1;
 Graph.postProcessingComposer().addPass(bloomPass);
 
-//Execute for the fist neurons:
-ingestGraphData(neurons);
+export function takeScreenshot() {
+    // open in new window like this
+    var w = window.open('', '');
+    w.document.title = "Screenshot";
+    var img = new Image();
+    // Without 'preserveDrawingBuffer' set to true, we must render now
+    renderer.render(scene, camera);
+    img.src = renderer.domElement.toDataURL();
+    w.document.body.appendChild(img);  
+}
 
 export function ingestGraphData(neurons){
     neurons.forEach((item, index, arr) => {
@@ -154,6 +109,10 @@ export function ingestGraphData(neurons){
         });
     });
     Graph.graphData(graphData);
+}
+
+export function aimNodeFromId(neuronId){
+    aimNode(graphData.nodes.find(item => item.id === neuronId));
 }
 
 function aimNode(node){
@@ -319,9 +278,10 @@ function initBackground(){
     if(globalDefaultSettings.backgroundColor){
         scene.background = new THREE.Color( globalDefaultSettings.backgroundColor ); 
     }
-    /* const axesHelper = new THREE.AxesHelper( 10000 );
+    
+    const axesHelper = new THREE.AxesHelper( 10000 );
     scene.add( axesHelper );
-     */
+     
     //Add video texture:
     // create the video element
     video = document.createElement( 'video' );
@@ -378,16 +338,6 @@ const params = {
     colorA: '#000000',
     colorB: '#00ffaa'
   };
-
-const colorsArray = [
-    "#8AE2C8",
-    "#578CCB",
-    "#9900FF",
-    "#FF0074",
-    "#FFBC00",
-    "#111111",
-    "#FFFFFF"
-];
 
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
@@ -493,10 +443,10 @@ function CreateMarbleObject(){
 function animateBackground() {
     requestAnimationFrame( animateBackground );
 	render();		
-	update();
+	//update();
 }
 
-function update()
+/* function update()
 {
 	if ( keyboard.pressed("p") )
 		video.play();
@@ -518,6 +468,7 @@ function update()
     }
 	
 }
+ */
 
 function render() 
 {	

@@ -7,7 +7,6 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-
 }
 
 /* .floatingInfo:after {
@@ -45,6 +44,15 @@ html, body {
     color: white;
     text-align: justify;
     font-size: 15px;
+}
+
+.floatingCenterTitle{
+    position: absolute;
+    font-family: 'Gotham';
+    font-weight: 500;
+    top: 10px;
+    max-height: 40%;
+    width:50%;
 }
 
 .btn{

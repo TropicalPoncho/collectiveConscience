@@ -1,14 +1,29 @@
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
+const colorsArray = [
+    "#8AE2C8",
+    "#578CCB",
+    "#9900FF",
+    "#FF0074",
+    "#FFBC00",
+    "#111111",
+    "#FFFFFF"
+];
+
 var container;
 let renderer, scene, camera;
-let line, uniforms;
+let line1, line2, uniforms;
 
 const loader = new FontLoader();
-loader.load( '/fonts/RobotoBlack_Regular.json', function ( font ) {
-    init( font );
-    animate();
+var fonts = {GothamBlack: null, RobotoBlackItalic: null};
+loader.load( '/fonts/Gotham-Black.json', function (font1) {
+    fonts.GothamBlack = font1;
+    loader.load('/fonts/Roboto-BlackItalic.json', function (font2){
+        fonts.RobotoBlackItalic = font2;
+        init(fonts);
+        animate();
+    });
 } );
 
 function init(font) {
@@ -18,6 +33,9 @@ function init(font) {
     camera.position.z = 400;
 
     scene = new THREE.Scene();
+
+/*     const axesHelper = new THREE.AxesHelper( 100 );
+    scene.add( axesHelper ); */
 
     uniforms = {
 
@@ -38,10 +56,12 @@ function init(font) {
 
     } );
 
-    const geometry = new TextGeometry( 'SOMA BETA', {
-        font: font,
+    const material = new THREE.MeshPhongMaterial( { color: colorsArray[0] } );
+
+    const geometrySoma = new TextGeometry( 'SOMA', {
+        font: font.GothamBlack,
         size: 50,
-        height: 25,
+        height: 40,
         curveSegments: 10,
         bevelThickness: 5,
         bevelSize: 1.5,
@@ -49,9 +69,19 @@ function init(font) {
         bevelSegments: 10,
     } );
 
-    geometry.center();
-
-    const count = geometry.attributes.position.count;
+    const geometryBeta = new TextGeometry( 'beta', {
+        font: font.RobotoBlackItalic,
+        size: 50,
+        height: 25,
+        curveSegments: 15,
+        bevelThickness: 5,
+        bevelSize: 1.5,
+        bevelEnabled: true,
+        bevelSegments: 15,
+    } );
+    geometrySoma.center();
+    geometryBeta.translate(0,-70,0);
+   /*  const count = geometry.attributes.position.count;
 
     const displacement = new THREE.Float32BufferAttribute( count * 3, 3 );
     geometry.setAttribute( 'displacement', displacement );
@@ -65,15 +95,26 @@ function init(font) {
         color.setHSL( i / l, 0.5, 0.5 );
         color.toArray( customColor.array, i * customColor.itemSize );
     }
-
-    line = new THREE.Line( geometry, shaderMaterial );
+ */
+    line1 = new THREE.Mesh( geometrySoma, material );
+    line2 = new THREE.Mesh( geometryBeta, material );
+    
     //line.rotation.x = 0.2;
-    scene.add( line );
+    scene.add( line1 );
+    scene.add( line2 );
+    
+    const dirLight = new THREE.DirectionalLight( 0xffffff, 0.125 );
+    dirLight.position.set( 0, 0, 1 ).normalize();
+    scene.add( dirLight );
+
+    const pointLight = new THREE.PointLight( 0xffffff, 1.5 );
+    pointLight.position.set( 0, 100, 90 );
+    scene.add( pointLight );
 
     renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true} );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( container.offsetWidth , container.offsetHeight );
-    renderer.outputEncoding = THREE.sRGBEncoding;
+    //renderer.outputEncoding = THREE.sRGBEncoding;
 
     container.appendChild( renderer.domElement );
 }
