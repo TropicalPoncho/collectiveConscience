@@ -21,7 +21,7 @@ var graphData = { "nodes": [], "links": [] };
 var globalDefaultSettings = {
     nodeSize: 5,
     linkDistance: 30,
-    cameraDistance: 500,
+    cameraDistance: 400,
     backgroundColor: 0x111111,
     aimDistance: 100
 };
@@ -36,15 +36,14 @@ const Graph = ForceGraph3D({ controlType: 'orbit' })
     .linkDirectionalParticles(3)
     .linkDirectionalParticleSpeed(d => 4 * 0.001)
     .onNodeClick(node => aimNode(node))
-    .cameraPosition({x:-100},{x:100,y:-19,z:-100})
+    //.cameraPosition({x:-100},{x:100,y:-19,z:-100})
     .nodeThreeObject(node => CreateNodeThreeObject(node))
-    .showNavInfo(false)
-    //.cameraPosition({ z: globalDefaultSettings.cameraDistance })
-    .onNodeHover(node => consoleLog(node) )
+    //.showNavInfo(false)
+    .cameraPosition({ z: globalDefaultSettings.cameraDistance })
+    .onNodeHover(node => {
+        consoleLog(node);
+    })
     .onEngineTick(() => {
-        //animate();
-        //animateBackground();
-        //animateNoise();
         animateParticles();
     });
 
@@ -54,11 +53,13 @@ ingestGraphData(neurons);
 //Camera orbit
 /* let angle = 0;
 setInterval(() => {
+    //var tX = somaNode.x;
+    //var tZ = somaNode.z;
     Graph.cameraPosition({
-        x: globalDefaultSettings.cameraDistance * Math.sin(angle),
-        z: globalDefaultSettings.cameraDistance * Math.cos(angle)
+        x: ( globalDefaultSettings.cameraDistance ) * Math.sin(angle),
+        z: ( globalDefaultSettings.cameraDistance ) * Math.cos(angle)
     });
-    angle += Math.PI / 3000;
+    angle += Math.PI / 2000;
 }, 10); */
 
 function consoleLog(node){
@@ -165,6 +166,8 @@ function ingestNodeInfo(node){
         $("#introNetwork").removeClass("hidden");
     }
 }
+
+var somaNode;
 
 function CreateNodeThreeObject(node){
     if(node.img && node.imgActive){
@@ -283,8 +286,8 @@ function initBackground(){
         scene.background = new THREE.Color( globalDefaultSettings.backgroundColor ); 
     }
     
-    /* const axesHelper = new THREE.AxesHelper( 10000 );
-    scene.add( axesHelper ); */
+    /*  const axesHelper = new THREE.AxesHelper( 100 );
+    scene.add( axesHelper );  */
      
     //Add video texture:
     // create the video element
@@ -446,6 +449,7 @@ function CreateMarbleObject(){
 
 function animateBackground() {
     requestAnimationFrame( animateBackground );
+    requestAnimationFrame( animateParticles );
 	render();
 	//update();
 }
@@ -522,7 +526,7 @@ let particlePositions;
 let linesMesh;
 
 const maxParticleCount = 120;
-let particleCount = 100;
+let particleCount = 110;
 let rX, rY, rZ;
 let rHalf;
 
@@ -531,8 +535,8 @@ const effectController = {
     showLines: true,
     minDistance: 15,
     limitConnections: true,
-    maxConnections: 20,
-    particleCount: 100
+    maxConnections: 30,
+    particleCount: 110
 };
 
 function randomPosNeg() { return Math.round(Math.random()) * 2 - 1; }

@@ -59,13 +59,19 @@ block js
 block content
   #neuralNetwork
   #navScene(class='navbar-fixed')
+  //a(type='button' class='btn-floating waves-effect waves-light btn triggerFloatingInfo')
+    i#close.material-icons clear
+  //a(type='button' class='btn-floating waves-effect waves-light btn triggerFloatingInfo')
+    i#open.material-icons chevron_right
   #flyerInfo.floatingInfo
     .neuronInfoContainer
     #introNetwork
+      h3 26.11.22
+      h4 Cultura Del Sur - Temperley, Buenos Aires
       h5 Experiencia artística Inmersiva
       p. 
         Soma Beta es un festival de arte multidisciplinario producido por Tropical Poncho. 
-        Esta edición que se realiza por primera vez en BsAs funcionará como una presentación de lo que ya se hizo y del eje curatorial del festival que tendrá lugar en enero de 2023 en la Patagonia.
+        Esta edición que se realiza por primera vez en BsAs invita a pensar la conexión entre todes nosotres como una gran red neuronal que produce consciencia colectiva.
       h6 LINE UP
       ul
         li ONLY VINYLS DJ SET
@@ -80,12 +86,12 @@ block content
       p. 
         Esta es una obra de arte generativo, dinámica e interactiva, que además de servir como difusión del evento SOMA BETA, 
         responde a la interacción de quienes acceden a ella como primer acercamiento del eje curatorial del mismo.
-      p(style="font-size:16;").
+      p(style="font-size:16; font-weight: bold;").
         Los nodos representan personas u organizaciones y las lineas responden a las conexiones entre sí.  
         Cada persona que accede a la visualización de la obra, es representada automaticamente como un nuevo nodo y
         un nuevo vinculo que se extiende hacia aquel que sirvió como punto de acceso. 
       p. 
-        Este gráfico pretende introducir el eje curatorial de SOMA BETA: existe un patrón que se repite 
+        Existe un patrón que se repite 
         a nivel físico, natural y social: Desde la red neuronal que conforma 
         nuestra consciencia, la cual es el soporte de esta gran obra de arte inmersiva y al mismo tiempo 
         la inmensa red de productoras, espacios, colaboradores y artístas que se conectan para hacer posible su realización.
@@ -95,7 +101,7 @@ block content
     #entranceDiv
       a(type='button' class='waves-effect waves-light btn' href='passline.com/somabeta') Comprar Entrada Anticipada
     #shareDiv(class='row')
-      p Para que la obra crezca, es importante compartir por este medio:
+      p Para que la obra crezca, compartí por este medio:
       //a(type='button' class='waves-effect waves-light btn s3' id="share_story" href='') Compartir Historia
       //span(class='s1')
       a(type='button' class='waves-effect waves-light btn s3' id="share_wpp") Compartir por WhatsApp

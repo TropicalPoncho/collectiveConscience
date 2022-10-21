@@ -46,11 +46,11 @@ jQuery(function(){
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             whatsapp_url = "whatsapp://send?text=";
         }
-        var text = "SOMA BETA - 26.11.22 | Festival de artes en Temperley \n" 
+        var text = "SOMA BETA - 26.11.22 | Festival de artes en Temperley, BsAs \n" 
         text += "Ami, quiero invitarte a este tremendo evento en Cultura del Sur. \n"
         text += "Tocará Anita Hagen con Vinilos, habrán exposiciones, traino de danza, performances, exposiciones y más. \n"
-        text += "Entrá en el siguiente link para enterarte de toda la data del evento: ";
-        var url = "tropicalponcho.art/network/" + myNeuron;
+        text += "El flyer del evento también es una obra digital dinámica que responde a tu interacción. Entrá en el siguiente link para generar tu propia neurona y enterarte de toda la data del evento: ";
+        var url = "tropicalponcho.art/network/synapsis/" + myNeuron;
         var message = encodeURIComponent(text) + " - " + encodeURIComponent(url);
         window.location.href = whatsapp_url + message;
         return false;
@@ -70,6 +70,18 @@ jQuery(function(){
 
     $(document).on('click', '#btn_captura',function(){
         takeScreenshot();
+    });
+
+    $(document).on("click", ".triggerFloatingInfo",function(){
+        if($('.floatingInfo').is(":visible")){
+            $('.floatingInfo').css('display', 'none');
+            $(this).children('i#close').addClass('hidden');
+            $(this).children('i#open').removeClass('hidden');
+        }else{
+            $('.floatingInfo').css('display', 'block');
+            $(this).children('i#close').removeClass('hidden');
+            $(this).children('i#open').addClass('hidden');
+        }
     });
 
 });

@@ -69,7 +69,7 @@ html, body {
 #navScene{
     position: absolute;
     right: 10px;
-    min-height: 50%;
+    min-height: 30%;
     top: 10px;
     width:50%;
 }
@@ -91,3 +91,22 @@ FFBC00
 111111
 FFFFFF
 */
+
+.triggerFloatingInfo{
+    position: absolute;
+    top:  5%;
+    left: 34%;
+    background-color: #578CCB;
+}
+
+@media screen and (max-width: 600px) {
+    .floatingInfo{
+        max-width: 90%;
+        top: 60%;
+        max-height: 35%;
+    }
+    #navScene{
+        width: 90%;
+        min-height: 25%;
+    }
+}

@@ -26,6 +26,20 @@ loader.load( '/fonts/Gotham-Black.json', function (font1) {
     });
 } );
 
+var settings = {
+    fontSize: 50,
+    height: 40,
+    tZ: -70,
+}
+
+var x = window.matchMedia("(max-width: 600px)");
+if(x.matches){
+    settings.fontSize = 15;
+    settings.height = 10;
+    settings.tZ = -20;
+};
+
+
 function init(font) {
     container = document.getElementById( 'navScene' );
 
@@ -60,8 +74,8 @@ function init(font) {
 
     const geometrySoma = new TextGeometry( 'SOMA', {
         font: font.GothamBlack,
-        size: 50,
-        height: 40,
+        size: settings.fontSize,
+        height: settings.height,
         curveSegments: 10,
         bevelThickness: 5,
         bevelSize: 1.5,
@@ -71,8 +85,8 @@ function init(font) {
 
     const geometryBeta = new TextGeometry( 'beta', {
         font: font.RobotoBlackItalic,
-        size: 50,
-        height: 25,
+        size: settings.fontSize,
+        height: settings.height / 3,
         curveSegments: 15,
         bevelThickness: 5,
         bevelSize: 1.5,
@@ -81,12 +95,12 @@ function init(font) {
     } );
 
     geometrySoma.center();
-    geometryBeta.translate(0,-70,0);
+    geometryBeta.translate(0,settings.tZ,0);
 
     const geometry26 = new TextGeometry( '25', {
         font: font.RobotoBlackItalic,
-        size: 50,
-        height: 25,
+        size: settings.fontSize,
+        height: settings.height / 3,
         curveSegments: 15,
         bevelThickness: 5,
         bevelSize: 1.5,
@@ -96,8 +110,8 @@ function init(font) {
 
     const geometryNov = new TextGeometry( 'nov', {
         font: font.RobotoBlackItalic,
-        size: 50,
-        height: 25,
+        size: settings.fontSize,
+        height: settings.height / 3,
         curveSegments: 15,
         bevelThickness: 5,
         bevelSize: 1.5,
