@@ -36,7 +36,7 @@ jQuery(function(){
                 //TODO: Mostrar cuadro de dialogo para pedir codigo.
             }
         }else{ //Si ya existe
-            aimNodeFromId(myNeuron);
+            //aimNodeFromId(myNeuron);
         }
     }
     

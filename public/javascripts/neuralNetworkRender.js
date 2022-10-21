@@ -22,7 +22,8 @@ var globalDefaultSettings = {
     nodeSize: 5,
     linkDistance: 30,
     cameraDistance: 500,
-    backgroundColor: 0x111111
+    backgroundColor: 0x111111,
+    aimDistance: 100
 };
 
 const Graph = ForceGraph3D({ controlType: 'orbit' })
@@ -35,10 +36,10 @@ const Graph = ForceGraph3D({ controlType: 'orbit' })
     .linkDirectionalParticles(3)
     .linkDirectionalParticleSpeed(d => 4 * 0.001)
     .onNodeClick(node => aimNode(node))
-    .cameraPosition({x:-100,z:30},{x:100,y:-19,z:-100})
+    .cameraPosition({x:-100},{x:100,y:-19,z:-100})
     .nodeThreeObject(node => CreateNodeThreeObject(node))
     .showNavInfo(false)
-    .cameraPosition({ z: globalDefaultSettings.cameraDistance })
+    //.cameraPosition({ z: globalDefaultSettings.cameraDistance })
     .onNodeHover(node => consoleLog(node) )
     .onEngineTick(() => {
         //animate();
@@ -51,14 +52,14 @@ const Graph = ForceGraph3D({ controlType: 'orbit' })
 ingestGraphData(neurons);
 
 //Camera orbit
-let angle = 0;
+/* let angle = 0;
 setInterval(() => {
     Graph.cameraPosition({
         x: globalDefaultSettings.cameraDistance * Math.sin(angle),
         z: globalDefaultSettings.cameraDistance * Math.cos(angle)
     });
     angle += Math.PI / 3000;
-}, 10);
+}, 10); */
 
 function consoleLog(node){
     if(node){
@@ -98,6 +99,9 @@ export function ingestGraphData(neurons){
             "val": item.graphVal ?? globalDefaultSettings.nodeSize,
             "info": item.info ?? null
         });
+        if(item.name == "SOMA BETA")
+            graphData.nodes[graphData.nodes.length - 1].fz = 0;
+        
         item.fromId.forEach((fromId) => {
             graphData.links.push({
                 source: fromId,
@@ -118,7 +122,7 @@ export function aimNodeFromId(neuronId){
 function aimNode(node){
     console.log(`node original position: ${node.x} ${node.y} ${node.z}`);
     // Aim at node from outside it
-    const distance = 60;
+    const distance = globalDefaultSettings.aimDistance;
     const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
 
     const newPos = node.x || node.y || node.z
@@ -155,10 +159,10 @@ function ingestNodeInfo(node){
         }
         $('.neuronInfoContainer > .neuronInfo').addClass("hidden");
         $neuronInfoElem.removeClass("hidden");
-        $("#flyerInfo").addClass("hidden");
+        $("#introNetwork").addClass("hidden");
     }else{
         $(".neuronInfo").addClass("hidden");
-        $("#flyerInfo").removeClass("hidden");
+        $("#introNetwork").removeClass("hidden");
     }
 }
 
@@ -259,7 +263,7 @@ var camera = Graph.camera();
 // custom global variables
 var video, videoImage, videoImageContext, videoTexture, nodeVideoTexture;
 var sphereMaterial;
-var keyboard = new THREEx.KeyboardState();
+//var keyboard = new THREEx.KeyboardState();
 
 initBackground();
 animateBackground();
@@ -279,8 +283,8 @@ function initBackground(){
         scene.background = new THREE.Color( globalDefaultSettings.backgroundColor ); 
     }
     
-    const axesHelper = new THREE.AxesHelper( 10000 );
-    scene.add( axesHelper );
+    /* const axesHelper = new THREE.AxesHelper( 10000 );
+    scene.add( axesHelper ); */
      
     //Add video texture:
     // create the video element
@@ -442,7 +446,7 @@ function CreateMarbleObject(){
 
 function animateBackground() {
     requestAnimationFrame( animateBackground );
-	render();		
+	render();
 	//update();
 }
 

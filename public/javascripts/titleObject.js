@@ -79,8 +79,35 @@ function init(font) {
         bevelEnabled: true,
         bevelSegments: 15,
     } );
+
     geometrySoma.center();
     geometryBeta.translate(0,-70,0);
+
+    const geometry26 = new TextGeometry( '25', {
+        font: font.RobotoBlackItalic,
+        size: 50,
+        height: 25,
+        curveSegments: 15,
+        bevelThickness: 5,
+        bevelSize: 1.5,
+        bevelEnabled: true,
+        bevelSegments: 15,
+    } );
+
+    const geometryNov = new TextGeometry( 'nov', {
+        font: font.RobotoBlackItalic,
+        size: 50,
+        height: 25,
+        curveSegments: 15,
+        bevelThickness: 5,
+        bevelSize: 1.5,
+        bevelEnabled: true,
+        bevelSegments: 15,
+    } );
+
+    geometry26.center();
+    geometry26.translate(0,-150,0);
+    geometryNov.translate(0,-220,0);
    /*  const count = geometry.attributes.position.count;
 
     const displacement = new THREE.Float32BufferAttribute( count * 3, 3 );
@@ -98,10 +125,14 @@ function init(font) {
  */
     line1 = new THREE.Mesh( geometrySoma, material );
     line2 = new THREE.Mesh( geometryBeta, material );
+    line3 = new THREE.Mesh( geometry26, material );
+    line4 = new THREE.Mesh( geometryNov, material );
     
     //line.rotation.x = 0.2;
     scene.add( line1 );
     scene.add( line2 );
+    scene.add( line3 );
+    scene.add( line4 );
     
     const dirLight = new THREE.DirectionalLight( 0xffffff, 0.125 );
     dirLight.position.set( 0, 0, 1 ).normalize();
