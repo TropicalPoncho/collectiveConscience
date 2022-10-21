@@ -69,8 +69,8 @@ html, body {
 #navScene{
     position: absolute;
     right: 10px;
+    min-height: 50%;
     top: 10px;
-    max-height: 40%;
     width:50%;
 }
 

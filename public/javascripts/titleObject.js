@@ -13,7 +13,7 @@ const colorsArray = [
 
 var container;
 let renderer, scene, camera;
-let line1, line2, uniforms;
+let line1, line2, line3, line4, uniforms;
 
 const loader = new FontLoader();
 var fonts = {GothamBlack: null, RobotoBlackItalic: null};
