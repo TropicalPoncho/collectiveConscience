@@ -50,7 +50,7 @@ jQuery(function(){
         text += "Ami, quiero invitarte a este tremendo evento en Cultura del Sur. \n"
         text += "Tocará Anita Hagen con Vinilos, habrán exposiciones, traino de danza, performances, exposiciones y más. \n"
         text += "El flyer del evento también es una obra digital dinámica que responde a tu interacción. Entrá en el siguiente link para generar tu propia neurona y enterarte de toda la data del evento: ";
-        var url = "tropicalponcho.art/network/synapsis/" + myNeuron;
+        var url = "http://tropicalponcho.art/network/synapsis/" + myNeuron;
         var message = encodeURIComponent(text) + " - " + encodeURIComponent(url);
         window.location.href = whatsapp_url + message;
         return false;
