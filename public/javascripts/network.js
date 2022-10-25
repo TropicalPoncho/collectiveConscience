@@ -30,13 +30,14 @@ jQuery(function(){
                     Cookies.set("neuron", newNeuron._id); //Agrego la cookie
                     myNeuron = newNeuron._id;
                     ingestGraphData([newNeuron]); //La agrego a la red
+                    aimNodeFromId(myNeuron);
                 });
             }else{ 
                 //Si no existe y no informa el fromId?? Nada
                 //TODO: Mostrar cuadro de dialogo para pedir codigo.
             }
         }else{ //Si ya existe
-            //aimNodeFromId(myNeuron);
+            aimNodeFromId(myNeuron);
         }
     }
     
