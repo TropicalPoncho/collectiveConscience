@@ -7,13 +7,13 @@ import { nodeFrame } from 'three/addons/renderers/webgl/nodes/WebGLNodes.js';
 import { HDRCubeTextureLoader } from 'three/addons/loaders/HDRCubeTextureLoader.js';   */
 
 const colorsArray = [
-    "#8AE2C8",
-    "#578CCB",
-    "#9900FF",
-    "#FF0074",
-    "#FFBC00",
-    "#111111",
-    "#FFFFFF"
+    "#8AE2C8", //verde
+    "#578CCB", //azul
+    "#9900FF", //violeta
+    "#FF0074", //magenta
+    "#FFBC00", //amarillo
+    "#111111", //"negro"
+    "#FFFFFF" //blanco
 ];
 
 var graphData = { "nodes": [], "links": [] };
@@ -23,7 +23,11 @@ var globalDefaultSettings = {
     linkDistance: 30,
     cameraDistance: 400,
     backgroundColor: 0x111111,
-    aimDistance: 100
+    aimDistance: 100,
+    activeNodeImg: true,
+    marbleColorA: colorsArray[2],
+    marbleColorB: "#000000",
+    imgSize: 50
 };
 
 const Graph = ForceGraph3D({ controlType: 'orbit' })
@@ -170,19 +174,20 @@ function ingestNodeInfo(node){
 var somaNode;
 
 function CreateNodeThreeObject(node){
-    if(node.img && node.imgActive){
+    if(node.img && globalDefaultSettings.activeNodeImg){
+        var imgSize = node.imgSize ?? globalDefaultSettings.imgSize;
         const imgTexture = new THREE.TextureLoader().load(`/images/${node.img}`);
         var material = new THREE.SpriteMaterial({map: imgTexture, transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
         const sprite = new THREE.Sprite(material);
-        sprite.scale.set(50, 50);
+        sprite.scale.set(imgSize, imgSize);
         return sprite;
     }else if(node.id == "6335d5e37636ed5b3529c543"){
         return CreateParticlesObject();
     }else{
-        //return CreateMarbleObject();
+        return CreateMarbleObject();
         //return CreateNoiseThreeObject();
         //return CreateMirrorThreeObject();
-        return CreateLinesThreeObject(node);
+        //return CreateLinesThreeObject(node);
         //return new Blob(1.75, 0.3, 0.5, 1.5, 0.12, Math.PI * 1); 
     }
 }
@@ -319,7 +324,7 @@ function initBackground(){
     //Geometry
     const geometry = new THREE.PlaneGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
     geometry.rotateX( - Math.PI / 2 ); 
-    geometry.translate(0,10000,0);
+    geometry.translate(0,14000,0);
     const data = generateHeight( worldWidth, worldDepth ); 
     const vertices = geometry.attributes.position.array;
     for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
@@ -351,8 +356,11 @@ function randomIntFromInterval(min, max) { // min and max included
 }
 
 function CreateMarbleObject(){
-    var randomColorA = colorsArray[randomIntFromInterval(0,6)];
-    var randomColorB = colorsArray[randomIntFromInterval(0,6)];
+   /*  var randomColorA = colorsArray[randomIntFromInterval(0,6)];
+    var randomColorB = colorsArray[randomIntFromInterval(0,6)]; */
+
+    var randomColorA = globalDefaultSettings.marbleColorA;
+    var randomColorB = globalDefaultSettings.marbleColorB;
 
     const geometry = new THREE.SphereGeometry(6, 64, 32);
     const material = new THREE.MeshStandardMaterial({ roughness: params.roughness });
@@ -526,17 +534,17 @@ let particlePositions;
 let linesMesh;
 
 const maxParticleCount = 120;
-let particleCount = 110;
+let particleCount = maxParticleCount;
 let rX, rY, rZ;
 let rHalf;
 
 const effectController = {
     showDots: false,
     showLines: true,
-    minDistance: 15,
+    minDistance: 20,
     limitConnections: true,
     maxConnections: 30,
-    particleCount: 110
+    particleCount: particleCount
 };
 
 function randomPosNeg() { return Math.round(Math.random()) * 2 - 1; }
