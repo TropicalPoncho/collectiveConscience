@@ -12,7 +12,7 @@ jQuery(function(){
     function GetNeurons(page){
         $.get( "/neurons", {page: page}, function( neurons ) {
             if(neurons.length != 0){
-                ingestGraphData(neurons);
+                ingestGraphData(neurons, myNeuron);
                 page++;
                 GetNeurons(page);
             }else{ //Cuando termina de cargar
@@ -29,7 +29,7 @@ jQuery(function(){
                     var newNeuron = response;
                     Cookies.set("neuron", newNeuron._id); //Agrego la cookie
                     myNeuron = newNeuron._id;
-                    ingestGraphData([newNeuron]); //La agrego a la red
+                    ingestGraphData([newNeuron], myNeuron); //La agrego a la red
                     aimNodeFromId(myNeuron);
                 });
             }else{ 

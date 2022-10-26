@@ -27,9 +27,11 @@ var globalDefaultSettings = {
     activeNodeImg: true,
     marbleColorA: colorsArray[2],
     marbleColorB: "#000000",
+    myNeuronColor: colorsArray[0],
     imgSize: 50
 };
 
+//Init graph:
 const Graph = ForceGraph3D({ controlType: 'orbit' })
     (document.getElementById('neuralNetwork'))
     .nodeLabel('name')
@@ -51,9 +53,19 @@ const Graph = ForceGraph3D({ controlType: 'orbit' })
         animateParticles();
     });
 
-//Execute for the fist neurons:
-ingestGraphData(neurons);
+var myNeuron = (typeof myNeuronId !== 'undefined') ? myNeuronId : Cookies.get("neuron");
+ingestGraphData(neurons, myNeuron);
 
+var scene = Graph.scene();
+var renderer = Graph.renderer();
+var camera = Graph.camera();
+// custom global variables
+var video, videoImage, videoImageContext, videoTexture, nodeVideoTexture;
+var sphereMaterial;
+//var keyboard = new THREEx.KeyboardState();
+
+initBackground();
+animateBackground();
 //Camera orbit
 /* let angle = 0;
 setInterval(() => {
@@ -94,7 +106,7 @@ export function takeScreenshot() {
     w.document.body.appendChild(img);  
 }
 
-export function ingestGraphData(neurons){
+export function ingestGraphData(neurons, myNeuron = null){
     neurons.forEach((item, index, arr) => {
         graphData.nodes.push({ 
             "id": item._id, 
@@ -102,7 +114,8 @@ export function ingestGraphData(neurons){
             "img": item.imgPath,
             "imgActive": item.imgActive ?? false,
             "val": item.graphVal ?? globalDefaultSettings.nodeSize,
-            "info": item.info ?? null
+            "info": item.info ?? null,
+            "color": (myNeuron && myNeuron == item._id) ? globalDefaultSettings.myNeuronColor : globalDefaultSettings.marbleColorA
         });
         if(item.name == "SOMA BETA")
             graphData.nodes[graphData.nodes.length - 1].fz = 0;
@@ -157,7 +170,8 @@ function ingestNodeInfo(node){
             $("<p></p>").text(node.info.bio).appendTo($neuronInfoElem);
             if(node.info.links){
                 node.info.links.forEach((item, index, arr) => {
-                    var elem = $(`<a>${item.name}</a>`, {class:"waves-effect waves-light btn s3", type:"button", href: item.href});
+                    var elem = $(`<a class="btn" target="_blank" type="button" href="${item.href}">${item.name}</a>`);
+                    //elem.append($(`<i class="ico ${item.name}"></i>`));
                     $("<div></div>").append(elem).appendTo($neuronInfoElem);
                 });
             }
@@ -184,10 +198,10 @@ function CreateNodeThreeObject(node){
     }else if(node.id == "6335d5e37636ed5b3529c543"){
         return CreateParticlesObject();
     }else{
-        return CreateMarbleObject();
+        //return CreateMarbleObject(node);
         //return CreateNoiseThreeObject();
         //return CreateMirrorThreeObject();
-        //return CreateLinesThreeObject(node);
+        return CreateLinesThreeObject(node);
         //return new Blob(1.75, 0.3, 0.5, 1.5, 0.12, Math.PI * 1); 
     }
 }
@@ -232,10 +246,11 @@ function animateNoise(){
 
 function CreateLinesThreeObject(node){
 
+    var uniformColor = node.color ?? colorsArray[2];
     let uniforms = {
         amplitude: { value: 7.0 },
         opacity: { value: 0.3 },
-        color: { value: new THREE.Color( colorsArray[2] ) }
+        color: { value: new THREE.Color( uniformColor ) }
     };
     const geometry = new THREE.SphereGeometry( node.val , 32, 16 );
 
@@ -265,17 +280,6 @@ function CreateLinesThreeObject(node){
 
 }
 
-var scene = Graph.scene();
-var renderer = Graph.renderer();
-var camera = Graph.camera();
-// custom global variables
-var video, videoImage, videoImageContext, videoTexture, nodeVideoTexture;
-var sphereMaterial;
-//var keyboard = new THREEx.KeyboardState();
-
-initBackground();
-animateBackground();
-
 //Add Plane:
 function initBackground(){
     var vertexHeight = 1000,
@@ -291,8 +295,8 @@ function initBackground(){
         scene.background = new THREE.Color( globalDefaultSettings.backgroundColor ); 
     }
     
-    /*  const axesHelper = new THREE.AxesHelper( 100 );
-    scene.add( axesHelper );  */
+    /* const axesHelper = new THREE.AxesHelper( 1000 );
+    scene.add( axesHelper );   */
      
     //Add video texture:
     // create the video element
@@ -324,16 +328,16 @@ function initBackground(){
     //Geometry
     const geometry = new THREE.PlaneGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
     geometry.rotateX( - Math.PI / 2 ); 
-    geometry.translate(0,14000,0);
     const data = generateHeight( worldWidth, worldDepth ); 
     const vertices = geometry.attributes.position.array;
     for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
         vertices[ j + 1 ] = data[ i ] * 10;
     }
-
+    
     //Mesh
     var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
     let mesh = new THREE.Mesh( geometry, movieMaterial );
+    mesh.position.y = 400;
     scene.add( mesh );
 
     //Add Title:
@@ -355,11 +359,11 @@ function randomIntFromInterval(min, max) { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function CreateMarbleObject(){
+function CreateMarbleObject(node){
    /*  var randomColorA = colorsArray[randomIntFromInterval(0,6)];
     var randomColorB = colorsArray[randomIntFromInterval(0,6)]; */
 
-    var randomColorA = globalDefaultSettings.marbleColorA;
+    var randomColorA = node.color ?? globalDefaultSettings.marbleColorA;
     var randomColorB = globalDefaultSettings.marbleColorB;
 
     const geometry = new THREE.SphereGeometry(6, 64, 32);
@@ -533,7 +537,7 @@ let pointCloud;
 let particlePositions;
 let linesMesh;
 
-const maxParticleCount = 120;
+const maxParticleCount = 100;
 let particleCount = maxParticleCount;
 let rX, rY, rZ;
 let rHalf;
@@ -543,7 +547,7 @@ const effectController = {
     showLines: true,
     minDistance: 20,
     limitConnections: true,
-    maxConnections: 30,
+    maxConnections: 25,
     particleCount: particleCount
 };
 

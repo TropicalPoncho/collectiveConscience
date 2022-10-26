@@ -9,6 +9,30 @@ html, body {
     padding: 0;
 }
 
+.ico {
+    display: inline-block;
+    width: 32px; height: 32px;
+    background-repeat: no-repeat;
+}
+.ig{
+    background-image: url('/icons/instagram.png');
+}
+.fb{
+    background-image: url('/icons/facebook.png');
+}
+.spotify{
+    background-image: url('/icons/spotify.png');
+}
+.web{
+    background-image: url('/icons/web.png');
+}
+.wpp{
+    background-image: url('/icons/whatsapp.png');
+}
+.youtube{
+    background-image: url('/icons/youtube.png');
+}
+
 /* .floatingInfo:after {
     animation: grain 8s steps(10) infinite;
     background-image: url("/images/noise.png");
