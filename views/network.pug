@@ -7,17 +7,16 @@ block js
   script(src="//unpkg.com/3d-force-graph")
   script(src="//unpkg.com/three")
   script(src="//unpkg.com/three-spritetext")
-  script(src="//unpkg.com/three/examples/js/postprocessing/Pass.js")
+  //script(src="//unpkg.com/three/examples/js/postprocessing/Pass.js")
   script(src="//unpkg.com/three/examples/js/shaders/CopyShader.js")
   //script(src="/javascripts/threex.keyboardstate.js")
-  script(src="//unpkg.com/three/examples/js/shaders/LuminosityHighPassShader.js")
-  script(src="//unpkg.com/three/examples/js/postprocessing/UnrealBloomPass.js")
+  //script(src="//unpkg.com/three/examples/js/shaders/LuminosityHighPassShader.js")
+  //script(src="//unpkg.com/three/examples/js/postprocessing/UnrealBloomPass.js")
   script(type="importmap").
     {
       "imports": {
         "three": "//unpkg.com/three@0.144.0/build/three.module.js",
-        "three/addons/": "//unpkg.com/three@0.144.0/examples/jsm/",
-        "three/nodes": "//unpkg.com/three@0.144.0/examples/jsm/nodes/Nodes.js"
+        "three/addons/": "//unpkg.com/three@0.144.0/examples/jsm/"
       }
     }
   script(type="x-shader/x-vertex", id="vertexshader").

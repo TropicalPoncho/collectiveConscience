@@ -89,11 +89,11 @@ function consoleLog(node){
         (link.distance < 30 && (link.target == '6335d5e37636ed5b3529c543') ) ? 50 : 20;    
     }); */
 
-const bloomPass = new THREE.UnrealBloomPass();
+/* const bloomPass = new THREE.UnrealBloomPass();
 bloomPass.strength = 0.1;
 bloomPass.radius = 0;
 bloomPass.threshold = 0.1;
-Graph.postProcessingComposer().addPass(bloomPass);
+Graph.postProcessingComposer().addPass(bloomPass); */
 
 export function takeScreenshot() {
     // open in new window like this
