@@ -19,19 +19,32 @@ class NeuronsService {
      */
     async create ( input ) {
         try{
+            var fromId;
             //Si se informa un fromId
             if(input.fromId){ //Comprueba si el id es valido
                 Neuron.countDocuments({_id: input.fromId}, function (err, count){ 
-                    if(err || count == 0){
+                    if(err){
                         console.log('Error!', err);
-                        return err;
+                        //throw new Error(err);
+                    }else if(count == 0){
+                        //throw new Error(input.fromId + " doesn't exists");
+                    }else{
+                        fromId = input.fromId;
                     }
                 });
+            }else if(input.fromNickName){ //Si no, busca el nickName
+                var fromNeuron = await Neuron.findOne({nickName: input.fromNickName},'_id').exec();
+                if(!fromNeuron){
+                    console.log(input.fromNickName + " doesn't exists");
+                    //throw new Error(input.fromNickName + " doesn't exists");
+                }
+                fromId = fromNeuron._id;
             }
 
             const neuron = new Neuron({
                 name: input.name,
-                fromId: input.fromId,
+                fromId: fromId,
+                nickName: input.nickName,
                 graphVal: input.graphVal,
                 imgPath: input.imgPath
             }, (err, msg) => {

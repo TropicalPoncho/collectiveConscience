@@ -8,6 +8,7 @@ const db = require('./config/db');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var networkRouter = require('./routes/network');
+var somabetaRouter = require('./routes/somaBeta');
 var neuronsRouter = require('./routes/neurons');
 
 var app = express();
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/network', networkRouter);
+app.use('/soma/beta', somabetaRouter);
 app.use('/neurons', neuronsRouter);
 
 // catch 404 and forward to error handler

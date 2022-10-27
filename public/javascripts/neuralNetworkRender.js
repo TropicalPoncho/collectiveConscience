@@ -1,4 +1,5 @@
 import { ImprovedNoise } from 'three/addons/math/ImprovedNoise.js';
+import Cookies from "/javascripts/js.cookie.min.mjs";
 
 //import { LightningStrike } from 'three/addons/geometries/LightningStrike.js';
 /* import { MeshPhysicalNodeMaterial } from 'three/nodes';
@@ -54,7 +55,8 @@ const Graph = ForceGraph3D({ controlType: 'orbit' })
     });
 
 var myNeuron = (typeof myNeuronId !== 'undefined') ? myNeuronId : Cookies.get("neuron");
-ingestGraphData(neurons, myNeuron);
+var _myNickName = (typeof myNickName !== 'undefined') ? myNickName : null;
+ingestGraphData(neurons, myNeuron, _myNickName);
 
 var scene = Graph.scene();
 var renderer = Graph.renderer();
@@ -106,16 +108,21 @@ export function takeScreenshot() {
     w.document.body.appendChild(img);  
 }
 
-export function ingestGraphData(neurons, myNeuron = null){
+export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
     neurons.forEach((item, index, arr) => {
+        var color = globalDefaultSettings.marbleColorA;
+        if((myNeuron && myNeuron == item._id) || (myNickName && myNickName == item.nickName)){
+            color = globalDefaultSettings.myNeuronColor;
+        }
         graphData.nodes.push({ 
             "id": item._id, 
+            "nickName": item.nickName ?? null,
             "name": item.name,
             "img": item.imgPath,
             "imgActive": item.imgActive ?? false,
             "val": item.graphVal ?? globalDefaultSettings.nodeSize,
             "info": item.info ?? null,
-            "color": (myNeuron && myNeuron == item._id) ? globalDefaultSettings.myNeuronColor : globalDefaultSettings.marbleColorA
+            "color": color
         });
         if(item.name == "SOMA BETA")
             graphData.nodes[graphData.nodes.length - 1].fz = 0;
@@ -134,11 +141,18 @@ export function ingestGraphData(neurons, myNeuron = null){
 }
 
 export function aimNodeFromId(neuronId){
-    aimNode(graphData.nodes.find(item => item.id === neuronId));
+    var node = graphData.nodes.find(item => item.id === neuronId);
+    Cookies.set("neuron", node.id)
+    aimNode(node);
+}
+
+export function aimNodeFromNickName(nickName){
+    var node = graphData.nodes.find(item => item.nickName === nickName);
+    Cookies.set("neuron", node.id)
+    aimNode(node);
 }
 
 function aimNode(node){
-    console.log(`node original position: ${node.x} ${node.y} ${node.z}`);
     // Aim at node from outside it
     const distance = globalDefaultSettings.aimDistance;
     const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);

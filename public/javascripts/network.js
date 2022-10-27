@@ -1,10 +1,11 @@
 import Cookies from "/javascripts/js.cookie.min.mjs";
-import { ingestGraphData , aimNodeFromId , takeScreenshot} from "./neuralNetworkRender.js";
+import { ingestGraphData , aimNodeFromId , takeScreenshot, aimNodeFromNickName} from "./neuralNetworkRender.js";
 
 jQuery(function(){
 
     //Inicializo la variable de myNeuron según id recibido o cookie
     var myNeuron = (typeof myNeuronId !== 'undefined') ? myNeuronId : Cookies.get("neuron");
+    var _myNickName = (typeof myNickName !== 'undefined') ? myNickName : null;
 
     //Comienzo a cargar la red:
     GetNeurons(1);
@@ -12,7 +13,7 @@ jQuery(function(){
     function GetNeurons(page){
         $.get( "/neurons", {page: page}, function( neurons ) {
             if(neurons.length != 0){
-                ingestGraphData(neurons, myNeuron);
+                ingestGraphData(neurons, myNeuron, _myNickName);
                 page++;
                 GetNeurons(page);
             }else{ //Cuando termina de cargar
@@ -22,22 +23,30 @@ jQuery(function(){
     }
     
     function manageNewNeurons(){
-        if(myNeuron == undefined){ //Nueva visita
-            if (typeof fromId !== 'undefined'){ //Con el Origen informado
+        if(typeof myNeuron == 'undefined' && !_myNickName){ //Nueva visita
+            if (typeof fromId !== 'undefined' || typeof fromNickName !== 'undefined'){ //Con el Origen informado
+                var data;
+                if(typeof fromId !== 'undefined'){
+                    data = {fromId: fromId};
+                }else{
+                    data = {fromNickName: fromNickName};
+                }
                 //Llamo para crear la neurona
-                $.post( "/neurons", {fromId: fromId}, function( response ) {
+                $.post( "/neurons", data, function( response ) {
                     var newNeuron = response;
                     Cookies.set("neuron", newNeuron._id); //Agrego la cookie
                     myNeuron = newNeuron._id;
                     ingestGraphData([newNeuron], myNeuron); //La agrego a la red
                     aimNodeFromId(myNeuron);
                 });
-            }else{ 
+            }else{
                 //Si no existe y no informa el fromId?? Nada
                 //TODO: Mostrar cuadro de dialogo para pedir codigo.
             }
-        }else{ //Si ya existe
+        }else if(myNeuron != undefined){ //Si ya existe
             aimNodeFromId(myNeuron);
+        }else{
+            aimNodeFromNickName(_myNickName);
         }
     }
     

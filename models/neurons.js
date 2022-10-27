@@ -11,13 +11,7 @@ const neuronSchema = new Schema({
 	imgPath: String,
 	IP: String ,
 	graphVal: Number,
-	location: {
-		latitud: String,
-		longitud: String,
-		normalX: Number,
-		normalY: Number,
-		normalZ: Number
-	},
+	nickName: String,
 	creationDate: {type: Date, default: Date.now()}
 });
 
