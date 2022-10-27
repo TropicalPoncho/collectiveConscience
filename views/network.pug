@@ -46,9 +46,9 @@ block js
       gl_FragColor = vec4( vColor * color, opacity );
     }
   //script(type="module", src="/javascripts/glBlob/Blob.js")
-  script(type="module", src="/javascripts/js.cookie.min.mjs")
-  script(type="module", src="/javascripts/network.js")
-  script(type="module", src="/javascripts/titleObject.js")
+  script(type="module", src="/javascripts/js.cookie.min.mjs?version=2")
+  script(type="module", src="/javascripts/network.js?version=2")
+  script(type="module", src="/javascripts/titleObject.js?version=2")
   if neurons
     script var neurons = !{JSON.stringify(neurons)};
   if fromId
