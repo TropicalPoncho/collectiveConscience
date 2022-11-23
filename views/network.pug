@@ -1,15 +1,15 @@
 extends layout
 block head
   title= 'Tropical Poncho | SOMA BETA'
+  if ar
+    script(src="//unpkg.com/aframe")
+    script(src="//unpkg.com/@ar-js-org/ar.js")
 block css
   link(rel='stylesheet', type="text/css", href='/stylesheets/network.css')
 block js
   script(src="//unpkg.com/3d-force-graph")
-  
-  if ar //If AR version
+  if ar
     script(src="//unpkg.com/3d-force-graph-ar")
-    script(src="//unpkg.com/aframe")
-    script(src="//unpkg.com/@ar-js-org/ar.js")
     script var ar = !{JSON.stringify(ar)};
 
   script(src="//unpkg.com/three@0.144.0")
