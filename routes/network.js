@@ -14,8 +14,8 @@ router.get('/', async (req, res, next) => {
 	NeuronsServiceInstance.getAll(req.query.page).then(result => {
 		console.log(result);
 		res.render("network", {
-			neurons: result,
-			ar: req.query.ar
+			neurons: result
+			//ar: req.query.ar
 		});
 	}).catch(err => {
 		console.log(err)
@@ -29,8 +29,8 @@ router.get('/synapsis/:fromId', async (req, res, next) => {
 		console.log(result);
 		res.render("network", {
 			neurons: result,
-			fromId: req.params.fromId,
-			ar: req.query.ar
+			fromId: req.params.fromId
+			//ar: req.query.ar
 		});
 	}).catch(err => {
 		console.log(err)
@@ -44,8 +44,8 @@ router.get('/:myNeuronId', async (req, res, next) => {
 		console.log(result);
 		res.render("network", {
 			neurons: result,
-			myNeuronId: req.params.myNeuronId,
-			ar: req.query.ar
+			myNeuronId: req.params.myNeuronId
+			//ar: req.query.ar
 		});
 	}).catch(err => {
 		console.log(err)

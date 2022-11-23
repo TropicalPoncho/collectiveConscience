@@ -33,48 +33,55 @@ var globalDefaultSettings = {
 };
 
 var Graph;
+
+var arActive = (typeof ar !== 'undefined');
+
 //Init graph:
-if(typeof ar !== 'undefined'){
+if(arActive){
     Graph = ForceGraphAR()
         (document.getElementById('neuralNetwork'));
 }else{
     Graph = ForceGraph3D({ controlType: 'orbit'  })
-    (document.getElementById('neuralNetwork'))
+        (document.getElementById('neuralNetwork'))
+        .nodeLabel('name')
+        .cameraPosition({ z: globalDefaultSettings.cameraDistance })
+        .onNodeHover(node => {
+            consoleLog(node);
+        })
+        .onNodeClick(node => aimNode(node))
+        .onEngineTick(() => {
+            animateParticles();
+        });
 }
 
-Graph.nodeLabel('name')
-    .nodeAutoColorBy('group')
+Graph.nodeAutoColorBy('group')
     //.linkCurvature('curvature')
     //.linkCurveRotation('rotation')
     .linkWidth(0.3)
     .linkDirectionalParticles(3)
-    .linkDirectionalParticleSpeed(d => 4 * 0.001)
-    .onNodeClick(node => aimNode(node))
-    //.cameraPosition({x:-100},{x:100,y:-19,z:-100})
-    .nodeThreeObject(node => CreateNodeThreeObject(node))
-    //.showNavInfo(false)
-    .cameraPosition({ z: globalDefaultSettings.cameraDistance })
-    .onNodeHover(node => {
-        consoleLog(node);
-    })
-    .onEngineTick(() => {
-        animateParticles();
-    });
+    .linkDirectionalParticleSpeed(d => 4 * 0.001);
+    
 
 var myNeuron = (typeof myNeuronId !== 'undefined') ? myNeuronId : Cookies.get("neuron");
 var _myNickName = (typeof myNickName !== 'undefined') ? myNickName : null;
 ingestGraphData(neurons, myNeuron, _myNickName);
 
-var scene = Graph.scene();
-var renderer = Graph.renderer();
-var camera = Graph.camera();
-// custom global variables
-var video, videoImage, videoImageContext, videoTexture, nodeVideoTexture;
-var sphereMaterial;
-//var keyboard = new THREEx.KeyboardState();
+//For background:
+var scene
+var renderer
+var camera
 
-initBackground();
-animateBackground();
+// custom global variables
+var video, videoImage, videoImageContext, videoTexture;
+
+if(!arActive){
+    scene = Graph.scene();
+    renderer = Graph.renderer();
+    camera = Graph.camera();
+
+    initBackground();
+    animateBackground();
+}
 
 //Camera orbit
 /* let angle = 0;
@@ -159,20 +166,23 @@ export function aimNodeFromNickName(nickName){
 }
 
 function aimNode(node){
-    // Aim at node from outside it
-    const distance = globalDefaultSettings.aimDistance;
-    const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+    if(!arActive){
+        // Aim at node from outside it
+        const distance = globalDefaultSettings.aimDistance;
+        const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
 
-    const newPos = node.x || node.y || node.z
-        ? { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }
-        : { x: 0, y: 0, z: distance }; // special case if node is in (0,0,0)
+        const newPos = node.x || node.y || node.z
+            ? { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }
+            : { x: 0, y: 0, z: distance }; // special case if node is in (0,0,0)
 
-    Graph.cameraPosition(
-        newPos, // new position
-        node, // lookAt ({ x, y, z })
-        3000  // ms transition duration
-    );
-    ingestNodeInfo(node);
+
+        Graph.cameraPosition(
+            newPos, // new position
+            node, // lookAt ({ x, y, z })
+            3000  // ms transition duration
+            );
+            ingestNodeInfo(node);
+    }
 }
 
 function ingestNodeInfo(node){
@@ -205,10 +215,8 @@ function ingestNodeInfo(node){
     }
 }
 
-var somaNode;
-
 function CreateNodeThreeObject(node){
-    if(node.img && globalDefaultSettings.activeNodeImg){
+    if(node.img && globalDefaultSettings.activeNodeImg && !arActive){
         var imgSize = node.imgSize ?? globalDefaultSettings.imgSize;
         const imgTexture = new THREE.TextureLoader().load(`/images/${node.img}`);
         var material = new THREE.SpriteMaterial({map: imgTexture, transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
@@ -513,14 +521,14 @@ function animateBackground() {
 
 function render() 
 {	
-	if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
-	{
-		videoImageContext.drawImage( video, 0, 0 );
-		if ( videoTexture ) 
-			videoTexture.needsUpdate = true;
-	}
-
-	renderer.render( scene, camera );
+    if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
+    {
+        videoImageContext.drawImage( video, 0, 0 );
+        if ( videoTexture ) 
+        videoTexture.needsUpdate = true;
+    }
+    
+    renderer.render( scene, camera );
 }
 
 

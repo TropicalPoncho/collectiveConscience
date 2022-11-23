@@ -29,8 +29,8 @@ router.get('/synapsis/:nickName', async (req, res, next) => {
 		console.log(result);
 		res.render("network", {
 			neurons: result,
-			fromNickName: req.params.nickName,
-			ar: req.query.ar
+			fromNickName: req.params.nickName
+			//ar: req.query.ar
 		});
 	}).catch(err => {
 		console.log(err)
@@ -44,8 +44,8 @@ router.get('/:myNickName', async (req, res, next) => {
 		console.log(result);
 		res.render("network", {
 			neurons: result,
-			myNickName: req.params.myNickName,
-			ar: req.query.ar
+			myNickName: req.params.myNickName
+			//ar: req.query.ar
 		});
 	}).catch(err => {
 		console.log(err)
