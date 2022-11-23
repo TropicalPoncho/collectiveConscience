@@ -48,7 +48,6 @@ if(arActive){
         .onNodeHover(node => {
             consoleLog(node);
         })
-        .onNodeClick(node => aimNode(node))
         .onEngineTick(() => {
             animateParticles();
         });
@@ -59,7 +58,8 @@ Graph.nodeAutoColorBy('group')
     //.linkCurveRotation('rotation')
     .linkWidth(0.3)
     .linkDirectionalParticles(3)
-    .linkDirectionalParticleSpeed(d => 4 * 0.001);
+    .linkDirectionalParticleSpeed(d => 4 * 0.001)
+    .nodeThreeObject(node => CreateNodeThreeObject(node));
     
 
 var myNeuron = (typeof myNeuronId !== 'undefined') ? myNeuronId : Cookies.get("neuron");
