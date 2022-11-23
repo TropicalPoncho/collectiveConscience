@@ -12,6 +12,7 @@ const neuronSchema = new Schema({
 	IP: String ,
 	graphVal: Number,
 	nickName: String,
+	nodeType: String,
 	creationDate: {type: Date, default: Date.now()}
 });
 

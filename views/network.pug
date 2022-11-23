@@ -5,10 +5,17 @@ block css
   link(rel='stylesheet', type="text/css", href='/stylesheets/network.css')
 block js
   script(src="//unpkg.com/3d-force-graph")
+  
+  if ar //If AR version
+    script(src="//unpkg.com/3d-force-graph-ar")
+    script(src="//unpkg.com/aframe")
+    script(src="//unpkg.com/@ar-js-org/ar.js")
+    script var ar = !{JSON.stringify(ar)};
+
   script(src="//unpkg.com/three@0.144.0")
   script(src="//unpkg.com/three-spritetext")
-  //script(src="//unpkg.com/three/examples/js/postprocessing/Pass.js")
   script(src="//unpkg.com/three/examples/js/shaders/CopyShader.js")
+  //script(src="//unpkg.com/three/examples/js/postprocessing/Pass.js")
   //script(src="/javascripts/threex.keyboardstate.js")
   //script(src="//unpkg.com/three/examples/js/shaders/LuminosityHighPassShader.js")
   //script(src="//unpkg.com/three/examples/js/postprocessing/UnrealBloomPass.js")

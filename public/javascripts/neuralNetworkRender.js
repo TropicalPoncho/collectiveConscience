@@ -32,10 +32,17 @@ var globalDefaultSettings = {
     imgSize: 50
 };
 
+var Graph;
 //Init graph:
-const Graph = ForceGraph3D({ controlType: 'orbit' })
+if(typeof ar !== 'undefined'){
+    Graph = ForceGraphAR()
+        (document.getElementById('neuralNetwork'));
+}else{
+    Graph = ForceGraph3D({ controlType: 'orbit'  })
     (document.getElementById('neuralNetwork'))
-    .nodeLabel('name')
+}
+
+Graph.nodeLabel('name')
     .nodeAutoColorBy('group')
     //.linkCurvature('curvature')
     //.linkCurveRotation('rotation')
@@ -68,6 +75,7 @@ var sphereMaterial;
 
 initBackground();
 animateBackground();
+
 //Camera orbit
 /* let angle = 0;
 setInterval(() => {
@@ -77,7 +85,7 @@ setInterval(() => {
         x: ( globalDefaultSettings.cameraDistance ) * Math.sin(angle),
         z: ( globalDefaultSettings.cameraDistance ) * Math.cos(angle)
     });
-    angle += Math.PI / 2000;
+    angle += Math.PI / 1000;
 }, 10); */
 
 function consoleLog(node){
@@ -85,11 +93,6 @@ function consoleLog(node){
         console.log(node.id);
     }
 }
-
-/*  Graph.d3Force('link')
-    .distance(link => {
-        (link.distance < 30 && (link.target == '6335d5e37636ed5b3529c543') ) ? 50 : 20;    
-    }); */
 
 /* const bloomPass = new THREE.UnrealBloomPass();
 bloomPass.strength = 0.1;
@@ -122,22 +125,25 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
             "imgActive": item.imgActive ?? false,
             "val": item.graphVal ?? globalDefaultSettings.nodeSize,
             "info": item.info ?? null,
-            "color": color
+            "color": color,
+            "type": item.nodeType ?? null
         });
         if(item.name == "SOMA BETA")
             graphData.nodes[graphData.nodes.length - 1].fz = 0;
         
         item.fromId.forEach((fromId) => {
+            //var linkDistance = (item._id == '636326c5b63661e98b47ed11' && fromId == '6335d5e37636ed5b3529c543') ? 300 : globalDefaultSettings.linkDistance
             graphData.links.push({
                 source: fromId,
                 target: item._id,
                 curvature: 0.8, 
-                rotation: Math.PI * 3 / 3,
-                distance: item.distance ?? globalDefaultSettings.linkDistance
+                rotation: Math.PI * 3 / 3
+                //distance: linkDistance
             });
         });
     });
     Graph.graphData(graphData);
+
 }
 
 export function aimNodeFromId(neuronId){
@@ -184,8 +190,8 @@ function ingestNodeInfo(node){
             $("<p></p>").text(node.info.bio).appendTo($neuronInfoElem);
             if(node.info.links){
                 node.info.links.forEach((item, index, arr) => {
-                    var elem = $(`<a class="btn" target="_blank" type="button" href="${item.href}">${item.name}</a>`);
-                    //elem.append($(`<i class="ico ${item.name}"></i>`));
+                    var elem = $(`<a class="btn" target="_blank" type="button" href="${item.href}"></a>`);
+                    elem.append($(`<i class="ico ig"></i>`));
                     $("<div></div>").append(elem).appendTo($neuronInfoElem);
                 });
             }
@@ -209,13 +215,14 @@ function CreateNodeThreeObject(node){
         const sprite = new THREE.Sprite(material);
         sprite.scale.set(imgSize, imgSize);
         return sprite;
-    }else if(node.id == "6335d5e37636ed5b3529c543"){
-        return CreateParticlesObject();
+    }else if(node.type && node.type == "PARTICLES"){
+        return CreateParticlesObject(node);
+    }else if(node.type && node.type == "MARBLE"){
+        return CreateMarbleObject(node);
     }else{
-        //return CreateMarbleObject(node);
+        return CreateLinesThreeObject(node);
         //return CreateNoiseThreeObject();
         //return CreateMirrorThreeObject();
-        return CreateLinesThreeObject(node);
         //return new Blob(1.75, 0.3, 0.5, 1.5, 0.12, Math.PI * 1); 
     }
 }
@@ -351,7 +358,7 @@ function initBackground(){
     //Mesh
     var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
     let mesh = new THREE.Mesh( geometry, movieMaterial );
-    mesh.position.y = 400;
+    mesh.position.y = 250;
     scene.add( mesh );
 
     //Add Title:
@@ -544,15 +551,19 @@ function generateHeight( width, height ) {
 //Particles Object
 let group;
 let container, stats;
-const particlesData = [];
+const maxParticleCount = 100;
+let particleCount = maxParticleCount;
+
+var particlesObjects = [];
+
+/* const particlesData = [];
 let positions, colors;
 let particles;
 let pointCloud;
 let particlePositions;
-let linesMesh;
+let linesMesh; */
 
-const maxParticleCount = 100;
-let particleCount = maxParticleCount;
+
 let rX, rY, rZ;
 let rHalf;
 
@@ -569,6 +580,8 @@ function randomPosNeg() { return Math.round(Math.random()) * 2 - 1; }
 
 function CreateParticlesObject(){
 
+    var particleObject = {};
+
     rX = 50;
     rY = 50;
     rZ = 50;
@@ -584,8 +597,8 @@ function CreateParticlesObject(){
 
     const segments = maxParticleCount * maxParticleCount;
 
-    positions = new Float32Array( segments * 3 );
-    colors = new Float32Array( segments * 3 );
+    particleObject.positions = new Float32Array( segments * 3 );
+    particleObject.colors = new Float32Array( segments * 3 );
 
     const pMaterial = new THREE.PointsMaterial( {
         color: 0xFFFFFF,
@@ -595,8 +608,10 @@ function CreateParticlesObject(){
         sizeAttenuation: false
     } );
 
-    particles = new THREE.BufferGeometry();
-    particlePositions = new Float32Array( maxParticleCount * 3 );
+    particleObject.particles = new THREE.BufferGeometry();
+    particleObject.particlePositions = new Float32Array( maxParticleCount * 3 );
+
+    particleObject.particlesData = [];
 
     for ( let i = 0; i < maxParticleCount; i ++ ) {
 
@@ -604,29 +619,29 @@ function CreateParticlesObject(){
         const y = Math.random() * rY - rY / 2;
         const z = Math.random() * rZ - rZ / 2;
 
-        particlePositions[ i * 3 ] = x;
-        particlePositions[ i * 3 + 1 ] = y;
-        particlePositions[ i * 3 + 2 ] = z;
+        particleObject.particlePositions[ i * 3 ] = x;
+        particleObject.particlePositions[ i * 3 + 1 ] = y;
+        particleObject.particlePositions[ i * 3 + 2 ] = z;
 
         // add it to the geometry
-        particlesData.push( {
+        particleObject.particlesData.push( {
             velocity: new THREE.Vector3( randomPosNeg() * 0.1, randomPosNeg() * 0.1, 0 ),
             numConnections: 0
         } );
 
     }
 
-    particles.setDrawRange( 0, particleCount );
-    particles.setAttribute( 'position', new THREE.BufferAttribute( particlePositions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
+    particleObject.particles.setDrawRange( 0, particleObject.particleCount );
+    particleObject.particles.setAttribute( 'position', new THREE.BufferAttribute( particleObject.particlePositions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
 
     // create the particle system
-    pointCloud = new THREE.Points( particles, pMaterial );
-    group.add( pointCloud );
+    particleObject.pointCloud = new THREE.Points( particleObject.particles, pMaterial );
+    group.add( particleObject.pointCloud );
 
     const geometry = new THREE.BufferGeometry();
 
-    geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
-    geometry.setAttribute( 'color', new THREE.BufferAttribute( colors, 3 ).setUsage( THREE.DynamicDrawUsage ) );
+    geometry.setAttribute( 'position', new THREE.BufferAttribute( particleObject.positions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
+    geometry.setAttribute( 'color', new THREE.BufferAttribute( particleObject.colors, 3 ).setUsage( THREE.DynamicDrawUsage ) );
 
     geometry.computeBoundingSphere();
 
@@ -638,93 +653,106 @@ function CreateParticlesObject(){
         transparent: true
     } );
 
-    linesMesh = new THREE.LineSegments( geometry, material );
-    group.add( linesMesh );
+    particleObject.linesMesh = new THREE.LineSegments( geometry, material );
+    group.add( particleObject.linesMesh );
+
+    particlesObjects.push(particleObject);
     return group;
 }
 
 
 function animateParticles() {
-    let vertexpos = 0;
-    let colorpos = 0;
-    let numConnected = 0;
 
-    for ( let i = 0; i < particleCount; i ++ )
-        particlesData[ i ].numConnections = 0;
+    particlesObjects.forEach((item) => {
 
-    for ( let i = 0; i < particleCount; i ++ ) {
+        let particlesData = item.particlesData;
+        let positions = item.positions; 
+        let colors = item.colors;
+        let pointCloud = item.pointCloud;
+        let particlePositions = item.particlePositions;
+        let linesMesh = item.linesMesh;
+        
+        let vertexpos = 0;
+        let colorpos = 0;
+        let numConnected = 0;
 
-        // get the particle
-        const particleData = particlesData[ i ];
+        for ( let i = 0; i < particleCount; i ++ )
+            particlesData[ i ].numConnections = 0;
 
-        particlePositions[ i * 3 ] += particleData.velocity.x;
-        particlePositions[ i * 3 + 1 ] += particleData.velocity.y;
-        particlePositions[ i * 3 + 2 ] += particleData.velocity.z;
+        for ( let i = 0; i < particleCount; i ++ ) {
 
-        if ( particlePositions[ i * 3 + 1 ] < - rHalf || particlePositions[ i * 3 + 1 ] > rHalf )
-            particleData.velocity.y = - particleData.velocity.y;
+            // get the particle
+            const particleData = particlesData[ i ];
 
-        if ( particlePositions[ i * 3 ] < - rHalf || particlePositions[ i * 3 ] > rHalf )
-            particleData.velocity.x = - particleData.velocity.x;
+            particlePositions[ i * 3 ] += particleData.velocity.x;
+            particlePositions[ i * 3 + 1 ] += particleData.velocity.y;
+            particlePositions[ i * 3 + 2 ] += particleData.velocity.z;
 
-        if ( particlePositions[ i * 3 + 2 ] < - rHalf || particlePositions[ i * 3 + 2 ] > rHalf )
-            particleData.velocity.z = - particleData.velocity.z;
+            if ( particlePositions[ i * 3 + 1 ] < - rHalf || particlePositions[ i * 3 + 1 ] > rHalf )
+                particleData.velocity.y = - particleData.velocity.y;
 
-        if ( effectController.limitConnections && particleData.numConnections >= effectController.maxConnections )
-            continue;
+            if ( particlePositions[ i * 3 ] < - rHalf || particlePositions[ i * 3 ] > rHalf )
+                particleData.velocity.x = - particleData.velocity.x;
 
-        // Check collision
-        for ( let j = i + 1; j < particleCount; j ++ ) {
+            if ( particlePositions[ i * 3 + 2 ] < - rHalf || particlePositions[ i * 3 + 2 ] > rHalf )
+                particleData.velocity.z = - particleData.velocity.z;
 
-            const particleDataB = particlesData[ j ];
-            if ( effectController.limitConnections && particleDataB.numConnections >= effectController.maxConnections )
+            if ( effectController.limitConnections && particleData.numConnections >= effectController.maxConnections )
                 continue;
 
-            const dx = particlePositions[ i * 3 ] - particlePositions[ j * 3 ];
-            const dy = particlePositions[ i * 3 + 1 ] - particlePositions[ j * 3 + 1 ];
-            const dz = particlePositions[ i * 3 + 2 ] - particlePositions[ j * 3 + 2 ];
-            const dist = Math.sqrt( dx * dx + dy * dy + dz * dz );
+            // Check collision
+            for ( let j = i + 1; j < particleCount; j ++ ) {
 
-            if ( dist < effectController.minDistance ) {
+                const particleDataB = particlesData[ j ];
+                if ( effectController.limitConnections && particleDataB.numConnections >= effectController.maxConnections )
+                    continue;
 
-                particleData.numConnections ++;
-                particleDataB.numConnections ++;
+                const dx = particlePositions[ i * 3 ] - particlePositions[ j * 3 ];
+                const dy = particlePositions[ i * 3 + 1 ] - particlePositions[ j * 3 + 1 ];
+                const dz = particlePositions[ i * 3 + 2 ] - particlePositions[ j * 3 + 2 ];
+                const dist = Math.sqrt( dx * dx + dy * dy + dz * dz );
 
-                const alpha = 1.0 - dist / effectController.minDistance;
+                if ( dist < effectController.minDistance ) {
 
-                positions[ vertexpos ++ ] = particlePositions[ i * 3 ];
-                positions[ vertexpos ++ ] = particlePositions[ i * 3 + 1 ];
-                positions[ vertexpos ++ ] = particlePositions[ i * 3 + 2 ];
+                    particleData.numConnections ++;
+                    particleDataB.numConnections ++;
 
-                positions[ vertexpos ++ ] = particlePositions[ j * 3 ];
-                positions[ vertexpos ++ ] = particlePositions[ j * 3 + 1 ];
-                positions[ vertexpos ++ ] = particlePositions[ j * 3 + 2 ];
+                    const alpha = 1.0 - dist / effectController.minDistance;
 
-                colors[ colorpos ++ ] = alpha;
-                colors[ colorpos ++ ] = alpha;
-                colors[ colorpos ++ ] = alpha;
+                    positions[ vertexpos ++ ] = particlePositions[ i * 3 ];
+                    positions[ vertexpos ++ ] = particlePositions[ i * 3 + 1 ];
+                    positions[ vertexpos ++ ] = particlePositions[ i * 3 + 2 ];
 
-                colors[ colorpos ++ ] = alpha;
-                colors[ colorpos ++ ] = alpha;
-                colors[ colorpos ++ ] = alpha;
+                    positions[ vertexpos ++ ] = particlePositions[ j * 3 ];
+                    positions[ vertexpos ++ ] = particlePositions[ j * 3 + 1 ];
+                    positions[ vertexpos ++ ] = particlePositions[ j * 3 + 2 ];
 
-                numConnected ++;
+                    colors[ colorpos ++ ] = alpha;
+                    colors[ colorpos ++ ] = alpha;
+                    colors[ colorpos ++ ] = alpha;
+
+                    colors[ colorpos ++ ] = alpha;
+                    colors[ colorpos ++ ] = alpha;
+                    colors[ colorpos ++ ] = alpha;
+
+                    numConnected ++;
+
+                }
 
             }
 
         }
 
-    }
 
+        linesMesh.geometry.setDrawRange( 0, numConnected * 2 );
+        linesMesh.geometry.attributes.position.needsUpdate = true;
+        linesMesh.geometry.attributes.color.needsUpdate = true;
+        
+        pointCloud.geometry.attributes.position.needsUpdate = true;
 
-    linesMesh.geometry.setDrawRange( 0, numConnected * 2 );
-    linesMesh.geometry.attributes.position.needsUpdate = true;
-    linesMesh.geometry.attributes.color.needsUpdate = true;
-
-    pointCloud.geometry.attributes.position.needsUpdate = true;
-
+    }); 
+    
     //requestAnimationFrame( animateParticles );
-
     render();
 }
 

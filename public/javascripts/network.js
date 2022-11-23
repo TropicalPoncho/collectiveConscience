@@ -5,7 +5,7 @@ jQuery(function(){
 
     //Inicializo la variable de myNeuron según id recibido o cookie
     var myNeuron = (typeof myNeuronId !== 'undefined') ? myNeuronId : Cookies.get("neuron");
-    var _myNickName = (typeof myNickName !== 'undefined') ? myNickName : null;
+    var _myNickName = (typeof myNickName !== 'undefined') ? myNickName.toLowerCase() : null;
 
     //Comienzo a cargar la red:
     GetNeurons(1);
@@ -29,7 +29,7 @@ jQuery(function(){
                 if(typeof fromId !== 'undefined'){
                     data = {fromId: fromId};
                 }else{
-                    data = {fromNickName: fromNickName};
+                    data = {fromNickName: fromNickName.toLowerCase()};
                 }
                 //Llamo para crear la neurona
                 $.post( "/neurons", data, function( response ) {
@@ -56,13 +56,13 @@ jQuery(function(){
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             whatsapp_url = "whatsapp://send?text=";
         }
-        var text = "SOMA BETA - 26.11.22 | Festival de artes en Temperley, BsAs \n" 
-        text += "Ami, quiero invitarte a este tremendo evento en Cultura del Sur. \n"
+        var text = "SOMA BETA - 26.11.22 | Festival de artes en Temperley, BsAs \t" 
+        text += "Ami, quiero invitarte a este tremendo evento en Cultura del Sur. \t"
         text += "Tocará Anita Hagen con Vinilos, habrán exposiciones, traino de danza, performances, exposiciones y más. \n"
         text += "El flyer del evento también es una obra digital dinámica que responde a tu interacción. Entrá en el siguiente link para generar tu propia neurona y enterarte de toda la data del evento: ";
         var url = "http://tropicalponcho.art/network/synapsis/" + myNeuron;
         var message = encodeURIComponent(text) + " - " + encodeURIComponent(url);
-        window.location.href = whatsapp_url + message;
+        window.open(whatsapp_url + message, '_blank');
         return false;
     });
 

@@ -22,16 +22,7 @@ class NeuronsService {
             var fromId;
             //Si se informa un fromId
             if(input.fromId){ //Comprueba si el id es valido
-                Neuron.countDocuments({_id: input.fromId}, function (err, count){ 
-                    if(err){
-                        console.log('Error!', err);
-                        //throw new Error(err);
-                    }else if(count == 0){
-                        //throw new Error(input.fromId + " doesn't exists");
-                    }else{
-                        fromId = input.fromId;
-                    }
-                });
+                fromId = input.fromId;
             }else if(input.fromNickName){ //Si no, busca el nickName
                 var fromNeuron = await Neuron.findOne({nickName: input.fromNickName},'_id').exec();
                 if(!fromNeuron){
@@ -44,7 +35,7 @@ class NeuronsService {
             const neuron = new Neuron({
                 name: input.name,
                 fromId: fromId,
-                nickName: input.nickName,
+                nickName: input.nickName ?? null,
                 graphVal: input.graphVal,
                 imgPath: input.imgPath
             }, (err, msg) => {
