@@ -135,7 +135,7 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
             "info": item.info ?? null,
             "color": color,
             "type": item.nodeType ?? null,
-            "particlesSize": item.particlesSize ?? globalDefaultSettings.particlesSize
+            "particlesSize": item.graphVal ?? globalDefaultSettings.particlesSize
         });
         if(item.name == "SOMA BETA")
             graphData.nodes[graphData.nodes.length - 1].fz = 0;
