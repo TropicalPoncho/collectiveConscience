@@ -22,14 +22,15 @@ var graphData = { "nodes": [], "links": [] };
 var globalDefaultSettings = {
     nodeSize: 5,
     linkDistance: 30,
-    cameraDistance: 400,
+    cameraDistance: 700,
     backgroundColor: 0x111111,
     aimDistance: 100,
     activeNodeImg: true,
     marbleColorA: colorsArray[2],
     marbleColorB: "#000000",
     myNeuronColor: colorsArray[0],
-    imgSize: 50
+    imgSize: 50,
+    particlesSize: 50
 };
 
 var Graph;
@@ -84,7 +85,7 @@ if(!arActive){
 }
 
 //Camera orbit
-/* let angle = 0;
+let angle = 0;
 setInterval(() => {
     //var tX = somaNode.x;
     //var tZ = somaNode.z;
@@ -92,8 +93,8 @@ setInterval(() => {
         x: ( globalDefaultSettings.cameraDistance ) * Math.sin(angle),
         z: ( globalDefaultSettings.cameraDistance ) * Math.cos(angle)
     });
-    angle += Math.PI / 1000;
-}, 10); */
+    angle += Math.PI / 1500;
+}, 10); 
 
 function consoleLog(node){
     if(node){
@@ -133,24 +134,31 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
             "val": item.graphVal ?? globalDefaultSettings.nodeSize,
             "info": item.info ?? null,
             "color": color,
-            "type": item.nodeType ?? null
+            "type": item.nodeType ?? null,
+            "particlesSize": item.particlesSize ?? globalDefaultSettings.particlesSize
         });
         if(item.name == "SOMA BETA")
             graphData.nodes[graphData.nodes.length - 1].fz = 0;
         
         item.fromId.forEach((fromId) => {
-            //var linkDistance = (item._id == '636326c5b63661e98b47ed11' && fromId == '6335d5e37636ed5b3529c543') ? 300 : globalDefaultSettings.linkDistance
+            if(item.name == "SOMA"){
+                console.log(item._id + " - " + fromId);
+            }
+            var linkDistance = (item._id == '636326c5b63661e98b47ed11' && fromId == '6335d5e37636ed5b3529c543') ? 800 : globalDefaultSettings.linkDistance
             graphData.links.push({
                 source: fromId,
                 target: item._id,
                 curvature: 0.8, 
-                rotation: Math.PI * 3 / 3
-                //distance: linkDistance
+                rotation: Math.PI * 3 / 3,
+                distance: linkDistance
             });
         });
     });
     Graph.graphData(graphData);
-
+    Graph
+      .d3Force('link')
+      .distance(link => link.distance );
+    Graph.numDimensions(3);
 }
 
 export function aimNodeFromId(neuronId){
@@ -180,8 +188,8 @@ function aimNode(node){
             newPos, // new position
             node, // lookAt ({ x, y, z })
             3000  // ms transition duration
-            );
-            ingestNodeInfo(node);
+        );
+        ingestNodeInfo(node);
     }
 }
 
@@ -228,7 +236,8 @@ function CreateNodeThreeObject(node){
     }else if(node.type && node.type == "MARBLE"){
         return CreateMarbleObject(node);
     }else{
-        return CreateLinesThreeObject(node);
+        return CreateMarbleObject(node);
+        //return CreateLinesThreeObject(node);
         //return CreateNoiseThreeObject();
         //return CreateMirrorThreeObject();
         //return new Blob(1.75, 0.3, 0.5, 1.5, 0.12, Math.PI * 1); 
@@ -573,6 +582,7 @@ let linesMesh; */
 
 
 let rX, rY, rZ;
+let r = 50;
 let rHalf;
 
 const effectController = {
@@ -586,13 +596,13 @@ const effectController = {
 
 function randomPosNeg() { return Math.round(Math.random()) * 2 - 1; }
 
-function CreateParticlesObject(){
+function CreateParticlesObject(node){
 
     var particleObject = {};
 
-    rX = 50;
-    rY = 50;
-    rZ = 50;
+    rX = node.particlesSize;
+    rY = rX;
+    rZ = rX;
     rHalf = rX / 2;
 
     var group = new THREE.Group();
