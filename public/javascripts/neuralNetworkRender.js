@@ -30,7 +30,8 @@ var globalDefaultSettings = {
     marbleColorB: "#000000",
     myNeuronColor: colorsArray[0],
     imgSize: 50,
-    particlesSize: 50
+    particlesSize: 50,
+    longDistance: 500
 };
 
 var Graph;
@@ -144,7 +145,7 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
             if(item.name == "SOMA"){
                 console.log(item._id + " - " + fromId);
             }
-            var linkDistance = (item._id == '636326c5b63661e98b47ed11' && fromId == '6335d5e37636ed5b3529c543') ? 800 : globalDefaultSettings.linkDistance
+            var linkDistance = (item._id == '636326c5b63661e98b47ed11' && fromId == '6335d5e37636ed5b3529c543') ? globalDefaultSettings.longDistance : globalDefaultSettings.linkDistance
             graphData.links.push({
                 source: fromId,
                 target: item._id,
