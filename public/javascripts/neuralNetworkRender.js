@@ -154,7 +154,11 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
             });
         });
     });
-    Graph.graphData(graphData);
+    try {
+        Graph.graphData(graphData);
+    } catch (error) {
+        console.log(error);        
+    }
     Graph
       .d3Force('link')
       .distance(link => link.distance );
