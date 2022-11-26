@@ -240,8 +240,8 @@ function CreateNodeThreeObject(node){
     }else if(node.type && node.type == "MARBLE"){
         return CreateMarbleObject(node);
     }else{
-        return CreateMarbleObject(node);
-        //return CreateLinesThreeObject(node);
+        //return CreateMarbleObject(node);
+        return CreateLinesThreeObject(node);
         //return CreateNoiseThreeObject();
         //return CreateMirrorThreeObject();
         //return new Blob(1.75, 0.3, 0.5, 1.5, 0.12, Math.PI * 1); 
