@@ -1,0 +1,1773 @@
+[{
+  "_id": {
+    "$oid": "6335d5e37636ed5b3529c543"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "name": "SOMA BETA",
+  "graphVal": 12,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1664472488294"
+    }
+  },
+  "__v": 0,
+  "nodeType": "PARTICLES"
+},{
+  "_id": {
+    "$oid": "6335d5fa7636ed5b3529c545"
+  },
+  "fromId": [],
+  "name": "Tropical Poncho",
+  "info": {
+    "sub": "Productora de Experiencias Artísticas",
+    "bio": "Tropical Poncho es, principalmente, una productora de festivales artísticos. Las experiencias que produce conforman obras de arte inmersivas. Toma como punto de partida a la consciencia, siendo esta el soporte de un nuevo tipo de obra conceptual que pretende invitar al espectador a experimentar toda la experiencia dentro del festival como una obra de arte única y personal.\nEstas experiencias se componen de todo lo percibible por el espectador: las expresiones artísticas de múltiples disciplinas que dialogan entre sí y con el público, y la interacción con les otres participantes. Se estimula la construcción de lazos entre personas a través de actividades y talleres. Se llama a una toma de consciencia sobre temas de gran importancia contemporánea a nivel socio-cultural y medioambiental, tratados e investigados a partir de una perspectiva científica y holística.\nEl fin de esta concientización individual es que entre todes podamos conformar una gran conciencia colectiva, transformadora y despierta. Somos jóvenes disidencias artivistas de distintas disciplinas y regiones creando redes en constante expansión, con proyectos y colectivos de investigación, y trabajando, visibilizando y fomentando artistas independientes y disidencias identitarias, principalmente sexogenéricas. ",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/tropicalponcho"
+      },
+      {
+        "name": "Youtube",
+        "href": "https://www.youtube.com/channel/UCqIBqupFJ1x0XFAlYJySa_g"
+      }
+    ]
+  },
+  "imgPath": "isologo_blanco.png",
+  "imgActive": true,
+  "graphVal": 5,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1664472488294"
+    }
+  },
+  "__v": 0,
+  "nickName": "tropicalponcho"
+},{
+  "_id": {
+    "$oid": "63365a05349709fa31e2a492"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5e37636ed5b3529c543"
+    }
+  ],
+  "name": "Cultura Del Sur",
+  "info": {
+    "sub": "Centro Cultural en Temperley",
+    "bio": "Cultura del Sur, es un centro cultural ubicado en la ciudad de Temperley, es un lugar de referencia para el arte del sur de Buenos Aires. En continua convocatoria a los artistas para su difusión y el trabajo conjunto, Cultura del Sur te invita seguir sus actividades y a hacerte fan de su pagina de facebook. Si querés sumarte con tu emprendimiento sos bienvenido! \n\n Creemos en la educación y el desarrollo artísticos como motores de la libertad humana.",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/culturadelsur/"
+      },
+      {
+        "name": "Maps",
+        "href": "https://goo.gl/maps/eAMTPiHWPPvrC7vr9"
+      }
+    ],
+    "htmlElements": [
+      "<iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6554.605907520939!2d-58.40085479546073!3d-34.77314785867408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3543f562ee1bc5%3A0x880dd3db8f8cb14d!2sCultura%20Del%20Sur!5e0!3m2!1ses!2sar!4v1666683365038!5m2!1ses!2sar' width='400' height='300' style='border:0;' allowfullscreen='' loading='lazy' referrerpolicy='no-referrer-when-downgrade'></iframe>"
+    ]
+  },
+  "imgPath": "isologo_culturadelsur.png",
+  "imgActive": true,
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1664498603328"
+    }
+  },
+  "__v": 0,
+  "nickName": "culturadelsur"
+},{
+  "_id": {
+    "$oid": "63365a24349709fa31e2a495"
+  },
+  "fromId": [
+    {
+      "$oid": "635076cbb5a6b13cc69ee5c3"
+    }
+  ],
+  "info": {
+    "sub": "VINYL SET",
+    "bio": "Ana Hagen es una artista de Buenos Aires, Argentina. Inició como clubber en eventos locales y posteriormente comenzó a formarse como DJ Productora. Gracias a su versatilidad tuvo la oportunidad de presentarse en diferentes espacios, entre ellos Avant Garten, Crobar Club, Punta Carrasco, cómo también en ciclos y festivales de la escena nacional e internacional. Algunos de los artistas con los que compartió cabina son Apollonia, Gulp, Andres Zacco, Violett, Sol Ortega, Skelesys, Michelle, Nicolás Etorena, Emilio, Victoria Engel, entre otros.\nEn sus sets de pista navega por distintos géneros tales como house, electro, techno, new wave y en su faceta experimental desde ambient, downtempo y trip hop.\nAna es co-fundadora del ciclo Frontier Connections, el cuál tiene lugar en Bahrein Club y actualmente se desempeña como organizadora del ciclo Intimo Sessions (py) junto a colegas de la escena.",
+    "links": [
+      {
+        "name": "ig",
+        "href": "https://www.instagram.com/anitaahagen"
+      }
+    ]
+  },
+  "name": "Ana Hagen",
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1664498603328"
+    }
+  },
+  "__v": 0,
+  "nickName": "anahagen"
+},{
+  "_id": {
+    "$oid": "63365a2f349709fa31e2a498"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "info": {
+    "sub": "Gestorx Cultural, Curadorx, DJ",
+    "links": [
+      {
+        "name": "ig",
+        "href": "https://www.instagram.com/ramacerratto"
+      }
+    ]
+  },
+  "name": "Rama Cerratto",
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1664498603328"
+    }
+  },
+  "__v": 0,
+  "nickName": "ramacerratto"
+},{
+  "_id": {
+    "$oid": "63365a35349709fa31e2a49b"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    },
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "name": "Mechi Botta",
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1664498603328"
+    }
+  },
+  "__v": 0,
+  "nickName": "mechibotta"
+},{
+  "_id": {
+    "$oid": "63365a5a349709fa31e2a49e"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    },
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    },
+    {
+      "$oid": "63365a35349709fa31e2a49b"
+    }
+  ],
+  "name": "Laura Trotta",
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1664498603328"
+    }
+  },
+  "__v": 0,
+  "nickName": "lauratrotta"
+},{
+  "_id": {
+    "$oid": "63365f80de8baa0e115c0e23"
+  },
+  "fromId": [
+    {
+      "$oid": "634e42a054f7f464bb82c032"
+    }
+  ],
+  "name": "PROYECTOCOSO",
+  "imgPath": "isologo_proyectocoso.png",
+  "imgSize": 40,
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1664507290398"
+    }
+  },
+  "__v": 0,
+  "info": {
+    "sub": "Musica experimental",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/proyectocoso"
+      }
+    ],
+    "bio": "Proyectode improvisación e investigación en artes expandidas que explora lo mutable,\ntransitorio, procesual e inconcluso, la duda y pregunta sobre lo que se presenta más\nque lo que proviene de la intención de representar. Desarrollan obra en distintos formatos\n y lenguajes (danza contemporánea, escenoplástica, diseño de iluminación, obra visual) con \ninterés particular por espacios urbanos e incorporan herramientas de la performance. \nTrabajan con radio frecuencias, tocadiscos intervenido, trompeta con efectos, sintetizadores, \nlaptop, silbatos varios y voces intervenidas, lo que hacemos oscila entre la electrónica\n experimental, noise, Ambient noise, technonoise, progressive y acidtechno.\nEl proyecto está conformado por Claudia Brito, Federico Urdinez y Sebastian Rimoldi y se\ndesarrolla desde 2018 en Fisque Menuco Pcia. de Río Negro en la Patagonia Argentina.\nEl mismo es impulsado en colaboración desde el sello de gestión colectiva\n Rayo Seco Discos y Marea-Área de Movimiento"
+  },
+  "nickName": "proyectocoso"
+},{
+  "_id": {
+    "$oid": "6336611bde8baa0e115c0e29"
+  },
+  "fromId": [
+    {
+      "$oid": "63365f80de8baa0e115c0e23"
+    }
+  ],
+  "name": "RAYO SECO",
+  "info": {
+    "sub": "Sello y productora independiente y autogestiva. Difundimos música experimental y arte sonoro. Fiske Menuco, Río Negro, Arg.",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/rayosecodiscos/"
+      },
+      {
+        "name": "Soundcloud",
+        "href": "https://soundcloud.com/rayosecodiscos"
+      },
+      {
+        "name": "Bandcamp",
+        "href": "https://rayosecodiscos.bandcamp.com/"
+      },
+      {
+        "name": "Spotify",
+        "href": "https://open.spotify.com/artist/3wsk1Pu7RTrkR9lhquwFb3?si=Ani9MO7KQGS2Dh8PqlTO4w&utm_source=copy-link"
+      },
+      {
+        "name": "Facebook",
+        "href": "https://www.facebook.com/RayoSeco"
+      }
+    ]
+  },
+  "imgPath": "isologo_rayoseco.png",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1664507290398"
+    }
+  },
+  "__v": 0,
+  "nickName": "rayoseco"
+},{
+  "_id": {
+    "$oid": "63366372de8baa0e115c0e32"
+  },
+  "fromId": [
+    {
+      "$oid": "6336611bde8baa0e115c0e29"
+    },
+    {
+      "$oid": "63365f80de8baa0e115c0e23"
+    }
+  ],
+  "name": "Claudia Brito",
+  "info": {
+    "sub": "Investigadora, creadora. Guio terapias y entrenamientos sensibles, docente y artista",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/claudiabrrrrrr/"
+      }
+    ]
+  },
+  "imgPath": null,
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1664507290398"
+    }
+  },
+  "__v": 0,
+  "nickName": "claudiabrito"
+},{
+  "_id": {
+    "$oid": "633f920b8610fbf9ba8ea7d2"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5e37636ed5b3529c543"
+    }
+  ],
+  "name": "Vuelos Del Sur",
+  "info": {
+    "sub": "Danza Aerea",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/vuelosdelsurdanzaaerea"
+      }
+    ]
+  },
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1665110326320"
+    }
+  },
+  "__v": 0,
+  "nickName": "vuelosdelsur"
+},{
+  "_id": {
+    "$oid": "634102208610fbf9ba8ea7fd"
+  },
+  "fromId": [
+    {
+      "$oid": "6336611bde8baa0e115c0e29"
+    },
+    {
+      "$oid": "63365f80de8baa0e115c0e23"
+    },
+    {
+      "$oid": "634e42a054f7f464bb82c032"
+    },
+    {
+      "$oid": "63366372de8baa0e115c0e32"
+    }
+  ],
+  "name": "MENOKO",
+  "info": {
+    "sub": "LIVE SET",
+    "bio": "",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/menoko.ok/"
+      },
+      {
+        "name": "Youtube",
+        "href": "https://www.youtube.com/watch?v=FaYf2H7T-mU"
+      },
+      {
+        "name": "Spotify",
+        "href": "https://open.spotify.com/artist/6YbViUmAYjcpwznt7EgcTI?si=_Ssvug0KRu-xvDFOHyuI9Q"
+      },
+      {
+        "name": "Facebook",
+        "href": "https://www.facebook.com/menoko.musica"
+      }
+    ]
+  },
+  "imgPath": "isologo_menoko.png",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1665110326320"
+    }
+  },
+  "__v": 0,
+  "nickName": "menoko"
+},{
+  "_id": {
+    "$oid": "634e423754f7f464bb82c02f"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a35349709fa31e2a49b"
+    },
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    },
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    },
+    {
+      "$oid": "63365a5a349709fa31e2a49e"
+    }
+  ],
+  "name": "Pau Gialdroni",
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1665810661513"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "634e42a054f7f464bb82c032"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5e37636ed5b3529c543"
+    }
+  ],
+  "name": "LIVE SETs",
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1665810661513"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "634e42b554f7f464bb82c035"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5e37636ed5b3529c543"
+    }
+  ],
+  "name": "Exposiciones",
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1665810661513"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "634e42c254f7f464bb82c038"
+  },
+  "fromId": [
+    {
+      "$oid": "634e42b554f7f464bb82c035"
+    }
+  ],
+  "name": "Pao Olea",
+  "info": {
+    "sub": "Media artist",
+    "bio": "I’m a digital artist and creative coder in Santiago de Chile. My work focuses on the constant exploration and research of movement and form using the visual language of geometry, noise, color and light, seeking to emphasize that the simplest things can bring us peace and harmony. My creations invite the use of imagination and understanding to go beyond what logic offers us.",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/pao.olea/"
+      },
+      {
+        "name": "Web",
+        "href": "https://www.paoolea.com/"
+      }
+    ]
+  },
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1665810661513"
+    }
+  },
+  "__v": 0,
+  "nickName": "paoolea"
+},{
+  "_id": {
+    "$oid": "634e42ce54f7f464bb82c03b"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    },
+    {
+      "$oid": "63365a35349709fa31e2a49b"
+    },
+    {
+      "$oid": "634e423754f7f464bb82c02f"
+    },
+    {
+      "$oid": "63365a5a349709fa31e2a49e"
+    }
+  ],
+  "name": "Agus Mansilla",
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1665810661513"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "634ed01b54f7f464bb82c04d"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5e37636ed5b3529c543"
+    }
+  ],
+  "name": "Meditación",
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1665810661513"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "634f12c542f427bbb0f61ccd"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    },
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    },
+    {
+      "$oid": "63365a35349709fa31e2a49b"
+    },
+    {
+      "$oid": "634e423754f7f464bb82c02f"
+    },
+    {
+      "$oid": "63365a5a349709fa31e2a49e"
+    }
+  ],
+  "name": "Malvi",
+  "imgPath": "",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666119688332"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "634f75a76568fe16a0ecd515"
+  },
+  "fromId": [
+    {
+      "$oid": "633f920b8610fbf9ba8ea7d2"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666145094126"
+    }
+  },
+  "__v": 0,
+  "name": "Agustin",
+  "nickName": "agusdanzaaerea"
+},{
+  "_id": {
+    "$oid": "634f75de6568fe16a0ecd51f"
+  },
+  "fromId": [
+    {
+      "$oid": "633f920b8610fbf9ba8ea7d2"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666145094126"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635072c8b5a6b13cc69ee5a5"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a05349709fa31e2a492"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635072d1b5a6b13cc69ee5ab"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a05349709fa31e2a492"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63507523b5a6b13cc69ee5b1"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a05349709fa31e2a492"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63507650b5a6b13cc69ee5b7"
+  },
+  "fromId": [
+    {
+      "$oid": "633f920b8610fbf9ba8ea7d2"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63507656b5a6b13cc69ee5bd"
+  },
+  "fromId": [
+    {
+      "$oid": "633f920b8610fbf9ba8ea7d2"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635076cbb5a6b13cc69ee5c3"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5e37636ed5b3529c543"
+    }
+  ],
+  "name": "Vinyls DJ Sets",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635078edb5a6b13cc69ee5ca"
+  },
+  "fromId": [
+    {
+      "$oid": "635076cbb5a6b13cc69ee5c3"
+    },
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "name": "Rama Cerratto",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63507c03b5a6b13cc69ee5e7"
+  },
+  "fromId": [
+    {
+      "$oid": "634e42a054f7f464bb82c032"
+    }
+  ],
+  "name": "Dioniso de las Galaxias",
+  "info": {
+    "sub": "Live Coding Set",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/dioniso_de_las_galaxias/"
+      }
+    ]
+  },
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0,
+  "nickName": "dionisodelasgalaxias"
+},{
+  "_id": {
+    "$oid": "63507d90b5a6b13cc69ee602"
+  },
+  "name": "Federico Urdinez",
+  "fromId": [
+    {
+      "$oid": "63365f80de8baa0e115c0e23"
+    },
+    {
+      "$oid": "6336611bde8baa0e115c0e29"
+    },
+    {
+      "$oid": "63366372de8baa0e115c0e32"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63507e2cb5a6b13cc69ee608"
+  },
+  "fromId": [
+    {
+      "$oid": "634e42b554f7f464bb82c035"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63507e8ab5a6b13cc69ee60e"
+  },
+  "fromId": [
+    {
+      "$oid": "634ed01b54f7f464bb82c04d"
+    }
+  ],
+  "name": "Agualuna",
+  "info": {
+    "sub": "Meditación",
+    "bio": "Soy Jaz. Desde el lenguaje de los cielos, un alma Pisciana con ascendente en Géminis que no para de explorar y experimentar lo orgánico de la vida. Actualmente puedo decir que soy Payasa y también, acompañante holística. Investigo y trabajo principalmente con la sexualidad creativa, comprendiéndola como fuerza de energía vital. Las herramientas que utilizo tiene que ver con la recuperación de la sensibilidad corporal y el desbloqueo psico-emocional de nuestro cuerpo-corazón.",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/__agualuna__/"
+      }
+    ]
+  },
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6350809ab5a6b13cc69ee61a"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5e37636ed5b3529c543"
+    }
+  ],
+  "name": "Poesía performática",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635080adb5a6b13cc69ee620"
+  },
+  "fromId": [
+    {
+      "$oid": "6350809ab5a6b13cc69ee61a"
+    },
+    {
+      "$oid": "63365a35349709fa31e2a49b"
+    }
+  ],
+  "name": "Mechi Botta",
+  "info": {
+    "sub": "Poeta, Gestora Cultural, Artista Visual, Escritora",
+    "bio": "Actual campeona de Slam Argentina",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/chicka_jaguar_/"
+      },
+      {
+        "name": "Wordpress",
+        "href": "https://rugiendoypreguntando.wordpress.com/"
+      }
+    ]
+  },
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635080b1b5a6b13cc69ee626"
+  },
+  "fromId": [
+    {
+      "$oid": "6350809ab5a6b13cc69ee61a"
+    }
+  ],
+  "name": "Pau Gialdroni",
+  "info": {
+    "sub": "Poeta, performer, Gestor cultural",
+    "bio": "Slammaster Slam Comarca, Campeón Slam Argentina",
+    "links": [
+      {
+        "name": "IG",
+        "href": "https://www.instagram.com/paulxgialdroni/"
+      }
+    ]
+  },
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63508310b5a6b13cc69ee62f"
+  },
+  "name": "Stickers",
+  "fromId": [
+    {
+      "$oid": "6335d5e37636ed5b3529c543"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63508372b5a6b13cc69ee638"
+  },
+  "fromId": [
+    {
+      "$oid": "63508310b5a6b13cc69ee62f"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63508389b5a6b13cc69ee63e"
+  },
+  "fromId": [
+    {
+      "$oid": "63508372b5a6b13cc69ee638"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635083a9b5a6b13cc69ee644"
+  },
+  "fromId": [
+    {
+      "$oid": "63508389b5a6b13cc69ee63e"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6350ad0cb5a6b13cc69ee6d2"
+  },
+  "fromId": [
+    {
+      "$oid": "635083a9b5a6b13cc69ee644"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666213713235"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63525c179cbfbdcc0ee357e3"
+  },
+  "name": "Sebastian Rimoldi",
+  "fromId": [
+    {
+      "$oid": "63365f80de8baa0e115c0e23"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666335407462"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63536778910a62cc863e91b8"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a5a349709fa31e2a49e"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666381313989"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63547a92910a62cc863e91d7"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666381313989"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63547d78910a62cc863e91dd"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666381313989"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63549e80910a62cc863e91ed"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666381313989"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6354a13d910a62cc863e91f4"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666381313989"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6354a26003c577aafeb66000"
+  },
+  "fromId": [
+    {
+      "$oid": "634f12c542f427bbb0f61ccd"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6354a31903c577aafeb6600c"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6354a33303c577aafeb66014"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6354a58403c577aafeb66020"
+  },
+  "fromId": [
+    {
+      "$oid": "634f12c542f427bbb0f61ccd"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6354abd303c577aafeb66029"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6354bab403c577aafeb66030"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635551ab03c577aafeb66047"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63555aed03c577aafeb6604f"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63557e0603c577aafeb66057"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63558df103c577aafeb6605d"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6355a2f103c577aafeb66063"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63569af703c577aafeb6607e"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63569db103c577aafeb66086"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6356a27e03c577aafeb66090"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6356ae7803c577aafeb6609a"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6356b00903c577aafeb660a2"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6356b8ab03c577aafeb660aa"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6356cb1703c577aafeb660b8"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6356e79803c577aafeb660c2"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6356f39503c577aafeb660d3"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6356fad803c577aafeb660db"
+  },
+  "fromId": [
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635742cb03c577aafeb660e4"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63579d1703c577aafeb6610c"
+  },
+  "fromId": [
+    {
+      "$oid": "63508310b5a6b13cc69ee62f"
+    }
+  ],
+  "name": "Sticker01",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63579ec203c577aafeb66113"
+  },
+  "fromId": [
+    {
+      "$oid": "63579d1703c577aafeb6610c"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357a05d03c577aafeb6611a"
+  },
+  "fromId": [
+    {
+      "$oid": "63508310b5a6b13cc69ee62f"
+    }
+  ],
+  "name": "Sticker02",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357a0be03c577aafeb6611d"
+  },
+  "fromId": [
+    {
+      "$oid": "63508310b5a6b13cc69ee62f"
+    }
+  ],
+  "name": "Sticker03",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357a61f03c577aafeb66120"
+  },
+  "fromId": [
+    {
+      "$oid": "63508310b5a6b13cc69ee62f"
+    }
+  ],
+  "name": "Sticker04",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666490969119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63582e367172895f478ec969"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a35349709fa31e2a49b"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666690212588"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6358368c7172895f478ec984"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a35349709fa31e2a49b"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666690212588"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635849f87172895f478ec9b2"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a35349709fa31e2a49b"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666690212588"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635865867172895f478ec9b9"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a35349709fa31e2a49b"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666690212588"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63587bcf7172895f478ec9bf"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a35349709fa31e2a49b"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666690212588"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6359e018743457e9570df6bd"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a24349709fa31e2a495"
+    }
+  ],
+  "name": "Pepi Lucero",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666831935181"
+    }
+  },
+  "__v": 0,
+  "nickName": "pepilucero"
+},{
+  "_id": {
+    "$oid": "635af53cf1ba439e669c8a21"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666834595636"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635af578f1ba439e669c8a28"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666834595636"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635c835889c30564dca7fc88"
+  },
+  "fromId": [
+    {
+      "$oid": "635c83d789c30564dca7fc8a"
+    }
+  ],
+  "name": "Traino de Danza",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666999925354"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635c83d789c30564dca7fc8a"
+  },
+  "fromId": [
+    {
+      "$oid": "634f12c542f427bbb0f61ccd"
+    }
+  ],
+  "name": "Malvi Di Ritta",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1666999925354"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635da59975e2b685cc4eac1b"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a5a349709fa31e2a49e"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667081330869"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "636326c5b63661e98b47ed11"
+  },
+  "fromId": [
+    {
+      "$oid": "63632711b63661e98b47ed14"
+    },
+    {
+      "$oid": "6335d5e37636ed5b3529c543"
+    }
+  ],
+  "name": "SOMA",
+  "graphVal": 80,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0,
+  "nodeType": "PARTICLES"
+},{
+  "_id": {
+    "$oid": "63632711b63661e98b47ed14"
+  },
+  "fromId": [
+    {
+      "$oid": "6363278ab63661e98b47ed16"
+    },
+    {
+      "$oid": "6363285ab63661e98b47ed1c"
+    }
+  ],
+  "name": "VINYLS DJ SETs",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6363278ab63661e98b47ed16"
+  },
+  "fromId": [
+    {
+      "$oid": "63632802b63661e98b47ed18"
+    },
+    {
+      "$oid": "63632829b63661e98b47ed1a"
+    }
+  ],
+  "name": "E110101",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0,
+  "nickName": "e110101"
+},{
+  "_id": {
+    "$oid": "63632802b63661e98b47ed18"
+  },
+  "fromId": [],
+  "name": "Gaby Sartoris",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0,
+  "nickName": "gabysartoris"
+},{
+  "_id": {
+    "$oid": "63632829b63661e98b47ed1a"
+  },
+  "fromId": [],
+  "name": "Chiri",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0,
+  "nickName": "chiri"
+},{
+  "_id": {
+    "$oid": "6363285ab63661e98b47ed1c"
+  },
+  "fromId": [],
+  "name": "Ludmila Di Pascuale",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0,
+  "nickName": "ludmidipascuale"
+},{
+  "_id": {
+    "$oid": "637d8b4fc723e8626e1a4cae"
+  },
+  "fromId": [
+    {
+      "$oid": "63365a2f349709fa31e2a498"
+    }
+  ],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1669171934363"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "637d91a2c723e8626e1a4cb5"
+  },
+  "fromId": [],
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1669171934363"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "637d927a782dc87426cdd251"
+  },
+  "fromId": [
+    {
+      "$oid": "637d8b4fc723e8626e1a4cae"
+    }
+  ],
+  "nickName": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1669173807736"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "637d92cc782dc87426cdd258"
+  },
+  "fromId": [
+    {
+      "$oid": "637d927a782dc87426cdd251"
+    }
+  ],
+  "nickName": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1669173807736"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "637de7398be52c754bc5346d"
+  },
+  "fromId": [
+    {
+      "$oid": "636326c5b63661e98b47ed11"
+    },
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "name": "In Session",
+  "imgPath": "isologo_insession.png",
+  "nickName": "insession",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1669184084642"
+    }
+  },
+  "__v": 0
+}]

@@ -86,7 +86,7 @@ if(!arActive){
 }
 
 //Camera orbit
-let angle = 0;
+/* let angle = 0;
 setInterval(() => {
     //var tX = somaNode.x;
     //var tZ = somaNode.z;
@@ -95,7 +95,7 @@ setInterval(() => {
         z: ( globalDefaultSettings.cameraDistance ) * Math.cos(angle)
     });
     angle += Math.PI / 1500;
-}, 10); 
+}, 10);  */
 
 function consoleLog(node){
     if(node){
@@ -179,7 +179,7 @@ export function aimNodeFromNickName(nickName){
 }
 
 function aimNode(node){
-    /* if(!arActive){
+    if(!arActive){
         // Aim at node from outside it
         const distance = globalDefaultSettings.aimDistance;
         const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
@@ -195,7 +195,7 @@ function aimNode(node){
             3000  // ms transition duration
         );
         ingestNodeInfo(node);
-    } */
+    } 
 }
 
 function ingestNodeInfo(node){

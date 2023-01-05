@@ -1,0 +1,102 @@
+[{
+  "fromId": [
+    {
+      "$oid": "6335d5e37636ed5b3529c543"
+    },
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "name": "SOMA",
+  "graphVal": 60,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0,
+  "nodeType": "PARTICLES"
+},{
+  "fromId": [
+    {
+      "$oid": "6363278ab63661e98b47ed16"
+    }
+  ],
+  "name": "VINYLS DJ SETs",
+  "graphVal": null,
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0
+},{
+  "fromId": [
+    {
+      "$oid": "63632802b63661e98b47ed18"
+    },
+    {
+      "$oid": "63632829b63661e98b47ed1a"
+    }
+  ],
+  "name": "E110101",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0,
+  "nickName": "e110101"
+},{
+  "fromId": [],
+  "name": "Gaby Sartoris",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0,
+  "nickName": "gabysartoris"
+},{
+  "fromId": [],
+  "name": "Chiri",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1667082739952"
+    }
+  },
+  "__v": 0,
+  "nickName": "chiri"
+},{
+  "fromId": [
+    {
+      "$oid": "636326c5b63661e98b47ed11"
+    },
+    {
+      "$oid": "6335d5fa7636ed5b3529c545"
+    }
+  ],
+  "name": "In Session",
+  "imgPath": "isologo_insession.png",
+  "nickName": "insession",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1669184084642"
+    }
+  },
+  "__v": 0
+},{
+  "fromId": [
+    {
+      "$oid": "636326c5b63661e98b47ed11"
+    }
+  ],
+  "name": "tickets",
+  "nickName": "tickets",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1669429648264"
+    }
+  },
+  "__v": 0
+}]

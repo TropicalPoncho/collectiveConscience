@@ -50,12 +50,30 @@ class NeuronsService {
         }
     }
 
-    getAll ( page , lastSynapse = null) {
+    /* getAll ( page , lastSynapse = null) {
         try {
             const query = Neuron.find();
             if(lastSynapse){ //if lastSynapse informed
                 query.where('creationDate').lt(lastSynapse.creationDate); //Get the network from here
             }
+            if(page !== undefined && page != 0){
+                query.skip(limit*page);
+            }
+            
+            return query.limit(limit).exec();
+            //const result = await this.MongooseServiceInstance.create( postToCreate );
+        } catch ( err ) {
+            return err;
+        }
+    } */
+
+    getAll ( page ) {
+        try {
+            const query = Neuron.aggregate();
+            query.addFields({
+                nOrder: {$ifNull : [ "$order" , 100 ] }
+            });
+            query.sort({"nOrder":1, "_id": 1 })
             if(page !== undefined && page != 0){
                 query.skip(limit*page);
             }

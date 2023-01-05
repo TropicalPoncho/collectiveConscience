@@ -120,8 +120,8 @@ function init(font) {
     } );
 
     geometry26.center();
-    geometry26.translate(0,-150,0);
-    geometryNov.translate(0,-220,0);
+    /* geometry26.translate(0,-150,0);
+    geometryNov.translate(0,-220,0); */
    /*  const count = geometry.attributes.position.count;
 
     const displacement = new THREE.Float32BufferAttribute( count * 3, 3 );
@@ -138,15 +138,15 @@ function init(font) {
     }
  */
     line1 = new THREE.Mesh( geometrySoma, material );
-    line2 = new THREE.Mesh( geometryBeta, material );
-    line3 = new THREE.Mesh( geometry26, material );
-    line4 = new THREE.Mesh( geometryNov, material );
+    //line2 = new THREE.Mesh( geometryBeta, material );
+    /* line3 = new THREE.Mesh( geometry26, material );
+    line4 = new THREE.Mesh( geometryNov, material ); */
     
     //line.rotation.x = 0.2;
     scene.add( line1 );
-    scene.add( line2 );
-    scene.add( line3 );
-    scene.add( line4 );
+    //scene.add( line2 );
+    /* scene.add( line3 ); */
+    /* scene.add( line4 ); */
     
     const dirLight = new THREE.DirectionalLight( 0xffffff, 0.125 );
     dirLight.position.set( 0, 0, 1 ).normalize();
