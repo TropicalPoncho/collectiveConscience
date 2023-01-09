@@ -20,8 +20,8 @@ const colorsArray = [
 var graphData = { "nodes": [], "links": [] };
 
 var globalDefaultSettings = {
-    nodeSize: 5,
-    linkDistance: 30,
+    nodeSize: 8,
+    linkDistance: 100,
     cameraDistance: 700,
     backgroundColor: 0x111111,
     aimDistance: 100,
@@ -32,6 +32,27 @@ var globalDefaultSettings = {
     imgSize: 50,
     particlesSize: 50,
     longDistance: 500
+};
+
+//Particles Object
+let group;
+let container, stats;
+const maxParticleCount = 100;
+let particleCount = maxParticleCount;
+
+var particlesObjects = [];
+
+let rX, rY, rZ;
+let r = 50;
+let rHalf;
+
+const effectController = {
+    showDots: false,
+    showLines: true,
+    minDistance: 20,
+    limitConnections: true,
+    maxConnections: 25,
+    particleCount: particleCount
 };
 
 var Graph;
@@ -50,6 +71,7 @@ if(arActive){
         .onNodeHover(node => {
             consoleLog(node);
         })
+        .onNodeClick(node => aimNode(node))
         .onEngineTick(() => {
             animateParticles();
         });
@@ -214,7 +236,7 @@ function ingestNodeInfo(node){
             if(node.info.links){
                 node.info.links.forEach((item, index, arr) => {
                     var elem = $(`<a class="btn" target="_blank" type="button" href="${item.href}"></a>`);
-                    elem.append($(`<i class="ico ig"></i>`));
+                    elem.append($(`<i class="ico ig"></i>"Instagram"`));
                     $("<div></div>").append(elem).appendTo($neuronInfoElem);
                 });
             }
@@ -570,34 +592,7 @@ function generateHeight( width, height ) {
 
 }
 
-//Particles Object
-let group;
-let container, stats;
-const maxParticleCount = 100;
-let particleCount = maxParticleCount;
 
-var particlesObjects = [];
-
-/* const particlesData = [];
-let positions, colors;
-let particles;
-let pointCloud;
-let particlePositions;
-let linesMesh; */
-
-
-let rX, rY, rZ;
-let r = 50;
-let rHalf;
-
-const effectController = {
-    showDots: false,
-    showLines: true,
-    minDistance: 20,
-    limitConnections: true,
-    maxConnections: 25,
-    particleCount: particleCount
-};
 
 function randomPosNeg() { return Math.round(Math.random()) * 2 - 1; }
 

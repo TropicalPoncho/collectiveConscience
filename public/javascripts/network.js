@@ -17,7 +17,7 @@ jQuery(function(){
                 page++;
                 GetNeurons(page);
             }else{ //Cuando termina de cargar
-                manageNewNeurons();
+                setTimeout(() => { manageNewNeurons(); }, 5000);
             }
         });
     }
