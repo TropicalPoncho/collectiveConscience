@@ -32,13 +32,14 @@ var globalDefaultSettings = {
     particlesSize: 50,
     linkDistance: 150,
     longDistance: 500,
-    somaDistance: 200
+    somaDistance: 200,
+    mountainsHeight: 350
 };
 
 //Particles Object
 let group;
 let container, stats;
-const maxParticleCount = 100;
+const maxParticleCount = 200;
 let particleCount = maxParticleCount;
 
 var particlesObjects = [];
@@ -50,9 +51,9 @@ let rHalf;
 const effectController = {
     showDots: false,
     showLines: true,
-    minDistance: 50,
+    minDistance: 30,
     limitConnections: true,
-    maxConnections: 40,
+    maxConnections: 100,
     particleCount: particleCount
 };
 
@@ -409,7 +410,7 @@ function initBackground(){
     //Mesh
     var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
     let mesh = new THREE.Mesh( geometry, movieMaterial );
-    mesh.position.y = 250;
+    mesh.position.y = globalDefaultSettings.mountainsHeight;
     scene.add( mesh );
 
 
@@ -627,13 +628,12 @@ function CreateParticlesObject(node){
 
     var group = new THREE.Group();
 
-/*     const helper = new THREE.BoxHelper( new THREE.Mesh( new THREE.BoxGeometry( rX, rY, rZ ) ) );
+/*  const helper = new THREE.BoxHelper( new THREE.Mesh( new THREE.BoxGeometry( rX, rY, rZ ) ) );
     helper.material.color.setHex( 0xFFFFFF );
     helper.material.blending = THREE.AdditiveBlending;
     helper.material.transparent = true;
-    group.add( helper );  */
-
-
+    group.add( helper );  
+ */
 
     const segments = maxParticleCount * maxParticleCount;
 
@@ -696,8 +696,8 @@ function CreateParticlesObject(node){
     particleObject.linesMesh = new THREE.LineSegments( geometry, material );
     group.add( particleObject.linesMesh );
     /* if(node.name == "SOMA"){
-        particlesObjects.push(particleObject);
     } */
+    particlesObjects.push(particleObject);
     return group;
 }
 
