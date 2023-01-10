@@ -1,0 +1,102 @@
+[{
+  "_id": {
+    "$oid": "63bc55c9d5cd16d6e43fe43b"
+  },
+  "fromId": [
+    {
+      "$oid": "63632802b63661e98b47ed18"
+    },
+    {
+      "$oid": "63632829b63661e98b47ed1a"
+    }
+  ],
+  "name": "Detroit Classic Gallery",
+  "nickName": "dcg",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1672876705453"
+    }
+  },
+  "__v": 0,
+  "imgPath": "isologo_dcg.png"
+},{
+  "_id": {
+    "$oid": "63bc55f8d5cd16d6e43fe43d"
+  },
+  "fromId": [
+    {
+      "$oid": "63bc55c9d5cd16d6e43fe43b"
+    },
+    {
+      "$oid": "63632829b63661e98b47ed1a"
+    },
+    {
+      "$oid": "63632802b63661e98b47ed18"
+    }
+  ],
+  "name": "Sol Ortega",
+  "nickName": "solortega",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1672876705453"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63bcae86292862f05c5dc736"
+  },
+  "fromId": [
+    {
+      "$oid": "63632711b63661e98b47ed14"
+    }
+  ],
+  "name": "Ludmila Di Pascuale",
+  "nickName": "ludmiladipascuale",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1673301078755"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63bcaead292862f05c5dc738"
+  },
+  "fromId": [
+    {
+      "$oid": "63bcae86292862f05c5dc736"
+    }
+  ],
+  "name": "Pepi Lucero",
+  "nickName": "pepilucero",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1673301078755"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63bcb000292862f05c5dc73a"
+  },
+  "fromId": [
+    {
+      "$oid": "637de7398be52c754bc5346d"
+    },
+    {
+      "$oid": "63b6144ad5cd16d6e43fe41f"
+    },
+    {
+      "$oid": "63632711b63661e98b47ed14"
+    }
+  ],
+  "name": "Luciano Rodriguez",
+  "nickName": "luchorodriguez",
+  "creationDate": {
+    "$date": {
+      "$numberLong": "1673301078755"
+    }
+  },
+  "__v": 0
+}]

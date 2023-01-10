@@ -21,17 +21,18 @@ var graphData = { "nodes": [], "links": [] };
 
 var globalDefaultSettings = {
     nodeSize: 8,
-    linkDistance: 100,
     cameraDistance: 700,
     backgroundColor: 0x111111,
-    aimDistance: 100,
+    aimDistance: 150,
     activeNodeImg: true,
     marbleColorA: colorsArray[2],
     marbleColorB: "#000000",
     myNeuronColor: colorsArray[0],
     imgSize: 50,
     particlesSize: 50,
-    longDistance: 500
+    linkDistance: 150,
+    longDistance: 500,
+    somaDistance: 200
 };
 
 //Particles Object
@@ -49,9 +50,9 @@ let rHalf;
 const effectController = {
     showDots: false,
     showLines: true,
-    minDistance: 20,
+    minDistance: 50,
     limitConnections: true,
-    maxConnections: 25,
+    maxConnections: 40,
     particleCount: particleCount
 };
 
@@ -154,6 +155,7 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
             "name": item.name,
             "img": item.imgPath,
             "imgActive": item.imgActive ?? false,
+            "imgSize": item.imgSize ?? globalDefaultSettings.imgSize,
             "val": item.graphVal ?? globalDefaultSettings.nodeSize,
             "info": item.info ?? null,
             "color": color,
@@ -164,10 +166,13 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
             graphData.nodes[graphData.nodes.length - 1].fz = 0;
         
         item.fromId.forEach((fromId) => {
-            if(item.name == "SOMA"){
-                console.log(item._id + " - " + fromId);
+            var linkDistance = globalDefaultSettings.linkDistance;
+            if(item._id == '636326c5b63661e98b47ed11' || fromId == '636326c5b63661e98b47ed11'){ //Si viene o va de SOMA
+                linkDistance = globalDefaultSettings.somaDistance;
             }
-            var linkDistance = (item._id == '636326c5b63661e98b47ed11' && fromId == '6335d5e37636ed5b3529c543') ? globalDefaultSettings.longDistance : globalDefaultSettings.linkDistance
+            if(item._id == '636326c5b63661e98b47ed11' && fromId == '6335d5e37636ed5b3529c543'){ //SOMA y SOMA BETA
+                linkDistance = globalDefaultSettings.longDistance;
+            } 
             graphData.links.push({
                 source: fromId,
                 target: item._id,
@@ -185,6 +190,9 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
     Graph
       .d3Force('link')
       .distance(link => link.distance );
+    Graph.numDimensions(3);
+    Graph
+      .d3Force('center');
     Graph.numDimensions(3);
 }
 
@@ -252,11 +260,10 @@ function ingestNodeInfo(node){
 
 function CreateNodeThreeObject(node){
     if(node.img && globalDefaultSettings.activeNodeImg && !arActive){
-        var imgSize = node.imgSize ?? globalDefaultSettings.imgSize;
         const imgTexture = new THREE.TextureLoader().load(`/images/${node.img}`);
         var material = new THREE.SpriteMaterial({map: imgTexture, transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
         const sprite = new THREE.Sprite(material);
-        sprite.scale.set(imgSize, imgSize);
+        sprite.scale.set(node.imgSize, node.imgSize);
         return sprite;
     }else if(node.type && node.type == "PARTICLES"){
         return CreateParticlesObject(node);
@@ -405,7 +412,20 @@ function initBackground(){
     mesh.position.y = 250;
     scene.add( mesh );
 
-    //Add Title:
+
+    /* const geometry2 = new THREE.PlaneGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
+    geometry2.rotateX( - Math.PI / 2 ); 
+    const data2 = generateHeight( worldWidth, worldDepth ); 
+    const vertices2 = geometry.attributes.position.array;
+    for ( let i = 0, j = 0, l = vertices2.length; i < l; i ++, j += 3 ) {
+        vertices2[ j + 1 ] = data2[ i ] * 10;
+    }
+    
+    //Mesh
+    var movieMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00, side:THREE.DoubleSide, alphaTest: 1 } );
+    let mesh2 = new THREE.Mesh( geometry, movieMaterial );
+    mesh2.position.y = -250;
+    scene.add( mesh2 ); */
     
 
 }
@@ -611,7 +631,9 @@ function CreateParticlesObject(node){
     helper.material.color.setHex( 0xFFFFFF );
     helper.material.blending = THREE.AdditiveBlending;
     helper.material.transparent = true;
-    group.add( helper ); */
+    group.add( helper );  */
+
+
 
     const segments = maxParticleCount * maxParticleCount;
 
@@ -673,15 +695,16 @@ function CreateParticlesObject(node){
 
     particleObject.linesMesh = new THREE.LineSegments( geometry, material );
     group.add( particleObject.linesMesh );
-
-    particlesObjects.push(particleObject);
+    /* if(node.name == "SOMA"){
+        particlesObjects.push(particleObject);
+    } */
     return group;
 }
 
 
 function animateParticles() {
 
-    particlesObjects.forEach((item) => {
+    particlesObjects.forEach((item) => { //Para animar todos los objetos
 
         let particlesData = item.particlesData;
         let positions = item.positions; 
