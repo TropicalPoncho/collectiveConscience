@@ -161,7 +161,8 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
             "info": item.info ?? null,
             "color": color,
             "type": item.nodeType ?? null,
-            "particlesSize": item.graphVal ?? globalDefaultSettings.particlesSize
+            "particlesSize": item.graphVal ?? globalDefaultSettings.particlesSize,
+            "particles": item.particles ?? null
         });
         if(item.name == "SOMA BETA")
             graphData.nodes[graphData.nodes.length - 1].fz = 0;
@@ -626,6 +627,10 @@ function CreateParticlesObject(node){
     rZ = rX;
     rHalf = rX / 2;
 
+    particleObject.maxParticleCount = node.particles?.maxParticleCount ?? maxParticleCount;
+    particleObject.maxConnections = node.particles?.maxConnections ?? effectController.maxConnections;
+    particleObject.minDistance = node.particles?.minDistance ?? effectController.minDistance;
+
     var group = new THREE.Group();
 
 /*  const helper = new THREE.BoxHelper( new THREE.Mesh( new THREE.BoxGeometry( rX, rY, rZ ) ) );
@@ -635,7 +640,7 @@ function CreateParticlesObject(node){
     group.add( helper );  
  */
 
-    const segments = maxParticleCount * maxParticleCount;
+    const segments = particleObject.maxParticleCount * particleObject.maxParticleCount;
 
     particleObject.positions = new Float32Array( segments * 3 );
     particleObject.colors = new Float32Array( segments * 3 );
@@ -649,11 +654,11 @@ function CreateParticlesObject(node){
     } );
 
     particleObject.particles = new THREE.BufferGeometry();
-    particleObject.particlePositions = new Float32Array( maxParticleCount * 3 );
+    particleObject.particlePositions = new Float32Array( particleObject.maxParticleCount * 3 );
 
     particleObject.particlesData = [];
 
-    for ( let i = 0; i < maxParticleCount; i ++ ) {
+    for ( let i = 0; i < particleObject.maxParticleCount; i ++ ) {
 
         const x = Math.random() * rX - rX / 2;
         const y = Math.random() * rY - rY / 2;
@@ -712,6 +717,10 @@ function animateParticles() {
         let pointCloud = item.pointCloud;
         let particlePositions = item.particlePositions;
         let linesMesh = item.linesMesh;
+
+        let particleCount = item.maxParticleCount;
+        let maxConnections = item.maxConnections;
+        let minDistance = item.minDistance;
         
         let vertexpos = 0;
         let colorpos = 0;
@@ -738,14 +747,14 @@ function animateParticles() {
             if ( particlePositions[ i * 3 + 2 ] < - rHalf || particlePositions[ i * 3 + 2 ] > rHalf )
                 particleData.velocity.z = - particleData.velocity.z;
 
-            if ( effectController.limitConnections && particleData.numConnections >= effectController.maxConnections )
+            if ( effectController.limitConnections && particleData.numConnections >= maxConnections )
                 continue;
 
             // Check collision
             for ( let j = i + 1; j < particleCount; j ++ ) {
 
                 const particleDataB = particlesData[ j ];
-                if ( effectController.limitConnections && particleDataB.numConnections >= effectController.maxConnections )
+                if ( effectController.limitConnections && particleDataB.numConnections >= maxConnections )
                     continue;
 
                 const dx = particlePositions[ i * 3 ] - particlePositions[ j * 3 ];
@@ -753,12 +762,12 @@ function animateParticles() {
                 const dz = particlePositions[ i * 3 + 2 ] - particlePositions[ j * 3 + 2 ];
                 const dist = Math.sqrt( dx * dx + dy * dy + dz * dz );
 
-                if ( dist < effectController.minDistance ) {
+                if ( dist < minDistance ) {
 
                     particleData.numConnections ++;
                     particleDataB.numConnections ++;
 
-                    const alpha = 1.0 - dist / effectController.minDistance;
+                    const alpha = 1.0 - dist / minDistance;
 
                     positions[ vertexpos ++ ] = particlePositions[ i * 3 ];
                     positions[ vertexpos ++ ] = particlePositions[ i * 3 + 1 ];
