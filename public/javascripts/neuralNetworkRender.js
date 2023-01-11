@@ -107,6 +107,15 @@ if(!arActive){
     renderer = Graph.renderer();
     camera = Graph.camera();
 
+    window.onresize = function () {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+    };
+
     initBackground();
     animateBackground();
 }
