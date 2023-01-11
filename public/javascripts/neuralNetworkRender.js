@@ -21,7 +21,7 @@ var graphData = { "nodes": [], "links": [] };
 
 var globalDefaultSettings = {
     nodeSize: 8,
-    cameraDistance: 700,
+    cameraDistance: 300,
     backgroundColor: 0x111111,
     aimDistance: 150,
     activeNodeImg: true,
@@ -30,10 +30,10 @@ var globalDefaultSettings = {
     myNeuronColor: colorsArray[0],
     imgSize: 50,
     particlesSize: 50,
-    linkDistance: 150,
+    linkDistance: 100,
     longDistance: 500,
     somaDistance: 200,
-    mountainsHeight: 350
+    mountainsHeight: 400
 };
 
 //Particles Object
@@ -58,6 +58,7 @@ const effectController = {
 };
 
 var Graph;
+var somaNode = null;
 
 var arActive = (typeof ar !== 'undefined');
 
@@ -73,6 +74,7 @@ if(arActive){
         .onNodeHover(node => {
             consoleLog(node);
         })
+        //.dagMode('zout')
         .onNodeClick(node => aimNode(node))
         .onEngineTick(() => {
             animateParticles();
@@ -111,15 +113,31 @@ if(!arActive){
 
 //Camera orbit
 /* let angle = 0;
+var initialExtraDistance, extraDistance = initialExtraDistance = 3000;
+var add = true;
+
 setInterval(() => {
-    //var tX = somaNode.x;
-    //var tZ = somaNode.z;
+    if(somaNode == null){
+        somaNode = graphData.nodes.find(item => item.id == '636326c5b63661e98b47ed11');
+    }
+    
+    if(extraDistance < 0){
+        add = true;
+    }else if(extraDistance > initialExtraDistance){
+        add = false;
+    }
+    if(!add){
+        extraDistance -= 3;
+    }else{
+        extraDistance += 3;
+    }
+
     Graph.cameraPosition({
-        x: ( globalDefaultSettings.cameraDistance ) * Math.sin(angle),
-        z: ( globalDefaultSettings.cameraDistance ) * Math.cos(angle)
-    });
+        x: ( globalDefaultSettings.cameraDistance + extraDistance ) * Math.sin(angle),
+        z: ( globalDefaultSettings.cameraDistance + extraDistance ) * Math.cos(angle)
+    }, somaNode);
     angle += Math.PI / 1500;
-}, 10);  */
+}, 10);   */
 
 function consoleLog(node){
     if(node){
@@ -193,9 +211,9 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
       .d3Force('link')
       .distance(link => link.distance );
     Graph.numDimensions(3);
-    Graph
+/*     Graph
       .d3Force('center');
-    Graph.numDimensions(3);
+    Graph.numDimensions(3); */
 }
 
 export function aimNodeFromId(neuronId){
@@ -211,7 +229,7 @@ export function aimNodeFromNickName(nickName){
 }
 
 function aimNode(node){
-    if(!arActive){
+/*     if(!arActive){
         // Aim at node from outside it
         const distance = globalDefaultSettings.aimDistance;
         const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
@@ -227,7 +245,7 @@ function aimNode(node){
             3000  // ms transition duration
         );
         ingestNodeInfo(node);
-    } 
+    }  */
 }
 
 function ingestNodeInfo(node){
