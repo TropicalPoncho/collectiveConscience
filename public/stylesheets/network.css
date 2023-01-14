@@ -62,7 +62,8 @@ html, body {
     position: absolute;
     top:  5%;
     left: 6%;
-    max-width: 30%;
+    /* max-width: 30%; */
+    width: 30%;
     max-height: 90%;
     overflow: scroll;
     color: white;
@@ -125,6 +126,7 @@ FFFFFF
 
 #title{
     position: absolute;
+    text-align: center;
     right: 6%;
     top: 5%;
     height: 10%;
@@ -132,10 +134,10 @@ FFFFFF
 }
 
 .title{
-    font-family: 'Gotham';
+    /* font-family: 'Gotham'; */
     font-weight: 500;
-    font-style: normal;
-    font-display: swap;
+    /* font-style: normal; */
+    /* font-display: swap; */
     font-size: 100px;
     color: transparent;
     line-height: 101px;
@@ -146,10 +148,10 @@ FFFFFF
 }
 
 .subtitle{
-    font-family: 'Gotham';
+    /* font-family: 'Gotham'; */
     font-weight: 500;
-    font-style: normal;
-    font-display: swap;
+    /* font-style: normal; */
+    /* font-display: swap; */
     color: #ffffff;
     font-size: 14px;
     margin-top: 0px;
@@ -162,10 +164,10 @@ FFFFFF
 }
 
 .date{
-    font-family: 'Gotham';
+    /* font-family: 'Gotham'; */
     font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+    /* font-style: normal;
+    font-display: swap; */
     color: #ffffff;
     font-size: 65px;
     margin-bottom: 0px;
@@ -175,26 +177,32 @@ FFFFFF
 }
 
 .place{
-    font-family: 'Gotham';
+    /* font-family: 'Gotham'; */
     font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+    /* font-style: normal; */
+    /* font-display: swap; */
     color: #ffffff;
     font-size: 17px;
     margin-top: 0px;
 }
 
+.lineup{
+    font-weight: 500;
+}
+
 @media screen and (max-width: 600px) {
     .floatingInfo{
-        max-width: 90%;
-        top: 60%;
-        max-height: 35%;
-        left: 6%;
+        width: 90%;
+        top: 70%;
+        max-height: 25%;
+        left: 50%;
+        transform: translate(-50%, 0);
     }
     #title{
         width: 90%;
         min-height: 25%;
-        left:9%;
+        left: 50%;
+        transform: translate(-50%, 0);
     }
     .date{
         font-size: 55px;

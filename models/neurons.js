@@ -17,4 +17,4 @@ const neuronSchema = new Schema({
 });
 
 //Exporto el modelo:
-module.exports = mongoose.model('neurons', neuronSchema);
+module.exports = mongoose.model('neurons', neuronSchema, "neurons_prod");

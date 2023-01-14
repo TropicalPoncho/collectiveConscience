@@ -8,18 +8,32 @@ jQuery(function(){
     var _myNickName = (typeof myNickName !== 'undefined') ? myNickName.toLowerCase() : null;
 
     //Comienzo a cargar la red:
-    GetNeurons(1);
+    GetNeurons(0);
 
+    var totalNeurons = [];
     function GetNeurons(page){
         $.get( "/neurons", {page: page}, function( neurons ) {
             if(neurons.length != 0){
-                ingestGraphData(neurons, myNeuron, _myNickName);
+                totalNeurons.push(...neurons);
+                if(page == 0){ //Lo hago solo con la primer pag
+                    initNetwork();
+                }
                 page++;
                 GetNeurons(page);
             }else{ //Cuando termina de cargar
-                setTimeout(() => { manageNewNeurons(); }, 5000);
+                //setTimeout(() => { manageNewNeurons(); }, 5000);
             }
         });
+    }
+
+    var lastOrder = 8;
+    function loadByOrder(order){
+        var neurons = totalNeurons.filter(item => item.nOrder === order);
+        ingestGraphData(neurons, neurons[1]._id ,myNeuron, _myNickName);
+    }
+
+    function initNetwork(){
+        loadByOrder(1); // Cargo SOMA y productoras
     }
     
     function manageNewNeurons(){

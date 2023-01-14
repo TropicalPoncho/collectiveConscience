@@ -21,7 +21,7 @@ var graphData = { "nodes": [], "links": [] };
 
 var globalDefaultSettings = {
     nodeSize: 8,
-    cameraDistance: 300,
+    cameraDistance: 350,
     backgroundColor: 0x111111,
     aimDistance: 150,
     activeNodeImg: true,
@@ -30,7 +30,7 @@ var globalDefaultSettings = {
     myNeuronColor: colorsArray[0],
     imgSize: 50,
     particlesSize: 50,
-    linkDistance: 100,
+    linkDistance: 150,
     longDistance: 500,
     somaDistance: 200,
     mountainsHeight: 400
@@ -84,15 +84,15 @@ if(arActive){
 Graph.nodeAutoColorBy('group')
     //.linkCurvature('curvature')
     //.linkCurveRotation('rotation')
-    .linkWidth(0.3)
-    .linkDirectionalParticles(3)
+    .linkWidth(1)
+    .linkDirectionalParticles(4)
     .linkDirectionalParticleSpeed(d => 4 * 0.001)
     .nodeThreeObject(node => CreateNodeThreeObject(node));
     
 
 var myNeuron = (typeof myNeuronId !== 'undefined') ? myNeuronId : Cookies.get("neuron");
 var _myNickName = (typeof myNickName !== 'undefined') ? myNickName : null;
-ingestGraphData(neurons, myNeuron, _myNickName);
+//ingestGraphData(neurons, myNeuron, _myNickName);
 
 //For background:
 var scene
@@ -121,32 +121,45 @@ if(!arActive){
 }
 
 //Camera orbit
-/* let angle = 0;
-var initialExtraDistance, extraDistance = initialExtraDistance = 3000;
-var add = true;
-
-setInterval(() => {
-    if(somaNode == null){
-        somaNode = graphData.nodes.find(item => item.id == '636326c5b63661e98b47ed11');
-    }
+var orbitInterval = null;
+function activateOrbit(){
+    let angle = 0;
+    var initialExtraDistance, extraDistance = initialExtraDistance = 3000;
+    var add = true;
     
-    if(extraDistance < 0){
-        add = true;
-    }else if(extraDistance > initialExtraDistance){
-        add = false;
+    if(!orbitInterval){
+        orbitInterval = setInterval(() => {
+            if(somaNode == null){
+                somaNode = graphData.nodes.find(item => item.id == '636326c5b63661e98b47ed11');
+            }
+            
+            /*     if(extraDistance < 0){
+                add = true;
+            }else if(extraDistance > initialExtraDistance){
+                add = false;
+            }
+            if(!add){
+                extraDistance -= 3;
+            }else{
+                extraDistance += 3;
+            } */
+            
+            Graph.cameraPosition({
+                x: ( globalDefaultSettings.cameraDistance  ) * Math.sin(angle),
+                y: -90,
+                z: ( globalDefaultSettings.cameraDistance  ) * Math.cos(angle)
+            }, somaNode);
+            angle += Math.PI / 1500;
+        }, 10);  
     }
-    if(!add){
-        extraDistance -= 3;
-    }else{
-        extraDistance += 3;
-    }
+}
 
-    Graph.cameraPosition({
-        x: ( globalDefaultSettings.cameraDistance + extraDistance ) * Math.sin(angle),
-        z: ( globalDefaultSettings.cameraDistance + extraDistance ) * Math.cos(angle)
-    }, somaNode);
-    angle += Math.PI / 1500;
-}, 10);   */
+function stopOrbit(){
+    if(orbitInterval){
+        clearInterval(orbitInterval);
+        orbitInterval = null;
+    }
+}
 
 function consoleLog(node){
     if(node){
@@ -171,7 +184,8 @@ export function takeScreenshot() {
     w.document.body.appendChild(img);  
 }
 
-export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
+var linkWaitList = []; 
+export function ingestGraphData(neurons, aimNodeId = null, myNeuron = null, myNickName = null){
     neurons.forEach((item, index, arr) => {
         var color = globalDefaultSettings.marbleColorA;
         if((myNeuron && myNeuron == item._id) || (myNickName && myNickName == item.nickName)){
@@ -196,19 +210,24 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
         
         item.fromId.forEach((fromId) => {
             var linkDistance = globalDefaultSettings.linkDistance;
-            if(item._id == '636326c5b63661e98b47ed11' || fromId == '636326c5b63661e98b47ed11'){ //Si viene o va de SOMA
+            /* if(item._id == '636326c5b63661e98b47ed11' || fromId == '636326c5b63661e98b47ed11'){ //Si viene o va de SOMA
                 linkDistance = globalDefaultSettings.somaDistance;
-            }
+            } */
             if(item._id == '636326c5b63661e98b47ed11' && fromId == '6335d5e37636ed5b3529c543'){ //SOMA y SOMA BETA
                 linkDistance = globalDefaultSettings.longDistance;
             } 
-            graphData.links.push({
+            var newLink = {
                 source: fromId,
                 target: item._id,
                 curvature: 0.8, 
                 rotation: Math.PI * 3 / 3,
                 distance: linkDistance
-            });
+            };
+            if(!graphData.nodes.find(item => item.id === fromId)){
+                linkWaitList.push(newLink);
+            }else{
+                graphData.links.push(newLink);
+            }
         });
     });
     try {
@@ -220,6 +239,10 @@ export function ingestGraphData(neurons, myNeuron = null, myNickName = null){
       .d3Force('link')
       .distance(link => link.distance );
     Graph.numDimensions(3);
+    activateOrbit();
+    /*  if(aimNodeId){
+        aimNode(graphData.nodes.find(item => item.id === aimNodeId));
+    }  */
 /*     Graph
       .d3Force('center');
     Graph.numDimensions(3); */
@@ -238,7 +261,8 @@ export function aimNodeFromNickName(nickName){
 }
 
 function aimNode(node){
-/*     if(!arActive){
+    console.log(Graph.cameraPosition());
+   /*  if(!arActive){
         // Aim at node from outside it
         const distance = globalDefaultSettings.aimDistance;
         const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
@@ -254,7 +278,7 @@ function aimNode(node){
             3000  // ms transition duration
         );
         ingestNodeInfo(node);
-    }  */
+    } */
 }
 
 function ingestNodeInfo(node){
