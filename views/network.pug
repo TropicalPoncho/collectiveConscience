@@ -1,6 +1,6 @@
 extends layout
 block head
-  title= 'Tropical Poncho | SOMA BETA'
+  title= 'SOMA'
   if ar
     script(src="//unpkg.com/aframe")
     script(src="//unpkg.com/@ar-js-org/ar.js")
@@ -56,7 +56,7 @@ block js
   //script(type="module", src="/javascripts/glBlob/Blob.js")
   script(type="module", src="/javascripts/js.cookie.min.mjs?version=2")
   script(type="module", src="/javascripts/network.js?version=3")
-  script(type="module", src="/javascripts/titleObject.js?version=2")
+  //script(type="module", src="/javascripts/titleObject.js?version=2")
   if neurons
     script var neurons = !{JSON.stringify(neurons)};
   if fromId
@@ -69,17 +69,20 @@ block js
     script var myNickName = !{JSON.stringify(myNickName)};
 block content
   #neuralNetwork
-  #navScene(class='navbar-fixed')
+  #title
+    p.title SOMA
+    p.subtitle FESTIVAL DE ARTE INMERSIVO &VerticalLine; 14hs. 08hs.
+  //#navScene(class='navbar-fixed')
   //a(type='button' class='btn-floating waves-effect waves-light btn triggerFloatingInfo')
     i#close.material-icons clear
   //a(type='button' class='btn-floating waves-effect waves-light btn triggerFloatingInfo')
     i#open.material-icons chevron_right
   #flyerInfo.floatingInfo
+    #date 
+      p.date SAB 21 ENE
+      p.place El HOYO &VerticalLine; COMARCA ANDINA &VerticalLine; PATAGONIA 
     .neuronInfoContainer
     #introNetwork
-      h3 21.01.23
-      h4 Meraki - El Hoyo, Chubut
-      h5 Experiencia artística Inmersiva
       p. 
         Soma es un festival de arte multidisciplinario co-producido por Tropical Poncho e InSession. 
         Esta edición invita a pensar la conexión entre todes nosotres como una gran red neuronal que produce consciencia colectiva.

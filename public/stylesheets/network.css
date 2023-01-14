@@ -61,7 +61,7 @@ html, body {
 .floatingInfo{
     position: absolute;
     top:  5%;
-    left: 5%;
+    left: 6%;
     max-width: 30%;
     max-height: 90%;
     overflow: scroll;
@@ -90,13 +90,13 @@ html, body {
     display: none;
 }
 
-#navScene{
+/* #navScene{
     position: absolute;
     right: 10px;
     min-height: 30%;
     top: 10px;
     width:50%;
-}
+} */
 
 .hidden{
     display: none;
@@ -123,14 +123,83 @@ FFFFFF
     background-color: #578CCB;
 }
 
+#title{
+    position: absolute;
+    right: 6%;
+    top: 5%;
+    height: 10%;
+    max-width: 90%;
+}
+
+.title{
+    font-family: 'Gotham';
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    font-size: 100px;
+    color: transparent;
+    line-height: 101px;
+    -webkit-text-stroke: 3px #9900FF;
+    margin-bottom: 0px;
+    padding: 0;
+    margin-top: 0;
+}
+
+.subtitle{
+    font-family: 'Gotham';
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    color: #ffffff;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 150px;
+}
+
+#date{
+    margin-top: 10px;
+    text-align: center;
+}
+
+.date{
+    font-family: 'Gotham';
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    color: #ffffff;
+    font-size: 65px;
+    margin-bottom: 0px;
+    line-height: 66px;
+    padding: 0;
+    margin-top: 0;
+}
+
+.place{
+    font-family: 'Gotham';
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    color: #ffffff;
+    font-size: 17px;
+    margin-top: 0px;
+}
+
 @media screen and (max-width: 600px) {
     .floatingInfo{
         max-width: 90%;
         top: 60%;
         max-height: 35%;
+        left: 6%;
     }
-    #navScene{
+    #title{
         width: 90%;
         min-height: 25%;
+        left:9%;
+    }
+    .date{
+        font-size: 55px;
+    }
+    .place{
+        font-size: 14px;
     }
 }
