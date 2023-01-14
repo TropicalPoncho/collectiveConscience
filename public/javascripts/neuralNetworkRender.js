@@ -84,7 +84,9 @@ if(arActive){
 Graph.nodeAutoColorBy('group')
     //.linkCurvature('curvature')
     //.linkCurveRotation('rotation')
-    .linkWidth(1)
+    .linkWidth(1.5)
+    .linkOpacity(0.4)
+    .linkDirectionalParticleWidth(1)
     .linkDirectionalParticles(4)
     .linkDirectionalParticleSpeed(d => 4 * 0.001)
     .nodeThreeObject(node => CreateNodeThreeObject(node));
