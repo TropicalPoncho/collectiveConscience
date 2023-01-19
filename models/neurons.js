@@ -13,8 +13,9 @@ const neuronSchema = new Schema({
 	graphVal: Number,
 	nickName: String,
 	nodeType: String,
+	email: String,
 	creationDate: {type: Date, default: Date.now()}
 });
 
 //Exporto el modelo:
-module.exports = mongoose.model('neurons', neuronSchema, "neurons_prod");
+module.exports = mongoose.model('neurons', neuronSchema);

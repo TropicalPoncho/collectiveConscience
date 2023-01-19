@@ -37,7 +37,8 @@ class NeuronsService {
                 fromId: fromId,
                 nickName: input.nickName ?? null,
                 graphVal: input.graphVal,
-                imgPath: input.imgPath
+                imgPath: input.imgPath,
+                email: input.email
             }, (err, msg) => {
                 if(err){
                     console.log("ERROR", err, msg);

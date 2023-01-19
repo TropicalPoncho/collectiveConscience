@@ -71,20 +71,17 @@ html, body {
     font-size: 15px;
 }
 
-.floatingCenterTitle{
-    position: absolute;
-    font-family: 'Gotham';
-    font-weight: 500;
-    top: 10px;
-    max-height: 40%;
-    width:50%;
+input{
+    color:#ffffff;
 }
 
 .btn{
-    margin-right: 10px;
+    /* margin-right: 10px; */
+    padding: 0 8px;
     color: #111;
     background-color: #FFBC00;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
+    width: 100%;
 }
 
 ::-webkit-scrollbar {
@@ -117,12 +114,12 @@ FFBC00
 FFFFFF
 */
 
-.triggerFloatingInfo{
+/* .triggerFloatingInfo{
     position: absolute;
     top:  5%;
     left: 34%;
     background-color: #578CCB;
-}
+} */
 
 #title{
     position: absolute;
@@ -134,10 +131,7 @@ FFFFFF
 }
 
 .title{
-    /* font-family: 'Gotham'; */
     font-weight: 500;
-    /* font-style: normal; */
-    /* font-display: swap; */
     font-size: 100px;
     color: transparent;
     line-height: 101px;
@@ -148,10 +142,7 @@ FFFFFF
 }
 
 .subtitle{
-    /* font-family: 'Gotham'; */
     font-weight: 500;
-    /* font-style: normal; */
-    /* font-display: swap; */
     color: #ffffff;
     font-size: 14px;
     margin-top: 0px;
@@ -164,10 +155,7 @@ FFFFFF
 }
 
 .date{
-    /* font-family: 'Gotham'; */
     font-weight: normal;
-    /* font-style: normal;
-    font-display: swap; */
     color: #ffffff;
     font-size: 65px;
     margin-bottom: 0px;
@@ -177,12 +165,9 @@ FFFFFF
 }
 
 .place{
-    /* font-family: 'Gotham'; */
     font-weight: normal;
-    /* font-style: normal; */
-    /* font-display: swap; */
     color: #ffffff;
-    font-size: 17px;
+    font-size: 14px;
     margin-top: 0px;
 }
 

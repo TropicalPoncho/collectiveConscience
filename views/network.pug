@@ -55,6 +55,7 @@ block js
     }
   //script(type="module", src="/javascripts/glBlob/Blob.js")
   script(type="module", src="/javascripts/js.cookie.min.mjs?version=2")
+  script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js")
   script(type="module", src="/javascripts/network.js?version=3")
   //script(type="module", src="/javascripts/titleObject.js?version=2")
   if neurons
@@ -77,22 +78,24 @@ block content
     i#close.material-icons clear
   //a(type='button' class='btn-floating waves-effect waves-light btn triggerFloatingInfo')
     i#open.material-icons chevron_right
-  #flyerInfo.floatingInfo
-    #date 
-      p.date SAB 21 ENE
-      p.place El HOYO &VerticalLine; COMARCA ANDINA &VerticalLine; PATAGONIA 
+  .flyerInfo.floatingInfo
+    #flyerInfoContent
+      #date 
+        p.date SAB 21 ENE
+        p.place El BOLSÓN &VerticalLine; COMARCA ANDINA &VerticalLine; PATAGONIA 
+      #introNetwork
+        p. 
+          SOMA es un festival de arte multidisciplinario co-producido por Tropical Poncho e InSession. 
+          Esta edición invita a pensar la conexión entre todes nosotres como una gran red neuronal que genera consciencia colectiva.
+        p.lineup DJ SETSs SOLO VINILOS &VerticalLine; VINYASA YOGA - MEDITACIÓN &VerticalLine; ARTES CIRCENSES &VerticalLine; TALLERES &VerticalLine; PERFORMANCES &VerticalLine; BANDAS EN VIVO &VerticalLine; INSTALACIONES INTERACTIVAS &VerticalLine; EXPOSICIONES
+    
     .neuronInfoContainer
-    #introNetwork
-      p. 
-        SOMA es un festival de arte multidisciplinario co-producido por Tropical Poncho e InSession. 
-        Esta edición invita a pensar la conexión entre todes nosotres como una gran red neuronal que genera consciencia colectiva.
-      p.lineup DJ SETSs SOLO VINILOS &VerticalLine; VINYASA YOGA - MEDITACIÓN &VerticalLine; ARTES CIRCENSES &VerticalLine; TALLERES &VerticalLine; PERFORMANCES &VerticalLine; BANDAS EN VIVO &VerticalLine; INSTALACIONES INTERACTIVAS &VerticalLine; EXPOSICIONES
-    a(class="btn" id="btn_explainNetwork") ¿Qué estoy viendo?
+
     #explainNetwork.hidden
       p. 
-        Esta es una obra de arte generativo, dinámica e interactiva, que además de servir como difusión del evento SOMA BETA, 
+        Esta es una obra de arte generativo, dinámica e interactiva, que además de servir como difusión del evento SOMA, 
         responde a la interacción de quienes acceden a ella como primer acercamiento del eje curatorial del mismo.
-      p(style="font-size:16; font-weight: bold;").
+      p(style="font-size:16; font-weight: 500;").
         Los nodos representan personas u organizaciones y las lineas responden a las conexiones entre sí.  
         Cada persona que accede a la visualización de la obra, es representada automaticamente como un nuevo nodo y
         un nuevo vinculo que se extiende hacia aquel que sirvió como punto de acceso. 
@@ -104,21 +107,101 @@ block content
       p(style="font-weight: bold;"). 
         Podés explorar la red, clickeando en aquellas neuronas que tienen nombre para conocer más de los artistas, 
         del espacio o de las productoras involucradas.
-    #entranceDiv
-      a(type='button' class='waves-effect waves-light btn' target="_blank" href='https://www.passline.com/eventos/soma') Comprar Entrada Anticipada
-    #shareDiv(class='row')
+    
+    #btnsDiv.row
+      .col.s6
+        a(type='button' class="btn" id="btn_explainNetwork" style="font-size: 10") ¿Qué es esto?
+      .col.s6
+        a(type='button' class='waves-effect waves-light btn' target="_blank" href='https://www.passline.com/eventos/soma') Comprar Entrada
+
+    #shareDiv
       p Para escapar de las garras de instagram como medio de difusión y para expandir la red, porfa compartí por este medio:
       //a(type='button' class='waves-effect waves-light btn s3' id="share_story" href='') Compartir Historia
       //span(class='s1')
       a(type='button' class='waves-effect waves-light btn s3' id="share_wpp") Compartir por WhatsApp
 
-<!-- Modal Structure -->
-#welcomeModal.modal
-  .modal-content
-    h4 Bienvenide a SOMA
-    p. 
-      Esta es una obra de arte generativo, dinámica e interactiva, que funciona como introducción al eje conceptual de SOMA. 
-      Aquí 
-  .modal-footer
-    a.modal-close.waves-effect.waves-green.btn-flat Empezar
+  #stepsInfo.floatingInfo(style="display: none;")
+    #1.step <!-- SOMA -->
+      p(style='font-weight: 500;'). 
+        SOMA es una obra conceptual con formato de festival multidisciplinario, cuyo soporte es la consciencia del espectador. 
+      p.
+        El foco de la obra está en apreciar la percepción que se tiene de todo lo que sucede: una composición de los estimulos producidos por los números artísticos más lo que
+        genera la participación en las actividades, tanto como la interacción con las otras personas.
+    #2.step <!-- LINEUP -->
+      p.
+        Lo que se quiere es promover la introspección, para apreciar no solo las expresiones artisticas de forma aislada, sino el conjunto como un todo. 
+      p.  
+        Las sensaciones que se desprenden de la experiencia entera, afectadas por la forma única que cada persona tiene de ver las cosas es lo que define la obra que cada uno percibe.
+        Decimos que es una experiencia inmersiva porque pretende movilizar al espectador a observar su propia experiencia como una obra de arte.
+      p(style='font-weight: 500;').
+        Esta obra presenta el eje curatorial del evento.
+        Los nodos representan personas u organizaciones y las lineas responden a las conexiones entre sí.
+    #3.step <!-- ARTISTAS -->
+      p(style='font-weight: 500;'). 
+        Acá podes observar las neuronas que corresponden a las diferentes propuestas del evento.
+        De ellas se desprenden les artistas que expondrán su arte en el festival.
+      p. 
+        Podés presionar en cada una de ellas para conocer más del artista y su performance. Y también navegar entre la red usando los dedos.
+    #4.step <!-- SE PARTE -->
+      p. 
+        Existe un patrón que se repite 
+        a nivel físico, natural y social: Desde la red neuronal que conforma 
+        nuestra consciencia, la cual es el soporte de esta gran obra de arte inmersiva y al mismo tiempo 
+        la inmensa red de productoras, espacios, colaboradores y artístas que se conectan para hacer posible su realización.
+      p(style='font-weight: 500;'). 
+        Acá podés crear tu propia neurona que se conectará con la de quien te invitó.
+      #createNeuronForm.row
+        form#neuronForm.col.s12
+          .row
+            .input-field.col.s6
+              input(type="text" id="nickName" class="validate")
+              label(for="nickName") Nickname
+            .input-field.col.s6
+              input(type="email" id="email" class="validate")
+              label(for="email") Email
+          .row
+            .input-field.col.s12
+              a#createNeuronBtn.btn.waves-effect.waves-light(type="submit") CREAR MI NEURONA 
+    #5.step
+      h4. 
+        Excelente, ya sos parte de la red!
+      p.
+        Ahora, como para que podamos sostener esta red y seguir creciendo, seamos más, para sostenernos más y poder saltar más alto.
+      p Te invitamos a esta experiencia inmersiva. Y si compartís por este medio, la red puede seguirse expandiendo.
+      #btnsDiv.row
+        .col.s6
+          a(type='button' class='waves-effect waves-light btn' id="share_wpp") Compartir
+        .col.s6
+          a(type='button' class='waves-effect waves-light btn' target="_blank" href='https://www.passline.com/eventos/soma') Comprar Entrada
+      .row
+        .col.s12
+           a(type='button' id="volver" class='waves-effect waves-light btn') Volver al inicio
+
+    #stepBtnsContainer.row
+      .col.s6
+        a(type='button' id="skipTour" class='waves-effect waves-light btn skipTour') Ir al grano
+      .col.s6
+        a(type='button' id="continueTour" class='waves-effect waves-light btn' step="2") Continuar
+
+  #welcomeModal.modal
+    .modal-content
+      h4 Bienvenide a SOMA
+      p.
+        Esta es una obra de arte generativo, dinámica e interactiva, que además de servir como difusión del evento SOMA, 
+          responde a la interacción de quienes acceden a ella como primer acercamiento del eje curatorial del mismo.
+        Si querés, podes hacer un recorrido por la red y ser parte de ella.
+    .modal-footer
+      a#modalSkipTour.modal-close.skipTour.waves-effect.waves-green.btn-flat Ir al grano
+      a#btnModal.modal-close.waves-effect.waves-green.btn-flat Empezar
+
+  #welcomeModalExistente.modal
+    .modal-content
+      h4 Bienvenide a SOMA
+      p.
+        Esta es una obra de arte generativo, dinámica e interactiva, que además de servir como difusión del evento SOMA, 
+          responde a la interacción de quienes acceden a ella como primer acercamiento del eje curatorial del mismo.
+        Si querés, podes hacer un recorrido por la red y ser parte de ella.
+    .modal-footer
+      a#modalSkipTour.modal-close.skipTour.waves-effect.waves-green.btn-flat Ir al grano
+      a#btnModal.modal-close.waves-effect.waves-green.btn-flat Empezar
     

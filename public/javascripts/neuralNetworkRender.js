@@ -75,6 +75,7 @@ if(arActive){
             consoleLog(node);
         })
         //.dagMode('zout')
+        .cooldownTicks(100)
         .onNodeClick(node => aimNode(node))
         .onEngineTick(() => {
             animateParticles();
@@ -91,6 +92,9 @@ Graph.nodeAutoColorBy('group')
     .linkDirectionalParticleSpeed(d => 4 * 0.001)
     .nodeThreeObject(node => CreateNodeThreeObject(node));
     
+export function activateZoomToFit(){
+    Graph.onEngineStop(() => Graph.zoomToFit(400));
+} 
 
 var myNeuron = (typeof myNeuronId !== 'undefined') ? myNeuronId : Cookies.get("neuron");
 var _myNickName = (typeof myNickName !== 'undefined') ? myNickName : null;
@@ -124,39 +128,41 @@ if(!arActive){
 
 //Camera orbit
 var orbitInterval = null;
-function activateOrbit(){
-    let angle = 0;
-    var initialExtraDistance, extraDistance = initialExtraDistance = 3000;
-    var add = true;
-    
+var angle = 0;
+var finalDistance = 0;
+var extraDistance = 0;
+export function activateOrbit(addDistance = 0, resetAndStop){
+    finalDistance += addDistance;
+
     if(!orbitInterval){
         orbitInterval = setInterval(() => {
             if(somaNode == null){
                 somaNode = graphData.nodes.find(item => item.id == '636326c5b63661e98b47ed11');
             }
             
-            /*     if(extraDistance < 0){
-                add = true;
-            }else if(extraDistance > initialExtraDistance){
-                add = false;
+            if(extraDistance < finalDistance){
+                extraDistance += 1;
             }
-            if(!add){
-                extraDistance -= 3;
-            }else{
-                extraDistance += 3;
-            } */
+            if(resetAndStop && extraDistance >= finalDistance){
+                stopOrbit();
+            }
             
             Graph.cameraPosition({
-                x: ( globalDefaultSettings.cameraDistance  ) * Math.sin(angle),
+                x: ( globalDefaultSettings.cameraDistance + extraDistance ) * Math.sin(angle),
                 y: -90,
-                z: ( globalDefaultSettings.cameraDistance  ) * Math.cos(angle)
+                z: ( globalDefaultSettings.cameraDistance + extraDistance ) * Math.cos(angle)
             }, somaNode);
             angle += Math.PI / 1500;
         }, 10);  
     }
 }
 
-function stopOrbit(){
+export function resetOrbit(distance, resetAndStop = false){
+    stopOrbit();
+    activateOrbit(distance, resetAndStop);
+}
+
+export function stopOrbit(){
     if(orbitInterval){
         clearInterval(orbitInterval);
         orbitInterval = null;
@@ -189,6 +195,9 @@ export function takeScreenshot() {
 var linkWaitList = []; 
 export function ingestGraphData(neurons, aimNodeId = null, myNeuron = null, myNickName = null){
     neurons.forEach((item, index, arr) => {
+        if(graphData.nodes.find(node => node.id == item._id)){ //Para no repetir
+            return;
+        }
         var color = globalDefaultSettings.marbleColorA;
         if((myNeuron && myNeuron == item._id) || (myNickName && myNickName == item.nickName)){
             color = globalDefaultSettings.myNeuronColor;
@@ -207,8 +216,8 @@ export function ingestGraphData(neurons, aimNodeId = null, myNeuron = null, myNi
             "particlesSize": item.graphVal ?? globalDefaultSettings.particlesSize,
             "particles": item.particles ?? null
         });
-        if(item.name == "SOMA BETA")
-            graphData.nodes[graphData.nodes.length - 1].fz = 0;
+        /* if(item.name == "SOMA")
+            graphData.nodes[graphData.nodes.length - 1].fz = 0; */
         
         item.fromId.forEach((fromId) => {
             var linkDistance = globalDefaultSettings.linkDistance;
@@ -232,6 +241,12 @@ export function ingestGraphData(neurons, aimNodeId = null, myNeuron = null, myNi
             }
         });
     });
+    linkWaitList.forEach((item, index, arr) => { //Reviso el waitList
+        if(graphData.nodes.find(node => node.id === item.source)){
+            graphData.links.push(item);
+            arr.splice(index,1); //Lo remuevo del waitList
+        }
+    });
     try {
         Graph.graphData(graphData);
     } catch (error) {
@@ -241,7 +256,7 @@ export function ingestGraphData(neurons, aimNodeId = null, myNeuron = null, myNi
       .d3Force('link')
       .distance(link => link.distance );
     Graph.numDimensions(3);
-    activateOrbit();
+    //activateOrbit();
     /*  if(aimNodeId){
         aimNode(graphData.nodes.find(item => item.id === aimNodeId));
     }  */
@@ -264,7 +279,7 @@ export function aimNodeFromNickName(nickName){
 
 function aimNode(node){
     console.log(Graph.cameraPosition());
-   /*  if(!arActive){
+    if(!arActive){
         // Aim at node from outside it
         const distance = globalDefaultSettings.aimDistance;
         const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
@@ -280,13 +295,13 @@ function aimNode(node){
             3000  // ms transition duration
         );
         ingestNodeInfo(node);
-    } */
+    }
 }
 
 function ingestNodeInfo(node){
-    if(node.info && node.name != "SOMA BETA"){
-        var $neuronInfoElem = $(`.neuronInfo#${node.id}`);
-        if(!$neuronInfoElem.length){
+    if(node.info && node.name != "SOMA BETA"){ 
+        var $neuronInfoElem = $(`.neuronInfo#${node.id}`); //Busco la data de esta neurona
+        if(!$neuronInfoElem.length){ //Si no existe lo creo
             $neuronInfoElem = $("<div></div>",{class: "neuronInfo", id: node.id }).appendTo('.neuronInfoContainer');
             $("<h3></h3>").text(node.name).appendTo($neuronInfoElem);
             $("<h4></h4>").text(node.info.sub).appendTo($neuronInfoElem);
@@ -304,12 +319,12 @@ function ingestNodeInfo(node){
                 });
             }
         }
-        $('.neuronInfoContainer > .neuronInfo').addClass("hidden");
-        $neuronInfoElem.removeClass("hidden");
-        $("#introNetwork").addClass("hidden");
+        $('.neuronInfoContainer > .neuronInfo').addClass("hidden"); //Oculto el anterior
+        $neuronInfoElem.removeClass("hidden"); //Muestro el actual
+        $("#flyerInfoContent").addClass("hidden"); //Oculto la data original
     }else{
-        $(".neuronInfo").addClass("hidden");
-        $("#introNetwork").removeClass("hidden");
+        $(".neuronInfo").addClass("hidden"); //Oculto todas las neuronInfo
+        $("#flyerInfoContent").removeClass("hidden"); //Muestro la data original
     }
 }
 
