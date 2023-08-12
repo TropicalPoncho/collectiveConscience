@@ -256,13 +256,6 @@ export function ingestGraphData(neurons, aimNodeId = null, myNeuron = null, myNi
       .d3Force('link')
       .distance(link => link.distance );
     Graph.numDimensions(3);
-    //activateOrbit();
-    /*  if(aimNodeId){
-        aimNode(graphData.nodes.find(item => item.id === aimNodeId));
-    }  */
-/*     Graph
-      .d3Force('center');
-    Graph.numDimensions(3); */
 }
 
 export function aimNodeFromId(neuronId){
