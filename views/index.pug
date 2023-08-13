@@ -3,11 +3,20 @@ block css
   link(rel='stylesheet', type="text/css",  media="screen,projection", href='/stylesheets/index.css')
 block js
   script(type="text/javascript", src="/javascripts/index.js")
-  script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js")
-  script(type="text/javascript", src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js')
+  //script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js")
+  //script(type="text/javascript", src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js')
+  script(src="//unpkg.com/3d-force-graph")
+  script(src="//unpkg.com/three@0.144.0")
+  script(type="importmap").
+    {
+      "imports": {
+        "three": "//unpkg.com/three@0.144.0/build/three.module.js",
+        "three/addons/": "//unpkg.com/three@0.144.0/examples/jsm/"
+      }
+    }
+  script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js")
+
 block content
-  div.zoom
-    img(src="/images/isologo_blanco.png", class="logo_intro", alt="")
-  .contenido(style="hidden:true")
-    .parallax-container
-      .parallax
+  #contentNetwork
+  
+
