@@ -8,10 +8,14 @@
             "type": "node",
             "request": "attach",
             "name": "Docker: Attach to Node",
-            "remoteRoot": "/usr/src/app"
+            "remoteRoot": "/usr/src/app",
+            "port": 9229,
+            "localRoot": "${workspaceFolder}",
+            "protocol": "inspector",
+            "restart": true
         },
         {
-            "type": "pwa-node",
+            "type": "node",
             "request": "launch",
             "name": "Launch Program",
             "skipFiles": [
@@ -25,6 +29,12 @@
             "request": "launch",
             "preLaunchTask": "docker-run: debug",
             "platform": "node"
+        },
+        {
+            "type": "chrome",
+            "name": "Launch on Chrome",
+            "request": "launch",
+            "url": "http://localhost:3000"
         }
     ]
 }

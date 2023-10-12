@@ -1,25 +1,22 @@
-var threeObjects = [];
-class ThreeObject {
-    static _objectInstances = [];
+/**
+ * Represents a three-dimensional object.
+ */
+export class ThreeObject {
 
-    constructor(type, node, config){
-        var objectInstance = new threeObjects[type](node,config);
-        this._objectInstances[type].push(objectInstance); 
+    uniforms;
+    mesh;
 
-        return objectInstance;
+    /**
+     * Creates a new instance of a ThreeObject.
+     */
+    constructor() {
     }
 
-    animate(){
-        //Hago nada
-    }
-
-    //Executes animation for each object created.
-    static animate(){
-        _objectInstances.array.forEach(objectsByType => {
-            objectsByType.forEach((objectInstance) => { objectInstance.animate(); });
-        });
+    /**
+     * Does nothing.
+     */
+    animate() {
+        // Do nothing
     }
 
 }
-
-export { ThreeObject, threeObjects};
