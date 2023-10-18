@@ -1,8 +1,8 @@
-import {OrbitControls} from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/controls/OrbitControls";
-import { EffectComposer } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/EffectComposer.js';
+/* import { EffectComposer } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/ShaderPass.js';
-import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/UnrealBloomPass.js'; */
+import { Vector3 } from "three";
 import { ThreeObject } from "./ThreeObject.js";
 
 
@@ -30,8 +30,8 @@ export class PerlinThreeObject extends ThreeObject{
         // <OBJECT>
         let g = new THREE.IcosahedronGeometry(1, 70);
         let localUniforms = {
-            color1: {value: new THREE.Color(0xff3232)},
-            color2: {value: new THREE.Color(0x0032ff)}
+            color1: {value: new THREE.Color(0xFF0074)}, 
+            color2: {value: new THREE.Color(0x8AE2C8)}
         }
         let m = new THREE.MeshStandardMaterial({
             roughness: 0.125,
@@ -46,11 +46,11 @@ export class PerlinThreeObject extends ThreeObject{
                 uniform float time;
                 varying vec3 rPos;
                 ${document.getElementById( 'noiseFS' ).textContent}
-                float noise(vec3 p){
+                float tnoise(vec3 p){
                     return cnoise(vec4(p, time));
                 }
                 vec3 getPos(vec3 p){
-                    return p * (4. + noise(p * 3.) * 2.);
+                    return p * (4. + tnoise(p * 3.) * 2.);
                 }
                 ${shader.vertexShader}
                 `.replace(
@@ -113,6 +113,8 @@ export class PerlinThreeObject extends ThreeObject{
             }
         });
         this.mesh = new THREE.Mesh(g, m);
+        this.mesh.scale.set( 3, 3, 3 );
+        
         // </OBJECT>
 
         // <BLOOM>

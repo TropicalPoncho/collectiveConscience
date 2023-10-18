@@ -12,14 +12,15 @@ export class LinesThreeObject extends ThreeObject {
             opacity: { value: 0.3 },
             color: { value: new THREE.Color( uniformColor ) }
         };
-        const geometry = new THREE.SphereGeometry( node.val , 32, 16 );
+        //const geometry = new THREE.SphereGeometry( node.val , 32, 16 );
+        const geometry = new THREE.IcosahedronGeometry(10, 5);
 
         const shaderMaterial = new THREE.ShaderMaterial( {
             uniforms: uniforms,
             vertexShader: document.getElementById( 'vertexshader' ).textContent,
             fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
             blending: THREE.AdditiveBlending,
-            depthTest: false,
+            depthTest: true,
             transparent: true
         } );
         const count = geometry.attributes.position.count;

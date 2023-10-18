@@ -58,36 +58,6 @@ html, body {
     90% { transform:translate(-10%, 10%) }
   }
 
-.floatingInfo{
-    position: absolute;
-    top:  5%;
-    left: 6%;
-    /* max-width: 30%; */
-    width: 30%;
-    max-height: 90%;
-    overflow: scroll;
-    color: white;
-    text-align: justify;
-    font-size: 15px;
-}
-
-input{
-    color:#ffffff;
-}
-
-.btn{
-    /* margin-right: 10px; */
-    padding: 0 8px;
-    color: #111;
-    background-color: #FFBC00;
-    /* margin-bottom: 10px; */
-    width: 100%;
-}
-
-::-webkit-scrollbar {
-    display: none;
-}
-
 /* #navScene{
     position: absolute;
     right: 10px;
@@ -95,24 +65,6 @@ input{
     top: 10px;
     width:50%;
 } */
-
-.hidden{
-    display: none;
-}
-
-ul{
-    list-style: none;
-}
-
-/* Tropical Colors:
-8AE2C8
-578CCB
-9900FF
-FF0074
-FFBC00
-111111
-FFFFFF
-*/
 
 /* .triggerFloatingInfo{
     position: absolute;

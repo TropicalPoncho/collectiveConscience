@@ -24,7 +24,7 @@ export default class Background {
             planeDefinition = 200,
             planeSize = 1245,
             totalObjects = 1,
-            background = "#002135",
+            background = "#111111",
             meshColor = "#005e97"; 
 
         this.scene.fog = new THREE.Fog(background, 1, 300000);
@@ -74,6 +74,7 @@ export default class Background {
         //Sizes:
         const worldWidth = 256, worldDepth = 256,
         worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
+
         //Geometry
         const geometry = new THREE.PlaneGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
         geometry.rotateX( - Math.PI / 2 ); 
@@ -99,6 +100,29 @@ export default class Background {
             plane.rotation.x -= Math.PI * .5;
             plane.position.set = new THREE.Vector3( -10, -100, 0 );
         */
+
+        //Other Geometry
+        const piso = new THREE.PlaneGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
+        piso.rotateX( - Math.PI / 2 ); 
+        const data2 = Utils.generateHeight( worldWidth, worldDepth ); 
+        const vertices2 = piso.attributes.position.array;
+        for ( let i = 0, j = 0, l = vertices2.length; i < l; i ++, j += 3 ) {
+            vertices2[ j + 1 ] = data2[ i ] * 10;
+        }
+
+        const wireframe = new THREE.WireframeGeometry( piso );
+
+        const line = new THREE.LineSegments( wireframe );
+        line.material.depthTest = true;
+        line.material.opacity = 0.25;
+        line.material.transparent = true;
+
+        /* var pisoMaterial = new THREE.MeshBasicMaterial( {side: THREE.DoubleSide} );
+        let pisoMesh = new THREE.Mesh( geometry, pisoMaterial ); */
+
+        line.position.y = this.mountainsHeight * -3;
+        this.scene.add( line );
+
     }
 
     animate(){

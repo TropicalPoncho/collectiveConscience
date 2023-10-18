@@ -13,3 +13,61 @@ body {
 a {
   color: #b700ff;
 }
+
+.floatingInfo{
+  position: absolute;
+  top:  5%;
+  left: 6%;
+  /* max-width: 30%; */
+  width: 30%;
+  max-height: 90%;
+  overflow: scroll;
+  color: white;
+  text-align: justify;
+  font-size: 15px;
+}
+
+input{
+  color:#ffffff;
+}
+
+.btn{
+  /* margin-right: 10px; */
+  padding: 0 8px;
+  color: #111;
+  background-color: #FFBC00;
+  /* margin-bottom: 10px; */
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.hidden{
+  display: none;
+}
+
+ul{
+  list-style: none;
+}
+
+/* Tropical Colors:
+8AE2C8
+578CCB
+9900FF
+FF0074
+FFBC00
+111111
+FFFFFF
+*/
+
+@media screen and (max-width: 600px) {
+  .floatingInfo{
+      width: 90%;
+      top: 70%;
+      max-height: 25%;
+      left: 50%;
+      transform: translate(-50%, 0);
+  }
+}

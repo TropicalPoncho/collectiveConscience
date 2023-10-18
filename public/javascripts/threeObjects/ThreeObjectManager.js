@@ -113,7 +113,9 @@ import { ParticlesThreeObject } from "./particlesThreeObject.js";
 import { MarbleThreeObject} from "./marbleThreeObject.js";
 import { NoiseThreeObject } from "./noiseThreeObject.js";
 import { FireThreeObject } from "./fireThreeObject.js";
+import { LightsThreeObject } from "./lightsThreeObject.js";
 import { PerlinThreeObject } from "./PerlinThreeObject.js";
+import { PerlinNoiseThreeObject } from "./perlinNoiseThreeObject.js";
 
 
 ThreeObjectManager.registerType("Lines", LinesThreeObject);
@@ -122,4 +124,6 @@ ThreeObjectManager.registerType("Particles", ParticlesThreeObject);
 ThreeObjectManager.registerType("Marble", MarbleThreeObject);
 ThreeObjectManager.registerType("Noise", NoiseThreeObject);
 ThreeObjectManager.registerType("Fire", FireThreeObject);
+ThreeObjectManager.registerType("Lights", LightsThreeObject);
 ThreeObjectManager.registerType("Perlin", PerlinThreeObject);
+ThreeObjectManager.registerType("Perlin Noise", PerlinNoiseThreeObject);

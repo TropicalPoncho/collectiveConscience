@@ -55,7 +55,7 @@ export class MarbleThreeObject extends ThreeObject  {
         /* var randomColorA = node.color ?? globalDefaultSettings.marbleColorA;
         var randomColorB = globalDefaultSettings.marbleColorB; */
 
-        const geometry = new THREE.SphereGeometry(6, 64, 32);
+        const geometry = new THREE.SphereGeometry(8, 64, 32);
         const material = new THREE.MeshStandardMaterial({ roughness: this.params.roughness });
         this.clock = new THREE.Clock();
         

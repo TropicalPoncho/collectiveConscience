@@ -59,13 +59,15 @@ var nodes = [{
     "name": "Convocatoria",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[3],
-    "links": [0]
+    "links": [0],
+    "type": "Lights"
 },{
     "id": 4, 
     "name": "Contacto",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[4],
-    "links": [0]
+    "links": [0],
+    "type": "Fire"
 }];
 var links = [];
 nodes.forEach( elem => {
@@ -94,14 +96,14 @@ export function initGraph(elementId){
         //.dagMode('zout')
         .cooldownTicks(100)
         .nodeThreeObject(node => threeObjectManager.createObject(node) )
-        .onNodeClick(node => aimNode(node))
+        .onNodeClick(node => aimNode(node))/* 
         .onEngineTick(() => {
             threeObjectManager.animate();
-        });
+        }) */;
 
     Graph.d3Force('link')
         .distance(link => '50' );
-    Graph.numDimensions(3);
+    //Graph.numDimensions(3);
 
     const LINK_WIDTH = 1.5;
     const LINK_OPACITY = 0.4;
@@ -117,21 +119,21 @@ export function initGraph(elementId){
         .linkDirectionalParticleSpeed(LINK_PARTICLE_SPEED);
 
     Graph.graphData(indexNeurons);
-    //background = new Background(Graph);
+    background = new Background(Graph);
 
     scene = Graph.scene();
     renderer = Graph.renderer();
     camera = Graph.camera();
-
+    
     render();
-
+    
     return Graph;
 }
 
 function render() 
 {	
     requestAnimationFrame(render);
-    //background.animate();
+    background.animate();
     threeObjectManager.animate();
     renderer.render( scene, camera );
 }
