@@ -1,7 +1,5 @@
 import {ThreeObject}  from './ThreeObject.js';
-import { RGBELoader } from '//cdn.skypack.dev/three@0.131.1/examples/jsm/loaders/RGBELoader.js'
 
-const hdriURL = 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_02_1k.hdr'
 const heightMapURL = 'https://i.imgur.com/dMYV4cf.png'
 const displacementMapURL = 'https://i.imgur.com/L1pqRg9.jpeg'
 
@@ -55,7 +53,7 @@ export class MarbleThreeObject extends ThreeObject  {
         /* var randomColorA = node.color ?? globalDefaultSettings.marbleColorA;
         var randomColorB = globalDefaultSettings.marbleColorB; */
 
-        const geometry = new THREE.SphereGeometry(8, 64, 32);
+        const geometry = new THREE.SphereGeometry(10, 64, 32);
         const material = new THREE.MeshStandardMaterial({ roughness: this.params.roughness });
         this.clock = new THREE.Clock();
         

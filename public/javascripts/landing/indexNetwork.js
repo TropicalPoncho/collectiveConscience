@@ -1,6 +1,10 @@
 import {ThreeObjectManager}  from '../threeObjects/ThreeObjectManager.js';
 import Background from './background.js';
+import Stats from 'three/addons/libs/stats.module'
 
+const stats = new Stats();
+stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
 
 const colorsArray = [
     "#8AE2C8", //verde
@@ -46,29 +50,30 @@ var nodes = [{
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[1],
     "links": [0],
-    "type": "Marble"
+    "type": "Twist"
 },{
     "id": 2, 
     "name": "Obras",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[2],
     "links": [0],
-    "type": "Perlin"
+    "type": "Marble",
 },{
     "id": 3, 
     "name": "Convocatoria",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[3],
     "links": [0],
-    "type": "Lights"
+    "type": "Fire"
 },{
     "id": 4, 
     "name": "Contacto",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[4],
     "links": [0],
-    "type": "Fire"
+    "type": "Perlin"
 }];
+
 var links = [];
 nodes.forEach( elem => {
     if(elem.links){
@@ -81,6 +86,63 @@ nodes.forEach( elem => {
     }
 });
 var indexNeurons = {nodes: nodes , links: links};
+
+var nodeObras = [{
+    "id": 20,
+    "name": "Kutral",
+    "imgSize": globalDefaultSettings.imgSize,
+    "val": globalDefaultSettings.nodeSize,
+    "links": [2],
+    "type": "Fire"
+},{
+    "id": 21, 
+    "name": "Tempistica I",
+    "val": globalDefaultSettings.nodeSize,
+    "color": colorsArray[1],
+    "links": [2],
+    "type": "Twist"
+},{
+    "id": 22, 
+    "name": "Tempistica II",
+    "val": globalDefaultSettings.nodeSize,
+    "color": colorsArray[2],
+    "links": [2],
+    "type": "Twist"
+},{
+    "id": 23, 
+    "name": "Tropical Posporno",
+    "val": globalDefaultSettings.nodeSize,
+    "color": colorsArray[3],
+    "links": [2],
+    "type": "Lights"
+},{
+    "id": 24, 
+    "name": "SOMA beta",
+    "val": globalDefaultSettings.nodeSize,
+    "color": colorsArray[4],
+    "links": [2],
+    "type": "Marble"
+},{
+    "id": 25, 
+    "name": "SOMA",
+    "val": globalDefaultSettings.nodeSize,
+    "color": colorsArray[4],
+    "links": [2],
+    "type": "Lights"
+}];
+var linksObras = [];
+nodeObras.forEach( elem => {
+    if(elem.links){
+        elem.links.forEach( target => {
+            linksObras.push({
+                source: elem.id,
+                target: target
+            });
+        });
+    }
+});
+var neuronsObras = {nodes: nodeObras , links: linksObras};
+
 
 const threeObjectManager = new ThreeObjectManager(Graph);
 //Init graph:
@@ -102,7 +164,7 @@ export function initGraph(elementId){
         }) */;
 
     Graph.d3Force('link')
-        .distance(link => '50' );
+        .distance(link => 70 );
     //Graph.numDimensions(3);
 
     const LINK_WIDTH = 1.5;
@@ -132,10 +194,12 @@ export function initGraph(elementId){
 
 function render() 
 {	
-    requestAnimationFrame(render);
+    stats.begin();
     background.animate();
     threeObjectManager.animate();
     renderer.render( scene, camera );
+    stats.end();
+    requestAnimationFrame(render);
 }
 
 window.onresize = function () {
@@ -146,6 +210,18 @@ window.onresize = function () {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
 };
+
+function insertNodes(){
+    indexNeurons.nodes.push(...nodeObras);
+    indexNeurons.links.push(...linksObras);
+    console.log(indexNeurons);
+    try {
+        Graph.graphData(indexNeurons);
+        Graph.numDimensions(3);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export function activateZoomToFit(){
     Graph.onEngineStop(() => Graph.zoomToFit(400));
@@ -158,8 +234,14 @@ export function takeScreenshot() {
     var img = new Image();
     // Without 'preserveDrawingBuffer' set to true, we must render now
     renderer.render(scene, camera);
-    img.src = renderer.domElement.toDataURL();
+    img.src = renderer.domElement.toDataURL('image/png');
     w.document.body.appendChild(img);  
+
+    /* const imgData = canvas.toBlob( ( blob ) => { 
+        const imgEl = document.createElement( 'img' ); 
+        imgEl.src = URL.createObjectURL( blob ); 
+        document.body.appendChild( imgEl ); 
+    }); */
 }
 
 export function aimNodeFromId(neuronId){
@@ -183,7 +265,13 @@ function aimNode(node){
         node, // lookAt ({ x, y, z })
         3000  // ms transition duration
     );
-    ingestNodeInfo(node);
+    //ingestNodeInfo(node);
+    $('.floatingInfo').children().hide(600);
+    $(`#${node.id}`).show(600);
+
+    if(node.id == 2){
+        insertNodes();
+    }
 }
 
 

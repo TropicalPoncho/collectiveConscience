@@ -1,45 +1,56 @@
 import {ThreeObject}  from "./ThreeObject.js";
 
+
+function randomPosNeg() { return Math.round(Math.random()) * 2 - 1; }
+
 export class ParticlesThreeObject extends ThreeObject {
 
     type = 'Particles';
 
-    r = 50;
+    r = 20;
     showDots = false;
     showLines = true;
     minDistance = 30;
     limitConnections = true;
-    maxConnections = 100;
-    maxParticleCount = 200;
+    maxConnections = 80;
+    maxParticleCount = 100;
 
-    positions = new Float32Array( segments * 3 );
-    colors = new Float32Array( segments * 3 );
+    _particlesData
+    particlePositions
+    positions;
+    colors;
+    _pointCloud;
+    _linesMesh;
 
     constructor(node, props){
         super();
-
-        Object.defineProperties(this, props, node.particles);
-
-        rX = this.r ?? node.particlesSize;
-        rY = rX;
-        rZ = rX;
-        rHalf = rX / 2;
-
+        
+        //Object.defineProperties(this, props, node.particles);
+        
+        var rX = this.r ?? node.particlesSize;
+        var rY = rX;
+        var rZ = rX;
+        var rHalf = rX / 2;
+        
+        
 /*         _maxParticleCount = node.particles?.maxParticleCount ?? effectController.maxParticleCount;
         _maxConnections = node.particles?.maxConnections ?? effectController.maxConnections;
         _minDistance = node.particles?.minDistance ?? effectController.minDistance; */
 
         var group = new THREE.Group();
 
-        if(props.helper !== undefined){
+/*         if(props.helper !== undefined){
             const helper = new THREE.BoxHelper( new THREE.Mesh( new THREE.BoxGeometry( rX, rY, rZ ) ) );
             helper.material.color.setHex( 0xFFFFFF );
             helper.material.blending = THREE.AdditiveBlending;
             helper.material.transparent = true;
             group.add( helper );  
-        }
+        } */
 
         const segments = this.maxParticleCount * this.maxParticleCount;
+
+        this.positions = new Float32Array( segments * 3 );
+        this.colors = new Float32Array( segments * 3 );
 
         const pMaterial = new THREE.PointsMaterial( {
             color: 0xFFFFFF,
@@ -49,10 +60,10 @@ export class ParticlesThreeObject extends ThreeObject {
             sizeAttenuation: false
         } );
 
-        _particles = new THREE.BufferGeometry();
-        _particlePositions = new Float32Array( this.maxParticleCount * 3 );
+        var particles = new THREE.BufferGeometry();
+        this.particlePositions = new Float32Array( this.maxParticleCount * 3 );
 
-        _particlesData = [];
+        this._particlesData = [];
 
         for ( let i = 0; i < this.maxParticleCount; i ++ ) {
 
@@ -60,30 +71,29 @@ export class ParticlesThreeObject extends ThreeObject {
             const y = Math.random() * rY - rY / 2;
             const z = Math.random() * rZ - rZ / 2;
 
-            _particlePositions[ i * 3 ] = x;
-            _particlePositions[ i * 3 + 1 ] = y;
-            _particlePositions[ i * 3 + 2 ] = z;
+            this.particlePositions[ i * 3 ] = x;
+            this.particlePositions[ i * 3 + 1 ] = y;
+            this.particlePositions[ i * 3 + 2 ] = z;
 
             // add it to the geometry
-            _particlesData.push( {
+            this._particlesData.push( {
                 velocity: new THREE.Vector3( randomPosNeg() * 0.1, randomPosNeg() * 0.1, 0 ),
                 numConnections: 0
             } );
 
         }
 
-        _particles.setDrawRange( 0, _particleCount );
-        _particles.setAttribute( 'position', new THREE.BufferAttribute( _particlePositions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
+        particles.setDrawRange( 0, this.maxParticleCount );
+        particles.setAttribute( 'position', new THREE.BufferAttribute( this.particlePositions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
 
         // create the particle system
-        _pointCloud = new THREE.Points( _particles, pMaterial );
-        group.add( _pointCloud );
+        this._pointCloud = new THREE.Points( particles, pMaterial );
+        group.add( this._pointCloud );
 
         const geometry = new THREE.BufferGeometry();
 
         geometry.setAttribute( 'position', new THREE.BufferAttribute( this._positions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
         geometry.setAttribute( 'color', new THREE.BufferAttribute( this._colors, 3 ).setUsage( THREE.DynamicDrawUsage ) );
-v
         geometry.computeBoundingSphere();
 
         geometry.setDrawRange( 0, 0 );
@@ -94,19 +104,18 @@ v
             transparent: true
         } );
 
-        _linesMesh = new THREE.LineSegments( geometry, material );
-        group.add( _linesMesh );
+        this._linesMesh = new THREE.LineSegments( geometry, material );
+        group.add( this._linesMesh );
 
-        return group;
+        this.mesh = group;
     }
 
     animate() {
-
-/*         let particlesData = this.particlesData;
+        let particlesData = this.particlesData;
         let positions = this.positions; 
         let colors = this.colors;
         let pointCloud = this.pointCloud;
-        let particlePositions = this.particlePositions; */
+        let particlePositions = this.particlePositions; 
 
         let vertexpos = 0;
         let colorpos = 0;
@@ -180,13 +189,11 @@ v
         }
 
 
-        this.linesMesh.geometry.setDrawRange( 0, numConnected * 2 );
-        this.linesMesh.geometry.attributes.position.needsUpdate = true;
-        this.linesMesh.geometry.attributes.color.needsUpdate = true;
+        this._linesMesh.geometry.setDrawRange( 0, numConnected * 2 );
+        this._linesMesh.geometry.attributes.position.needsUpdate = true;
+        this._linesMesh.geometry.attributes.color.needsUpdate = true;
         
         pointCloud.geometry.attributes.position.needsUpdate = true;
     
-        //requestAnimationFrame( animateParticles );
-        render();
     }
 }

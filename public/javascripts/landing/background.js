@@ -1,4 +1,6 @@
 import Utils from '../Utils.js'
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 export default class Background {
 
     scene;
@@ -13,6 +15,12 @@ export default class Background {
 
     backgroundColor = 0x111111;
     mountainsHeight = 400;
+
+    globalUniforms = {
+        bloom: {value: 0},
+        time: {value: 0},
+        aspect: {value: innerWidth / innerHeight}
+    };
  
     constructor(Graph){
 
@@ -24,10 +32,9 @@ export default class Background {
             planeDefinition = 200,
             planeSize = 1245,
             totalObjects = 1,
-            background = "#111111",
             meshColor = "#005e97"; 
 
-        this.scene.fog = new THREE.Fog(background, 1, 300000);
+        //this.scene.fog = new THREE.Fog(this.backgroundColor, 1, 300000);
 
         if(this.backgroundColor){
             this.scene.background = new THREE.Color( this.backgroundColor ); 
@@ -88,7 +95,7 @@ export default class Background {
         var movieMaterial = new THREE.MeshBasicMaterial( { map: this.videoTexture, overdraw: true, side:THREE.DoubleSide } );
         let mesh = new THREE.Mesh( geometry, movieMaterial );
         mesh.position.y = this.mountainsHeight;
-        this.scene.add( mesh );
+        this.scene.add( mesh ); 
 
         //Add Plane:
         /* var planeGeo = new THREE.PlaneGeometry(planeSize, planeSize, planeDefinition, planeDefinition);
@@ -102,12 +109,12 @@ export default class Background {
         */
 
         //Other Geometry
-        const piso = new THREE.PlaneGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
+        const piso = new THREE.PlaneGeometry( 15000, 15000, worldWidth - 1, worldDepth - 1 );
         piso.rotateX( - Math.PI / 2 ); 
-        const data2 = Utils.generateHeight( worldWidth, worldDepth ); 
+        const data2 = Utils.generateHeight( worldWidth , worldDepth ); 
         const vertices2 = piso.attributes.position.array;
         for ( let i = 0, j = 0, l = vertices2.length; i < l; i ++, j += 3 ) {
-            vertices2[ j + 1 ] = data2[ i ] * 10;
+            vertices2[ j + 1 ] = data2[ i ] * 13;
         }
 
         const wireframe = new THREE.WireframeGeometry( piso );
@@ -116,14 +123,44 @@ export default class Background {
         line.material.depthTest = true;
         line.material.opacity = 0.25;
         line.material.transparent = true;
-
-        /* var pisoMaterial = new THREE.MeshBasicMaterial( {side: THREE.DoubleSide} );
-        let pisoMesh = new THREE.Mesh( geometry, pisoMaterial ); */
-
+        
         line.position.y = this.mountainsHeight * -3;
         this.scene.add( line );
 
-    }
+/*         var piso2 = piso;
+        piso2.rotateX( - Math.PI / 2.5 ); 
+        const wireframe2 = new THREE.WireframeGeometry( piso );
+        const line2 = new THREE.LineSegments( wireframe2 );
+        line2.position.y = this.mountainsHeight * 2;
+        this.scene.add( line2 ); */
+        const loader = new FontLoader();
+				var scene = this.scene;
+				var height = this.mountainsHeight;
+        loader.load( '/fonts/Briller_Regular.json', function ( font ) {
+
+					const geometry = new TextGeometry( 'TROPICAL PONCHO', {
+						font: font,
+						size: 150,
+						height: 20,
+						curveSegments: 12,
+						bevelEnabled: true,
+						bevelThickness: 10,
+						bevelSize: 8,
+						bevelOffset: 0,
+						bevelSegments: 5
+					} );
+					var material = new THREE.MeshBasicMaterial( { overdraw: true, side:THREE.DoubleSide } );
+					let meshText = new THREE.Mesh( geometry, material );
+					//meshText.position.y = height * -2.5;
+					meshText.position.z = -8000;
+					meshText.position.x = -2000;
+					meshText.position.y = 1000;
+					scene.add( meshText );
+				} );
+
+				const axesHelper = new THREE.AxesHelper( 15000 );
+				this.scene.add( axesHelper );
+			}
 
     animate(){
         if ( this.video.readyState === this.video.HAVE_ENOUGH_DATA ) 
@@ -134,4 +171,30 @@ export default class Background {
         }
     }
     
+}
+
+function createCubeMap(){
+    let images = [];
+
+    let c = document.createElement("canvas");
+    c.width = 4;
+    c.height = c.width;
+    let ctx = c.getContext("2d");
+    for (let i = 0; i < 6; i++) {
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, c.width, c.height);
+
+      for (let j = 0; j < (c.width * c.height) / 2; j++) {
+        ctx.fillStyle = Math.random() < 0.5 ? "#a8a9ad" : "#646464";
+        ctx.fillRect(
+          Math.floor(Math.random() * c.width),
+          Math.floor(Math.random() * c.height),
+          2,
+          1
+        );
+      }
+
+      images.push(c.toDataURL());
+    }
+    return new THREE.CubeTextureLoader().load(images);
 }

@@ -4,4 +4,8 @@ import { initGraph , aimNodeFromId , takeScreenshot, activateZoomToFit, activate
 jQuery(function(){
     var Graph = initGraph('contentNetwork');
     
+    $(document).on('click', '#takeScreenshot', function(){
+        takeScreenshot();
+    });
+
 });

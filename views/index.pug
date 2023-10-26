@@ -3,13 +3,13 @@ block css
   link(rel='stylesheet', type="text/css",  media="screen,projection", href='/stylesheets/index.css')
 block js
   script(src="//unpkg.com/3d-force-graph")
-  script(src="//unpkg.com/three")
-  script(src="//unpkg.com/three-spritetext")
+  script(src="//unpkg.com/three@0.157.0")
+  //script(src="//unpkg.com/three-spritetext")
   script(type="importmap").
     {
       "imports": {
-        "three": "//unpkg.com/three/build/three.module.js",
-        "three/addons/": "//unpkg.com/three/examples/jsm/"
+        "three": "//unpkg.com/three@0.157.0/build/three.module.js",
+        "three/addons/": "//unpkg.com/three@0.157.0/examples/jsm/"
       }
     }
   script(type="module", src="/javascripts/index.js")
@@ -265,6 +265,47 @@ block js
     }
 
 block content
-  .floatingInfo
-    #infoContent
   #contentNetwork
+  .floatingTitle
+  .floatingInfo
+    #1.hidden
+      p. 
+        Tropical Poncho es una plataforma de creación y promoción artística multidisciplinaria 
+        que toma a la consciencia y el estudio de esta como punto de partida conceptual. 
+      p.
+        Nace como productora con el objetivo de crear experiencias artísticas que promuevan
+        la expansión de la conciencia, gestionando festivales de arte, que a la vez se conforman 
+        como obras de arte conceptuales inmersivas.
+      p.
+        Estas obras consisten en la apreciación de la percepción, de todo aquello que ingresa 
+        en los confines de lo consciente: en ellas la composición considera no sólo las 
+        expresiones artísticas de múltiples disciplinas, también influye la interacción misma con 
+        les otres espectadores, que pasan a ser protagonistas de la obra de lxs demás y la 
+        constitución psicológica del mismo, o sea, su estado emocional, su personalidad, su 
+        concreta red neuronal que fue construida a través de todas las decisiones jamás 
+        tomadas por esa persona y su entorno, lo que dieron lugar a una conciencia particular y 
+        que a su vez origina una percepción subjetiva única.
+      p.
+        Nuestra misión es, por medio de estas piezas cuyo soporte es la consciencia misma, 
+        promover la introspección y el trabajo interno. La idea es invitar al espectador a 
+        concientizarse de sí mismo, y de todo lo que nos rodea, en el plano físico y espiritual 
+        para lograr, individualmente la expansión de la consciencia y en conjunto de la 
+        conciencia colectiva.
+      p.
+        Utilizamos el arte como medio para informar e mejorar aspectos que atentan contra el 
+        ecosistema en el que vivimos, incluyendo no solo el medioambiente, sino también los 
+        patrones de comportamiento con los cuales nos relacionamos en sociedad, ya que 
+        repercuten de forma directa en nosotrxs y nuestro entorno.
+      p.
+        En el mediano plazo proyectamos producir y difundir artistas independientes de todas 
+        las áreas, compartir su arte y promover su crecimiento, generando redes y colaborando 
+        con investigaciones que nos den más información para decidir, creer y crear, pero 
+        también desde nuestro aprendizaje de autoconocimiento espiritual.
+    #2.hidden
+      p.
+        Las obras que producimos son Interdum ac facilisis justo cubilia aenean sem, fusce venenatis eleifend hac montes consequat, 
+        commodo nullam scelerisque donec litora. Tellus congue torquent placerat aliquam phasellus conubia laoreet ornare lacinia, 
+        vulputate nibh quis praesent risus commodo facilisis turpis imperdiet senectus, posuere tempus sodales primis proin habitant tortor litora. 
+        Penatibus ad volutpat erat eget blandit torquent aliquam auctor augue, suspendisse velit cum consequat hendrerit mus semper primis conubia, 
+        vulputate gravida tincidunt cubilia sagittis sollicitudin nisl ornare. Aptent cursus at leo dis primis libero semper vestibulum, 
+        odio orci feugiat senectus quam convallis enim, nascetur sed sodales nisl cubilia sociis arcu.

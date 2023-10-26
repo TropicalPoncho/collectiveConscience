@@ -31,7 +31,7 @@ export class PerlinThreeObject extends ThreeObject{
         let g = new THREE.IcosahedronGeometry(1, 70);
         let localUniforms = {
             color1: {value: new THREE.Color(0xFF0074)}, 
-            color2: {value: new THREE.Color(0x8AE2C8)}
+            color2: {value: new THREE.Color(0x9900FF)}
         }
         let m = new THREE.MeshStandardMaterial({
             roughness: 0.125,
@@ -112,59 +112,27 @@ export class PerlinThreeObject extends ThreeObject{
                 //console.log(shader.fragmentShader);
             }
         });
-        this.mesh = new THREE.Mesh(g, m);
-        this.mesh.scale.set( 3, 3, 3 );
+        var perlinMesh = new THREE.Mesh(g, m);
+        perlinMesh.scale.set( 3, 3, 3 );
+
+        const group = new THREE.Group();
+        group.add(perlinMesh);
+
+        const geometry = new THREE.SphereGeometry(20, 64, 32);
+        const material = new THREE.MeshStandardMaterial({ transparent: true });
+        var obj = new THREE.Mesh(geometry, material);
+        obj.visible = false;
+        group.add(obj);
+
+        this.mesh = group;
         
         // </OBJECT>
-
-        // <BLOOM>
-       /*  const params = {
-            exposure: 1,
-            bloomStrength: 1,
-            bloomThreshold: 0,
-            bloomRadius: 0
-        };
-
-        const renderScene = new RenderPass( scene, camera );
-
-        const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
-        bloomPass.threshold = params.bloomThreshold;
-        bloomPass.strength = params.bloomStrength;
-        bloomPass.radius = params.bloomRadius;
-
-        const bloomComposer = new EffectComposer( renderer );
-        bloomComposer.renderToScreen = false;
-        bloomComposer.addPass( renderScene );
-        bloomComposer.addPass( bloomPass );
-
-        const finalPass = new ShaderPass(
-            new THREE.ShaderMaterial( {
-                uniforms: {
-                    baseTexture: { value: null },
-                    bloomTexture: { value: bloomComposer.renderTarget2.texture }
-                },
-                vertexShader: document.getElementById( 'vertexshader' ).textContent,
-                fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-                defines: {}
-            } ), 'baseTexture'
-        );
-        finalPass.needsSwap = true;
-
-        const finalComposer = new EffectComposer( renderer );
-        finalComposer.addPass( renderScene );
-        finalComposer.addPass( finalPass );
-        // </BLOOM> */
     }
 
     animate(){
         let t = this.clock.getElapsedTime();
         this.globalUniforms.time.value = t * 0.1;
-        //globalUniforms.bloom.value = 1;
-        //bloomComposer.render();
-        //scene.background = rt.texture;
         this.globalUniforms.bloom.value = 0;
-        //finalComposer.render();
-        //renderer.render(scene, camera);
     }
 }
 
