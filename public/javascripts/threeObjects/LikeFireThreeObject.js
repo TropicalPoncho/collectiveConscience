@@ -14,8 +14,8 @@ export class LikeFireThreeObject extends ThreeObject{
         aspect: {value: innerWidth / innerHeight}
     };
 
-    constructor(){
-        super();
+    constructor(node){
+        super(node);
         const geometry = new THREE.BoxGeometry()
         const material = new CustomShaderMaterial({
           baseMaterial: THREE.MeshBasicMaterial,
@@ -34,7 +34,7 @@ export class LikeFireThreeObject extends ThreeObject{
               }
           `,
         });
-        this.mesh = new THREE.Mesh(geometry, material)
+        this.mesh.add(new THREE.Mesh(geometry, material));
         //this.mesh.scale.set( 3, 3, 3 );
     }
 

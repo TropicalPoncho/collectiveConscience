@@ -5,7 +5,7 @@ export class PerlinNoiseThreeObject extends ThreeObject {
     type = 'Perlin Noise';
 
     constructor (node, config){
-        super();
+        super(node);
         
         this.uniforms = {
             iResolution: { value: new THREE.Vector4() },
@@ -82,7 +82,7 @@ export class PerlinNoiseThreeObject extends ThreeObject {
         };
         // Create a plane or any geometry to apply the shader material
         const geometry = new THREE.SphereGeometry(8, 64, 32);
-        this.mesh = new THREE.Mesh(geometry, customMaterial);
+        this.mesh.add(new THREE.Mesh(geometry, customMaterial));
         
         // Set the iResolution uniform (screen resolution)
         //this.uniforms.iResolution.value.set(window.innerWidth, window.innerHeight);

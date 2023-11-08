@@ -3,23 +3,20 @@ import {ThreeObject}  from './ThreeObject.js';
 export class TwistThreeObject extends ThreeObject  {
 
     type = 'Twist';
-    clock;
 
     constructor (node, config){
-        super();
-        this.clock = new THREE.Clock();
+        super(node);
+
         this.uniforms = {
-            uTime: { type: "f", value: 0.0 },
-            uSpeed: { type: "f", value: 0.05 },
-            uNoiseStrength: { type: "f", value: 5 },
-            uNoiseDensity: { type: "f", value: 5.0 },
-            uIntensity: { type: "f", value: 2.0 },
+            uNoiseStrength: { type: "f", value: 4 },
+            uNoiseDensity: { type: "f", value: 4.0 },
+            uIntensity: { type: "f", value: 1.5 },
             uFrequency: { type: "f", value: 2 },
-            uAmplitude: { type: "f", value: 3 },
+            uAmplitude: { type: "f", value: 2 },
         };
 
         var material = new THREE.ShaderMaterial( {
-            uniforms: {...this.uniforms},
+            uniforms: { ...this.globalUniforms, ...this.uniforms },
             vertexShader: `
                 ${document.getElementById( 'noiseFS' ).textContent}
 
@@ -40,8 +37,7 @@ export class TwistThreeObject extends ThreeObject  {
                     
                 varying vec3 vNormal;
                 varying float vDistort;
-                uniform float uTime;
-                uniform float uSpeed;
+                uniform float time;
                 uniform float uNoiseDensity;
                 uniform float uNoiseStrength;
                 uniform float uFrequency;
@@ -49,8 +45,7 @@ export class TwistThreeObject extends ThreeObject  {
 
                 void main() {
 
-                    float t = uTime * uSpeed;
-                    float distortion = pnoise( normal + t, vec3( 10.0 ) * uNoiseDensity) * uNoiseStrength; 
+                    float distortion = pnoise( normal + time, vec3( 10.0 ) * uNoiseDensity) * uNoiseStrength; 
                     
                     vDistort = distortion; // Train goes to the fragment shader! Tchu tchuuu
                     vNormal = normal;
@@ -61,7 +56,7 @@ export class TwistThreeObject extends ThreeObject  {
                     // Create a sine wave from top to bottom of the sphere
                     // To increase the amount of waves, we'll use uFrequency
                     // To make the waves bigger we'll use uAmplitude
-                    float angle = sin(uv.y * uFrequency + t) * uAmplitude;
+                    float angle = sin(uv.y * uFrequency + time) * uAmplitude;
                     pos = rotateY(pos, angle);  
 
                     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -86,9 +81,9 @@ export class TwistThreeObject extends ThreeObject  {
                     // https://iquilezles.org/www/articles/palettes/palettes.htm
                     // Experiment with these!
                     vec3 brightness = vec3(0.5, 1, 0.5);
-                    vec3 contrast = vec3(0.5, 0.5, 0.5);
-                    vec3 oscilation = vec3(1.0, 1.0, 1.0);
-                    vec3 phase = vec3(0.3, 0.2, 0.1);
+                    vec3 contrast = vec3(0.5, 1, 0.5);
+                    vec3 oscilation = vec3(.8, 1.0, 1.0);
+                    vec3 phase = vec3(0.6, 0.2, 0.1);
                   
                     // Pass the distortion as input of cospalette
                     vec3 color = cosPalette(distort, brightness, contrast, oscilation, phase);
@@ -100,15 +95,15 @@ export class TwistThreeObject extends ThreeObject  {
         } );
 
         // create a sphere and assign the material
-        this.mesh = new THREE.Mesh(
+        this.mesh.add(new THREE.Mesh(
             new THREE.IcosahedronGeometry( 10, 10 ),
             material
-        );
+        ));
         
     }
 
     animate(){
-        this.uniforms[ 'uTime' ].value = this.clock.getElapsedTime();
+        super.animate();
     }
 
 }

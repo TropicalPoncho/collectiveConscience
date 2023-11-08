@@ -14,7 +14,7 @@ export default class Background {
     videoTexture;
 
     backgroundColor = 0x111111;
-    mountainsHeight = 400;
+    mountainsHeight = -600;
 
     globalUniforms = {
         bloom: {value: 0},
@@ -22,11 +22,15 @@ export default class Background {
         aspect: {value: innerWidth / innerHeight}
     };
  
-    constructor(Graph){
+    constructor(Mundo){
 
-        this.scene = Graph.scene();
-        this.renderer = Graph.renderer();
-        this.camera = Graph.camera();
+        //Sizes:
+        const worldWidth = 1024, worldDepth = 1024,
+        worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
+
+        this.scene = Mundo.scene;
+        this.renderer = Mundo.renderer;
+        this.camera = Mundo.camera;
 
         var vertexHeight = 1000,
             planeDefinition = 200,
@@ -45,7 +49,7 @@ export default class Background {
         
         //Add video texture:
         // create the video element
-        this.video = document.createElement( 'video' );
+        /* this.video = document.createElement( 'video' );
         this.video.id = 'video';
         this.video.type = ' video/ogg; codecs="theora, vorbis" ';
         this.video.src = "/videos/fluidback.mp4";
@@ -78,9 +82,7 @@ export default class Background {
         this.videoTexture.minFilter = THREE.LinearFilter;
         this.videoTexture.magFilter = THREE.LinearFilter;
 
-        //Sizes:
-        const worldWidth = 256, worldDepth = 256,
-        worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
+        
 
         //Geometry
         const geometry = new THREE.PlaneGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
@@ -95,7 +97,7 @@ export default class Background {
         var movieMaterial = new THREE.MeshBasicMaterial( { map: this.videoTexture, overdraw: true, side:THREE.DoubleSide } );
         let mesh = new THREE.Mesh( geometry, movieMaterial );
         mesh.position.y = this.mountainsHeight;
-        this.scene.add( mesh ); 
+        this.scene.add( mesh );  */
 
         //Add Plane:
         /* var planeGeo = new THREE.PlaneGeometry(planeSize, planeSize, planeDefinition, planeDefinition);
@@ -109,24 +111,77 @@ export default class Background {
         */
 
         //Other Geometry
-        const piso = new THREE.PlaneGeometry( 15000, 15000, worldWidth - 1, worldDepth - 1 );
+        const piso = new THREE.PlaneGeometry( 5000, 5000, worldWidth - 1, worldDepth - 1 );
         piso.rotateX( - Math.PI / 2 ); 
         const data2 = Utils.generateHeight( worldWidth , worldDepth ); 
         const vertices2 = piso.attributes.position.array;
         for ( let i = 0, j = 0, l = vertices2.length; i < l; i ++, j += 3 ) {
-            vertices2[ j + 1 ] = data2[ i ] * 13;
+            vertices2[ j + 1 ] = data2[ i ] * 4; //Intensidad
         }
 
-        const wireframe = new THREE.WireframeGeometry( piso );
+        let localUniforms = {
+            color1: {value: new THREE.Color(0x000000)}, 
+            color2: {value: new THREE.Color(0xEEEEEE)},
+        }
+        let m = new THREE.MeshStandardMaterial({
+            roughness: 0.125,
+            metalness: 0.875,
+            onBeforeCompile: shader => {
+                shader.uniforms.time = this.globalUniforms.time;
+                shader.uniforms.color1 = localUniforms.color1;
+                shader.uniforms.color2 = localUniforms.color2;
+                shader.vertexShader = `
+                varying vec3 rPos;
+                ${shader.vertexShader}
+                `.replace(
+                `#include <beginnormal_vertex>`,
+                `#include <beginnormal_vertex>
+                    vec3 p0 = position;
+                `
+                )
+                .replace(
+                `#include <begin_vertex>`,
+                `#include <begin_vertex>
+                    rPos = p0;
+                `
+                );
+                //console.log(shader.vertexShader);
+                shader.fragmentShader = `
+                varying vec3 rPos;
+                ${shader.fragmentShader}
+                `
+                .replace(
+                `#include <dithering_fragment>`,
+                `#include <dithering_fragment>
+                    
+                    float coord = length(rPos.xyz);
 
+                    // Compute anti-aliased world-space grid lines
+                    float line = abs(fract(coord - 0.5) - 0.5) / fwidth(coord);
+                
+                    // Just visualize the grid lines directly
+                    float color = 1.0 - min(line, 1.0);
+                
+                    // Apply gamma correction
+                    color = pow(color, 1.0 / 2.2);
+                    gl_FragColor = vec4(vec3(color), 1.0);
+                    
+                `
+                );
+                //console.log(shader.fragmentShader);
+            }
+        });
+        var pisoMesh = new THREE.Mesh(piso, m);
+        const wireframe = new THREE.WireframeGeometry( piso );
+        
         const line = new THREE.LineSegments( wireframe );
         line.material.depthTest = true;
         line.material.opacity = 0.25;
         line.material.transparent = true;
         
-        line.position.y = this.mountainsHeight * -3;
+        line.position.y = this.mountainsHeight;
         this.scene.add( line );
-
+        //this.scene.add( pisoMesh );
 /*         var piso2 = piso;
         piso2.rotateX( - Math.PI / 2.5 ); 
         const wireframe2 = new THREE.WireframeGeometry( piso );
@@ -134,41 +189,41 @@ export default class Background {
         line2.position.y = this.mountainsHeight * 2;
         this.scene.add( line2 ); */
         const loader = new FontLoader();
-				var scene = this.scene;
-				var height = this.mountainsHeight;
+        var scene = this.scene;
+        var height = this.mountainsHeight;
         loader.load( '/fonts/Briller_Regular.json', function ( font ) {
 
-					const geometry = new TextGeometry( 'TROPICAL PONCHO', {
-						font: font,
-						size: 150,
-						height: 20,
-						curveSegments: 12,
-						bevelEnabled: true,
-						bevelThickness: 10,
-						bevelSize: 8,
-						bevelOffset: 0,
-						bevelSegments: 5
-					} );
-					var material = new THREE.MeshBasicMaterial( { overdraw: true, side:THREE.DoubleSide } );
-					let meshText = new THREE.Mesh( geometry, material );
-					//meshText.position.y = height * -2.5;
-					meshText.position.z = -8000;
-					meshText.position.x = -2000;
-					meshText.position.y = 1000;
-					scene.add( meshText );
-				} );
+            const geometry = new TextGeometry( 'TROPICAL PONCHO', {
+                font: font,
+                size: 150,
+                height: 20,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 10,
+                bevelSize: 8,
+                bevelOffset: 0,
+                bevelSegments: 5
+            } );
+            var material = new THREE.MeshBasicMaterial( { overdraw: true, side:THREE.DoubleSide } );
+            let meshText = new THREE.Mesh( geometry, material );
+            //meshText.position.y = height * -2.5;
+            meshText.position.z = -8000;
+            meshText.position.x = -2000;
+            meshText.position.y = 2000;
+            scene.add( meshText );
+        } );
 
-				const axesHelper = new THREE.AxesHelper( 15000 );
-				this.scene.add( axesHelper );
-			}
+        /* const axesHelper = new THREE.AxesHelper( 15000 );
+        this.scene.add( axesHelper ); */
+    }
 
     animate(){
-        if ( this.video.readyState === this.video.HAVE_ENOUGH_DATA ) 
+        /* if ( this.video.readyState === this.video.HAVE_ENOUGH_DATA ) 
         {
             this.videoImageContext.drawImage( this.video, 0, 0 );
             if ( this.videoTexture ) 
             this.videoTexture.needsUpdate = true;
-        }
+        } */
     }
     
 }

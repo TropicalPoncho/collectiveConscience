@@ -5,7 +5,7 @@ export class LinesThreeObject extends ThreeObject {
     type = 'Lines';
 
     constructor (node, config){
-        super();
+        super(node);
         var uniformColor = node.color ?? colorsArray[2];
         let uniforms = {
             amplitude: { value: 7.0 },
@@ -37,7 +37,7 @@ export class LinesThreeObject extends ThreeObject {
             color.setHSL( i / l, 0.5, 0.5 );
             color.toArray( customColor.array, i * customColor.itemSize );
         }
-        this.mesh = new THREE.Line( geometry, shaderMaterial );
+        this.mesh.add(new THREE.Line( geometry, shaderMaterial ));
     }
 
 }

@@ -29,6 +29,12 @@ section {
     height: 1000px;
 }
 
+.node-label{
+    color:white;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
 .floatingTitle{
     position: absolute;
     top:  2%;
@@ -46,6 +52,9 @@ section {
     color: white;
   }
 
+  .floatingMenu{
+    z-index: 1;
+  }
 
   .floatingInfo{
     position: absolute;
@@ -56,6 +65,8 @@ section {
     max-height: 70%;
     overflow: scroll;
     color: white;
+    background-color: rgba(11, 11, 11, .3);
+    padding: 15px;
     text-align: justify;
     font-size: 15px;
   }
@@ -68,4 +79,60 @@ section {
         left: 50%;
         transform: translate(-50%, 0);
     }
+  }
+/* 
+  .floatingMenu {
+    position: absolute;
+    top: 10%;
+    overflow: hidden;
+  }
+  
+  /* Style the links inside the navigation bar *
+  .floatingMenu button {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  
+  /* Centered section inside the top navigation *
+  .floatingMenu .centered button {
+    float: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } */
+  
+  
+ /* Style the navigation container */
+ .floatingMenu {
+    position: absolute;
+    top: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+  }
+
+  /* Style the menu buttons */
+  .menu {
+    list-style: none;
+    margin: 0 15px;
+  }
+
+  .menu button {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 20px;
+    display: block;
+    transition: background-color 0.3s;
+  }
+
+  .menu button:hover {
+    background-color: #555;
   }

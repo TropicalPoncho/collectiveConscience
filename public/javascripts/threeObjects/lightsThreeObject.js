@@ -3,20 +3,19 @@ import {ThreeObject}  from './ThreeObject.js';
 export class LightsThreeObject extends ThreeObject  {
 
     type = 'Lights';
-    start;
 
     constructor (node, config){
-        super();
+        super(node);
 
-        this.start = Date.now();
-        this.uniforms = {
+        this.localUniforms = {
             tExplosion: { type: "t", value: new THREE.TextureLoader().load( '/images/explosion.png' ) },
-            time: { type: "f", value: 0.0 },
-            weight: { type: "f", value: 10.0 }
+            weight: { type: "f", value: 9.0 }
         };
 
+        this.speed = 0.009;
+
         var material = new THREE.ShaderMaterial( {
-            uniforms: {...this.uniforms},
+            uniforms: { ...this.globalUniforms, ...this.uniforms },
             vertexShader: `
                 ${document.getElementById( 'noiseFS' ).textContent}
                 varying vec3 vNormal;
@@ -59,15 +58,15 @@ export class LightsThreeObject extends ThreeObject  {
         } );
 
         // create a sphere and assign the material
-        this.mesh = new THREE.Mesh(
+        this.mesh.add(new THREE.Mesh(
             new THREE.IcosahedronGeometry( 10, 10 ),
             material
-        );
+        ));
         
     }
 
     animate(){
-        this.uniforms[ 'time' ].value = .00025 * ( Date.now() - this.start );
+        super.animate();
     }
 
 }

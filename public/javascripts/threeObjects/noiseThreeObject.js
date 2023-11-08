@@ -7,7 +7,7 @@ export class NoiseThreeObject extends ThreeObject  {
     type = 'Noise';
 
     constructor (node, config){
-        super();
+        super(node);
         new HDRCubeTextureLoader()
         .setPath( 'https://github.com/mrdoob/three.js/tree/master/examples/textures/cube/pisaHDR/' )
         .load( [ 'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr' ],
@@ -22,7 +22,7 @@ export class NoiseThreeObject extends ThreeObject  {
                 let material = new MeshPhysicalNodeMaterial();
                 //material.colorNode = mx_noise_vec3( customUV );
 
-                this.mesh = new THREE.Mesh( geometry, material );
+                this.mesh.add(new THREE.Mesh( geometry, material ));
             }); 
     }
 

@@ -8,18 +8,10 @@ import { ThreeObject } from "./ThreeObject.js";
 
 export class PerlinThreeObject extends ThreeObject{
 
-    clock = new THREE.Clock();
-
     type = 'Perlin';
 
-    globalUniforms = {
-        bloom: {value: 0},
-        time: {value: 0},
-        aspect: {value: innerWidth / innerHeight}
-    };
-
-    constructor(){
-        super();
+    constructor(node){
+        super(node);
         /* bloomComposer.setSize( innerWidth, innerHeight );
             finalComposer.setSize( innerWidth, innerHeight );
             rt.setSize(innerWidth, innerHeight);
@@ -31,15 +23,16 @@ export class PerlinThreeObject extends ThreeObject{
         let g = new THREE.IcosahedronGeometry(1, 70);
         let localUniforms = {
             color1: {value: new THREE.Color(0xFF0074)}, 
-            color2: {value: new THREE.Color(0x9900FF)}
+            color2: {value: new THREE.Color(0x9900FF)},
+            bloom: {value: 0}
         }
         let m = new THREE.MeshStandardMaterial({
             roughness: 0.125,
             metalness: 0.875,
             envMap: cubeMap,
             onBeforeCompile: shader => {
-                shader.uniforms.bloom = this.globalUniforms.bloom;
                 shader.uniforms.time = this.globalUniforms.time;
+                shader.uniforms.bloom = localUniforms.bloom;
                 shader.uniforms.color1 = localUniforms.color1;
                 shader.uniforms.color2 = localUniforms.color2;
                 shader.vertexShader = `
@@ -114,25 +107,19 @@ export class PerlinThreeObject extends ThreeObject{
         });
         var perlinMesh = new THREE.Mesh(g, m);
         perlinMesh.scale.set( 3, 3, 3 );
-
-        const group = new THREE.Group();
-        group.add(perlinMesh);
+        this.mesh.add(perlinMesh);
 
         const geometry = new THREE.SphereGeometry(20, 64, 32);
         const material = new THREE.MeshStandardMaterial({ transparent: true });
         var obj = new THREE.Mesh(geometry, material);
         obj.visible = false;
-        group.add(obj);
+        this.mesh.add(obj);
 
-        this.mesh = group;
-        
         // </OBJECT>
     }
 
     animate(){
-        let t = this.clock.getElapsedTime();
-        this.globalUniforms.time.value = t * 0.1;
-        this.globalUniforms.bloom.value = 0;
+        super.animate();
     }
 }
 

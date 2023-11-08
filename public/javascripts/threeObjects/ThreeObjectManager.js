@@ -4,7 +4,13 @@ export class ThreeObjectManager {
 
     static ThreeObjectsTypes;
     static defaultType = 'Lines';
-    _graph;
+
+    static animationTypes = [
+        'All','Hover'
+    ];
+    
+    animationType = ThreeObjectManager.animationTypes[0]; 
+    objectToAnimate;
 
     /**
      * The ThreeObjectFactory class is responsible for creating and managing instances of Three.js objects.
@@ -19,7 +25,15 @@ export class ThreeObjectManager {
      * // Animate the objects
      * factory.animate();
      */
-    constructor(graph){
+    constructor(properties){
+        Object.assign(this, properties);
+        
+        if(!ThreeObjectManager.animationTypes.includes(this.animationType)){
+            throw new Error(`The Animation type is not valid.`);
+        }
+        if(!ThreeObjectManager.defaultType){
+            throw new Error(`There is no default type defined, define one!`);
+        }
 /*         import('./dynamic-import.js')
             .then((modules) => {
                 for (const module of modules) {
@@ -32,10 +46,7 @@ export class ThreeObjectManager {
             .catch((error) => {
                 console.error('Error importing module:', error);
             }); */
-        this._graph = graph;
-        if(!ThreeObjectManager.defaultType){
-            throw new Error(`There is no default type defined, define one!`);
-        }
+        
     }
     
     static registerType(type, classReference, isDefault = false) {
@@ -82,11 +93,12 @@ export class ThreeObjectManager {
             throw new Error(`Invalid ThreeObject Class type: ${type}`);
         }
         try {
-            if (!this._objectInstances[type]) {
+/*             if (!this._objectInstances[type]) {
                 this._objectInstances[type] = []; //Initialize instances for this object
-            }
+            } */
             let objectInstance = new ThreeObjectClass(node);
-            this._objectInstances[type].push(objectInstance);
+            this._objectInstances[node.id] = objectInstance;
+
             console.log(this._objectInstances);
             return objectInstance.mesh;
         } catch (error) {
@@ -99,11 +111,15 @@ export class ThreeObjectManager {
      * Executes animation for each object created.
      */
     animate() {
-        Object.values(this._objectInstances).forEach((objectsByType) => {
-            objectsByType.forEach((objectInstance) => {
+        if(this.animationType == ThreeObjectManager.animationTypes[0]){
+            Object.values(this._objectInstances).forEach((objectInstance) => {
                 objectInstance.animate();
             });
-        });
+        }else{
+            if(this.objectToAnimate)
+                this._objectInstances[this.objectToAnimate].animate();
+        }
+        
     }
 }
 

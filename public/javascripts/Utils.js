@@ -3,7 +3,7 @@ export default class Utils {
     static generateHeight( width, height ) {
 
         const size = width * height, data = new Uint8Array( size ),
-            perlin = new ImprovedNoise(), z = Math.random() * 100;
+            perlin = new ImprovedNoise(), z = Math.random() * 200;
     
         let quality = 1;
     

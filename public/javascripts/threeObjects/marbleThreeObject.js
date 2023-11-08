@@ -32,21 +32,19 @@ export class MarbleThreeObject extends ThreeObject  {
     }; */
 
     params = {
-        roughness: 0.1,
+        roughness: 0.5,
         iterations: 100,
         depth: 0.4,
         smoothing: 0.5,
-        displacement: 0.05,
-        speed: 0.03,
-        colorA: '#000000',
+        displacement: 0.8,
+        colorA: '#FFFFFF',
         colorB: '#d719c7'
     };
 
     type = 'Marble';
-    clock;
 
     constructor (node, config){
-        super();
+        super(node);
         /*  var randomColorA = colorsArray[randomIntFromInterval(0,6)];
         var randomColorB = colorsArray[randomIntFromInterval(0,6)]; */
 
@@ -55,7 +53,6 @@ export class MarbleThreeObject extends ThreeObject  {
 
         const geometry = new THREE.SphereGeometry(10, 64, 32);
         const material = new THREE.MeshStandardMaterial({ roughness: this.params.roughness });
-        this.clock = new THREE.Clock();
         
          // Load heightmap and displacement textures
         const heightMap = new THREE.TextureLoader().load(heightMapURL);
@@ -75,12 +72,11 @@ export class MarbleThreeObject extends ThreeObject  {
             heightMap: { value: heightMap },
             displacementMap: { value: displacementMap },
             displacement: { value: this.params.displacement },
-            time: { value: 5 }
         }
         
         material.onBeforeCompile = shader => {
             // Wire up local uniform references
-            shader.uniforms = { ...shader.uniforms, ...this.uniforms }
+            shader.uniforms = { ...shader.uniforms, ...this.globalUniforms, ...this.uniforms }
             
             // Add to top of vertex shader
             shader.vertexShader = `
@@ -173,10 +169,10 @@ export class MarbleThreeObject extends ThreeObject  {
             `)
         }
         
-        this.mesh = new THREE.Mesh(geometry, material);
+        this.mesh.add(new THREE.Mesh(geometry, material));
     }
 
     animate(){
-        this.uniforms.time.value += this.clock.getDelta() * this.params.speed
+        super.animate();
     }
 }

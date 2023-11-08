@@ -1,6 +1,5 @@
 import {ThreeObject}  from "./ThreeObject.js";
 
-
 function randomPosNeg() { return Math.round(Math.random()) * 2 - 1; }
 
 export class ParticlesThreeObject extends ThreeObject {
@@ -23,7 +22,7 @@ export class ParticlesThreeObject extends ThreeObject {
     _linesMesh;
 
     constructor(node, props){
-        super();
+        super(node);
         
         //Object.defineProperties(this, props, node.particles);
         
