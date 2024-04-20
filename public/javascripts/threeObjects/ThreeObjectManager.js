@@ -133,6 +133,7 @@ import { LightsThreeObject } from "./lightsThreeObject.js";
 import { TwistThreeObject } from "./twistThreeObject.js";
 import { PerlinThreeObject } from "./PerlinThreeObject.js";
 import { PerlinNoiseThreeObject } from "./perlinNoiseThreeObject.js";
+import { WaveLineThreeObject } from "./waveLineThreeObject.js";
 
 
 ThreeObjectManager.registerType("Lines", LinesThreeObject);
@@ -145,3 +146,4 @@ ThreeObjectManager.registerType("Lights", LightsThreeObject);
 ThreeObjectManager.registerType("Twist", TwistThreeObject);
 ThreeObjectManager.registerType("Perlin", PerlinThreeObject);
 ThreeObjectManager.registerType("Perlin Noise", PerlinNoiseThreeObject);
+ThreeObjectManager.registerType("Wave Line", WaveLineThreeObject);

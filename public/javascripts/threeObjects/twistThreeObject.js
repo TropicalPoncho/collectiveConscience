@@ -13,7 +13,15 @@ export class TwistThreeObject extends ThreeObject  {
             uIntensity: { type: "f", value: 1.5 },
             uFrequency: { type: "f", value: 2 },
             uAmplitude: { type: "f", value: 2 },
+            uBrightness: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
+            uContrast: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
+            uOscilation: { value: new THREE.Vector3(2, 1.0, 0) },
+            uPhase: { value: new THREE.Vector3(0.3, 0.6, 0.2) }
         };
+
+        if(node.style){
+            $.extend(this.uniforms, node.style);
+        }
 
         var material = new THREE.ShaderMaterial( {
             uniforms: { ...this.globalUniforms, ...this.uniforms },
@@ -67,6 +75,11 @@ export class TwistThreeObject extends ThreeObject  {
                 varying float vDistort;
 
                 uniform float uIntensity;
+
+                uniform vec3 uBrightness;
+                uniform vec3 uContrast;
+                uniform vec3 uOscilation;
+                uniform vec3 uPhase;
                 
                 vec3 cosPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
                     return a + b * cos(6.28318 * (c * t + d));
@@ -80,13 +93,13 @@ export class TwistThreeObject extends ThreeObject  {
                     // You can find more combos in the examples from IQ:
                     // https://iquilezles.org/www/articles/palettes/palettes.htm
                     // Experiment with these!
-                    vec3 brightness = vec3(0.5, 1, 0.5);
-                    vec3 contrast = vec3(0.5, 1, 0.5);
-                    vec3 oscilation = vec3(.8, 1.0, 1.0);
+                    vec3 brightness = vec3(0.5, 0.5, 0.5);
+                    vec3 contrast = vec3(0.5, 0.5, 0.5);
+                    vec3 oscilation = vec3(2, 1.0, 0);
                     vec3 phase = vec3(0.6, 0.2, 0.1);
                   
                     // Pass the distortion as input of cospalette
-                    vec3 color = cosPalette(distort, brightness, contrast, oscilation, phase);
+                    vec3 color = cosPalette(distort, uBrightness, uContrast, uOscilation, uPhase);
 
                     //vec3 color = vec3(distort);
 

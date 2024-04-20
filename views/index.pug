@@ -3,13 +3,13 @@ block css
   link(rel='stylesheet', type="text/css",  media="screen,projection", href='/stylesheets/index.css')
 block js
   script(src="//unpkg.com/3d-force-graph")
-  script(src="//unpkg.com/three@0.157.0")
+  script(src="//unpkg.com/three@0.160.0")
   //script(src="//unpkg.com/three-spritetext")
   script(type="importmap").
     {
       "imports": {
-        "three": "//unpkg.com/three@0.157.0/build/three.module.js",
-        "three/addons/": "//unpkg.com/three@0.157.0/examples/jsm/"
+        "three": "//unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "//unpkg.com/three@0.160.0/examples/jsm/"
       }
     }
   script(type="module", src="/javascripts/index.js")

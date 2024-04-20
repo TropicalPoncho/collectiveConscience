@@ -26,6 +26,11 @@ export class PerlinThreeObject extends ThreeObject{
             color2: {value: new THREE.Color(0x9900FF)},
             bloom: {value: 0}
         }
+
+        if(node.style){
+            $.extend(localUniforms, node.style);
+        }
+
         let m = new THREE.MeshStandardMaterial({
             roughness: 0.125,
             metalness: 0.875,

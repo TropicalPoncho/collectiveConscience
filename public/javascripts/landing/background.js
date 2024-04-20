@@ -188,7 +188,7 @@ export default class Background {
         const line2 = new THREE.LineSegments( wireframe2 );
         line2.position.y = this.mountainsHeight * 2;
         this.scene.add( line2 ); */
-        const loader = new FontLoader();
+        /* const loader = new FontLoader();
         var scene = this.scene;
         var height = this.mountainsHeight;
         loader.load( '/fonts/Briller_Regular.json', function ( font ) {
@@ -211,10 +211,11 @@ export default class Background {
             meshText.position.x = -2000;
             meshText.position.y = 2000;
             scene.add( meshText );
-        } );
+        } ); */
 
         /* const axesHelper = new THREE.AxesHelper( 15000 );
         this.scene.add( axesHelper ); */
+        //this.scene.remove(scene.getObjectByName('Light'));
     }
 
     animate(){

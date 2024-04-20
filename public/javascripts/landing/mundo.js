@@ -49,7 +49,7 @@ export default class Mundo{
     constructor(elementId, graphData){
 
         this.graphData = graphData;
-        this.threeObjectManager = new ThreeObjectManager({animationType: 'Hover'});
+        this.threeObjectManager = new ThreeObjectManager({animationType: 'All'});
 
         this.Graph = ForceGraph3D({ controlType: 'orbit', extraRenderers: [new CSS2DRenderer()]  })
         (document.getElementById(elementId))
@@ -61,9 +61,10 @@ export default class Mundo{
                 console.log(node);
             })
             //.numDimensions(2)
-            .dagMode('zout')
+            //.dagMode('zout')
             .cooldownTicks(100)
             .nodeThreeObject(node => this.threeObjectManager.createObject(node) )
+            //.linkThreeObject(link => this.threeObjectManager.createObject({'id': link.source+''+link.target, 'type': 'Wave Line'}) )
             .onNodeHover(node => {
                 this.consoleLogPosition();
                 if ((!node && !this.threeObjectManager.objectToAnimate) || (node && this.hoverNode === node)) return;
@@ -94,11 +95,25 @@ export default class Mundo{
         this.renderer = this.Graph.renderer();
         this.camera = this.Graph.camera();
 
+/*         this.camera.near = 30;
+        this.camera.far = 300;
+        this.camera.fov = 55;
+        this.camera.updateProjectionMatrix(); */
+
+        //this.scene.remove(scene.getObjectByName('Light'));
+
+        /*this.renderer.shadowMap.enabled = false;
+        this.scene.traverse(function (child) {
+            if (child.material) {
+                child.material.needsUpdate = true
+            }
+        });*/
+
         this.originalCameraPosition = this.camera.position;
 
         this.stats = new Stats();
-        this.stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
-
+        this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+        
         document.body.appendChild(this.stats.dom);
         window.addEventListener('resize', this.resize.bind(this));
 
@@ -121,6 +136,11 @@ export default class Mundo{
 
     consoleLogPosition(){
         console.log(this.camera.position.x + " " + this.camera.position.y + " " + this.camera.position.z);
+        var numMeshes = 0;
+        scene.traverse(function(o) {
+            if (o.isMesh) numMeshes++;
+        });
+        console.log('There are ' + numMeshes + ' meshes in this scene.');
     }
 
     render()

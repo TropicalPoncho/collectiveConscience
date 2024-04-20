@@ -37,7 +37,7 @@ export class MarbleThreeObject extends ThreeObject  {
         depth: 0.4,
         smoothing: 0.5,
         displacement: 0.8,
-        colorA: '#FFFFFF',
+        colorA: '#111111',
         colorB: '#d719c7'
     };
 

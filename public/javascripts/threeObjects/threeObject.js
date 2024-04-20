@@ -28,32 +28,33 @@ export class ThreeObject {
             nodeEl.className = 'node-label';
             this.mesh.add(new CSS2DObject(nodeEl));
         }
-        this.title = node.name;
-        var title = this.title;
-        const loader = new FontLoader();
-        var scene = this.scene;
-        var height = this.mountainsHeight;
-        loader.load( '/fonts/Briller_Regular.json', function ( font ) {
+        /* if(node.name){
+            this.title = node.name;
+            var title = this.title;
+            const loader = new FontLoader();
+            var scene = this.scene;
+            loader.load( '/fonts/Briller_Regular.json', function ( font ) {
 
-            const geometry = new TextGeometry( title, {
-                font: font,
-                size: 10,
-                height: 20,
-                curveSegments: 12,
-                bevelEnabled: true,
-                bevelThickness: 10,
-                bevelSize: 8,
-                bevelOffset: 0,
-                bevelSegments: 5
+                const geometry = new THREE.TextGeometry( title, {
+                    font: font,
+                    size: 10,
+                    height: 20,
+                    curveSegments: 12,
+                    bevelEnabled: true,
+                    bevelThickness: 10,
+                    bevelSize: 8,
+                    bevelOffset: 0,
+                    bevelSegments: 5
+                } );
+                var material = new THREE.MeshBasicMaterial( { overdraw: true, side:THREE.DoubleSide } );
+                let meshText = new THREE.Mesh( geometry, material );
+                //meshText.position.y = height * -2.5;
+                meshText.position.z = node.z;
+                meshText.position.x = node.x + (Math.sign(node.x));
+                meshText.position.y = node.y;
+                scene.add( meshText );
             } );
-            var material = new THREE.MeshBasicMaterial( { overdraw: true, side:THREE.DoubleSide } );
-            let meshText = new THREE.Mesh( geometry, material );
-            //meshText.position.y = height * -2.5;
-            meshText.position.z = node.z;
-            meshText.position.x = node.x + (Math.sign(node.x));
-            meshText.position.y = node.y;
-            scene.add( meshText );
-        } );
+        } */
         
     }
 

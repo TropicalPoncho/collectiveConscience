@@ -18,42 +18,112 @@ const colorsArray = [
 
 var nodes = [{
     "id": 0,
-    "type": "Image", 
-    "name": "Tropical Poncho",
+    "name": "Amigues de Tropical",
     "img": 'isologo_blanco.png',
     "color": colorsArray[6],
     "imgSize": globalDefaultSettings.imgSize,
-    "val": globalDefaultSettings.nodeSize
+    "val": globalDefaultSettings.nodeSize,
+    "type": "Twist"
 },{
     "id": 1, 
     "name": "Nosotres",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
-    "links": [{id:0,distance: 40}],
-    "type": "Twist"
+    "links": [{id:0,distance: 100}],
+    "type": "Twist",
+    "style": {
+        uNoiseStrength: { type: "f", value: 2 },
+        uNoiseDensity: { type: "f", value: 4.0 },
+        uIntensity: { type: "f", value: 2 },
+        uFrequency: { type: "f", value: 5 },
+        uAmplitude: { type: "f", value: 1 },
+        uBrightness: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
+        uContrast: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
+        uOscilation: { value: new THREE.Vector3(1.0, 1.0, 1.0) },
+        uPhase: { value: new THREE.Vector3(0.00, 0.33, 0.67) }
+    }
 },{
     "id": 2, 
     "name": "Obras",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
-    "links": [{id:0, distance: 60}],
-    "type": "Marble",
+    "links": [{id:0, distance: 100},{id:1, distance: 100}],
+    "type": "Twist",
+    "style": {
+        uNoiseStrength: { type: "f", value: 8 },
+        uNoiseDensity: { type: "f", value: 2.0 },
+        uIntensity: { type: "f", value: 1 },
+        uFrequency: { type: "f", value: .5 },
+        uAmplitude: { type: "f", value: .2 },
+        uBrightness: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
+        uContrast: { value: new THREE.Vector3(0.5, 0.5, 0.5	) },
+        uOscilation: { value: new THREE.Vector3(2.0, 1.0, 0) },
+        uPhase: { value: new THREE.Vector3(0.50, 0.20, 0.25) }
+    }
 },{
     "id": 3, 
+    "name": "Proyectos",
+    "val": globalDefaultSettings.nodeSize,
+    "color": colorsArray[6],
+    "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100}],
+    "type": "Twist",
+    "style":{
+        color1: {value: new THREE.Color(0x111111)},
+        color2: {value: new THREE.Color(0x9900FF)}
+    }
+},{
+    "id": 4, 
+    "name": "Laboratorios",
+    "val": globalDefaultSettings.nodeSize,
+    "color": colorsArray[6],
+    "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100}],
+    "type": "Lights",
+    "style":{
+        colorR: { type: "f", value: .1},
+        colorG: { type: "f", value: .1},
+        colorB: { type: "f", value: .2},
+        colorChange: { type: "f", value: 5}
+    }
+},{
+    "id": 5, 
+    "name": "Audiovisuales",
+    "val": globalDefaultSettings.nodeSize,
+    "color": colorsArray[6],
+    "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100},{id:4, distance: 100}],
+    "type": "Twist",
+    "style":{
+        color1: {value: new THREE.Color(0xff0011)},
+        color2: {value: new THREE.Color(0x442211)}
+    }
+},{
+    "id": 6, 
+    "name": "Editorial",
+    "val": globalDefaultSettings.nodeSize,
+    "color": colorsArray[6],
+    "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100},{id:4, distance: 100},{id:5, distance: 100}],
+    "type": "Lights",
+    "style":{
+        weight: { type: "f", value: 13}
+    }
+} ,{
+    "id": 7, 
     "name": "Contacto",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
-    "links": [{id:0, distance: 80}],
-    "type": "Perlin",
-    "nodeVisibility": false
-},{
-    "id": 4, 
-    "name": "Convocatoria",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[6],
-    "links": [{id:0, distance: 100}],
-    "type": "Lights"
-}/* ,{ //Obras -------------------------------------------
+    "links": [{id:0, distance: 100}, {id:1, distance: 100}, {id:2, distance: 100}, {id:3, distance: 100}, {id:4, distance: 100}, {id:5, distance: 100}, {id:6, distance: 100}],
+    "type": "Twist",
+    "style":{
+        uNoiseStrength: { type: "f", value: 10 },
+        uNoiseDensity: { type: "f", value: 7.0 },
+        uIntensity: { type: "f", value: 6 },
+        uFrequency: { type: "f", value: 4 },
+        uAmplitude: { type: "f", value: 5 },
+        uBrightness: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
+        uContrast: { value: new THREE.Vector3(0.5, 0.5, 0.5	) },
+        uOscilation: { value: new THREE.Vector3(1.0, 1.0, 1.0) },
+        uPhase: { value: new THREE.Vector3(0.30, 0.20, 0.20) }
+    }
+} /* ,{ //Obras -------------------------------------------
     "id": 20,
     "name": "Kutral",
     "imgSize": globalDefaultSettings.imgSize,
@@ -118,7 +188,7 @@ console.log(nodeLinks);
 
 jQuery(function(){
     var mundo = new Mundo('contentNetwork', indexNeurons);
-    mundo.addElement(new Background(mundo));
+    //mundo.addElement(new Background(mundo));
 
     $(document).on('click', '#takeScreenshot', function(){
         takeScreenshot(mundo);
