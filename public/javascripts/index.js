@@ -113,9 +113,9 @@ var nodes = [{
     "links": [{id:0, distance: 100}, {id:1, distance: 100}, {id:2, distance: 100}, {id:3, distance: 100}, {id:4, distance: 100}, {id:5, distance: 100}, {id:6, distance: 100}],
     "type": "Twist",
     "style":{
-        uNoiseStrength: { type: "f", value: 100 },
+        uNoiseStrength: { type: "f", value: 1 },
         uNoiseDensity: { type: "f", value: 9.0 },
-        uIntensity: { type: "f", value: 6 },
+        uIntensity: { type: "f", value: 2 },
         uFrequency: { type: "f", value: 4 },
         uAmplitude: { type: "f", value: 2 },
         uBrightness: { value: new THREE.Vector3(0.5, 0.7, 0.5) },
