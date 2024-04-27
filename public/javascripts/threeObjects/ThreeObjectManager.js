@@ -1,4 +1,4 @@
-import { ThreeObject } from "./TreeObject.js";
+import { ThreeObject } from "./ThreeObject.js";
 
 export class ThreeObjectManager {
 
