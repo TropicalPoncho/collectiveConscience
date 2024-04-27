@@ -1,4 +1,4 @@
-import { ThreeObject } from "./ThreeObject.js";
+import { ThreeObject } from "./TreeObject.js";
 
 export class ThreeObjectManager {
 
@@ -131,7 +131,7 @@ import { MarbleThreeObject} from "./marbleThreeObject.js";
 import { FireThreeObject } from "./fireThreeObject.js";
 import { LightsThreeObject } from "./lightsThreeObject.js";
 import { TwistThreeObject } from "./twistThreeObject.js";
-import { PerlinThreeObject } from "./PerlinThreeObject.js";
+import { PerlinThreeObject } from "./perlinThreeObject.js";
 import { PerlinNoiseThreeObject } from "./perlinNoiseThreeObject.js";
 import { WaveLineThreeObject } from "./waveLineThreeObject.js";
 
