@@ -20,10 +20,9 @@ jobs:
     - name: Deploy using ssh
       uses: appleboy/ssh-action@v1.0.0
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        passphrase: ${{ secrets.PASSPHRASE }}
-        key: ${{ secrets.PRIVATE_KEY }}
+        host: "149.50.134.72"
+        username: "root"
+        password: "Thx92077@"
         port: 5901
         script: |
           cd /home/tropicalponcho/apps/collectiveConscience
