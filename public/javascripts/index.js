@@ -79,10 +79,10 @@ var nodes = [{
     "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100}],
     "type": "Lights",
     "style":{
-        colorR: { type: "f", value: .1},
-        colorG: { type: "f", value: .1},
+        colorR: { type: "f", value: .5},
+        colorG: { type: "f", value: .6},
         colorB: { type: "f", value: .2},
-        colorChange: { type: "f", value: 5}
+        colorChange: { type: "f", value: 7}
     }
 },{
     "id": 5, 
