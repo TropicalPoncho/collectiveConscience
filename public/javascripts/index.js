@@ -68,7 +68,7 @@ var nodes = [{
     "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100}],
     "type": "Twist",
     "style":{
-        color1: {value: new THREE.Color(0x111111)},
+        color1: {value: new THREE.Color(0x335566)},
         color2: {value: new THREE.Color(0x9900FF)}
     }
 },{
