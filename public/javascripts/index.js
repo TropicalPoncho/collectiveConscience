@@ -50,12 +50,12 @@ var nodes = [{
     "links": [{id:0, distance: 100},{id:1, distance: 100}],
     "type": "Twist",
     "style": {
-        uNoiseStrength: { type: "f", value: 2 },
+        uNoiseStrength: { type: "f", value: 8 },
         uNoiseDensity: { type: "f", value: 1.0 },
         uIntensity: { type: "f", value: 1 },
         uFrequency: { type: "f", value: .5 },
         uAmplitude: { type: "f", value: .2 },
-        uBrightness: { value: new THREE.Vector3(0.2, 0.5, 0.5) },
+        uBrightness: { value: new THREE.Vector3(0.2, 0.9, 0.3) },
         uContrast: { value: new THREE.Vector3(0.5, 0.7, 0.5	) },
         uOscilation: { value: new THREE.Vector3(2.0, 1.0, 0) },
         uPhase: { value: new THREE.Vector3(0.50, 0.20, 0.25) }
