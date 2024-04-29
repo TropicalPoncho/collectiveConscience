@@ -110,7 +110,7 @@ export default class Background {
             plane.position.set = new THREE.Vector3( -10, -100, 0 );
         */
 
-        //Other Geometry
+        /*Other Geometry
         const piso = new THREE.PlaneGeometry( 5000, 5000, worldWidth - 1, worldDepth - 1 );
         piso.rotateX( - Math.PI / 2 ); 
         const data2 = Utils.generateHeight( worldWidth , worldDepth ); 

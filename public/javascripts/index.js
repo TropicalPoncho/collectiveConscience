@@ -188,7 +188,7 @@ console.log(nodeLinks);
 
 jQuery(function(){
     var mundo = new Mundo('contentNetwork', indexNeurons);
-    //mundo.addElement(new Background(mundo));
+    mundo.addElement(new Background(mundo));
 
     $(document).on('click', '#takeScreenshot', function(){
         takeScreenshot(mundo);
