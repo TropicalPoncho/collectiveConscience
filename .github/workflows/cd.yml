@@ -18,11 +18,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - name: Deploy using ssh
-      uses: appleboy/ssh-action@v1.0.0
+      uses: appleboy/ssh-action@v1.0.3
       with:
-        host: "149.50.134.72"
-        username: "root"
-        password: "Thx92077@"
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        key: ${{ secrets.PRIVATE_KEY }}
         port: 5901
         script: |
           cd /home/tropicalponcho/apps/collectiveConscience
