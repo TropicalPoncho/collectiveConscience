@@ -89,8 +89,6 @@ section {
   }
 
   button {
-    --border-radius: 25px;
-    --border-width: 7px;
     appearance: none;
     position: relative;
     padding: 1em 2em;
