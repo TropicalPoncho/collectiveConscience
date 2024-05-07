@@ -49,9 +49,9 @@ export default class Mundo{
     constructor(elementId, graphData){
 
         this.graphData = graphData;
-        this.threeObjectManager = new ThreeObjectManager({animationType: 'All'});
+        this.threeObjectManager = new ThreeObjectManager({animationType: 'Hover'});
 
-        this.Graph = ForceGraph3D({ controlType: 'orbit', extraRenderers: [new CSS2DRenderer()]  })
+        this.Graph = ForceGraph3D({ controlType: 'orbit'})
         (document.getElementById(elementId))
             /* .linkCurvature(1)
             .linkCurveRotation(0.5) */
@@ -64,30 +64,22 @@ export default class Mundo{
             //.dagMode('zout')
             .cooldownTicks(100)
             .nodeThreeObject(node => this.threeObjectManager.createObject(node) )
-            //.linkThreeObject(link => this.threeObjectManager.createObject({'id': link.source+''+link.target, 'type': 'Wave Line'}) )
+            .linkThreeObject(link => this.threeObjectManager.createObject({'id': link.source+''+link.target, 'type': 'Wave Line'}) )
             .onNodeHover(node => {
                 this.consoleLogPosition();
-                if ((!node && !this.threeObjectManager.objectToAnimate) || (node && this.hoverNode === node)) return;
-
-                this.threeObjectManager.objectToAnimate = null;
-
-                if (node)
-                    this.threeObjectManager.objectToAnimate = node.id;
-
-                this.hoverNode = node || null;
-
+                this.animateNode(node);
             })
-            .onNodeClick(node => this.aimNode(node));
+            .onNodeClick(node => this.activeNode(node));
 
         this.Graph.d3Force('link')
             .distance(link =>  link.distance );
 
         this.Graph.nodeAutoColorBy('group')
             .linkWidth(globalDefaultSettings.LINK_WIDTH)
-            .linkOpacity(globalDefaultSettings.LINK_OPACITY);
-            //.linkDirectionalParticleWidth(LINK_PARTICLE_WIDTH)
-            //.linkDirectionalParticles(LINK_PARTICLE_COUNT)
-            //.linkDirectionalParticleSpeed(LINK_PARTICLE_SPEED);
+            .linkOpacity(globalDefaultSettings.LINK_OPACITY)
+            .linkDirectionalParticleWidth(globalDefaultSettings.LINK_PARTICLE_WIDTH)
+            .linkDirectionalParticles(globalDefaultSettings.LINK_PARTICLE_COUNT)
+            .linkDirectionalParticleSpeed(globalDefaultSettings.LINK_PARTICLE_SPEED);
 
         this.Graph.graphData(this.graphData);
 
@@ -109,15 +101,17 @@ export default class Mundo{
             }
         });*/
 
-        this.originalCameraPosition = this.camera.position;
-
+        
         this.stats = new Stats();
         this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
         
         document.body.appendChild(this.stats.dom);
         window.addEventListener('resize', this.resize.bind(this));
-
+        
         this.render();
+        this.originalCameraPosition = this.camera.position;
+        console.log("originalpos");
+        this.consoleLogPosition(this.originalCameraPosition);
     }
 
     resize() {
@@ -134,8 +128,22 @@ export default class Mundo{
         this.elements.push(element);
     }
 
-    consoleLogPosition(){
-        console.log(this.camera.position.x + " " + this.camera.position.y + " " + this.camera.position.z);
+    animateNode(node, stay = false){
+        if ((!node && !this.threeObjectManager.objectToAnimate) || (node && this.hoverNode === node)) return;
+
+        if(stay){
+            this.threeObjectManager.objectToAnimate = null;
+        }
+
+        if (node)
+            this.threeObjectManager.objectToAnimate = node.id;
+
+        this.hoverNode = node || null;
+    }
+
+    consoleLogPosition(position = false){
+        var pos = position ?? this.camera.position;
+        console.log(pos.x + " " + pos.y + " " + pos.z);
         var numMeshes = 0;
         scene.traverse(function(o) {
             if (o.isMesh) numMeshes++;
@@ -168,13 +176,20 @@ export default class Mundo{
     }
 
     activateZoomToFit(){
-        this.Graph.onEngineStop(() => this.Graph.zoomToFit(400));
+        this.Graph.zoomToFit(400);
     }
 
-    aimNodeFromId(neuronId){
-        var node = graphData.nodes.find(item => item.id === neuronId);
-        Cookies.set("neuron", node.id)
-        this.aimNode(node);
+    activeNodeById(neuronId){
+        var nodes = this.graphData.nodes;
+        var filterNode = nodes.find(item => item.id == neuronId);
+        filterNode.side = this.activeNode(filterNode);
+        return filterNode;
+    }
+
+    activeNode(node){
+        this.animateNode(node, true);
+        node.side = this.aimNode(node);
+        return node;
     }
 
     aimNode(node){
@@ -192,13 +207,28 @@ export default class Mundo{
             lookAt, // lookAt ({ x, y, z })
             3000  // ms transition duration
         );
+
+        var side = newPos.x > 0 ? "izq" : "der";
+        return side;
         //ingestNodeInfo(node);
-        $('.floatingInfo').children().hide(600);
-        $(`#${node.id}`).show(600);
+        /* $('.floatingInfo').children().hide(600);
+        $(`#${node.id}`).show(600); 
 
         if(node.id == 2){
             this.insertNodes();
         }
+        */
+    }
+
+    backToBasicsView(){
+        this.originalCameraPosition.x += globalDefaultSettings.cameraDistance;
+        this.originalCameraPosition.y += globalDefaultSettings.cameraDistance;
+        this.Graph.cameraPosition(
+            this.originalCameraPosition, // new position
+            0, // lookAt ({ x, y, z })
+            3000  // ms transition duration
+        ); 
+        //activateZoomToFit();
     }
 
 

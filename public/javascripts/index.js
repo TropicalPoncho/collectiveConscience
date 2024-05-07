@@ -1,5 +1,6 @@
 import Background from "./landing/background.js";
 import Mundo from "./landing/mundo.js";
+import somasData from "./landing/somasData.json" assert { type: 'json' };
 
 const globalDefaultSettings = {
     nodeSize: 3,
@@ -18,15 +19,15 @@ const colorsArray = [
 
 var nodes = [{
     "id": 0,
-    "name": "Amigues de Tropical",
+    "name": "Nosotres",
     "img": 'isologo_blanco.png',
     "color": colorsArray[6],
     "imgSize": globalDefaultSettings.imgSize,
     "val": globalDefaultSettings.nodeSize,
-    "type": "Twist"
+    "type": "Image"
 },{
     "id": 1, 
-    "name": "Nosotres",
+    "name": "Obras",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0,distance: 100}],
@@ -44,7 +45,7 @@ var nodes = [{
     }
 },{
     "id": 2, 
-    "name": "Obras",
+    "name": "Proyectos",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100}],
@@ -62,7 +63,7 @@ var nodes = [{
     }
 },{
     "id": 3, 
-    "name": "Proyectos",
+    "name": "Laboratorios",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100}],
@@ -73,7 +74,7 @@ var nodes = [{
     }
 },{
     "id": 4, 
-    "name": "Laboratorios",
+    "name": "Audiovisuales",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100}],
@@ -86,7 +87,7 @@ var nodes = [{
     }
 },{
     "id": 5, 
-    "name": "Audiovisuales",
+    "name": "Editorial",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100},{id:4, distance: 100}],
@@ -97,7 +98,7 @@ var nodes = [{
     }
 },{
     "id": 6, 
-    "name": "Editorial",
+    "name": "Amigues",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100},{id:4, distance: 100},{id:5, distance: 100}],
@@ -194,6 +195,20 @@ jQuery(function(){
         takeScreenshot(mundo);
     });
 
+
+    $(document).on('click', '.floatingMenu > .bn', function(){
+        var node = mundo.activeNodeById($(this).attr('neuronId'));
+        showNeuronData(node);
+    });
+
+    $(document).on("click", '.volver', function( event ) {
+        $(".floatingMenu").removeClass("der");
+        $(".floatingMenu").removeClass("izq");
+        mundo.activateZoomToFit();
+        $(".floatingTitle").fadeIn(600);
+        $(".floatingInfo").fadeOut(600);
+    });
+
 });
 
 
@@ -213,3 +228,23 @@ function takeScreenshot(mundo){
         document.body.appendChild( imgEl ); 
     }); */
 }
+    
+function showNeuronData(node){
+    var thisNode = somasData.filter(textNode => textNode.id == node.id)[0];
+    $(".subtitle").text(thisNode.subtitle);
+    $(".info").text(thisNode.info);
+    if(node.side == "izq"){
+        $(".floatingInfo").addClass("der");
+
+        $(".floatingMenu").addClass("der");
+        $(".floatingMenu").removeClass("izq");
+    }else{
+        $(".floatingInfo").removeClass("der");
+
+        $(".floatingMenu").removeClass("der");
+        $(".floatingMenu").addClass("izq");
+    }
+    $(".floatingTitle").fadeOut(600);//Oculto el titulo
+    $(".floatingInfo").fadeIn(600); //Muestro la data
+}
+

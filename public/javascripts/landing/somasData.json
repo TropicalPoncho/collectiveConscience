@@ -1,0 +1,47 @@
+[
+    {
+        "id": 0,
+        "subtitle":"Tropical Poncho es una plataforma de creación y promoción artística multidisciplinaria que toma a la consciencia y el estudio de esta como punto de partida conceptual." ,
+        "info":"info blaaa",
+        "next":"next id"
+    },
+    {
+        "id": 1,
+        "subtitle":"Las obras que producimos son Interdum ac facilisis justo cubilia aenean sem, fusce venenatis eleifend hac montes consequat, commodo nullam scelerisque donec litora. Tellus congue torquent placerat aliquam phasellus conubia laoreet ornare lacinia, vulputate nibh quis praesent risus commodo facilisis turpis imperdiet senectus, posuere tempus sodales primis proin habitant tortor litora. ",
+        "info":"info blaaa",
+        "next":"next id"
+    },
+    {
+        "id": 2,
+        "subtitle":"Audiovisuales blablabla",
+        "info":"info blaaaasdas"
+    },
+    {
+        "id": 3,
+        "subtitle":"subtitulo blasdadsdasda",
+        "info":"info blaaa",
+        "next":"next id"
+    },
+    {
+        "id": 4,
+        "subtitle":"subtitulo blaasdasdasdas",
+        "info":"info blaaa",
+        "next":"next id"
+    },
+    {
+        "id": 5,
+        "subtitle":"subtitulo blaasdasdasdsa",
+        "info":"info blaaa",
+        "next":"next id"
+    },
+    {
+        "subtitle":"subtitulo blaasdasdasdsa",
+        "info":"info blaaa",
+        "next":"next id"
+    },
+    {
+        "subtitle":"subtitulo blaasdasdasdsa",
+        "info":"info blaaa",
+        "next":"next id"
+    }
+]

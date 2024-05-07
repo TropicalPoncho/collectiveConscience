@@ -6,12 +6,15 @@ export class ImageThreeObject extends ThreeObject  {
 
     constructor (node, config){
         super(node, false);
-        const imgTexture = new THREE.TextureLoader().load(`/images/${node.img}`);
-        var material = new THREE.SpriteMaterial({map: imgTexture, transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
-        const sprite = new THREE.Sprite(material);
-        sprite.scale.set(node.imgSize, node.imgSize);
-        
-        this.mesh.add(sprite);
+        const imgTexture = new THREE.TextureLoader().load(`images/${node.img}`, () => {
+            imgTexture.colorSpace = THREE.SRGBColorSpace;
+            var material = new THREE.SpriteMaterial({map: imgTexture, transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
+            const sprite = new THREE.Sprite(material);
+            sprite.scale.set(node.imgSize, node.imgSize);
+            
+            this.mesh.add(sprite);
+            return this;
+        });
     }
 }
 
