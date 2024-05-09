@@ -44,8 +44,8 @@ export default class Background {
             this.scene.background = new THREE.Color( this.backgroundColor ); 
         }
         
-        /* const axesHelper = new THREE.AxesHelper( 1000 );
-        this.scene.add( axesHelper );   */
+        const axesHelper = new THREE.AxesHelper( 1000 );
+        this.scene.add( axesHelper );
         
         //Add video texture:
         // create the video element

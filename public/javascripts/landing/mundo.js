@@ -202,13 +202,15 @@ export default class Mundo{
             : { x: 0, y: 0, z: distance }; // special case if node is in (0,0,0)
 
         var lookAt = {x: node.x +(Math.sign(node.x) * 20), y: node.y, z: node.z};
+        var side = lookAt.x > node.x  ? "der" : "izq";
+        console.log("newPos x "+newPos.x+" lookAt x"+lookAt.x);
         this.Graph.cameraPosition(
             newPos, // new position
             lookAt, // lookAt ({ x, y, z })
             3000  // ms transition duration
         );
-
-        var side = newPos.x > 0 ? "izq" : "der";
+        this.consoleLogPosition(newPos);
+        //var side = newPos.x > 0 ? "izq" : "der";
         return side;
         //ingestNodeInfo(node);
         /* $('.floatingInfo').children().hide(600);
