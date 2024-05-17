@@ -188,7 +188,7 @@ var indexNeurons = {nodes: nodes , links: nodeLinks};
 console.log(nodeLinks);
 
 jQuery(function(){
-    var mundo = new Mundo('contentNetwork', indexNeurons);
+    var mundo = new Mundo('contentNetwork', indexNeurons, showNeuronData);
     mundo.addElement(new Background(mundo));
 
     $(document).on('click', '#takeScreenshot', function(){
@@ -231,18 +231,29 @@ function takeScreenshot(mundo){
     
 function showNeuronData(node){
     var thisNode = somasData.filter(textNode => textNode.id == node.id)[0];
-    $(".subtitle").text(thisNode.subtitle);
-    $(".info").text(thisNode.info);
-    if(node.side == "izq"){
-        $(".floatingInfo").addClass("der");
-
-        $(".floatingMenu").addClass("der");
-        $(".floatingMenu").removeClass("izq");
+    if(thisNode.subtitle)
+        $(".subtitle").text(thisNode.subtitle);
+    if(thisNode.info)
+        $(".info").text(thisNode.info);
+    if(thisNode.next){
+        $(".next").attr("id",thisNode.next.id);
+        $(".next").show();
     }else{
+        $(".next").hide();
+    }
+    console.log("nodeside:" + node.side);
+    if(node.side == "izq"){
+        $(".floatingInfo").addClass("izq");
         $(".floatingInfo").removeClass("der");
 
-        $(".floatingMenu").removeClass("der");
         $(".floatingMenu").addClass("izq");
+        $(".floatingMenu").removeClass("der");
+    }else{
+        $(".floatingInfo").removeClass("izq");
+        $(".floatingInfo").addClass("der");
+
+        $(".floatingMenu").removeClass("izq");
+        $(".floatingMenu").addClass("der");
     }
     $(".floatingTitle").fadeOut(600);//Oculto el titulo
     $(".floatingInfo").fadeIn(600); //Muestro la data

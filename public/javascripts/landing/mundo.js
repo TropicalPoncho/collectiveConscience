@@ -46,7 +46,7 @@ export default class Mundo{
     elements = [];
 
     //Init graph:
-    constructor(elementId, graphData){
+    constructor(elementId, graphData, showNeuronsCallBack){
 
         this.graphData = graphData;
         this.threeObjectManager = new ThreeObjectManager({animationType: 'Hover'});
@@ -69,7 +69,10 @@ export default class Mundo{
                 this.consoleLogPosition();
                 this.animateNode(node);
             })
-            .onNodeClick(node => this.activeNode(node));
+            .onNodeClick(node => {
+                this.activeNode(node);
+                showNeuronsCallBack(node);
+            });
 
         this.Graph.d3Force('link')
             .distance(link =>  link.distance );
@@ -148,7 +151,7 @@ export default class Mundo{
         scene.traverse(function(o) {
             if (o.isMesh) numMeshes++;
         });
-        console.log('There are ' + numMeshes + ' meshes in this scene.');
+        //console.log('There are ' + numMeshes + ' meshes in this scene.');
     }
 
     render()
@@ -182,7 +185,7 @@ export default class Mundo{
     activeNodeById(neuronId){
         var nodes = this.graphData.nodes;
         var filterNode = nodes.find(item => item.id == neuronId);
-        filterNode.side = this.activeNode(filterNode);
+        filterNode = this.activeNode(filterNode);
         return filterNode;
     }
 
@@ -202,15 +205,17 @@ export default class Mundo{
             : { x: 0, y: 0, z: distance }; // special case if node is in (0,0,0)
 
         var lookAt = {x: node.x +(Math.sign(node.x) * 20), y: node.y, z: node.z};
-        var side = lookAt.x > node.x  ? "der" : "izq";
-        console.log("newPos x "+newPos.x+" lookAt x"+lookAt.x);
+        var side = this.getSide(newPos,lookAt,node); //lookAt.x > node.x  ? "der" : "izq";
+
+        console.log("newPos x "+ Math.round(newPos.x) +" lookAt x" + Math.round(lookAt.x));
         this.Graph.cameraPosition(
             newPos, // new position
             lookAt, // lookAt ({ x, y, z })
             3000  // ms transition duration
         );
-        this.consoleLogPosition(newPos);
+        //this.consoleLogPosition(newPos);
         //var side = newPos.x > 0 ? "izq" : "der";
+        console.log(side);
         return side;
         //ingestNodeInfo(node);
         /* $('.floatingInfo').children().hide(600);
@@ -220,6 +225,49 @@ export default class Mundo{
             this.insertNodes();
         }
         */
+    }
+
+    getSide(camPosition, camDirection, objPosition){
+
+/*         // Vector que va desde la cámara al objeto
+        const camToObjectVector = {
+            x: objPosition.x - camPosition.x,
+            y: objPosition.y - camPosition.y,
+            z: objPosition.z - camPosition.z
+        };
+
+        // Producto cruz entre el vector de dirección de la cámara y el vector que va desde la cámara al objeto
+        const crossProduct = {
+            x: camDirection.y * camToObjectVector.z - camDirection.z * camToObjectVector.y,
+            y: camDirection.z * camToObjectVector.x - camDirection.x * camToObjectVector.z,
+            z: camDirection.x * camToObjectVector.y - camDirection.y * camToObjectVector.x
+        }; */
+
+        if(camPosition.z < objPosition.z){
+            if(camDirection.x > objPosition.x){
+                return "izq";
+            }else{
+                return "der";
+            }
+        }else{
+            if(camDirection.x < objPosition.x){
+                return "izq";
+            }else{
+                return "der";
+            }
+        }
+
+        // Comprueba la componente y del vector resultante para determinar la dirección relativa
+        if (crossProduct.x > 0) {
+            console.log("der");
+            return "der";
+        } else if (crossProduct.x < 0) {
+            console.log("izq");
+            return "izq";
+        } else {
+            console.log("La cámara está mirando directamente al objeto.");
+        }
+
     }
 
     backToBasicsView(){

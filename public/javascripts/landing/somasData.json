@@ -3,50 +3,50 @@
         "id": 0,
         "subtitle":"Tropical Poncho es una plataforma de creación y promoción artística multidisciplinaria que toma a la consciencia y el estudio de esta como punto de partida conceptual." ,
         "info":"info blaaa",
-        "next":"next id"
+        "next":{
+            "id":1
+        }
     },
     {
         "id": 1,
-        "subtitle":"Las obras que producimos son Interdum ac facilisis justo cubilia aenean sem, fusce venenatis eleifend hac montes consequat, commodo nullam scelerisque donec litora. Tellus congue torquent placerat aliquam phasellus conubia laoreet ornare lacinia, vulputate nibh quis praesent risus commodo facilisis turpis imperdiet senectus, posuere tempus sodales primis proin habitant tortor litora. ",
-        "info":"info blaaa",
-        "next":"next id"
+        "subtitle":"La consciencia de la percepción misma como obra.",
+        "info":"Dentro de OBRAS incluimos a los eventos realizados por la productora ya se conciben desde la idea de que la experiencia completa que se percibe en el evento, es la obra.",
+        "next":{
+            "id":1
+        }
     },
     {
         "id": 2,
-        "subtitle":"Audiovisuales blablabla",
-        "info":"info blaaaasdas"
+        "subtitle":"La obra es experiencia pero su documentación audivisual también lo es.",
+        "info":"Documentamos las obras presenciales, creando de esa manera una obra que pueda compartirse en formato digital. Si bien creemos que experimentar la obra presencialmente es la mejor manera de conectar con ella, queremos difundir el talento de los artistas, promover su crecimiento y que se expanda en toda la red generando mayor visibilidad para les artistas y la plataforma generando una retroalimentación."
     },
     {
         "id": 3,
-        "subtitle":"subtitulo blasdadsdasda",
-        "info":"info blaaa",
-        "next":"next id"
+        "subtitle":"El formato editorial para expandir el arte en toda su complejidad.",
+        "info":"Para poder desarrollar en profundidad los conceptos en los que trabajamos y expresar libremente cierto tipo de obras necesitamos del medio editorial, en el cual estamos trabajando para poder publicar no solo en papel de forma artesanal, sino que planificamos una revista virtual donde los artistas que amamos puedan expresar sus increíbles ideas."
     },
     {
         "id": 4,
-        "subtitle":"subtitulo blaasdasdasdas",
-        "info":"info blaaa",
-        "next":"next id"
+        "subtitle":"La tecnología en todas sus formas es una herramienta de la propia inteligencia planetaria que se expresa a trevés nuestro.",
+        "info":"Para seguir promoviendo la expansión de la red artística y atacar problematicas específicas estamos trabajando en distintos proyectos de sistemas informáticos. Pensamos a la informática como una abstracción de la realidad material que sustenta otro plano, el digital."
+        
     },
     {
         "id": 5,
-        "subtitle":"subtitulo blaasdasdasdsa",
-        "info":"info blaaa",
-        "next":"next id"
+        "subtitle":"Otras de las maneras de expandir el arte es por medio de la experimentación colectiva y la sociabilización de saberes que enriquezcan la obra individual",
+        "info":"En los laboratorios proponemos un espacio de experimentación y enfoque en el proceso artístico. Estos encuentros multidisciplinarios servían como un lugar para encontrarse con otres artistas y trabajar la creatividad, profundizando la búsqueda interna y los puntos en común con el otre.",
+        "next":{
+            "id":1
+        }
     },
     {
-        "subtitle":"subtitulo blaasdasdasdsa",
-        "info":"info blaaa",
-        "next":"next id"
+        "id": 6,
+        "subtitle":"Una forma directa y fundamental de expandir la red es reforzar la visibilidad de proyectos con los que sentimos afinidad artística y conceptual",
+        "info":"Aquí recomendamos y compartimos otras obras, proyectos y artistas para promover su visibilidad. Creemos que es mas orgánica la recomendación sincera antes que la publicidad."
     },
     {
-        "subtitle":"subtitulo blaasdasdasdsa",
-        "info":"info blaaa",
-        "next":"next id"
-    },
-    {
-        "subtitle":"subtitulo blaasdasdasdsa",
-        "info":"info blaaa",
-        "next":"next id"
+        "id": 7,
+        "subtitle":"CONTACTO",
+        "info":"holis"
     }
 ]
