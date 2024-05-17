@@ -45,7 +45,7 @@ var nodes = [{
     }
 },{
     "id": 2, 
-    "name": "Proyectos",
+    "name": "Audiovisuales",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100}],
@@ -63,7 +63,7 @@ var nodes = [{
     }
 },{
     "id": 3, 
-    "name": "Laboratorios",
+    "name": "Editorial",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100}],
@@ -74,7 +74,7 @@ var nodes = [{
     }
 },{
     "id": 4, 
-    "name": "Audiovisuales",
+    "name": "Tecnología",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100}],
@@ -87,7 +87,7 @@ var nodes = [{
     }
 },{
     "id": 5, 
-    "name": "Editorial",
+    "name": "Laboratorios",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100},{id:4, distance: 100}],
