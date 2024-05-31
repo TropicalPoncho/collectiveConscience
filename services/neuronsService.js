@@ -79,7 +79,6 @@ class NeuronsService {
                 query.skip(limit*page);
             }
             return query.limit(limit).exec();
-            //const result = await this.MongooseServiceInstance.create( postToCreate );
         } catch ( err ) {
             return err;
         }

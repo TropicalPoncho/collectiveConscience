@@ -3,7 +3,7 @@ import Mundo from "./landing/mundo.js";
 import somasData from "./landing/somasData.json" assert { type: 'json' };
 
 const globalDefaultSettings = {
-    nodeSize: 3,
+    nodeSize: 4,
     imgSize: 50,
 };
 
@@ -17,7 +17,7 @@ const colorsArray = [
     "#FFFFFF" //blanco
 ];
 
-var nodes = [{
+var indexNeurons = [{
     "id": 0,
     "name": "Nosotres",
     "img": 'isologo_blanco.png',
@@ -124,83 +124,135 @@ var nodes = [{
         uOscilation: { value: new THREE.Vector3(1.0, 1.0, 1.0) },
         uPhase: { value: new THREE.Vector3(0.30, 0.20, 0.20) }
     }
-} /* ,{ //Obras -------------------------------------------
-    "id": 20,
-    "name": "Kutral",
-    "imgSize": globalDefaultSettings.imgSize,
-    "val": globalDefaultSettings.nodeSize,
-    "links": [{id:2, distance: 40}],
-    "type": "Fire"
-},{
-    "id": 21, 
-    "name": "Tempistica I",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[1],
-    "links": [{id:2, distance: 60}],
-    "type": "Twist"
-},{
-    "id": 22, 
-    "name": "Tempistica II",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[2],
-    "links": [{id:2, distance: 70}, {id:2}],
-    "type": "Twist"
-},{
-    "id": 23, 
-    "name": "Tropical Posporno",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[3],
-    "links": [{id:2, distance: 80}],
-    "type": "Lights"
-},{
-    "id": 24, 
-    "name": "SOMA beta",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[4],
-    "links": [{id:2, distance: 90}],
-    "type": "Marble"
-},{
-    "id": 25, 
-    "name": "SOMA",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[4],
-    "links": [{id:2, distance: 90}, {id:24}],
-    "type": "Lights"
-} */];
-var nodeLinks = [];
-nodes.forEach( node => {
-    if( node.links ){
-        node.links.forEach( link => {
+}];
 
-            var newLink = {
-                source: link.id,
-                target: node.id
-            };
-
-            newLink.distance = link.distance ?? globalDefaultSettings.linkDistance;
-
-            nodeLinks.push(newLink);
-
-        });
+var obras = [
+    { //Obras -------------------------------------------
+        "id": 10,
+        "name": "Kutral",
+        "imgSize": globalDefaultSettings.imgSize,
+        "val": globalDefaultSettings.nodeSize - 2,
+        "links": [{id:1, distance: 60}],
+        "type": "Fire"
+    },{
+        "id": 11, 
+        "name": "Tempistica I",
+        "val": globalDefaultSettings.nodeSize - 2,
+        "color": colorsArray[1],
+        "links": [{id:10, distance: 60}],
+        "type": "Twist"
+    },{
+        "id": 12, 
+        "name": "Tempistica II",
+        "val": globalDefaultSettings.nodeSize - 2,
+        "color": colorsArray[2],
+        "links": [{id:11, distance: 60}],
+        "type": "Twist"
+    },{
+        "id": 13, 
+        "name": "Tropical Posporno",
+        "val": globalDefaultSettings.nodeSize - 2,
+        "color": colorsArray[3],
+        "links": [{id:1, distance: 70}],
+        "type": "Lights",
+        "style":{
+            colorR: { type: "f", value: .9},
+            colorG: { type: "f", value: .0},
+            colorB: { type: "f", value: .0},
+            colorChange: { type: "f", value: 7}
+        }
+        /* "img":"posporno.png",
+        "imgSize": 30, */
+    },{
+        "id": 14, 
+        "name": "SOMA beta",
+        "val": globalDefaultSettings.nodeSize - 2,
+        "color": colorsArray[4],
+        "links": [{id:11, distance: 60}],
+        "type": "Marble"
+    },{
+        "id": 15, 
+        "name": "SOMA",
+        "val": globalDefaultSettings.nodeSize - 2,
+        "color": colorsArray[4],
+        "links": [{id:14, distance: 60}],
+        "type": "Lights"
+    },{
+        "id": 16, 
+        "name": "NUDO",
+        "val": globalDefaultSettings.nodeSize - 2,
+        "color": colorsArray[4],
+        "links": [{id:1, distance: 80}],
+        "type": "Image",
+        "img":"NUDO.png",
+        "imgSize": 30,
+    },{
+        "id": 17, 
+        "name": "C.E.P.A.",
+        "val": globalDefaultSettings.nodeSize - 2,
+        "color": colorsArray[4],
+        "links": [{id:1, distance: 90}],
+        "type": "Image",
+        "img":"CEPA.png",
+        "imgSize": 50
+    },{
+        "id": 18, 
+        "name": "Concierto Público #4 ft Tropical Poncho",
+        "val": globalDefaultSettings.nodeSize - 2,
+        "color": colorsArray[4],
+        "links": [{id:1, distance: 100}],
+        "type": "Marble"
+    },{
+        "id": 19,
+        "name": "Tropical Posporno: Distopia",
+        "val": globalDefaultSettings.nodeSize - 2,
+        "color": colorsArray[4],
+        "links": [{id:13, distance: 60}],
+        "type": "Image",
+        "img":"distopia.png",
+        "imgSize": 60
     }
-});
-var indexNeurons = {nodes: nodes , links: nodeLinks};
-console.log(nodeLinks);
+];
+
+
+/* function getAndInsertNeurons(page, fromNeuronId){
+    $.get( "/neurons", {fromNeuronId: fromNeuronId, page: page}, function( neurons ) {
+        if(neurons.length != 0){
+            mundo.insertNodes({nodes: neurons , links: createLinks(nextNeurons[thisNeuronId])}, nextId, showNeuronData);
+            page++;
+            GetNeurons(page);
+        }else{ //Cuando termina de cargar
+            //setTimeout(() => { manageNewNeurons(); }, 5000);
+        }
+    });
+} */
 
 jQuery(function(){
-    var mundo = new Mundo('contentNetwork', indexNeurons, showNeuronData);
+    var mundo = new Mundo('contentNetwork', {nodes: indexNeurons , links: createLinks(indexNeurons)}, showNeuronData);
     mundo.addElement(new Background(mundo));
 
-    $(document).on('click', '#takeScreenshot', function(){
-        takeScreenshot(mundo);
+    $(document).on('click', '.next', function(){
+        var nextId = $(this).attr('id');
+        var thisNeuronId = $(this).attr('thisNeuronId');
+        if(thisNeuronId == 1) //Si son las obras:
+            mundo.insertNodes({nodes: obras , links: createLinks(obras)}, nextId, goToNeuron); //Cargo las que siguen y luego voy
+        else
+            goToNeuron(nextId); //Si no, solo voy a la siguiente
+        /**
+         * TODO: Acá se podría hacer más dinámico para que cargue en caso de q no encuentre ya cargada.
+         * Debería buscar por nivel/distancia? -> lo de distancia sirve para sinapsis -> aunque puede haber x distancia y q sean muchas.
+         * -> en ese caso debería haber un limite de visualización y que se vayan quitando los q se alejan para atrás en "nivel"
+         * -> más que nivel sería una magnitud de "distancia cosmica ahr", pero que se debería calcular en base a otra cosa porq si es solo en cuanto a
+         * distancia de intermediarios, igual puede tenerse mucho en este nivel. entonces hay que limitar primero por distancia y luego (si excede el limite) 
+         * por nivel de afinidad y ese valor debería calcularse mediante KE? -> aleatorio u orden (orden de la relación)! 
+         * 
+         */
     });
-
-
+    
     $(document).on('click', '.floatingMenu > .bn', function(){
-        var node = mundo.activeNodeById($(this).attr('neuronId'));
-        showNeuronData(node);
+        goToNeuron($(this).attr('neuronId'));
     });
-
+    
     $(document).on("click", '.volver', function( event ) {
         $(".floatingMenu").removeClass("der");
         $(".floatingMenu").removeClass("izq");
@@ -209,7 +261,16 @@ jQuery(function(){
         $(".floatingInfo").fadeOut(600);
     });
 
+    function goToNeuron(neuronId){
+        var node = mundo.activeNodeById(neuronId);
+        showNeuronData(node);
+    }
+    //Helper functions
+    /* $(document).on('click', '#takeScreenshot', function(){
+        takeScreenshot(mundo);
+    }); */
 });
+
 
 
 function takeScreenshot(mundo){
@@ -231,17 +292,18 @@ function takeScreenshot(mundo){
     
 function showNeuronData(node){
     var thisNode = somasData.filter(textNode => textNode.id == node.id)[0];
-    if(thisNode.subtitle)
+    if(thisNode?.subtitle)
         $(".subtitle").text(thisNode.subtitle);
-    if(thisNode.info)
+    if(thisNode?.info)
         $(".info").text(thisNode.info);
-    if(thisNode.next){
+    if(thisNode?.next){
         $(".next").attr("id",thisNode.next.id);
+        $(".next").attr("thisNeuronId", thisNode.id);
         $(".next").show();
     }else{
         $(".next").hide();
     }
-    console.log("nodeside:" + node.side);
+    //console.log("nodeside:" + node.side);
     if(node.side == "izq"){
         $(".floatingInfo").addClass("izq");
         $(".floatingInfo").removeClass("der");
@@ -259,3 +321,24 @@ function showNeuronData(node){
     $(".floatingInfo").fadeIn(600); //Muestro la data
 }
 
+function createLinks(nodes){
+    var nodeLinks = [];
+    var newBlend = indexNeurons.concat(nodes);
+    newBlend.forEach( node => {
+        if( node.links ){
+            node.links.forEach( link => {
+
+                var newLink = {
+                    source: link.id,
+                    target: node.id
+                };
+
+                newLink.distance = link.distance ?? globalDefaultSettings.linkDistance;
+
+                nodeLinks.push(newLink);
+
+            });
+        }
+    });
+    return nodeLinks;
+}

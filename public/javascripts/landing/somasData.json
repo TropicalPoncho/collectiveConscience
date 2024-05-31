@@ -12,7 +12,7 @@
         "subtitle":"La consciencia de la percepción misma como obra.",
         "info":"Dentro de OBRAS incluimos a los eventos realizados por la productora ya se conciben desde la idea de que la experiencia completa que se percibe en el evento, es la obra.",
         "next":{
-            "id":1
+            "id":10
         }
     },
     {
@@ -29,14 +29,13 @@
         "id": 4,
         "subtitle":"La tecnología en todas sus formas es una herramienta de la propia inteligencia planetaria que se expresa a trevés nuestro.",
         "info":"Para seguir promoviendo la expansión de la red artística y atacar problematicas específicas estamos trabajando en distintos proyectos de sistemas informáticos. Pensamos a la informática como una abstracción de la realidad material que sustenta otro plano, el digital."
-        
     },
     {
         "id": 5,
         "subtitle":"Otras de las maneras de expandir el arte es por medio de la experimentación colectiva y la sociabilización de saberes que enriquezcan la obra individual",
         "info":"En los laboratorios proponemos un espacio de experimentación y enfoque en el proceso artístico. Estos encuentros multidisciplinarios servían como un lugar para encontrarse con otres artistas y trabajar la creatividad, profundizando la búsqueda interna y los puntos en común con el otre.",
         "next":{
-            "id":1
+            "id":50
         }
     },
     {
@@ -48,5 +47,78 @@
         "id": 7,
         "subtitle":"CONTACTO",
         "info":"holis"
+    },
+    {
+        "id": 10,
+        "title": "Kütral",
+        "subtitle": "El Fuego: Primer festival/experiencia en la Comarca Andina",
+        "info":"Primer obra del colectivo, en colaboración con el grupo Todo Tet, quienes realizaron la instalación escultórica que le dio la identidad al evento. Este acontecimiento artístico inmersivo de espacio y tiempo específico se presentó con el formato de en torno al fuego, no solo tratando sobre los incendios que tuvieron lugar en la comarca andina en el verano de 2021 sino también como reinterpretación de este elemento como energía creadora. Nuestros eventos cuentan con una meditación grupal guiada, jams, performances de danza, poesía oral, múltiples expresiones circenses, pintura en vivo, exposiciones, talleres, espacio holístico, música en vivo, instalaciones, intervenciones, y DJ sets.",
+        "next":{
+            "id":11
+        }
+    },
+    {
+        "id": 11,
+        "title": "Tempística",
+        "subtitle":"La sincronicidad",
+        "info":"En este festival que tuvo dos ediciones exploramos el fenómeno de la sincronicidad, el cual se define como la coincidencia de dos o más sucesos relacionados de una manera no causal, dos o más líneas temporales que se encuentran en el momento exacto y necesario para dar lugar a un nuevo escenario, el enlace de realidades creador de nuevas posibilidades.\nTempística es una traducción de lo que comúnmente conocemos como “timing” que puede entenderse como la manipulación de aspectos temporales (ritmo, velocidad, pausas) en ramas artísticas no estáticas como la música, la performance, la literatura, las artes circenses, teatrales y audiovisuales para provocar efectos dramáticos. \"La obra que está transcurriendo en este momento, compuesta por expresiones artísticas transitorias, la interacción entre ellas y con usted, que está participando como espectador a la vez que protagonista, es el resultado de un diseño creativo colaborativo utilizando el recurso de la tempística y enmarcado por la sincronicidad.\"fragmento de la curaduría",
+        "next":{
+            "id":13
+        }
+    },
+    {
+        "id": 13,
+        "title":"Tropical Posporno",
+        "subtitle":"Tropical Posporno",
+        "info":"tropical posporno .....",
+        "next":{
+            "id":14
+        }
+    },{
+        "id": 14, 
+        "title": "SOMA beta",
+        "subtitle":"SOMAbeta",
+        "info":"SOMAbeta",
+        "next":{
+            "id":15
+        }
+    },{
+        "id": 15, 
+        "title": "SOMA",
+        "subtitle":"SOMA",
+        "info":"SOMA",
+        "next":{
+            "id":16
+        }
+    },{
+        "id": 16, 
+        "title": "NUDO",
+        "subtitle":"NUDO",
+        "info":"NUDO",
+        "next":{
+            "id":17
+        }
+    },{
+        "id": 17, 
+        "title": "C.E.P.A.",
+        "subtitle":"C.E.P.A.",
+        "info":"C.E.P.A.",
+        "next":{
+            "id":18
+        }
+    },{
+        "id": 18, 
+        "title": "Concierto Público #4 ft Tropical Poncho",
+        "subtitle":"CP",
+        "info":"CP ",
+        "next":{
+            "id":19
+        }
+    },{
+        "id": 19, 
+        "title": "Tropical Posporno: Distopia",
+        "subtitle":"Distopia",
+        "info":"Distopia"
     }
 ]
+
