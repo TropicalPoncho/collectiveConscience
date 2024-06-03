@@ -18,6 +18,16 @@ input{
   color:#ffffff;
 }
 
+:root{
+  --ColorPalette-Turquesa: #8AE2C8;
+  --ColorPalette-Cian: #578CCB;
+  --ColorPalette-Violeta: #9900FF;
+  --ColorPalette-Fuccia: #FF0074;
+  --ColorPalette-Amarillo: #FFBC00;
+  --ColorPalette-Negro: #111111;
+  --ColorPalette-blanco: #FFFFFF;
+}
+
 .btn{
   /* margin-right: 10px; */
   padding: 0 8px;
