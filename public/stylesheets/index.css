@@ -72,14 +72,13 @@ section {
 
 .checkbtn{
   position: absolute;
-  top:  6%;
-  left: 50%;
-  transform: translate(-50%, 0);
+  top:  2%;
+  right: 2%;
   font-size: 30px;
   color: #fff;
   float: right;
   line-height: 80px;
-  margin-right: 40px;
+  margin-right: 20px;
   cursor: pointer;
   display: none;
 }
@@ -117,6 +116,7 @@ section {
     .floatingTitle{
         font-size: 16px;
         top: 4%;
+        left: 42%;
     }
     #title{
       width: 90%;
@@ -139,7 +139,7 @@ section {
         font-size: 20px;
     }
     #check:checked ~ .floatingMenu{
-        top: 15%;
+        top: 10%;
     }
     .floatingMenu button{
       padding: 5px 5px;
@@ -288,62 +288,50 @@ section {
     background: transparent;
   }
 
-  .bn:focus{
+  .bn{
     text-shadow: 
     -1px -1px 0 #000,  
     1px -1px 0 #000,
     -1px 1px 0 #000,
     1px 1px 0 #000;
+  }
+  
+  .bn:focus{
     padding: 0;
+    background-color: transparent;
+    font-size: 36px;
   }
 
   .bn#nosotres:focus{
-    font-size: 36px;
     color: var(--ColorPalette-Turquesa);
-    background-color: transparent;
-
   }
 
   .bn#obras:focus{
-    font-size: 36px;
     color: var(--ColorPalette-Cian);
-    background-color: transparent;
   }
 
   .bn#audiovisuales:focus{
-    font-size: 36px;
     color: var(--ColorPalette-Violeta);
-    background-color: transparent;
   }
 
   .bn#editorial:focus{
-    font-size: 36px;
     color: var(--ColorPalette-Fuccia);
-    background-color: transparent;
   }
 
   .bn#proyectos:focus{
-    font-size: 36px;
     color: var(--ColorPalette-Amarillo);
-    background-color: transparent;
   }
 
   .bn#laboratorios:focus{
-    font-size: 36px;
     color: var(--ColorPalette-Turquesa);
-    background-color: transparent;
   }
 
   .bn#amigues:focus{
-    font-size: 36px;
     color: var(--ColorPalette-Fuccia);
-    background-color: transparent;
   }
 
   .bn#contacto:focus{
-    font-size: 36px;
     color: var(--ColorPalette-Amarillo);
-    background-color: transparent;
   }
   
   .bn:active {
@@ -358,31 +346,30 @@ section {
   .subtitle{
     font-size: 26px;
   }
-
   
-.ico {
-  display: inline-block;
-  width: 32px; height: 32px;
-  background-repeat: no-repeat;
-}
-.ig{
-  background-image: url('/icons/instagram.png');
-}
-.fb{
-  background-image: url('/icons/facebook.png');
-}
-.spotify{
-  background-image: url('/icons/spotify.png');
-}
-.web{
-  background-image: url('/icons/web.png');
-}
-.wpp{
-  background-image: url('/icons/whatsapp.png');
-}
-.youtube{
-  background-image: url('/icons/youtube.png');
-}
+  .ico {
+    display: inline-block;
+    width: 32px; height: 32px;
+    background-repeat: no-repeat;
+  }
+  .ig{
+    background-image: url('/icons/instagram.png');
+  }
+  .fb{
+    background-image: url('/icons/facebook.png');
+  }
+  .spotify{
+    background-image: url('/icons/spotify.png');
+  }
+  .web{
+    background-image: url('/icons/web.png');
+  }
+  .wpp{
+    background-image: url('/icons/whatsapp.png');
+  }
+  .youtube{
+    background-image: url('/icons/youtube.png');
+  }
 
 /* .floatingInfo:after {
   animation: grain 8s steps(10) infinite;

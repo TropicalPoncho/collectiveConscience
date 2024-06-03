@@ -248,24 +248,36 @@ jQuery(function(){
          * 
          */
     });
-    
+    var bnActive = false;
     $(document).on('click', '.floatingMenu .bn', function(){
         goToNeuron($(this).attr('neuronId'));
     });
     
     $(document).on("click", '.volver', function( event ) {
-        $(".floatingMenu").removeClass("der");
-        $(".floatingMenu").removeClass("izq");
-        mundo.backToBasicsView();
-        $(".floatingTitle").fadeIn(600);
-        $(".floatingInfo").fadeOut(600);
+        /* $(".floatingMenu").removeClass("der"); */
+        /* $(".floatingMenu").removeClass("izq"); */
+        goBack();
     });
 
     $(document).on("click", '#check', function( event ) {
         if($(this).prop('checked')){
+            $(".floatingMenu .bn").show();
             mundo.backToBasicsView();
+        }else{
+            if(bnActive){
+                goBack();
+            }
         }
     });
+
+    function goBack(){
+        $(".floatingMenu .bn").show();
+        mundo.backToBasicsView();
+        $(".floatingTitle").fadeIn(600);
+        $(".floatingInfo").fadeOut(600);
+        bnActive = false;
+        $('#check').prop('checked', true);
+    }
 
     function goToNeuron(neuronId){
         var node = mundo.activeNodeById(neuronId);
@@ -275,6 +287,45 @@ jQuery(function(){
     /* $(document).on('click', '#takeScreenshot', function(){
         takeScreenshot(mundo);
     }); */
+
+    function showNeuronData(node){
+        if(window.innerWidth < 800){
+            $(".floatingMenu .bn").fadeOut(200, function(){
+                $('[neuronid="'+node.id+'"]').fadeIn(200);
+            });
+            $('#check').prop('checked', true);
+            bnActive = true;
+        }
+        $('.bn[neuronid="'+node.id+'"]').focus();
+        var thisNode = somasData.filter(textNode => textNode.id == node.id)[0];
+        if(thisNode?.subtitle)
+            $(".subtitle").text(thisNode.subtitle);
+        if(thisNode?.info)
+            $(".info").text(thisNode.info);
+        if(thisNode?.next){
+            $(".next").attr("id",thisNode.next.id);
+            $(".next").attr("thisNeuronId", thisNode.id);
+            $(".next").show();
+        }else{
+            $(".next").hide();
+        }
+        //console.log("nodeside:" + node.side);
+        if(node.side == "izq"){
+            $(".floatingInfo").addClass("izq");
+            $(".floatingInfo").removeClass("der");
+    
+            /* $(".floatingMenu").addClass("izq");
+            $(".floatingMenu").removeClass("der"); */
+        }else{
+            $(".floatingInfo").removeClass("izq");
+            $(".floatingInfo").addClass("der");
+    
+            /* $(".floatingMenu").removeClass("izq ");*/
+            /* $(".floatingMenu").addClass("der"); */
+        }
+        $(".floatingTitle").fadeOut(600);//Oculto el titulo
+        $(".floatingInfo").fadeIn(600); //Muestro la data
+    }
 
 });
 
@@ -295,36 +346,7 @@ function takeScreenshot(mundo){
     }); */
 }
     
-function showNeuronData(node){
-    var thisNode = somasData.filter(textNode => textNode.id == node.id)[0];
-    if(thisNode?.subtitle)
-        $(".subtitle").text(thisNode.subtitle);
-    if(thisNode?.info)
-        $(".info").text(thisNode.info);
-    if(thisNode?.next){
-        $(".next").attr("id",thisNode.next.id);
-        $(".next").attr("thisNeuronId", thisNode.id);
-        $(".next").show();
-    }else{
-        $(".next").hide();
-    }
-    //console.log("nodeside:" + node.side);
-    if(node.side == "izq"){
-        $(".floatingInfo").addClass("izq");
-        $(".floatingInfo").removeClass("der");
 
-        $(".floatingMenu").addClass("izq");
-        $(".floatingMenu").removeClass("der");
-    }else{
-        $(".floatingInfo").removeClass("izq");
-        $(".floatingInfo").addClass("der");
-
-        $(".floatingMenu").removeClass("izq");
-        $(".floatingMenu").addClass("der");
-    }
-    $(".floatingTitle").fadeOut(600);//Oculto el titulo
-    $(".floatingInfo").fadeIn(600); //Muestro la data
-}
 
 function createLinks(nodes){
     var nodeLinks = [];
