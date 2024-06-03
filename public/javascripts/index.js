@@ -249,16 +249,22 @@ jQuery(function(){
          */
     });
     
-    $(document).on('click', '.floatingMenu > .bn', function(){
+    $(document).on('click', '.floatingMenu .bn', function(){
         goToNeuron($(this).attr('neuronId'));
     });
     
     $(document).on("click", '.volver', function( event ) {
         $(".floatingMenu").removeClass("der");
         $(".floatingMenu").removeClass("izq");
-        mundo.activateZoomToFit();
+        mundo.backToBasicsView();
         $(".floatingTitle").fadeIn(600);
         $(".floatingInfo").fadeOut(600);
+    });
+
+    $(document).on("click", '#check', function( event ) {
+        if($(this).prop('checked')){
+            mundo.backToBasicsView();
+        }
     });
 
     function goToNeuron(neuronId){
@@ -269,9 +275,8 @@ jQuery(function(){
     /* $(document).on('click', '#takeScreenshot', function(){
         takeScreenshot(mundo);
     }); */
+
 });
-
-
 
 function takeScreenshot(mundo){
     // open in new window like this

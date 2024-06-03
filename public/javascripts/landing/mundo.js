@@ -104,23 +104,24 @@ export default class Mundo{
                 child.material.needsUpdate = true
             }
         });*/
-
         
         this.stats = new Stats();
         this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-        
         document.body.appendChild(this.stats.dom);
-        window.addEventListener('resize', this.resize.bind(this));
-        
-        this.render();
+
+        this.Graph.camera = new THREE.PerspectiveCamera(70, window.outerWidth / window.outerHeight, 1, 1000);
         this.originalCameraPosition = this.camera.position;
-        console.log("originalpos");
-        this.consoleLogPosition(this.originalCameraPosition);
+        
+        this.resize();
+        window.addEventListener('resize', this.resize.bind(this), false);
+        this.render();
+        
+        //this.consoleLogPosition(this.originalCameraPosition);
     }
 
     resize() {
-        let width = window.innerWidth;
-        let height = window.innerHeight;
+        let width = window.outerWidth;
+        let height = window.outerHeight;
     
         this.camera.aspect = width / height;
         this.renderer.setSize(width, height);
@@ -193,8 +194,9 @@ export default class Mundo{
     }
 
     activateZoomToFit(){
-        this.Graph.zoomToFit(600);
-    }
+        this.Graph.onEngineStop(() => this.Graph.zoomToFit(700));
+    } 
+
 
     activeNodeById(neuronId){
         var nodes = this.graphData.nodes;
@@ -211,14 +213,21 @@ export default class Mundo{
 
     aimNode(node){
         // Aim at node from outside it
-        const distance = globalDefaultSettings.aimDistance;
+        var distance = globalDefaultSettings.aimDistance;
         const distRatio = 1 + distance/Math.hypot(node.x, node.y);
+
+        
+        var lookAt = {x: node.x +(Math.sign(node.x) * 20), y: node.y, z: node.z};
+        
+        if(window.innerWidth < 800){
+            lookAt = {x: node.x , y: node.y + (Math.sign(node.y) * 20), z: node.z};
+            distance += 20;
+        }
 
         const newPos = node.x || node.y || node.z
             ? { x: node.x , y: node.y , z: node.z + distance }
             : { x: 0, y: 0, z: distance }; // special case if node is in (0,0,0)
 
-        var lookAt = {x: node.x +(Math.sign(node.x) * 20), y: node.y, z: node.z};
         var side = this.getSide(newPos,lookAt,node); 
 
         console.log("newPos x "+ Math.round(newPos.x) +" lookAt x" + Math.round(lookAt.x));
@@ -239,15 +248,15 @@ export default class Mundo{
         }
     }
 
-    backToBasicsView(){
-        this.originalCameraPosition.x += globalDefaultSettings.cameraDistance;
-        this.originalCameraPosition.y += globalDefaultSettings.cameraDistance;
+    backToBasicsView(extra = 0){
+        if(window.innerWidth < 800){
+            extra = 50;
+        }
         this.Graph.cameraPosition(
-            this.originalCameraPosition, // new position
-            0, // lookAt ({ x, y, z })
+            {x:0,y:0,z:globalDefaultSettings.cameraDistance}, // new position
+            {x:0,y:extra,z:0}, // lookAt ({ x, y, z })
             3000  // ms transition duration
-        ); 
-        //activateZoomToFit();
+        );
     }
 
 
