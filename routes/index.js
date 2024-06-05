@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/espora', function(req, res, next) {
-  res.render('index', { title: 'Tropical Poncho - Collective Conscience' });
+  res.render('index', { title: 'Tropical Poncho - Espora', espora: true });
 });
 
 

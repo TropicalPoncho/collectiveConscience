@@ -1,5 +1,4 @@
 import { CSS2DObject } from '//unpkg.com/three/examples/jsm/renderers/CSS2DRenderer.js';
-import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 /**
  * Represents a three-dimensional object.
  */
@@ -16,6 +15,15 @@ export class ThreeObject {
         aspect: {value: innerWidth / innerHeight}
     };
 
+    colorsArray = [
+        "#8AE2C8",
+        "#578CCB",
+        "#9900FF",
+        "#FF0074",
+        "#FFBC00",
+        "#111111",
+        "#FFFFFF"
+    ];
     /**
      * Creates a new instance of a ThreeObject.
      */

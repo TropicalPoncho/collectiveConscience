@@ -2,9 +2,10 @@
     {
         "id": 0,
         "subtitle":"Tropical Poncho es una plataforma de creación y promoción artística multidisciplinaria que toma a la consciencia y el estudio de esta como punto de partida conceptual." ,
-        "info":"info blaaa",
+        "info":"Tropical Poncho es una plataforma multidisciplinaria de creación artística, que a través de la investigación y el  desarrollo de conceptos metafísicos y con sustento científico, busca generar un impacto significativo en la sociedad. Además de producir experiencias artísticas en diferentes formatos en colaboración con artistas y organizaciones que admiramos, estamos trabajando en distintos proyectos que consoliden una infraestructura que facilite la colaboración interdisciplinaria, donde artistas y agrupaciones de diferentes áreas encuentren un espacio para potenciar sus proyectos mediante herramientas de producción, gestión y comunicación. Tropical Poncho es, quizás, solo una manera de nombrar algo abstracto, una forma de entender al entramado de conexiones que hace a la consciencia colectiva y por ende, consiste en un espacio latente de conceptos en constante cambio. Es una entidad que se expande a sí misma.",
         "next":{
-            "id":1
+            "id":1,
+            "name":"INGRESAR"
         }
     },
     {
@@ -119,6 +120,15 @@
         "title": "Tropical Posporno: Distopia",
         "subtitle":"Distopia",
         "info":"Distopia"
+    },{
+        "id": 20, 
+        "title": "ESPORA",
+        "subtitle":"Encuentro para la promoción de la producción colectiva",
+        "info": "Espora será un espacio para promover el encuentro y el teje de nuevos proyectos que integren un poco más la colaboración en producción cultural (y por ende social y ambiental) territorial y federal. Un encuentro para germinar la red, alimentar el micelio entre artistas y productores a nivel territorial y federal, para formar nuevos contactos, fomentando la colaboración para la creación colectiva de nuevas perspectivas. Los ejes del encuentro son los oficios del arte digital y la producción colectiva, ya que están integramente relacionados por sus formas /formato de reproducción. El arte digital se desarrolla en general desde el concepto y filosofía del código abierto, la colaboración, la creación de obra nueva a partír de la reinterpretación de la obra ajena. 'Nada es original pues todo proviene de la inspiración y/o la utilización de técnicas y saberes preexistentes, pero así mismo todo es original pues nadie podrá crear, con los mismos elementos, una misma interpretación.' Si bien así es también como se comporta el arte en general o incluso cualquier otro tipo de creación, creemos que en el arte digital esta reinterpretación sucede de una forma más evidente, utilizando el código de alguien más y combinandolo con otros programas, algoritmos y técnicas que son voluntariamente entregadas a la comunidad. Creemos que esto está directamente ligado también a los modos en los que pretendemos seguir construyendo cultura, a partír de la colaboración y la construcción heterogenea, que se enriquece por la diversidad de perspectivas. En este contexto cada vez más aterrador, entendemos a la cultura como un lenguaje donde encontrarnos, y expresarnos de maneras donde otros lenguajes encuentran sus limites. Un código sensible que compartimos, que nos permite entendernos y co-crear una realidad que se ajuste más a nuestros valores y creencias que están muy lejos del enfoque capitalista."
+    },{
+        "id": 202, 
+        "title": "WIP",
+        "info": "Es un proyecto de formación latinoamericano enfocado en la producción técnico-artística y en el abordaje conceptual y crítico de las herramientas, técnicas y metodologías contemporáneas desde la práctica y sus procesos. El objetivo de la plataforma es proporcionar espacios para que artistas, técnicos y otrxs agentes de la escena cultural puedan construir sus propias narrativas estéticas y recursos para el desarrollo personal y laboral."
     }
 ]
 

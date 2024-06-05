@@ -114,15 +114,15 @@ var indexNeurons = [{
     "links": [{id:0, distance: 100}, {id:1, distance: 100}, {id:2, distance: 100}, {id:3, distance: 100}, {id:4, distance: 100}, {id:5, distance: 100}, {id:6, distance: 100}],
     "type": "Twist",
     "style":{
-        uNoiseStrength: { type: "f", value: 1 },
-        uNoiseDensity: { type: "f", value: 9.0 },
-        uIntensity: { type: "f", value: 2 },
-        uFrequency: { type: "f", value: 4 },
-        uAmplitude: { type: "f", value: 2 },
-        uBrightness: { value: new THREE.Vector3(0.5, 0.7, 0.5) },
+        uNoiseStrength: { type: "f", value: 3},
+        uNoiseDensity: { type: "f", value: 14.0 },
+        uIntensity: { type: "f", value: 4 },
+        uFrequency: { type: "f", value: 2 },
+        uAmplitude: { type: "f", value: 6 },
+        uBrightness: { value: new THREE.Vector3(0.6, 0.7, 0.5) },
         uContrast: { value: new THREE.Vector3(0.5, 0.5, 0.5	) },
         uOscilation: { value: new THREE.Vector3(1.0, 1.0, 1.0) },
-        uPhase: { value: new THREE.Vector3(0.30, 0.20, 0.20) }
+        uPhase: { value: new THREE.Vector3(0.70, 0.20, 0.20) }
     }
 }];
 
@@ -211,7 +211,48 @@ var obras = [
         "type": "Image",
         "img":"distopia.png",
         "imgSize": 60
+    },{
+        "id": 20,
+        "name": "ESPORA",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[2],
+        "links": [{id:10, distance: 90}],
+        "type": "Text"
     }
+];
+
+//var espora = (typeof espora !== 'undefined');
+var esporaNeurons = [
+    {
+        "id": 20,
+        "name": "ESPORA",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[2],
+        "type": "Image",
+        "img": "espora.png",
+        "imgSize": 50
+    },
+    {
+        "id": 0,
+        "name": "Nosotres",
+        "color": colorsArray[6],
+        "imgSize": globalDefaultSettings.imgSize,
+        "val": globalDefaultSettings.nodeSize,
+        "links": [{id:20, distance: 100}],
+        "img": 'isologo_blanco.png',
+        "type": "Image"
+    },
+    {
+        "id": 202,
+        "name": "WIP",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[2],
+        "links": [{id:0, distance: 100},{id:20, distance: 100}],
+        "type": "Image",
+        "img":"WIP.png",
+        "imgSize": 70
+    },
+    
 ];
 
 
@@ -226,15 +267,21 @@ var obras = [
         }
     });
 } */
-
+var isEspora = (typeof espora != 'undefined');
 jQuery(function(){
-    var mundo = new Mundo('contentNetwork', {nodes: indexNeurons , links: createLinks(indexNeurons)}, showNeuronData);
+    var neuronsToLoad = isEspora ? esporaNeurons : indexNeurons;
+    var mundo = new Mundo('contentNetwork', {nodes: neuronsToLoad , links: createLinks(neuronsToLoad)}, showNeuronData);
     mundo.addElement(new Background(mundo));
+
+    if(isEspora){
+        $(".floatingMenu").hide();
+        $(".floatingTitle").hide();
+    }
 
     $(document).on('click', '.next', function(){
         var nextId = $(this).attr('id');
         var thisNeuronId = $(this).attr('thisNeuronId');
-        if(thisNeuronId == 1) //Si son las obras:
+        if(thisNeuronId == 1)
             mundo.insertNodes({nodes: obras , links: createLinks(obras)}, nextId, goToNeuron); //Cargo las que siguen y luego voy
         else
             goToNeuron(nextId); //Si no, solo voy a la siguiente
@@ -273,7 +320,9 @@ jQuery(function(){
     function goBack(){
         $(".floatingMenu .bn").show();
         mundo.backToBasicsView();
-        $(".floatingTitle").fadeIn(600);
+        if(!isEspora){
+            $(".floatingTitle").fadeIn(600);
+        }
         $(".floatingInfo").fadeOut(600);
         bnActive = false;
         $('#check').prop('checked', true);
@@ -350,8 +399,8 @@ function takeScreenshot(mundo){
 
 function createLinks(nodes){
     var nodeLinks = [];
-    var newBlend = indexNeurons.concat(nodes);
-    newBlend.forEach( node => {
+    //var newBlend = indexNeurons.concat(nodes);
+    nodes.forEach( node => {
         if( node.links ){
             node.links.forEach( link => {
 

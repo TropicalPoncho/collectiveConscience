@@ -16,7 +16,8 @@ const colorsArray = [
 const globalDefaultSettings = {
     nodeSize: 8,
     cameraDistance: 350,
-    aimDistance: 40,
+    aimDistance: 80,
+    aimOffset: 40,
     activeNodeImg: true,
     imgSize: 50,
     linkDistance: 50,
@@ -59,14 +60,11 @@ export default class Mundo{
             .linkCurveRotation(0.5) */
             .nodeLabel('name')
             .cameraPosition({ z: globalDefaultSettings.cameraDistance })
-            .onNodeHover(node => {
-                console.log(node);
-            })
             .numDimensions(3)
             //.dagMode('radialout')
             .cooldownTicks(100)
             .nodeThreeObject(node => this.threeObjectManager.createObject(node) )
-            //.linkThreeObject(link => this.threeObjectManager.createObject({'id': link.source+''+link.target, 'type': 'Wave Line'}) )
+            .linkThreeObject(link => this.threeObjectManager.createObject({'id': link.source+''+link.target, 'type': 'Wave Line'}) )
             .onNodeHover(node => {
                 this.animateNode(node);
             })
@@ -148,7 +146,7 @@ export default class Mundo{
 
         this.hoverNode = node || null;
 
-        this.animateLinks();
+        //this.animateLinks();
     }
 
     animateLinks(){
@@ -178,6 +176,13 @@ export default class Mundo{
     }
 
     insertNodes(newGraphData, nextIdToShow, goToNeuronDataCallback){
+        if(this.graphData.nodes.find(node => node.id == newGraphData.nodes[0].id)){
+            this.Graph.onEngineStop(() => {
+                goToNeuronDataCallback(nextIdToShow);
+                this.Graph.onEngineStop(() => {});
+            });
+            return;
+        }
         this.graphData.nodes.push(...newGraphData.nodes);
         this.graphData.links.push(...newGraphData.links);
         try {
@@ -216,12 +221,11 @@ export default class Mundo{
         var distance = globalDefaultSettings.aimDistance;
         const distRatio = 1 + distance/Math.hypot(node.x, node.y);
 
-        
-        var lookAt = {x: node.x +(Math.sign(node.x) * 20), y: node.y, z: node.z};
+        var lookAt = {x: node.x +(Math.sign(node.x) * globalDefaultSettings.aimOffset), y: node.y, z: node.z};
         
         if(window.innerWidth < 800){
-            lookAt = {x: node.x , y: node.y + (Math.sign(node.y) * 20), z: node.z};
-            distance += 20;
+            lookAt = {x: node.x , y: node.y + (Math.sign(node.y) * globalDefaultSettings.aimOffset), z: node.z};
+            distance += globalDefaultSettings.aimOffset;
         }
 
         const newPos = node.x || node.y || node.z

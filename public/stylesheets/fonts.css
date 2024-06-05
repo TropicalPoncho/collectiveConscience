@@ -412,3 +412,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Hypha';
+    src: local('Hypha Regular'), local('Hypha-Regular'),
+        url('../fonts/Hypha-Regular.woff2') format('woff2'),
+        url('../fonts/Hypha-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

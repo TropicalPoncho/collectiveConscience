@@ -85,7 +85,7 @@ export class ThreeObjectManager {
      */
     createObject(node){
         let type = node.type ?? ThreeObjectManager.defaultType; //if type not defined, i get first //TODO: define a default type
-        if (typeof type !== 'string' || type.trim() === '') {
+        if (typeof type !== 'string' || type.trim() === '' ) {
             throw new TypeError(`Invalid type parameter: ${type}`);
         }
         const ThreeObjectClass = ThreeObjectManager.ThreeObjectsTypes[type];
@@ -134,6 +134,7 @@ import { TwistThreeObject } from "./twistThreeObject.js";
 import { PerlinThreeObject } from "./perlinThreeObject.js";
 import { PerlinNoiseThreeObject } from "./perlinNoiseThreeObject.js";
 import { WaveLineThreeObject } from "./waveLineThreeObject.js";
+import { TextThreeObject } from "./textThreeObject.js";
 
 
 ThreeObjectManager.registerType("Lines", LinesThreeObject);
@@ -147,3 +148,4 @@ ThreeObjectManager.registerType("Twist", TwistThreeObject);
 ThreeObjectManager.registerType("Perlin", PerlinThreeObject);
 ThreeObjectManager.registerType("Perlin Noise", PerlinNoiseThreeObject);
 ThreeObjectManager.registerType("Wave Line", WaveLineThreeObject);
+ThreeObjectManager.registerType("Text", TextThreeObject);

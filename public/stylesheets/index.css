@@ -52,9 +52,9 @@ section {
 .floatingInfo{
   position: absolute;
   top:  20%;
-  left: 6%;
+  left: 5%;
   /* max-width: 30%; */
-  width: 30%;
+  width: 40%;
   max-height: 70%;
   overflow: scroll;
   color: white;
@@ -91,7 +91,7 @@ section {
 }
 
 .floatingInfo.der{
-  left: 60%;
+  left: 52%;
 }
 
 .floatingMenu {
@@ -144,7 +144,7 @@ section {
     .floatingMenu button{
       padding: 5px 5px;
     }
-  }
+}
 
   
  /* Style the navigation container */
@@ -337,10 +337,6 @@ section {
   .bn:active {
     color: #000;
     font-weight: bold;
-  }
-
-  .btVolver.derecha{
-    text-align: right;
   }
 
   .subtitle{
