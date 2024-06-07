@@ -56,15 +56,15 @@ export default class Mundo{
 
         this.Graph = ForceGraph3D({ controlType: 'orbit'})
         (document.getElementById(elementId))
-            /* .linkCurvature(1)
-            .linkCurveRotation(0.5) */
+            .linkCurvature(.4)
+            .linkCurveRotation(0.1) 
             .nodeLabel('name')
             .cameraPosition({ z: globalDefaultSettings.cameraDistance })
             .numDimensions(3)
-            //.dagMode('radialout')
+            //.dagMode('zout')
             .cooldownTicks(100)
             .nodeThreeObject(node => this.threeObjectManager.createObject(node) )
-            .linkThreeObject(link => this.threeObjectManager.createObject({'id': link.source+''+link.target, 'type': 'Wave Line'}) )
+            //.linkThreeObject(link => this.threeObjectManager.createObject({'id': link.source+''+link.target, 'type': 'Wave Line'}) )
             .onNodeHover(node => {
                 this.animateNode(node);
             })
@@ -78,10 +78,12 @@ export default class Mundo{
 
         this.Graph.nodeAutoColorBy('group')
             .linkWidth(globalDefaultSettings.LINK_WIDTH)
-            .linkOpacity(0)
+            .linkOpacity(.8)
             .linkDirectionalParticleWidth(globalDefaultSettings.LINK_PARTICLE_WIDTH)
             .linkDirectionalParticles(globalDefaultSettings.LINK_PARTICLE_COUNT)
             .linkDirectionalParticleSpeed(globalDefaultSettings.LINK_PARTICLE_SPEED);
+
+        this.Graph.d3Force('charge').strength(-120);
 
         this.Graph.graphData(this.graphData);
 

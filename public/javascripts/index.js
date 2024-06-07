@@ -17,7 +17,7 @@ const colorsArray = [
     "#FFFFFF" //blanco
 ];
 
-var indexNeurons = [{
+var indexNeurons = [ {
     "id": 0,
     "name": "Nosotres",
     "img": 'isologo_blanco.png',
@@ -25,7 +25,7 @@ var indexNeurons = [{
     "imgSize": globalDefaultSettings.imgSize,
     "val": globalDefaultSettings.nodeSize,
     "type": "Image"
-},{
+}, {
     "id": 1, 
     "name": "Obras",
     "val": globalDefaultSettings.nodeSize,
@@ -33,23 +33,23 @@ var indexNeurons = [{
     "links": [{id:0,distance: 100}],
     "type": "Twist",
     "style": {
-        uNoiseStrength: { type: "f", value: 8 },
-        uNoiseDensity: { type: "f", value: 8.0 },
-        uIntensity: { type: "f", value: 2 },
-        uFrequency: { type: "f", value: 5 },
-        uAmplitude: { type: "f", value: 1 },
-        uBrightness: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
-        uContrast: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
-        uOscilation: { value: new THREE.Vector3(1.0, 1.0, 1.0) },
+        uNoiseStrength: { type: "f", value: 12 },
+        uNoiseDensity: { type: "f", value: 9.0 },
+        uIntensity: { type: "f", value: .2 },
+        uFrequency: { type: "f", value: 1 },
+        uAmplitude: { type: "f", value: .4 },
+        uBrightness: { value: new THREE.Vector3(0.5, 0.5, 0.8) },
+        uContrast: { value: new THREE.Vector3(0.7, 0.2, 0.5) },
+        uOscilation: { value: new THREE.Vector3(.8, 1.0, 1.0) },
         uPhase: { value: new THREE.Vector3(0.00, 0.33, 0.67) }
     }
-},{
+} ,{
     "id": 2, 
     "name": "Audiovisuales",
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100}],
-    "type": "Twist",
+    "type": "Marble",
     "style": {
         uNoiseStrength: { type: "f", value: 8 },
         uNoiseDensity: { type: "f", value: 1.0 },
@@ -91,10 +91,13 @@ var indexNeurons = [{
     "val": globalDefaultSettings.nodeSize,
     "color": colorsArray[6],
     "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100},{id:4, distance: 100}],
-    "type": "Twist",
+    "type": "Lights",
     "style":{
-        color1: {value: new THREE.Color(0xff0011)},
-        color2: {value: new THREE.Color(0x442211)}
+        weight: { type: "f", value: 10 },
+        colorR: { type: "f", value: .4},
+        colorG: { type: "f", value: .2},
+        colorB: { type: "f", value: .7},
+        colorChange: { type: "f", value: .3},
     }
 },{
     "id": 6, 
@@ -252,7 +255,142 @@ var esporaNeurons = [
         "img":"WIP.png",
         "imgSize": 70
     },
-    
+    {
+        "id": 2021,
+        "name": "CONVERSATORIO",
+        "val": globalDefaultSettings.nodeSize+5,
+        "color": colorsArray[6],
+        "links": [{id:20, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 2022,
+        "name": "OBRA",
+        "val": globalDefaultSettings.nodeSize+5,
+        "color": colorsArray[6],
+        "links": [{id:20, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 2023,
+        "name": "LABORATORIO",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[6],
+        "links": [{id:20, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 2024,
+        "name": "ESCULTURA 3D",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[4],
+        "links": [{id:2022, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 2025,
+        "name": "VJ",
+        "val": globalDefaultSettings.nodeSize + 3,
+        "color": colorsArray[4],
+        "links": [{id:2022, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 2026,
+        "name": "LIVE SET",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[4],
+        "links": [{id:2022, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 2027,
+        "name": "MUESTRA INTERACTIVA",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[4],
+        "links": [{id:2022, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 2028,
+        "name": "LIVE CODING",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[4],
+        "links": [{id:2022, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 20221,
+        "name": "Julieta Agriano",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[0],
+        "links": [{id:2021, distance: 80},{id:202, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 20222,
+        "name": "Ep.Di",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[0],
+        "links": [{id:2021, distance: 80},{id:2025, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 20223,
+        "name": "Ari",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[0],
+        "links": [{id:2021, distance: 80},{id:2028, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 20224,
+        "name": "Mel",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[0],
+        "links": [{id:2021, distance: 80},{id:2024, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 20225,
+        "name": "Rama Cerratto",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[0],
+        "links": [{id:2021, distance: 80},{id:0, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 20226,
+        "name": "La Er",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[0],
+        "links": [{id:2021, distance: 80},{id:0, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 20227,
+        "name": "Clau Brito",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[0],
+        "links": [{id:2021, distance: 80},{id:0, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 20228,
+        "name": "Luz Alta",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[0],
+        "links": [{id:2021, distance: 80},{id:0, distance: 80}],
+        "type": "SimpleText"
+    },
+    {
+        "id": 20229,
+        "name": "Marian Basti",
+        "val": globalDefaultSettings.nodeSize,
+        "color": colorsArray[0],
+        "links": [{id:2021, distance: 80},{id:2027, distance: 80}],
+        "type": "SimpleText"
+    }
 ];
 
 
@@ -349,11 +487,24 @@ jQuery(function(){
         var thisNode = somasData.filter(textNode => textNode.id == node.id)[0];
         if(thisNode?.subtitle)
             $(".subtitle").text(thisNode.subtitle);
-        if(thisNode?.info)
-            $(".info").text(thisNode.info);
+
+        if(thisNode?.info){
+            if(Array.isArray(thisNode.info)){
+                thisNode.info.forEach(p => {
+                    $(".info").append($('<p></p>').text(p));
+                });
+            }else{
+                $(".info").text(thisNode.info);
+            }
+        }
         if(thisNode?.next){
             $(".next").attr("id",thisNode.next.id);
             $(".next").attr("thisNeuronId", thisNode.id);
+            if(thisNode.next.name){
+                $(".next").text(thisNode.next.name);
+            }else{
+                $(".next").text('SEGUIR');
+            }
             $(".next").show();
         }else{
             $(".next").hide();
