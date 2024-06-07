@@ -233,7 +233,8 @@ var esporaNeurons = [
         "color": colorsArray[2],
         "type": "Image",
         "img": "espora.png",
-        "imgSize": 50
+        "imgSize": 80,
+        "order": 0
     },
     {
         "id": 0,
@@ -243,7 +244,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "links": [{id:20, distance: 100}],
         "img": 'isologo_blanco.png',
-        "type": "Image"
+        "type": "Image",
+        "order": 0
     },
     {
         "id": 202,
@@ -253,7 +255,8 @@ var esporaNeurons = [
         "links": [{id:0, distance: 100},{id:20, distance: 100}],
         "type": "Image",
         "img":"WIP.png",
-        "imgSize": 70
+        "imgSize": 70,
+        "order": 0
     },
     {
         "id": 2021,
@@ -261,7 +264,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize+5,
         "color": colorsArray[6],
         "links": [{id:20, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 1
     },
     {
         "id": 2022,
@@ -269,7 +273,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize+5,
         "color": colorsArray[6],
         "links": [{id:20, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 1
     },
     {
         "id": 2023,
@@ -277,7 +282,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[6],
         "links": [{id:20, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 1
     },
     {
         "id": 2024,
@@ -285,7 +291,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[4],
         "links": [{id:2022, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 2
     },
     {
         "id": 2025,
@@ -293,7 +300,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize + 3,
         "color": colorsArray[4],
         "links": [{id:2022, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 2
     },
     {
         "id": 2026,
@@ -301,7 +309,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[4],
         "links": [{id:2022, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 2
     },
     {
         "id": 2027,
@@ -309,7 +318,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[4],
         "links": [{id:2022, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 2
     },
     {
         "id": 2028,
@@ -317,7 +327,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[4],
         "links": [{id:2022, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 2
     },
     {
         "id": 20221,
@@ -325,7 +336,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[0],
         "links": [{id:2021, distance: 80},{id:202, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 3
     },
     {
         "id": 20222,
@@ -333,7 +345,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[0],
         "links": [{id:2021, distance: 80},{id:2025, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 3
     },
     {
         "id": 20223,
@@ -341,7 +354,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[0],
         "links": [{id:2021, distance: 80},{id:2028, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 3
     },
     {
         "id": 20224,
@@ -349,7 +363,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[0],
         "links": [{id:2021, distance: 80},{id:2024, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 3
     },
     {
         "id": 20225,
@@ -357,7 +372,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[0],
         "links": [{id:2021, distance: 80},{id:0, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 3
     },
     {
         "id": 20226,
@@ -365,7 +381,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[0],
         "links": [{id:2021, distance: 80},{id:0, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 3
     },
     {
         "id": 20227,
@@ -373,7 +390,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[0],
         "links": [{id:2021, distance: 80},{id:0, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 3
     },
     {
         "id": 20228,
@@ -381,7 +399,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[0],
         "links": [{id:2021, distance: 80},{id:0, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 3
     },
     {
         "id": 20229,
@@ -389,7 +408,8 @@ var esporaNeurons = [
         "val": globalDefaultSettings.nodeSize,
         "color": colorsArray[0],
         "links": [{id:2021, distance: 80},{id:2027, distance: 80}],
-        "type": "SimpleText"
+        "type": "SimpleText",
+        "order": 3
     }
 ];
 
@@ -407,7 +427,7 @@ var esporaNeurons = [
 } */
 var isEspora = (typeof espora != 'undefined');
 jQuery(function(){
-    var neuronsToLoad = isEspora ? esporaNeurons : indexNeurons;
+    var neuronsToLoad = isEspora ? esporaNeurons.filter(node => node.order == 0) : indexNeurons;
     var mundo = new Mundo('contentNetwork', {nodes: neuronsToLoad , links: createLinks(neuronsToLoad)}, showNeuronData);
     mundo.addElement(new Background(mundo));
 

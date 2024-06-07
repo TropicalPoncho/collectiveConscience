@@ -136,7 +136,12 @@
             "'Nada es original pues todo proviene de la inspiración y/o la utilización de técnicas y saberes preexistentes, pero así mismo todo es original pues nadie podrá crear, con los mismos elementos, una misma interpretación.'",
             "Si bien así es también como se comporta el arte en general o incluso cualquier otro tipo de creación, creemos que en el arte digital esta reinterpretación sucede de una forma más evidente, utilizando el código de alguien más y combinandolo con otros programas, algoritmos y técnicas que son voluntariamente entregadas a la comunidad. Creemos que esto está directamente ligado también a los modos en los que pretendemos seguir construyendo cultura, a partír de la colaboración y la construcción heterogenea, que se enriquece por la diversidad de perspectivas.", 
             "En este contexto cada vez más aterrador, entendemos a la cultura como un lenguaje donde encontrarnos, y expresarnos de maneras donde otros lenguajes encuentran sus limites. Un código sensible que compartimos, que nos permite entendernos y co-crear una realidad que se ajuste más a nuestros valores y creencias que están muy lejos del enfoque capitalista."
-        ]
+        ],
+        "next":{
+            "id":1,
+            "nextId":"2021",
+            "name":"MÁS INFO"
+        }
     },{
         "id": 202, 
         "title": "WIP",
@@ -145,5 +150,6 @@
             "El objetivo de la plataforma es proporcionar espacios para que artistas, técnicos y otrxs agentes de la escena cultural puedan construir sus propias narrativas estéticas y recursos para el desarrollo personal y laboral."
         ]
     }
+   
 ]
 
