@@ -439,13 +439,20 @@ jQuery(function(){
     $(document).on('click', '.next', function(){
         var nextId = $(this).attr('id');
         var thisNeuronId = $(this).attr('thisNeuronId');
+
+        if($(this).attr('url')){
+            window.location.replace("https://tropicalponcho.art");
+        }
+
         if(thisNeuronId == 1){
             mundo.insertNodes({nodes: obras , links: createLinks(obras)}, nextId, goToNeuron); //Cargo las que siguen y luego voy
-        }else if(thisNeuronId == 20){
+        }else if(thisNeuronId == 20 || thisNeuronId == 202){
             var nextNeurons = esporaNeurons.filter(node => node.order != 0);
             mundo.insertNodes({nodes: nextNeurons , links: createLinks(nextNeurons)}, nextId, false);
             mundo.backToBasicsView(-50, 300);
-
+            $('.data').fadeOut(300, function(){
+                $('.formulario').fadeIn(300);
+            });
         }else{
             goToNeuron(nextId); //Si no, solo voy a la siguiente
         }
@@ -479,6 +486,25 @@ jQuery(function(){
                 goBack();
             }
         }
+    });
+
+    $(document).on("click", '.enviar', function( event ) {
+        //Llamo para crear la neurona
+        event.preventDefault();
+        var data = {
+            nickName: $('form #nickname').val(),
+            email: $('form #email').val(),
+            comentario: $('form #comentario').val()
+        }
+        $.post( "/neurons", data, function( response ) {
+            var newNeuron = response;
+            $('.formulario').fadeOut(300,function(){
+                $('.gracias').fadeIn(300);
+            });
+            //Cookies.set("neuron", newNeuron._id); //Agrego la cookie
+            //myNeuron = newNeuron._id;
+        });
+        return false;
     });
 
     function goBack(){
@@ -530,6 +556,9 @@ jQuery(function(){
                 $(".next").text(thisNode.next.name);
             }else{
                 $(".next").text('SEGUIR');
+            }
+            if(thisNode.next.url){
+                $(".next").attr("url",thisNode.next.url);
             }
             $(".next").show();
         }else{

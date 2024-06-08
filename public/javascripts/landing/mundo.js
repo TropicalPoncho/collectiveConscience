@@ -17,6 +17,7 @@ const globalDefaultSettings = {
     nodeSize: 8,
     cameraDistance: 350,
     aimDistance: 100,
+    aimOffsetX: 20,
     aimOffsetY: 30,
     aimOffsetZ: 70,
     activeNodeImg: true,
@@ -226,7 +227,7 @@ export default class Mundo{
         var distance = globalDefaultSettings.aimDistance;
         const distRatio = 1 + distance/Math.hypot(node.x, node.y);
 
-        var lookAt = {x: node.x +(Math.sign(node.x) * globalDefaultSettings.aimOffset), y: node.y, z: node.z};
+        var lookAt = {x: node.x +(Math.sign(node.x) * globalDefaultSettings.aimOffsetX), y: node.y, z: node.z};
         
         if(window.innerWidth < 800){
             lookAt = {x: node.x , y: node.y - globalDefaultSettings.aimOffsetY, z: node.z};

@@ -8,7 +8,8 @@
         ],
         "next":{
             "id":1,
-            "name":"INGRESAR"
+            "name":"INGRESAR",
+            "url": "tropicalponcho.art"
         }
     },
     {
@@ -148,7 +149,12 @@
         "info": [
             "Es un proyecto de formación latinoamericano enfocado en la producción técnico-artística y en el abordaje conceptual y crítico de las herramientas, técnicas y metodologías contemporáneas desde la práctica y sus procesos.",
             "El objetivo de la plataforma es proporcionar espacios para que artistas, técnicos y otrxs agentes de la escena cultural puedan construir sus propias narrativas estéticas y recursos para el desarrollo personal y laboral."
-        ]
+        ],
+        "next":{
+            "id":1,
+            "nextId":"2021",
+            "name":"MÁS INFO"
+        }
     }
    
 ]

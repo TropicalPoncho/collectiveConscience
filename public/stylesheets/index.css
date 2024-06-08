@@ -63,6 +63,10 @@ section {
   font-size: 15px;
 }
 
+textarea{
+  color: white;
+}
+
 /* .floatingMenu.der,.floatingInfo.der{
   left: 60%;
 }

@@ -19,7 +19,7 @@ class NeuronsService {
      */
     async create ( input ) {
         try{
-            var fromId;
+            /* var fromId;
             //Si se informa un fromId
             if(input.fromId){ //Comprueba si el id es valido
                 fromId = input.fromId;
@@ -30,15 +30,16 @@ class NeuronsService {
                     //throw new Error(input.fromNickName + " doesn't exists");
                 }
                 fromId = fromNeuron._id;
-            }
+            } */
 
             const neuron = new Neuron({
-                name: input.name,
-                fromId: fromId,
+                //name: input.name,
+                //fromId: fromId,
                 nickName: input.nickName ?? null,
-                graphVal: input.graphVal,
-                imgPath: input.imgPath,
-                email: input.email
+                //graphVal: input.graphVal,
+                //imgPath: input.imgPath,
+                email: input.email,
+                comentario: input.comentario
             }, (err, msg) => {
                 if(err){
                     console.log("ERROR", err, msg);

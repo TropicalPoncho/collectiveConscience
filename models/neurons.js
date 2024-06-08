@@ -14,6 +14,7 @@ const neuronSchema = new Schema({
 	nickName: String,
 	nodeType: String,
 	email: String,
+	comentario: String,
 	creationDate: {type: Date, default: Date.now()}
 });
 

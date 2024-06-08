@@ -284,24 +284,25 @@ block content
     button.bn(id="contacto", neuronId="7") CONTACTO
 
   .floatingInfo.hidden
-    .subtitle
-    .info
-    button.bn.next SEGUIR
-    button.bn.volver Volver
+    .data
+      .subtitle
+      .info
+      button.bn.next SEGUIR
+      button.bn.volver Volver
 
-    h2 Unete a la red...
-    form(action="/submit-form" method="POST")
-      div
-        label(for="nombre") Nombre:
-        input(type="text" id="nombre" name="nombre" required)
-      div
-        label(for="apellido") Apellido:
-        input(type="text" id="apellido" name="apellido" required)
-      div
-        label(for="email") Email:
-        input(type="email" id="email" name="email" required)
-      div.labelComentario
-        label(for="comentario") Cuentanos de ti:
-        textarea(id="comentario" name="comentario" rows="4")
-      div
-        button.bn.enviar Enviar
+    .formulario.hidden
+      h3 Registrate para la beca y saber más del proyecto:
+      form(id="registro" action="/submit-form" method="POST")
+        div
+          label(for="nickname") Nickname:
+          input(type="text" id="nickname" name="nickname" required)
+        div
+          label(for="email") Email:
+          input(type="email" id="email" name="email" required)
+        div.labelComentario
+          label(for="comentario") Comentarios:
+          textarea(id="comentario" name="comentario" rows="4")
+        div
+          button.bn.enviar Enviar
+    .gracias.hidden 
+      h3 Gracias por registrarte, te vamos a enviar un email para el formulario. 0 spam, lo prometemos.
