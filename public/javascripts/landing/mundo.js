@@ -16,8 +16,9 @@ const colorsArray = [
 const globalDefaultSettings = {
     nodeSize: 8,
     cameraDistance: 350,
-    aimDistance: 80,
-    aimOffset: 40,
+    aimDistance: 100,
+    aimOffsetY: 30,
+    aimOffsetZ: 70,
     activeNodeImg: true,
     imgSize: 50,
     linkDistance: 50,
@@ -192,7 +193,9 @@ export default class Mundo{
             this.Graph.nodeThreeObject(node => this.threeObjectManager.createObject(node) );
             this.Graph.numDimensions(3);
             this.Graph.onEngineStop(() => {
-                goToNeuronDataCallback(nextIdToShow);
+                if(goToNeuronDataCallback){
+                    goToNeuronDataCallback(nextIdToShow);
+                }
                 this.Graph.onEngineStop(() => {});
             });
         } catch (error) {
@@ -226,8 +229,8 @@ export default class Mundo{
         var lookAt = {x: node.x +(Math.sign(node.x) * globalDefaultSettings.aimOffset), y: node.y, z: node.z};
         
         if(window.innerWidth < 800){
-            lookAt = {x: node.x , y: node.y + (Math.sign(node.y) * globalDefaultSettings.aimOffset), z: node.z};
-            distance += globalDefaultSettings.aimOffset;
+            lookAt = {x: node.x , y: node.y - globalDefaultSettings.aimOffsetY, z: node.z};
+            distance += globalDefaultSettings.aimOffsetZ;
         }
 
         const newPos = node.x || node.y || node.z
@@ -254,12 +257,12 @@ export default class Mundo{
         }
     }
 
-    backToBasicsView(extra = 0){
-        if(window.innerWidth < 800){
+    backToBasicsView(extra = 0, cameraDistanceOffset = 0){
+        /* if(window.innerWidth < 800){
             extra = 50;
-        }
+        } */
         this.Graph.cameraPosition(
-            {x:0,y:0,z:globalDefaultSettings.cameraDistance}, // new position
+            {x:0,y:0,z:globalDefaultSettings.cameraDistance + cameraDistanceOffset}, // new position
             {x:0,y:extra,z:0}, // lookAt ({ x, y, z })
             3000  // ms transition duration
         );

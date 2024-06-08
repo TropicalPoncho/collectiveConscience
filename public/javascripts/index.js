@@ -439,10 +439,16 @@ jQuery(function(){
     $(document).on('click', '.next', function(){
         var nextId = $(this).attr('id');
         var thisNeuronId = $(this).attr('thisNeuronId');
-        if(thisNeuronId == 1)
+        if(thisNeuronId == 1){
             mundo.insertNodes({nodes: obras , links: createLinks(obras)}, nextId, goToNeuron); //Cargo las que siguen y luego voy
-        else
+        }else if(thisNeuronId == 20){
+            var nextNeurons = esporaNeurons.filter(node => node.order != 0);
+            mundo.insertNodes({nodes: nextNeurons , links: createLinks(nextNeurons)}, nextId, false);
+            mundo.backToBasicsView(-50, 300);
+
+        }else{
             goToNeuron(nextId); //Si no, solo voy a la siguiente
+        }
         /**
          * TODO: Acá se podría hacer más dinámico para que cargue en caso de q no encuentre ya cargada.
          * Debería buscar por nivel/distancia? -> lo de distancia sirve para sinapsis -> aunque puede haber x distancia y q sean muchas.

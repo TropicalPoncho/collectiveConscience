@@ -108,8 +108,8 @@ section {
 @media screen and (max-width: 800px) {
     .floatingInfo,.floatingInfo.der{
         width: 90%;
-        top: 70%;
-        max-height: 25%;
+        top: 50%;
+        max-height: 45%;
         left: 50%;
         transform: translate(-50%, 0);
     }
