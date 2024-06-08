@@ -288,3 +288,20 @@ block content
     .info
     button.bn.next SEGUIR
     button.bn.volver Volver
+
+    h2 Unete a la red...
+    form(action="/submit-form" method="POST")
+      div
+        label(for="nombre") Nombre:
+        input(type="text" id="nombre" name="nombre" required)
+      div
+        label(for="apellido") Apellido:
+        input(type="text" id="apellido" name="apellido" required)
+      div
+        label(for="email") Email:
+        input(type="email" id="email" name="email" required)
+      div.labelComentario
+        label(for="comentario") Cuentanos de ti:
+        textarea(id="comentario" name="comentario" rows="4")
+      div
+        button.bn.enviar Enviar

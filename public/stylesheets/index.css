@@ -288,7 +288,7 @@ section {
     background: transparent;
   }
 
-  .bn{
+  .bn:focus{
     text-shadow: 
     -1px -1px 0 #000,  
     1px -1px 0 #000,
@@ -333,6 +333,7 @@ section {
   .bn#contacto:focus{
     color: var(--ColorPalette-Amarillo);
   }
+
   
   .bn:active {
     color: #000;
@@ -341,6 +342,10 @@ section {
 
   .subtitle{
     font-size: 26px;
+  }
+
+  .labelComentario{
+    text-align: left;
   }
   
   .ico {
