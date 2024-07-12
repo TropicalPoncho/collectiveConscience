@@ -1,6 +1,10 @@
 import Background from "./landing/background.js";
 import Mundo from "./landing/mundo.js";
-import somasData from "./landing/somasData.json" assert { type: 'json' };
+//import somasData from "./landing/somasData.json";
+
+fetch('./landing/mundo.js')
+    .then((response) => response.json())
+    .then((json) => somasData = json);
 
 const globalDefaultSettings = {
     nodeSize: 4,
