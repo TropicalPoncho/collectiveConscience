@@ -1,10 +1,12 @@
 import Background from "./landing/background.js";
 import Mundo from "./landing/mundo.js";
-//import somasData from "./landing/somasData.json";
+/* import createRequire from "./landing/somasData.json";
+const require = createRequire(import.meta.url);
+const somasData = require("./data.json"); */
 
-fetch('./landing/mundo.js')
-    .then((response) => response.json())
-    .then((json) => somasData = json);
+var somasData;
+fetch('landing/somasData.json')
+    .then((response) => somasData = response.json());
 
 const globalDefaultSettings = {
     nodeSize: 4,
@@ -429,9 +431,19 @@ var esporaNeurons = [
         }
     });
 } */
-var isEspora = (typeof espora != 'undefined');
+
+function getNeurons(order){
+    $.get( "/neurons", {order: order, page: page}, function( neurons ) {
+        if(neurons.length != 0){
+            return neurons;
+        }else{ //Cuando termina de cargar
+            //setTimeout(() => { manageNewNeurons(); }, 5000);
+        }
+    });
+}
+
 jQuery(function(){
-    var neuronsToLoad = isEspora ? esporaNeurons.filter(node => node.order == 0) : indexNeurons;
+    var neuronsToLoad = getNeurons(0);
     var mundo = new Mundo('contentNetwork', {nodes: neuronsToLoad , links: createLinks(neuronsToLoad)}, showNeuronData);
     mundo.addElement(new Background(mundo));
 

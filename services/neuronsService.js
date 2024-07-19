@@ -73,7 +73,7 @@ class NeuronsService {
         try {
             const query = Neuron.aggregate();
             query.addFields({
-                nOrder: {$ifNull : [ "$order" , 100 ] }
+                nOrder: {$ifNull : [ "$order" , 100 ] },
             });
             query.sort({"nOrder":1, "_id": 1 })
             if(page !== undefined && page != 0){
