@@ -4,11 +4,9 @@ const Schema = mongoose.Schema;
 //Defino el schema:
 const neuronSchema = new Schema({
 	fromId: [{type: mongoose.ObjectId}],
-	/* synapses: [
-		{ id: {type: mongoose.ObjectId}, distance: Number}
-	], */
 	name: String,
 	imgPath: String,
+	order: Number,
 	IP: String ,
 	graphVal: Number,
 	nickName: String,

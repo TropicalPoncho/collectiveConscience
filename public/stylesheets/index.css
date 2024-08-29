@@ -45,7 +45,7 @@ section {
   font-family: 'Briller', Gotham, sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 50px;
+  font-size: 45px;
   color: white;
 }
 
@@ -228,7 +228,7 @@ textarea{
     color: #FFF;
     font-family: inherit;
     font-weight: 500;
-    font-size: 17px;
+    font-size: 14px;
     cursor: pointer;
     position: relative;
     z-index: 0;

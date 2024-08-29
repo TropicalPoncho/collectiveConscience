@@ -21,7 +21,16 @@ router.post('/', function(req, res, next) {
 
 router.get('/', function(req, res, next){
 	NeuronsServiceInstance.getAll(req.query.page).then(result => {
-		console.log(result);
+		res.json(result);
+	}).catch(err => {
+		console.log(err)
+		next(createError(500));
+	});
+});
+
+router.get('/:order', function(req, res, next){
+	const order = req.params.order
+	NeuronsServiceInstance.getAll(req.query.page).then(result => {
 		res.json(result);
 	}).catch(err => {
 		console.log(err)

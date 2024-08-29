@@ -84,6 +84,25 @@ class NeuronsService {
             return err;
         }
     }
+
+    getByOrder ( order , page ) {
+        try {
+            const query = Neuron.aggregate()
+                .addFields({
+                    nOrder: {$ifNull : [ "$order" , 100 ] },
+                })
+                .match({ order: order })
+                .sort({"nOrder":1, "_id": 1 });
+
+            if(page !== undefined && page != 0){
+                query.skip(limit*page);
+            }
+
+            return query.limit(limit).exec();
+        } catch ( err ) {
+            return err;
+        }
+    }
 }
 
 module.exports = NeuronsService;

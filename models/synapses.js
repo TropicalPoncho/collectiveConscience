@@ -3,7 +3,9 @@ const Schema = mongoose.Schema;
 
 //Defino el schema:
 const synapseSchema = new Schema({
-	fromId: {type: mongoose.ObjectId, required: true},
+	fromId: {type: Int, required: true},
+	toId: {type: Int, required: true},
+	type: String,
 	IP: String ,
 	location: {
 		latitud: String,

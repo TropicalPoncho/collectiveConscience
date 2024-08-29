@@ -1,12 +1,5 @@
 import Background from "./landing/background.js";
 import Mundo from "./landing/mundo.js";
-/* import createRequire from "./landing/somasData.json";
-const require = createRequire(import.meta.url);
-const somasData = require("./data.json"); */
-
-var somasData;
-fetch('landing/somasData.json')
-    .then((response) => somasData = response.json());
 
 const globalDefaultSettings = {
     nodeSize: 4,
@@ -432,25 +425,9 @@ var esporaNeurons = [
     });
 } */
 
-function getNeurons(order){
-    $.get( "/neurons", {order: order, page: page}, function( neurons ) {
-        if(neurons.length != 0){
-            return neurons;
-        }else{ //Cuando termina de cargar
-            //setTimeout(() => { manageNewNeurons(); }, 5000);
-        }
-    });
-}
-
 jQuery(function(){
-    var neuronsToLoad = getNeurons(0);
-    var mundo = new Mundo('contentNetwork', {nodes: neuronsToLoad , links: createLinks(neuronsToLoad)}, showNeuronData);
-    mundo.addElement(new Background(mundo));
-
-    if(isEspora){
-        $(".floatingMenu").hide();
-        $(".floatingTitle").hide();
-    }
+    var mundo = new Mundo('contentNetwork', 0, showNeuronData);
+    mundo.addElement(new Background(mundo));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
     $(document).on('click', '.next', function(){
         var nextId = $(this).attr('id');
@@ -552,29 +529,29 @@ jQuery(function(){
             bnActive = true;
         }
         $('.bn[neuronid="'+node.id+'"]').focus();
-        var thisNode = somasData.filter(textNode => textNode.id == node.id)[0];
-        if(thisNode?.subtitle)
-            $(".subtitle").text(thisNode.subtitle);
+        var nodeHtml = node.html;//somasData.filter(textNode => textNode.id == node.id)[0];
+        if(nodeHtml?.subtitle)
+            $(".subtitle").text(nodeHtml.subtitle);
 
-        if(thisNode?.info){
-            if(Array.isArray(thisNode.info)){
-                thisNode.info.forEach(p => {
+        if(nodeHtml?.info){
+            if(Array.isArray(nodeHtml.info)){
+                nodeHtml.info.forEach(p => {
                     $(".info").append($('<p></p>').text(p));
                 });
             }else{
-                $(".info").text(thisNode.info);
+                $(".info").text(nodeHtml.info);
             }
         }
-        if(thisNode?.next){
-            $(".next").attr("id",thisNode.next.id);
-            $(".next").attr("thisNeuronId", thisNode.id);
-            if(thisNode.next.name){
-                $(".next").text(thisNode.next.name);
+        if(nodeHtml?.next){
+            $(".next").attr("id",nodeHtml.next.id);
+            $(".next").attr("thisNeuronId", nodeHtml.id);
+            if(nodeHtml.next.name){
+                $(".next").text(nodeHtml.next.name);
             }else{
                 $(".next").text('SEGUIR');
             }
-            if(thisNode.next.url){
-                $(".next").attr("url",thisNode.next.url);
+            if(nodeHtml.next.url){
+                $(".next").attr("url",nodeHtml.next.url);
             }
             $(".next").show();
         }else{
@@ -617,26 +594,3 @@ function takeScreenshot(mundo){
     }); */
 }
     
-
-
-function createLinks(nodes){
-    var nodeLinks = [];
-    //var newBlend = indexNeurons.concat(nodes);
-    nodes.forEach( node => {
-        if( node.links ){
-            node.links.forEach( link => {
-
-                var newLink = {
-                    source: link.id,
-                    target: node.id
-                };
-
-                newLink.distance = link.distance ?? globalDefaultSettings.linkDistance;
-
-                nodeLinks.push(newLink);
-
-            });
-        }
-    });
-    return nodeLinks;
-}

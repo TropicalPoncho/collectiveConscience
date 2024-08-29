@@ -51,9 +51,8 @@ export default class Mundo{
     elements = [];
 
     //Init graph:
-    constructor(elementId, graphData, showNeuronsCallBack){
+    constructor(elementId, order, showNeuronsCallBack){
 
-        this.graphData = graphData;
         this.threeObjectManager = new ThreeObjectManager({animationType: 'Hover'});
 
         this.Graph = ForceGraph3D({ controlType: 'orbit'})
@@ -87,7 +86,7 @@ export default class Mundo{
 
         this.Graph.d3Force('charge').strength(-120);
 
-        this.Graph.graphData(this.graphData);
+        this.insertNodesFromApi(order,0);
 
         this.scene = this.Graph.scene();
         this.renderer = this.Graph.renderer();
@@ -179,16 +178,20 @@ export default class Mundo{
         this.stats.end();
     }
 
-    insertNodes(newGraphData, nextIdToShow, goToNeuronDataCallback){
+    insertNodes(newGraphData, nextIdToShow = false, goToNeuronDataCallback = false){
+        //Si encuentro el primer nodo ingresado, ejecuto el callback y return
         if(this.graphData.nodes.find(node => node.id == newGraphData.nodes[0].id)){
-            this.Graph.onEngineStop(() => {
-                goToNeuronDataCallback(nextIdToShow);
-                this.Graph.onEngineStop(() => {});
-            });
+            if(goToNeuronDataCallback){
+                this.Graph.onEngineStop(() => {
+                    goToNeuronDataCallback(nextIdToShow);
+                    this.Graph.onEngineStop(() => {});
+                });
+            }
             return;
         }
-        this.graphData.nodes.push(...newGraphData.nodes);
-        this.graphData.links.push(...newGraphData.links);
+        //Sino lo integro:
+        this.graphData.nodes.push(...newGraphData);
+        this.graphData.links.push(...this.createLinks(newGraphData));
         try {
             this.Graph.graphData(this.graphData);
             this.Graph.nodeThreeObject(node => this.threeObjectManager.createObject(node) );
@@ -202,6 +205,18 @@ export default class Mundo{
         } catch (error) {
             console.log(error);
         }
+    }
+
+    insertNodesFromApi(order, page){
+        $.get( `/neurons`, {page: page}, ( neurons) => {
+            if(neurons.length != 0){
+                let filtered = neurons.filter(item => item.order == order);
+                this.insertNodes(filtered);
+                //Hacerlo recursivo?
+            }else{ //Cuando termina de cargar
+                //setTimeout(() => { manageNewNeurons(); }, 5000);
+            }
+        });
     }
 
     activateZoomToFit(){
@@ -311,6 +326,27 @@ export default class Mundo{
             clearInterval(this.orbitInterval);
             this.orbitInterval = null;
         }
+    }
+
+    createLinks(nodes){
+        var nodeLinks = [];
+        //var newBlend = indexNeurons.concat(nodes);
+        nodes.forEach( node => {
+            if( node.links ){
+                node.links.forEach( link => {
+                    if(nodes.find( item => item.id == link.id)){
+                        var newLink = {
+                            source: link.id,
+                            target: node.id
+                        };
+                        
+                        newLink.distance = link.distance ?? globalDefaultSettings.linkDistance;
+                        nodeLinks.push(newLink);
+                    }
+                });
+            }
+        });
+        return nodeLinks;
     }
 
 }
