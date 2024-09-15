@@ -16,402 +16,6 @@ const colorsArray = [
     "#FFFFFF" //blanco
 ];
 
-var indexNeurons = [ {
-    "id": 0,
-    "name": "Nosotres",
-    "img": 'isologo_blanco.png',
-    "color": colorsArray[6],
-    "imgSize": globalDefaultSettings.imgSize,
-    "val": globalDefaultSettings.nodeSize,
-    "type": "Image"
-}, {
-    "id": 1, 
-    "name": "Obras",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[6],
-    "links": [{id:0,distance: 100}],
-    "type": "Twist",
-    "style": {
-        uNoiseStrength: { type: "f", value: 12 },
-        uNoiseDensity: { type: "f", value: 9.0 },
-        uIntensity: { type: "f", value: .2 },
-        uFrequency: { type: "f", value: 1 },
-        uAmplitude: { type: "f", value: .4 },
-        uBrightness: { value: new THREE.Vector3(0.5, 0.5, 0.8) },
-        uContrast: { value: new THREE.Vector3(0.7, 0.2, 0.5) },
-        uOscilation: { value: new THREE.Vector3(.8, 1.0, 1.0) },
-        uPhase: { value: new THREE.Vector3(0.00, 0.33, 0.67) }
-    }
-} ,{
-    "id": 2, 
-    "name": "Audiovisuales",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[6],
-    "links": [{id:0, distance: 100},{id:1, distance: 100}],
-    "type": "Marble",
-    "style": {
-        uNoiseStrength: { type: "f", value: 8 },
-        uNoiseDensity: { type: "f", value: 1.0 },
-        uIntensity: { type: "f", value: 1 },
-        uFrequency: { type: "f", value: .5 },
-        uAmplitude: { type: "f", value: .2 },
-        uBrightness: { value: new THREE.Vector3(0.2, 0.9, 0.3) },
-        uContrast: { value: new THREE.Vector3(0.5, 0.7, 0.5	) },
-        uOscilation: { value: new THREE.Vector3(2.0, 1.0, 0) },
-        uPhase: { value: new THREE.Vector3(0.50, 0.20, 0.25) }
-    }
-},{
-    "id": 3, 
-    "name": "Editorial",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[6],
-    "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100}],
-    "type": "Twist",
-    "style":{
-        color1: {value: new THREE.Color(0x335566)},
-        color2: {value: new THREE.Color(0x9900FF)}
-    }
-},{
-    "id": 4, 
-    "name": "Tecnología",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[6],
-    "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100}],
-    "type": "Lights",
-    "style":{
-        colorR: { type: "f", value: .5},
-        colorG: { type: "f", value: .6},
-        colorB: { type: "f", value: .2},
-        colorChange: { type: "f", value: 7}
-    }
-},{
-    "id": 5, 
-    "name": "Laboratorios",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[6],
-    "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100},{id:4, distance: 100}],
-    "type": "Lights",
-    "style":{
-        weight: { type: "f", value: 10 },
-        colorR: { type: "f", value: .4},
-        colorG: { type: "f", value: .2},
-        colorB: { type: "f", value: .7},
-        colorChange: { type: "f", value: .3},
-    }
-},{
-    "id": 6, 
-    "name": "Amigues",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[6],
-    "links": [{id:0, distance: 100},{id:1, distance: 100},{id:2, distance: 100},{id:3, distance: 100},{id:4, distance: 100},{id:5, distance: 100}],
-    "type": "Lights",
-    "style":{
-        weight: { type: "f", value: 13}
-    }
-} ,{
-    "id": 7, 
-    "name": "Contacto",
-    "val": globalDefaultSettings.nodeSize,
-    "color": colorsArray[6],
-    "links": [{id:0, distance: 100}, {id:1, distance: 100}, {id:2, distance: 100}, {id:3, distance: 100}, {id:4, distance: 100}, {id:5, distance: 100}, {id:6, distance: 100}],
-    "type": "Twist",
-    "style":{
-        uNoiseStrength: { type: "f", value: 3},
-        uNoiseDensity: { type: "f", value: 14.0 },
-        uIntensity: { type: "f", value: 4 },
-        uFrequency: { type: "f", value: 2 },
-        uAmplitude: { type: "f", value: 6 },
-        uBrightness: { value: new THREE.Vector3(0.6, 0.7, 0.5) },
-        uContrast: { value: new THREE.Vector3(0.5, 0.5, 0.5	) },
-        uOscilation: { value: new THREE.Vector3(1.0, 1.0, 1.0) },
-        uPhase: { value: new THREE.Vector3(0.70, 0.20, 0.20) }
-    }
-}];
-
-var obras = [
-    { //Obras -------------------------------------------
-        "id": 10,
-        "name": "Kutral",
-        "imgSize": globalDefaultSettings.imgSize,
-        "val": globalDefaultSettings.nodeSize - 2,
-        "links": [{id:1, distance: 60}],
-        "type": "Fire"
-    },{
-        "id": 11, 
-        "name": "Tempistica I",
-        "val": globalDefaultSettings.nodeSize - 2,
-        "color": colorsArray[1],
-        "links": [{id:10, distance: 60}],
-        "type": "Twist"
-    },{
-        "id": 12, 
-        "name": "Tempistica II",
-        "val": globalDefaultSettings.nodeSize - 2,
-        "color": colorsArray[2],
-        "links": [{id:11, distance: 60}],
-        "type": "Twist"
-    },{
-        "id": 13, 
-        "name": "Tropical Posporno",
-        "val": globalDefaultSettings.nodeSize - 2,
-        "color": colorsArray[3],
-        "links": [{id:1, distance: 70}],
-        "type": "Lights",
-        "style":{
-            colorR: { type: "f", value: .9},
-            colorG: { type: "f", value: .0},
-            colorB: { type: "f", value: .0},
-            colorChange: { type: "f", value: 7}
-        }
-        /* "img":"posporno.png",
-        "imgSize": 30, */
-    },{
-        "id": 14, 
-        "name": "SOMA beta",
-        "val": globalDefaultSettings.nodeSize - 2,
-        "color": colorsArray[4],
-        "links": [{id:11, distance: 60}],
-        "type": "Marble"
-    },{
-        "id": 15, 
-        "name": "SOMA",
-        "val": globalDefaultSettings.nodeSize - 2,
-        "color": colorsArray[4],
-        "links": [{id:14, distance: 60}],
-        "type": "Lights"
-    },{
-        "id": 16, 
-        "name": "NUDO",
-        "val": globalDefaultSettings.nodeSize - 2,
-        "color": colorsArray[4],
-        "links": [{id:1, distance: 80}],
-        "type": "Image",
-        "img":"NUDO.png",
-        "imgSize": 30,
-    },{
-        "id": 17, 
-        "name": "C.E.P.A.",
-        "val": globalDefaultSettings.nodeSize - 2,
-        "color": colorsArray[4],
-        "links": [{id:1, distance: 90}],
-        "type": "Image",
-        "img":"CEPA.png",
-        "imgSize": 50
-    },{
-        "id": 18, 
-        "name": "Concierto Público #4 ft Tropical Poncho",
-        "val": globalDefaultSettings.nodeSize - 2,
-        "color": colorsArray[4],
-        "links": [{id:1, distance: 100}],
-        "type": "Marble"
-    },{
-        "id": 19,
-        "name": "Tropical Posporno: Distopia",
-        "val": globalDefaultSettings.nodeSize - 2,
-        "color": colorsArray[4],
-        "links": [{id:13, distance: 60}],
-        "type": "Image",
-        "img":"distopia.png",
-        "imgSize": 60
-    },{
-        "id": 20,
-        "name": "ESPORA",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[2],
-        "links": [{id:10, distance: 90}],
-        "type": "Text"
-    }
-];
-
-//var espora = (typeof espora !== 'undefined');
-var esporaNeurons = [
-    {
-        "id": 20,
-        "name": "ESPORA",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[2],
-        "type": "Image",
-        "img": "espora.png",
-        "imgSize": 80,
-        "order": 0
-    },
-    {
-        "id": 0,
-        "name": "Nosotres",
-        "color": colorsArray[6],
-        "imgSize": globalDefaultSettings.imgSize,
-        "val": globalDefaultSettings.nodeSize,
-        "links": [{id:20, distance: 100}],
-        "img": 'isologo_blanco.png',
-        "type": "Image",
-        "order": 0
-    },
-    {
-        "id": 202,
-        "name": "WIP",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[2],
-        "links": [{id:0, distance: 100},{id:20, distance: 100}],
-        "type": "Image",
-        "img":"WIP.png",
-        "imgSize": 70,
-        "order": 0
-    },
-    {
-        "id": 2021,
-        "name": "CONVERSATORIO",
-        "val": globalDefaultSettings.nodeSize+5,
-        "color": colorsArray[6],
-        "links": [{id:20, distance: 80}],
-        "type": "SimpleText",
-        "order": 1
-    },
-    {
-        "id": 2022,
-        "name": "OBRA",
-        "val": globalDefaultSettings.nodeSize+5,
-        "color": colorsArray[6],
-        "links": [{id:20, distance: 80}],
-        "type": "SimpleText",
-        "order": 1
-    },
-    {
-        "id": 2023,
-        "name": "LABORATORIO",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[6],
-        "links": [{id:20, distance: 80}],
-        "type": "SimpleText",
-        "order": 1
-    },
-    {
-        "id": 2024,
-        "name": "ESCULTURA 3D",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[4],
-        "links": [{id:2022, distance: 80}],
-        "type": "SimpleText",
-        "order": 2
-    },
-    {
-        "id": 2025,
-        "name": "VJ",
-        "val": globalDefaultSettings.nodeSize + 3,
-        "color": colorsArray[4],
-        "links": [{id:2022, distance: 80}],
-        "type": "SimpleText",
-        "order": 2
-    },
-    {
-        "id": 2026,
-        "name": "LIVE SET",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[4],
-        "links": [{id:2022, distance: 80}],
-        "type": "SimpleText",
-        "order": 2
-    },
-    {
-        "id": 2027,
-        "name": "MUESTRA INTERACTIVA",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[4],
-        "links": [{id:2022, distance: 80}],
-        "type": "SimpleText",
-        "order": 2
-    },
-    {
-        "id": 2028,
-        "name": "LIVE CODING",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[4],
-        "links": [{id:2022, distance: 80}],
-        "type": "SimpleText",
-        "order": 2
-    },
-    {
-        "id": 20221,
-        "name": "Julieta Agriano",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[0],
-        "links": [{id:2021, distance: 80},{id:202, distance: 80}],
-        "type": "SimpleText",
-        "order": 3
-    },
-    {
-        "id": 20222,
-        "name": "Ep.Di",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[0],
-        "links": [{id:2021, distance: 80},{id:2025, distance: 80}],
-        "type": "SimpleText",
-        "order": 3
-    },
-    {
-        "id": 20223,
-        "name": "Ari",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[0],
-        "links": [{id:2021, distance: 80},{id:2028, distance: 80}],
-        "type": "SimpleText",
-        "order": 3
-    },
-    {
-        "id": 20224,
-        "name": "Mel",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[0],
-        "links": [{id:2021, distance: 80},{id:2024, distance: 80}],
-        "type": "SimpleText",
-        "order": 3
-    },
-    {
-        "id": 20225,
-        "name": "Rama Cerratto",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[0],
-        "links": [{id:2021, distance: 80},{id:0, distance: 80}],
-        "type": "SimpleText",
-        "order": 3
-    },
-    {
-        "id": 20226,
-        "name": "La Er",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[0],
-        "links": [{id:2021, distance: 80},{id:0, distance: 80}],
-        "type": "SimpleText",
-        "order": 3
-    },
-    {
-        "id": 20227,
-        "name": "Clau Brito",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[0],
-        "links": [{id:2021, distance: 80},{id:0, distance: 80}],
-        "type": "SimpleText",
-        "order": 3
-    },
-    {
-        "id": 20228,
-        "name": "Luz Alta",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[0],
-        "links": [{id:2021, distance: 80},{id:0, distance: 80}],
-        "type": "SimpleText",
-        "order": 3
-    },
-    {
-        "id": 20229,
-        "name": "Marian Basti",
-        "val": globalDefaultSettings.nodeSize,
-        "color": colorsArray[0],
-        "links": [{id:2021, distance: 80},{id:2027, distance: 80}],
-        "type": "SimpleText",
-        "order": 3
-    }
-];
-
 
 /* function getAndInsertNeurons(page, fromNeuronId){
     $.get( "/neurons", {fromNeuronId: fromNeuronId, page: page}, function( neurons ) {
@@ -429,6 +33,7 @@ jQuery(function(){
     var mundo = new Mundo('contentNetwork', 0, showNeuronData);
     mundo.addElement(new Background(mundo));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
+    var neuronOnFocus = false;
     $(document).on('click', '.next', function(){
         var nextId = $(this).attr('id');
         var thisNeuronId = $(this).attr('thisNeuronId');
@@ -460,11 +65,15 @@ jQuery(function(){
          */
     });
     var bnActive = false;
-    $(document).on('click', '.floatingMenu .bn', function(){
-        goToNeuron($(this).attr('neuronId'));
+    $(document).on('click', '.floatingMenu .bn', function(event){
+        neuronOnFocus = $(this).attr('neuronId');
+        $('.floatingMenu .bn').removeClass('bnfocus');
+        $(this).addClass('bnfocus');
+        goToNeuron(neuronOnFocus);
     });
     
     $(document).on("click", '.volver', function( event ) {
+        $('.floatingMenu .bn').removeClass('bnfocus');
         /* $(".floatingMenu").removeClass("der"); */
         /* $(".floatingMenu").removeClass("izq"); */
         goBack();
@@ -503,9 +112,6 @@ jQuery(function(){
     function goBack(){
         $(".floatingMenu .bn").show();
         mundo.backToBasicsView();
-        if(!isEspora){
-            $(".floatingTitle").fadeIn(600);
-        }
         $(".floatingInfo").fadeOut(600);
         bnActive = false;
         $('#check').prop('checked', true);
@@ -528,7 +134,8 @@ jQuery(function(){
             $('#check').prop('checked', true);
             bnActive = true;
         }
-        $('.bn[neuronid="'+node.id+'"]').focus();
+        $('.floatingMenu .bn').removeClass('bnfocus');
+        $('.bn[neuronid="'+node.id+'"]').addClass('bnfocus');
         var nodeHtml = node.html;//somasData.filter(textNode => textNode.id == node.id)[0];
         if(nodeHtml?.subtitle)
             $(".subtitle").text(nodeHtml.subtitle);

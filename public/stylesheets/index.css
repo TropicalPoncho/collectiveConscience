@@ -66,6 +66,21 @@ section {
 textarea{
   color: white;
 }
+ 
+.floatingInfo.der .subtitle, .floatingInfo.der .info{
+  text-align: right;
+}
+.floatingInfo.izq .subtitle, .floatingInfo.izq .info{
+  text-align: left;
+}
+.info, .infoButtons{
+  padding-top: 10px;
+}
+.floatingInfo.der .infoButtons{
+  display: flex;
+  justify-content: flex-end;
+  float: right;
+}
 
 /* .floatingMenu.der,.floatingInfo.der{
   left: 60%;
@@ -100,7 +115,7 @@ textarea{
 
 .floatingMenu {
   position: absolute;
-  top: 10%;
+  top: 12%;
   height: 50px;
   white-space: nowrap;
   left: 50%;
@@ -234,7 +249,7 @@ textarea{
     z-index: 0;
     border-radius: 32px;
     vertical-align: middle;
-    transition: font-size 0.5s ease;
+    transition: font-size 2s ease;
   }
   
   .bn::after {
@@ -288,58 +303,55 @@ textarea{
     opacity: 1;
   }
   
-  .bn:active:after {
+  .bn:active:after, button:focus {
     background: transparent;
   }
 
-  .bn:focus{
+ .bnfocus{
     text-shadow: 
     -1px -1px 0 #000,  
     1px -1px 0 #000,
     -1px 1px 0 #000,
     1px 1px 0 #000;
-  }
-  
-  .bn:focus{
     padding: 0;
     background-color: transparent;
     font-size: 36px;
-  }
+  } 
 
-  .bn#nosotres:focus{
+
+  .bnfocus#nosotres{
     color: var(--ColorPalette-Turquesa);
   }
 
-  .bn#obras:focus{
+  .bnfocus#obras{
     color: var(--ColorPalette-Cian);
   }
 
-  .bn#audiovisuales:focus{
+  .bnfocus#audiovisuales{
     color: var(--ColorPalette-Violeta);
   }
 
-  .bn#editorial:focus{
+  .bnfocus#editorial{
     color: var(--ColorPalette-Fuccia);
   }
 
-  .bn#proyectos:focus{
+  .bnfocus#proyectos{
     color: var(--ColorPalette-Amarillo);
   }
 
-  .bn#laboratorios:focus{
+  .bnfocus#laboratorios{
     color: var(--ColorPalette-Turquesa);
   }
 
-  .bn#amigues:focus{
+  .bnfocus#amigues{
     color: var(--ColorPalette-Fuccia);
   }
 
-  .bn#contacto:focus{
+  .bnfocus#contacto{
     color: var(--ColorPalette-Amarillo);
   }
-
   
-  .bn:active {
+  .bnfocus:active {
     color: #000;
     font-weight: bold;
   }
