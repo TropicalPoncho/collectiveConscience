@@ -1,7 +1,6 @@
 import {ThreeObjectManager}  from '../threeObjects/ThreeObjectManager.js';
-import Background from './background.js';
 import Stats from 'three/addons/libs/stats.module'
-import { CSS2DRenderer } from '//unpkg.com/three/examples/jsm/renderers/CSS2DRenderer.js';
+//mport { CSS2DRenderer } from '//unpkg.com/three/examples/jsm/renderers/CSS2DRenderer.js';
 
 const colorsArray = [
     "#8AE2C8", //verde
@@ -49,6 +48,7 @@ export default class Mundo{
     stats;
 
     elements = [];
+    loadedNeurons;
 
     //Init graph:
     constructor(elementId, order, showNeuronsCallBack){
@@ -178,20 +178,39 @@ export default class Mundo{
         this.stats.end();
     }
 
-    insertNodes(newGraphData, nextIdToShow = false, goToNeuronDataCallback = false){
-        //Si encuentro el primer nodo ingresado, ejecuto el callback y return
-        if(this.graphData.nodes.find(node => node.id == newGraphData.nodes[0].id)){
+    nodeExists(nodeId){
+        return this.graphData.nodes.find(node => node.id == nodeId);
+    }
+
+    goToNeuron(neuronId, goToNeuronDataCallback){
+        //If already added:
+        if(this.graphData.nodes.find(node => node.id == neuronId)){
             if(goToNeuronDataCallback){
                 this.Graph.onEngineStop(() => {
-                    goToNeuronDataCallback(nextIdToShow);
+                    goToNeuronDataCallback(neuronId);
                     this.Graph.onEngineStop(() => {});
                 });
             }
+        }else{
+            this.insertNodesById([neuronId], neuronId, goToNeuronDataCallback);
+        }
+    }
+
+    insertNodesById(nodeIds, nextIdToShow = false, goToNeuronDataCallback = false){
+        //Si encuentro los nodos ya cargados pero no insertados:
+        var newGraphData = this.loadedNeurons.filter(node => nodeIds.includes(node.id.toString()));
+        if(!newGraphData){
             return;
         }
-        //Sino lo integro:
+        if(!nextIdToShow){
+            nextIdToShow = newGraphData[0].id;
+        }
+        this.insertNodes(newGraphData, nextIdToShow, goToNeuronDataCallback);
+    }
+
+    insertNodes(newGraphData, nextIdToShow = false, goToNeuronDataCallback = false){                
         this.graphData.nodes.push(...newGraphData);
-        this.graphData.links.push(...this.createLinks(newGraphData));
+        this.graphData.links.push(...this.createLinks(this.graphData.nodes));
         try {
             this.Graph.graphData(this.graphData);
             this.Graph.nodeThreeObject(node => this.threeObjectManager.createObject(node) );
@@ -210,6 +229,7 @@ export default class Mundo{
     insertNodesFromApi(order, page){
         $.get( `/neurons`, {page: page}, ( neurons) => {
             if(neurons.length != 0){
+                this.loadedNeurons = neurons;
                 let filtered = neurons.filter(item => item.order == order);
                 this.insertNodes(filtered);
                 //Hacerlo recursivo?
@@ -218,19 +238,15 @@ export default class Mundo{
             }
         });
     }
-
     activateZoomToFit(){
         this.Graph.onEngineStop(() => this.Graph.zoomToFit(700));
     } 
-
-
     activeNodeById(neuronId){
         var nodes = this.graphData.nodes;
         var filterNode = nodes.find(item => item.id == neuronId);
         filterNode = this.activeNode(filterNode);
         return filterNode;
     }
-
     activeNode(node){
         this.animateNode(node, true);
         node.side = this.aimNode(node);

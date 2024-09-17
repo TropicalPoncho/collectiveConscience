@@ -33,27 +33,14 @@ jQuery(function(){
     var mundo = new Mundo('contentNetwork', 0, showNeuronData);
     mundo.addElement(new Background(mundo));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
-    var neuronOnFocus = false;
     $(document).on('click', '.next', function(){
         var nextId = $(this).attr('id');
-        var thisNeuronId = $(this).attr('thisNeuronId');
 
         if($(this).attr('url')){
             window.location.replace("https://tropicalponcho.art");
         }
 
-        if(thisNeuronId == 1){
-            mundo.insertNodes({nodes: obras , links: createLinks(obras)}, nextId, goToNeuron); //Cargo las que siguen y luego voy
-        }else if(thisNeuronId == 20 || thisNeuronId == 202){
-            var nextNeurons = esporaNeurons.filter(node => node.order != 0);
-            mundo.insertNodes({nodes: nextNeurons , links: createLinks(nextNeurons)}, nextId, false);
-            mundo.backToBasicsView(-50, 300);
-            $('.data').fadeOut(300, function(){
-                $('.formulario').fadeIn(300);
-            });
-        }else{
-            goToNeuron(nextId); //Si no, solo voy a la siguiente
-        }
+        goToNeuron(nextId); //Si no, solo voy a la siguiente
         /**
          * TODO: Acá se podría hacer más dinámico para que cargue en caso de q no encuentre ya cargada.
          * Debería buscar por nivel/distancia? -> lo de distancia sirve para sinapsis -> aunque puede haber x distancia y q sean muchas.
@@ -64,18 +51,18 @@ jQuery(function(){
          * 
          */
     });
+
     var bnActive = false;
     $(document).on('click', '.floatingMenu .bn', function(event){
-        neuronOnFocus = $(this).attr('neuronId');
+        var neuronOnFocus = $(this).attr('neuronId');
         $('.floatingMenu .bn').removeClass('bnfocus');
         $(this).addClass('bnfocus');
-        goToNeuron(neuronOnFocus);
+        var node = mundo.activeNodeById(neuronOnFocus);
+        showNeuronData(node);
     });
     
     $(document).on("click", '.volver', function( event ) {
         $('.floatingMenu .bn').removeClass('bnfocus');
-        /* $(".floatingMenu").removeClass("der"); */
-        /* $(".floatingMenu").removeClass("izq"); */
         goBack();
     });
 
@@ -115,12 +102,17 @@ jQuery(function(){
         $(".floatingInfo").fadeOut(600);
         bnActive = false;
         $('#check').prop('checked', true);
+        $(".floatingMenu").removeClass('top');
+        $(".floatingTitle").fadeIn(2500);
     }
 
     function goToNeuron(neuronId){
-        var node = mundo.activeNodeById(neuronId);
-        showNeuronData(node);
+        mundo.goToNeuron(neuronId, (neuronId) => {
+            var node = mundo.activeNodeById(neuronId);
+            showNeuronData(node);
+        });
     }
+
     //Helper functions
     /* $(document).on('click', '#takeScreenshot', function(){
         takeScreenshot(mundo);
@@ -136,7 +128,7 @@ jQuery(function(){
         }
         $('.floatingMenu .bn').removeClass('bnfocus');
         $('.bn[neuronid="'+node.id+'"]').addClass('bnfocus');
-        var nodeHtml = node.html;//somasData.filter(textNode => textNode.id == node.id)[0];
+        var nodeHtml = node.html; //somasData.filter(textNode => textNode.id == node.id)[0];
         if(nodeHtml?.subtitle)
             $(".subtitle").text(nodeHtml.subtitle);
 
@@ -150,7 +142,7 @@ jQuery(function(){
             }
         }
         if(nodeHtml?.next){
-            $(".next").attr("id",nodeHtml.next.id);
+            $(".next").attr("id", nodeHtml.next.id);
             $(".next").attr("thisNeuronId", nodeHtml.id);
             if(nodeHtml.next.name){
                 $(".next").text(nodeHtml.next.name);
@@ -168,17 +160,13 @@ jQuery(function(){
         if(node.side == "izq"){
             $(".floatingInfo").addClass("izq");
             $(".floatingInfo").removeClass("der");
-    
-            /* $(".floatingMenu").addClass("izq");
-            $(".floatingMenu").removeClass("der"); */
         }else{
             $(".floatingInfo").removeClass("izq");
             $(".floatingInfo").addClass("der");
-    
-            /* $(".floatingMenu").removeClass("izq ");*/
-            /* $(".floatingMenu").addClass("der"); */
         }
-        $(".floatingTitle").fadeOut(600);//Oculto el titulo
+        $(".floatingTitle").fadeOut(600, function(){
+            $(".floatingMenu").addClass('top');
+        });//Oculto el titulo
         $(".floatingInfo").fadeIn(600); //Muestro la data
     }
 

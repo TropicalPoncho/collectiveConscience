@@ -1,6 +1,6 @@
 const Neuron = require('../models/neurons');
 
-const limit = 30;
+const limit = 40;
 
 class NeuronsService {
     /**

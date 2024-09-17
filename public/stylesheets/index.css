@@ -89,6 +89,11 @@ textarea{
   left:30%
 } */
 
+.floatingMenu.top{
+  top:2%;
+  transition: top 2s ease;
+}
+
 .checkbtn{
   position: absolute;
   top:  2%;
@@ -122,6 +127,7 @@ textarea{
   -webkit-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
   text-transform: uppercase;
+  transition: top 2s ease;
 }
 
 @media screen and (max-width: 800px) {
