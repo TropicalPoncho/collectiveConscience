@@ -49,9 +49,12 @@ export default class Mundo{
 
     elements = [];
     loadedNeurons;
+    showNeuronsCallBack;
 
     //Init graph:
     constructor(elementId, order, showNeuronsCallBack){
+
+        this.showNeuronsCallBack = showNeuronsCallBack;
 
         this.threeObjectManager = new ThreeObjectManager({animationType: 'Hover'});
 
@@ -182,33 +185,26 @@ export default class Mundo{
         return this.graphData.nodes.find(node => node.id == nodeId);
     }
 
-    goToNeuron(neuronId, goToNeuronDataCallback){
+    goToNeuron(neuronId){
         //If already added:
         if(this.graphData.nodes.find(node => node.id == neuronId)){
-            if(goToNeuronDataCallback){
-                this.Graph.onEngineStop(() => {
-                    goToNeuronDataCallback(neuronId);
-                    this.Graph.onEngineStop(() => {});
-                });
-            }
+            var node = this.activeNodeById(neuronId);
+            this.showNeuronsCallBack(node);
         }else{
-            this.insertNodesById([neuronId], neuronId, goToNeuronDataCallback);
+            this.insertNodesById([neuronId], neuronId);
         }
     }
 
-    insertNodesById(nodeIds, nextIdToShow = false, goToNeuronDataCallback = false){
+    insertNodesById(nodeIds, nextIdToShow = false){
         //Si encuentro los nodos ya cargados pero no insertados:
         var newGraphData = this.loadedNeurons.filter(node => nodeIds.includes(node.id.toString()));
         if(!newGraphData){
             return;
         }
-        if(!nextIdToShow){
-            nextIdToShow = newGraphData[0].id;
-        }
-        this.insertNodes(newGraphData, nextIdToShow, goToNeuronDataCallback);
+        this.insertNodes(newGraphData, nextIdToShow);
     }
 
-    insertNodes(newGraphData, nextIdToShow = false, goToNeuronDataCallback = false){                
+    insertNodes(newGraphData, nextIdToShow = false){                
         this.graphData.nodes.push(...newGraphData);
         this.graphData.links.push(...this.createLinks(this.graphData.nodes));
         try {
@@ -216,8 +212,9 @@ export default class Mundo{
             this.Graph.nodeThreeObject(node => this.threeObjectManager.createObject(node) );
             this.Graph.numDimensions(3);
             this.Graph.onEngineStop(() => {
-                if(goToNeuronDataCallback){
-                    goToNeuronDataCallback(nextIdToShow);
+                if(nextIdToShow){
+                    var node = this.activeNodeById(nextIdToShow);
+                    this.showNeuronsCallBack(node);
                 }
                 this.Graph.onEngineStop(() => {});
             });
@@ -244,12 +241,18 @@ export default class Mundo{
     activeNodeById(neuronId){
         var nodes = this.graphData.nodes;
         var filterNode = nodes.find(item => item.id == neuronId);
-        filterNode = this.activeNode(filterNode);
+        if(filterNode){
+            this.activeNode(filterNode);
+        }
         return filterNode;
     }
     activeNode(node){
-        this.animateNode(node, true);
-        node.side = this.aimNode(node);
+        try {
+            this.animateNode(node, true);
+            node.side = this.aimNode(node);
+        } catch (error) {
+            console.log(error);
+        }
         return node;
     }
 
