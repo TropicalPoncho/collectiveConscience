@@ -2,7 +2,14 @@ extends layout
 block css
   link(rel='stylesheet', type="text/css",  media="screen,projection", href='/stylesheets/index.css')
 block js
-  script(src="//unpkg.com/3d-force-graph@1.70.0")
+  if arActive
+    script var arActive = true;
+    script(src="//unpkg.com/aframe")
+    script(src="//unpkg.com/@ar-js-org/ar.js")
+    script(src="//unpkg.com/3d-force-graph-ar")
+  else
+    script var arActive = false;
+    script(src="//unpkg.com/3d-force-graph@1.70.0")
   script(src="//unpkg.com/three@0.160.0")
   //script(src="//unpkg.com/three-spritetext")
   script(type="importmap").
@@ -14,9 +21,6 @@ block js
     }
   script(type="module", src="/javascripts/index.js")
   script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js")
-
-  if espora
-    script var espora = true;
 
   script(type="x-shader/x-fragment", id="noiseFS").
     float mod289(float x){return x - floor(x * (1.0 / 289.0)) * 289.0;}

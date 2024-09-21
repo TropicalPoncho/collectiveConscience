@@ -30,7 +30,7 @@ const colorsArray = [
 } */
 
 jQuery(function(){
-    var mundo = new Mundo('contentNetwork', 0, showNeuronData);
+    var mundo = new Mundo('contentNetwork', 0, showNeuronData, arActive);
     mundo.addElement(new Background(mundo));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
     $(document).on('click', '.next', function(){

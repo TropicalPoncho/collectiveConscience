@@ -52,17 +52,24 @@ export default class Mundo{
     showNeuronsCallBack;
 
     //Init graph:
-    constructor(elementId, order, showNeuronsCallBack){
+    constructor(elementId, order, showNeuronsCallBack, arActive = false){
 
         this.showNeuronsCallBack = showNeuronsCallBack;
 
         this.threeObjectManager = new ThreeObjectManager({animationType: 'Hover'});
 
-        this.Graph = ForceGraph3D({ controlType: 'orbit'})
-        (document.getElementById(elementId))
+        if(!arActive){
+            this.Graph = ForceGraph3D({ controlType: 'orbit'})
+            (document.getElementById(elementId))
+                .nodeLabel('name');
+        }else{
+            this.Graph = ForceGraphAR({ controlType: 'orbit'})
+            (document.getElementById(elementId));
+        }
+        
+        this.Graph
             .linkCurvature(.4)
             .linkCurveRotation(0.1) 
-            .nodeLabel('name')
             .cameraPosition({ z: globalDefaultSettings.cameraDistance })
             .numDimensions(3)
             //.dagMode('zout')

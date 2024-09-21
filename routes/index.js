@@ -6,6 +6,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Tropical Poncho - Collective Conscience' });
 });
 
+router.get('/ar', function(req, res, next) {
+  res.render('index', { title: 'Tropical Poncho - Collective Conscience', arActive: true });
+});
+
 router.get('/espora', function(req, res, next) {
   res.render('index', { title: 'Tropical Poncho - Espora', espora: true });
 });
