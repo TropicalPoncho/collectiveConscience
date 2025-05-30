@@ -9,6 +9,7 @@ export class ThreeObject {
     mesh;
     counter = 1;
     speed = 0.01;
+    size = 10;
 
     globalUniforms = {
         time: {value: 0},

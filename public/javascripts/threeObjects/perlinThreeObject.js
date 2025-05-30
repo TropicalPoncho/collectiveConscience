@@ -114,7 +114,7 @@ export class PerlinThreeObject extends ThreeObject{
         perlinMesh.scale.set( 3, 3, 3 );
         this.mesh.add(perlinMesh);
 
-        const geometry = new THREE.SphereGeometry(20, 64, 32);
+        const geometry = new THREE.SphereGeometry(this.size, 64, 32);
         const material = new THREE.MeshStandardMaterial({ transparent: true });
         var obj = new THREE.Mesh(geometry, material);
         obj.visible = false;

@@ -51,7 +51,7 @@ export class MarbleThreeObject extends ThreeObject  {
         /* var randomColorA = node.color ?? globalDefaultSettings.marbleColorA;
         var randomColorB = globalDefaultSettings.marbleColorB; */
 
-        const geometry = new THREE.SphereGeometry(10, 64, 32);
+        const geometry = new THREE.SphereGeometry(this.size, 64, 32);
         const material = new THREE.MeshStandardMaterial({ roughness: this.params.roughness });
         
          // Load heightmap and displacement textures
