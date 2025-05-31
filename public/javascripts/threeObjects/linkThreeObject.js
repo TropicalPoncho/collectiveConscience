@@ -5,6 +5,7 @@ export class LinkThreeObject extends ThreeObject  {
     type = 'SinLink';
     start;
     end;
+    segments = 30;
 
     constructor (node, config){
         super(node);
@@ -18,7 +19,6 @@ export class LinkThreeObject extends ThreeObject  {
         ]);
         const material = new THREE.LineBasicMaterial({ color: 0xff44ff, linewidth: 20, opacity: 0.8, transparent: true });
 
-        // create a sphere and assign the material
         this.mesh = new THREE.Line(geometry, material);
 
         //this.mesh.material.color.set(0x00ff00);
@@ -31,34 +31,23 @@ export class LinkThreeObject extends ThreeObject  {
 
     animate(){
         super.animate();
-        // Si los nodos tienen posición, actualiza la geometría
         if (!this.start || !this.end) return;
-
-        /* this.mesh.material.color.set(0x9900FF);
-        this.mesh.material.opacity = .7;
-        this.mesh.material.transparent = true;
-        this.mesh.material.needsUpdate = true; */
 
         const startVec = new THREE.Vector3(this.start.x, this.start.y, this.start.z);
         const endVec = new THREE.Vector3(this.end.x, this.end.y, this.end.z);
 
-        // Genera los puntos de la onda
         const amplitude = 5;
         const frequency = 4;
-        const segments = 40;
-        const speed = 1; // velocidad de animación, ajusta a gusto
+        const segments = this.segments;
+        const speed = 1;
+        const time = performance.now() * 0.001;
 
-        // Obtén el tiempo actual (en segundos)
-        const time = performance.now() * 0.001; // milisegundos a segundos
-
-        const points = [];
-        const direction = new THREE.Vector3().subVectors(endVec, startVec);
-        direction.normalize();
-
+        const direction = new THREE.Vector3().subVectors(endVec, startVec).normalize();
         let up = new THREE.Vector3(0, 1, 0);
         if (Math.abs(direction.dot(up)) > 0.99) up = new THREE.Vector3(1, 0, 0);
         const perpendicular = new THREE.Vector3().crossVectors(direction, up).normalize();
-
+        
+        const points = [];
         for (let i = 0; i <= segments; i++) {
             const t = i / segments;
             const point = new THREE.Vector3().lerpVectors(startVec, endVec, t);
@@ -70,14 +59,9 @@ export class LinkThreeObject extends ThreeObject  {
         // Actualiza la geometría de la línea
         this.mesh.geometry.setFromPoints(points);
         this.mesh.geometry.attributes.position.needsUpdate = true;
-
-        // Si quieres ser explícito y compatible con futuras versiones:
         if (this.mesh.geometry.attributes.position.addUpdateRange) {
-            // Actualiza todo el rango (desde 0 hasta el final)
             this.mesh.geometry.attributes.position.addUpdateRange(0, this.mesh.geometry.attributes.position.count);
         }
-
-        // Si devuelves true, evitas que la librería haga el update por defecto (¡esto es lo que quieres!)
         return true;
     }
 
