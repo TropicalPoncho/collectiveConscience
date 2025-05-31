@@ -1,5 +1,6 @@
 import { ThreeObject } from "./ThreeObject.js";
 
+
 export class ThreeObjectManager {
 
     static ThreeObjectsTypes;
@@ -34,18 +35,6 @@ export class ThreeObjectManager {
         if(!ThreeObjectManager.defaultType){
             throw new Error(`There is no default type defined, define one!`);
         }
-/*         import('./dynamic-import.js')
-            .then((modules) => {
-                for (const module of modules) {
-                    const ThreeObjectClass = module.default;
-                    if (ThreeObjectClass.prototype instanceof ThreeObject) {
-                        this.registerType(ThreeObjectClass.type, ThreeObjectClass);
-                    }
-                }
-            })
-            .catch((error) => {
-                console.error('Error importing module:', error);
-            }); */
         
     }
     
@@ -122,12 +111,11 @@ export class ThreeObjectManager {
         
     }
 }
-
 import { LinesThreeObject } from "./linesThreeObject.js";
 import { ImageThreeObject } from "./imageThreeObject.js";
 import { ParticlesThreeObject } from "./particlesThreeObject.js";
-import { MarbleThreeObject} from "./marbleThreeObject.js";
-//import { NoiseThreeObject } from "./noiseThreeObject.js";
+import { MarbleThreeObject } from "./marbleThreeObject.js";
+import { NoiseThreeObject } from "./noiseThreeObject.js";
 import { FireThreeObject } from "./fireThreeObject.js";
 import { LightsThreeObject } from "./lightsThreeObject.js";
 import { TwistThreeObject } from "./twistThreeObject.js";
@@ -136,18 +124,20 @@ import { PerlinNoiseThreeObject } from "./perlinNoiseThreeObject.js";
 import { WaveLineThreeObject } from "./waveLineThreeObject.js";
 import { TextThreeObject } from "./textThreeObject.js";
 import { SimpleTextThreeObject } from "./simpleTextThreeObject.js";
-
-
-ThreeObjectManager.registerType("Lines", LinesThreeObject);
-ThreeObjectManager.registerType("Image", ImageThreeObject);
-ThreeObjectManager.registerType("Particles", ParticlesThreeObject);
-ThreeObjectManager.registerType("Marble", MarbleThreeObject);
-//ThreeObjectManager.registerType("Noise", NoiseThreeObject);
-ThreeObjectManager.registerType("Fire", FireThreeObject);
-ThreeObjectManager.registerType("Lights", LightsThreeObject);
-ThreeObjectManager.registerType("Twist", TwistThreeObject);
-ThreeObjectManager.registerType("Perlin", PerlinThreeObject);
-ThreeObjectManager.registerType("Perlin Noise", PerlinNoiseThreeObject);
-ThreeObjectManager.registerType("Wave Line", WaveLineThreeObject);
-ThreeObjectManager.registerType("Text", TextThreeObject);
-ThreeObjectManager.registerType("SimpleText", SimpleTextThreeObject);
+import { LinkThreeObject } from "./linkThreeObject.js";
+//import { LikeFireThreeObject } from "./LikeFireThreeObject.js";
+//ThreeObjectManager.registerType('Lines', LinesThreeObject, true);
+ThreeObjectManager.registerType('Image', ImageThreeObject);
+ThreeObjectManager.registerType('Particles', ParticlesThreeObject);
+ThreeObjectManager.registerType('Marble', MarbleThreeObject);
+ThreeObjectManager.registerType('Noise', NoiseThreeObject);
+ThreeObjectManager.registerType('Fire', FireThreeObject);
+ThreeObjectManager.registerType('Lights', LightsThreeObject);
+ThreeObjectManager.registerType('Twist', TwistThreeObject);
+ThreeObjectManager.registerType('Perlin', PerlinThreeObject);
+ThreeObjectManager.registerType('Perlin Noise', PerlinNoiseThreeObject);
+ThreeObjectManager.registerType('Wave Line', WaveLineThreeObject);
+ThreeObjectManager.registerType('Text', TextThreeObject);
+ThreeObjectManager.registerType('SimpleText', SimpleTextThreeObject);
+ThreeObjectManager.registerType('SinLink', LinkThreeObject);
+//ThreeObjectManager.registerType('LikeFire', LikeFireThreeObject);

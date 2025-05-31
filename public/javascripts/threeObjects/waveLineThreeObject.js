@@ -144,7 +144,6 @@ export class WaveLineThreeObject extends ThreeObject  {
 
 }
 
-
 /*  orta opcion
     #define PI 3.1415926
     uniform float time;

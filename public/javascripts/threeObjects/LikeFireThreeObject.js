@@ -16,7 +16,8 @@ export class LikeFireThreeObject extends ThreeObject{
 
     constructor(node){
         super(node);
-        const geometry = new THREE.BoxGeometry()
+        
+        const geometry = new THREE.BoxGeometry(this.size, this.size, this.size);
         const material = new CustomShaderMaterial({
           baseMaterial: THREE.MeshBasicMaterial,
           vertexShader: `

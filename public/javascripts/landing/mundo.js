@@ -13,7 +13,7 @@ const colorsArray = [
 ];
 
 const globalDefaultSettings = {
-    nodeSize: 8,
+    nodeSize: 15,
     cameraDistance: 350,
     aimDistance: 100,
     aimOffsetX: 20,
@@ -21,7 +21,7 @@ const globalDefaultSettings = {
     aimOffsetZ: 70,
     activeNodeImg: true,
     imgSize: 50,
-    linkDistance: 50,
+    linkDistance: 100,
     LINK_WIDTH: .5,
     LINK_OPACITY: 0.8,
     LINK_PARTICLE_WIDTH: 1,
@@ -51,6 +51,9 @@ export default class Mundo{
     loadedNeurons;
     showNeuronsCallBack;
 
+    focusedNodeId = null;
+    focusedNeighborIds = new Set();
+
     //Init graph:
     constructor(elementId, order, showNeuronsCallBack, arActive = false){
 
@@ -61,46 +64,95 @@ export default class Mundo{
         if(!arActive){
             this.Graph = ForceGraph3D({ controlType: 'orbit'})
             (document.getElementById(elementId))
-                .nodeLabel('name');
+                .nodeLabel('name')
+                .cameraPosition({ z: globalDefaultSettings.cameraDistance });
+
+            this.Graph.d3Force('link')
+                .distance(link => 100 /* link.distance */ ); 
+
+            this.Graph.d3Force('charge').strength(-120);
+
+            this.scene = this.Graph.scene();
+            this.renderer = this.Graph.renderer();
+            this.camera = this.Graph.camera();
+
+            this.Graph.camera = new THREE.PerspectiveCamera(70, window.outerWidth / window.outerHeight, 1, 1000);
+            this.originalCameraPosition = this.camera.position;
         }else{
-            this.Graph = ForceGraphAR({ controlType: 'orbit'})
-            (document.getElementById(elementId));
+            this.Graph = ForceGraphAR(document.getElementById(elementId));
         }
         
         this.Graph
-            .linkCurvature(.4)
-            .linkCurveRotation(0.1) 
-            .cameraPosition({ z: globalDefaultSettings.cameraDistance })
+            /* .linkCurvature(.4)
+            .linkCurveRotation(0.1)  */
             .numDimensions(3)
             //.dagMode('zout')
             .cooldownTicks(100)
             .nodeThreeObject(node => this.threeObjectManager.createObject(node) )
-            //.linkThreeObject(link => this.threeObjectManager.createObject({'id': link.source+''+link.target, 'type': 'Wave Line'}) )
+            //.linkThreeObjectExtend(true)
+            //.linkThreeObject(link => this.threeObjectManager.createObject("SinLink"))
+            .linkPositionUpdate((line, { start, end }, link) => {
+                // Si los nodos tienen posición, actualiza la geometría
+                if (!start || !end) return;
+
+                line.material.color.set(0x9900FF);
+                line.material.opacity = .7;
+                line.material.transparent = true;
+                line.material.needsUpdate = true;
+
+                const startVec = new THREE.Vector3(start.x, start.y, start.z);
+                const endVec = new THREE.Vector3(end.x, end.y, end.z);
+
+                // Genera los puntos de la onda
+                const amplitude = 5;
+                const frequency = 2;
+                const segments = 40;
+                const speed = 2; // velocidad de animación, ajusta a gusto
+
+                // Obtén el tiempo actual (en segundos)
+                const time = performance.now() * 0.001; // milisegundos a segundos
+
+                const points = [];
+                const direction = new THREE.Vector3().subVectors(endVec, startVec);
+                direction.normalize();
+
+                let up = new THREE.Vector3(0, 1, 0);
+                if (Math.abs(direction.dot(up)) > 0.99) up = new THREE.Vector3(1, 0, 0);
+                const perpendicular = new THREE.Vector3().crossVectors(direction, up).normalize();
+
+                for (let i = 0; i <= segments; i++) {
+                    const t = i / segments;
+                    const point = new THREE.Vector3().lerpVectors(startVec, endVec, t);
+                    const offset = Math.sin(t * Math.PI * frequency + time * speed) * amplitude;
+                    point.addScaledVector(perpendicular, offset);
+                    points.push(point);
+                }
+
+                // Actualiza la geometría de la línea
+                line.geometry.setFromPoints(points);
+                line.geometry.attributes.position.needsUpdate = true;
+
+                // Si devuelves true, evitas que la librería haga el update por defecto (¡esto es lo que quieres!)
+                return true;
+            })
             .onNodeHover(node => {
                 this.animateNode(node);
             })
             .onNodeClick(node => {
                 this.activeNode(node);
+                this.setFocusWithFade(node);
                 showNeuronsCallBack(node);
             });
 
-        this.Graph.d3Force('link')
-            .distance(link =>  link.distance ); 
 
-        this.Graph.nodeAutoColorBy('group')
+/*         this.Graph.nodeAutoColorBy('group')
             .linkWidth(globalDefaultSettings.LINK_WIDTH)
             .linkOpacity(.8)
             .linkDirectionalParticleWidth(globalDefaultSettings.LINK_PARTICLE_WIDTH)
             .linkDirectionalParticles(globalDefaultSettings.LINK_PARTICLE_COUNT)
-            .linkDirectionalParticleSpeed(globalDefaultSettings.LINK_PARTICLE_SPEED);
-
-        this.Graph.d3Force('charge').strength(-120);
+            .linkDirectionalParticleSpeed(globalDefaultSettings.LINK_PARTICLE_SPEED); */
 
         this.insertNodesFromApi(order,0);
-
-        this.scene = this.Graph.scene();
-        this.renderer = this.Graph.renderer();
-        this.camera = this.Graph.camera();
 
 /*         this.camera.near = 30;
         this.camera.far = 300;
@@ -120,9 +172,6 @@ export default class Mundo{
         this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
         document.body.appendChild(this.stats.dom);
 
-        this.Graph.camera = new THREE.PerspectiveCamera(70, window.outerWidth / window.outerHeight, 1, 1000);
-        this.originalCameraPosition = this.camera.position;
-        
         this.resize();
         window.addEventListener('resize', this.resize.bind(this), false);
         this.render();
@@ -133,11 +182,13 @@ export default class Mundo{
     resize() {
         let width = window.outerWidth;
         let height = window.outerHeight;
+        
+        if(!arActive){
+            this.renderer.setSize(width, height);
+            this.camera.aspect = width / height;
+            this.camera.updateProjectionMatrix();
+        }
     
-        this.camera.aspect = width / height;
-        this.renderer.setSize(width, height);
-    
-        this.camera.updateProjectionMatrix();
     }
 
     addElement(element){
@@ -183,7 +234,9 @@ export default class Mundo{
         this.elements.forEach(elem => elem.animate());
         this.threeObjectManager.animate();
         requestAnimationFrame(() => this.render());
-        this.renderer.render( this.scene, this.camera );
+        if(!arActive){
+            this.renderer.render( this.scene, this.camera );
+        }
 
         this.stats.end();
     }
@@ -215,6 +268,7 @@ export default class Mundo{
         this.graphData.nodes.push(...newGraphData);
         this.graphData.links.push(...this.createLinks(this.graphData.nodes));
         try {
+            centrarGrafoEnCero(this.graphData.nodes);
             this.Graph.graphData(this.graphData);
             this.Graph.nodeThreeObject(node => this.threeObjectManager.createObject(node) );
             this.Graph.numDimensions(3);
@@ -264,31 +318,31 @@ export default class Mundo{
     }
 
     aimNode(node){
-        // Aim at node from outside it
         var distance = globalDefaultSettings.aimDistance;
-        const distRatio = 1 + distance/Math.hypot(node.x, node.y);
+        const offsetX = globalDefaultSettings.aimOffsetX;
 
-        var lookAt = {x: node.x +(Math.sign(node.x) * globalDefaultSettings.aimOffsetX), y: node.y, z: node.z};
-        
-        if(window.innerWidth < 800){
-            lookAt = {x: node.x , y: node.y - globalDefaultSettings.aimOffsetY, z: node.z};
-            distance += globalDefaultSettings.aimOffsetZ;
+        let lookAt = { x: node.x, y: node.y, z: node.z };
+        let newPos;
+        let returnSide;
+
+        // Decide el lado según la posición X respecto al centro
+        if (node.x < 0) {
+            // Cámara a la izquierda
+            newPos = { x: node.x - offsetX, y: node.y, z: node.z + distance };
+            returnSide = "izq";
+        } else {
+            // Cámara a la derecha
+            newPos = { x: node.x + offsetX, y: node.y, z: node.z + distance };
+            returnSide = "der";
         }
 
-        const newPos = node.x || node.y || node.z
-            ? { x: node.x , y: node.y , z: node.z + distance }
-            : { x: 0, y: 0, z: distance }; // special case if node is in (0,0,0)
-
-        var side = this.getSide(newPos,lookAt,node); 
-
-        console.log("newPos x "+ Math.round(newPos.x) +" lookAt x" + Math.round(lookAt.x));
         this.Graph.cameraPosition(
-            newPos, // new position
-            lookAt, // lookAt ({ x, y, z })
-            3000  // ms transition duration
+            newPos, // nueva posición de la cámara
+            lookAt, // hacia dónde mira
+            3000 // duración de la transición
         );
 
-        return side;
+        return returnSide;
     }
 
     getSide(camPosition, camDirection, objPosition){
@@ -300,13 +354,11 @@ export default class Mundo{
     }
 
     backToBasicsView(extra = 0, cameraDistanceOffset = 0){
-        /* if(window.innerWidth < 800){
-            extra = 50;
-        } */
+        this.fadeInAll();
         this.Graph.cameraPosition(
-            {x:0,y:0,z:globalDefaultSettings.cameraDistance + cameraDistanceOffset}, // new position
-            {x:0,y:extra,z:0}, // lookAt ({ x, y, z })
-            3000  // ms transition duration
+            {x:0,y:0,z:globalDefaultSettings.cameraDistance + cameraDistanceOffset},
+            {x:0,y:extra,z:0},
+            3000
         );
     }
 
@@ -375,6 +427,90 @@ export default class Mundo{
         return nodeLinks;
     }
 
+    setFocusWithFade(node, duration = 500) {
+        this.focusedNodeId = node.id;
+        this.focusedNeighborIds = new Set([node.id]);
+        this.graphData.links.forEach(link => {
+            const sourceId = link.source.id || link.source;
+            const targetId = link.target.id || link.target;
+            if (sourceId === node.id) this.focusedNeighborIds.add(targetId);
+            if (targetId === node.id) this.focusedNeighborIds.add(sourceId);
+        });
+
+        // Fade out animado
+        const start = performance.now();
+        const initialOpacity = 1;
+        const targetOpacity = 0.05;
+
+        const animate = (now) => {
+            const elapsed = now - start;
+            const t = Math.min(elapsed / duration, 1);
+            const opacity = initialOpacity + (targetOpacity - initialOpacity) * t;
+
+            this.Graph
+                .nodeOpacity(n => this.focusedNeighborIds.has(n.id) ? 1 : opacity)
+                .linkOpacity(l =>
+                    this.focusedNeighborIds.has(l.source.id || l.source) &&
+                    this.focusedNeighborIds.has(l.target.id || l.target) ? 1 : opacity
+                );
+
+            if (t < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+        requestAnimationFrame(animate);
+    }
+
+    fadeInAll(duration = 500) {
+        const start = performance.now();
+        const initialOpacity = 0.05;
+        const targetOpacity = 1;
+
+        const animate = (now) => {
+            const elapsed = now - start;
+            const t = Math.min(elapsed / duration, 1);
+            const opacity = initialOpacity + (targetOpacity - initialOpacity) * t;
+
+            this.Graph
+                .nodeOpacity(opacity)
+                .linkOpacity(opacity);
+
+            if (t < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                // Limpia el foco
+                this.focusedNodeId = null;
+                this.focusedNeighborIds = new Set();
+            }
+        };
+        requestAnimationFrame(animate);
+    }
+
+}
+
+function createSinusoidalLink(start, end, amplitude = 1, frequency = 3, segments = 50) {
+    const points = [];
+    const direction = new THREE.Vector3().subVectors(end, start);
+    const length = direction.length();
+    direction.normalize();
+
+    // Encuentra un vector perpendicular para la onda
+    let up = new THREE.Vector3(0, 1, 0);
+    if (Math.abs(direction.dot(up)) > 0.99) up = new THREE.Vector3(1, 0, 0);
+    const perpendicular = new THREE.Vector3().crossVectors(direction, up).normalize();
+
+    for (let i = 0; i <= segments; i++) {
+        const t = i / segments;
+        const point = new THREE.Vector3().lerpVectors(start, end, t);
+        // Desplazamiento sinusoidal
+        const offset = Math.sin(t * Math.PI * frequency) * amplitude;
+        point.addScaledVector(perpendicular, offset);
+        points.push(point);
+    }
+
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({ color: 0xff00ff, opacity: 0.8, transparent: true });
+    return new THREE.Line(geometry, material);
 }
 
 /* function update()
@@ -400,6 +536,28 @@ export default class Mundo{
 	
 }
  */
+
+function centrarGrafoEnCero(nodes) {
+    if (!nodes.length) return;
+
+    // Calcula el centroide
+    let sumX = 0, sumY = 0, sumZ = 0;
+    nodes.forEach(n => {
+        sumX += n.x || 0;
+        sumY += n.y || 0;
+        sumZ += n.z || 0;
+    });
+    const cx = sumX / nodes.length;
+    const cy = sumY / nodes.length;
+    const cz = sumZ / nodes.length;
+
+    // Resta el centroide a cada nodo
+    nodes.forEach(n => {
+        n.x = (n.x || 0) - cx;
+        n.y = (n.y || 0) - cy;
+        n.z = (n.z || 0) - cz;
+    });
+}
 
 
 

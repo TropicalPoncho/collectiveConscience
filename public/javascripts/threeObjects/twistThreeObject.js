@@ -109,7 +109,7 @@ export class TwistThreeObject extends ThreeObject  {
 
         // create a sphere and assign the material
         this.mesh.add(new THREE.Mesh(
-            new THREE.IcosahedronGeometry( 10, 10 ),
+            new THREE.IcosahedronGeometry( this.size, this.segmentWidth ),
             material
         ));
         

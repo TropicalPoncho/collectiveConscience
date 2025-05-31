@@ -13,7 +13,7 @@ export class LinesThreeObject extends ThreeObject {
             color: { value: new THREE.Color( uniformColor ) }
         };
         //const geometry = new THREE.SphereGeometry( node.val , 32, 16 );
-        const geometry = new THREE.IcosahedronGeometry(10, 5);
+        const geometry = new THREE.IcosahedronGeometry(this.size, this.segmentWidth);
 
         const shaderMaterial = new THREE.ShaderMaterial( {
             uniforms: uniforms,
