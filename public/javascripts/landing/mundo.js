@@ -15,13 +15,13 @@ const colorsArray = [
 const globalDefaultSettings = {
     nodeSize: 15,
     cameraDistance: 350,
-    aimDistance: 100,
-    aimOffsetX: 20,
+    aimDistance: 90,
+    aimOffsetX: 50,
     aimOffsetY: 30,
     aimOffsetZ: 70,
     activeNodeImg: true,
     imgSize: 50,
-    linkDistance: 100,
+    linkDistance: 140,
     LINK_WIDTH: .5,
     LINK_OPACITY: 0.8,
     LINK_PARTICLE_WIDTH: 1,
@@ -68,9 +68,9 @@ export default class Mundo{
                 .cameraPosition({ z: globalDefaultSettings.cameraDistance });
 
             this.Graph.d3Force('link')
-                .distance(link => 100 /* link.distance */ ); 
+                .distance(link => globalDefaultSettings.linkDistance ); 
 
-            this.Graph.d3Force('charge').strength(-120);
+            this.Graph.d3Force('charge').strength(10);
 
             this.scene = this.Graph.scene();
             this.renderer = this.Graph.renderer();
@@ -83,13 +83,10 @@ export default class Mundo{
         }
         
         this.Graph
-            /* .linkCurvature(.4)
-            .linkCurveRotation(0.1)  */
             .numDimensions(3)
-            //.dagMode('zout')
+            //.dagMode('radialout')
             .cooldownTicks(100)
             .nodeThreeObject(node => this.threeObjectManager.createObject(node) )
-            //.linkThreeObjectExtend(true)
             .linkThreeObject(link => {
                 // Crea el objeto y guarda la referencia en el propio link
                 link.type = "SinLink";
@@ -170,13 +167,13 @@ export default class Mundo{
 
         this.hoverNode = node || null;
 
-        this.animateLinks();
+        /* this.animateLinks(); */
     }
 
-    animateLinks(){
+/*     animateLinks(){
         this.Graph
             .linkOpacity(link => this.highlightLinks.find(hLink => hLink.id == link.id) ? 1 : 0);
-    }
+    } */
 
     consoleLogPosition(position = false){
         var pos = position ?? this.camera.position;
@@ -287,15 +284,41 @@ export default class Mundo{
         let lookAt = { x: node.x, y: node.y, z: node.z };
         let newPos;
         let returnSide;
+    
+        /* // Calcula el vector dirección
+        const dir = {
+            x: node.x - center.x,
+            y: node.y - center.y,
+            z: node.z - center.z
+        };
+        // Normaliza el vector
+        const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z) || 1;
+        const norm = {
+            x: dir.x / length,
+            y: dir.y / length,
+            z: dir.z / length
+        };
 
+        // Posición de la cámara: un poco más lejos que el nodo, en la dirección opuesta al centro
+        const camDistance = distance;
+        const newPos = {
+            x: node.x + norm.x * camDistance,
+            y: node.y + norm.y * camDistance,
+            z: node.z + norm.z * camDistance
+        };
+        const lookAt = { x: node.x, y: node.y, z: node.z }; */
         // Decide el lado según la posición X respecto al centro
         if (node.x < 0) {
             // Cámara a la izquierda
             newPos = { x: node.x - offsetX, y: node.y, z: node.z + distance };
+            // Ajusta la posición del nodo para que esté en el centro
+            lookAt.x = node.x - offsetX;
             returnSide = "izq";
         } else {
             // Cámara a la derecha
             newPos = { x: node.x + offsetX, y: node.y, z: node.z + distance };
+            // Ajusta la posición del nodo para que esté en el centro
+            lookAt.x = node.x + offsetX;
             returnSide = "der";
         }
 
@@ -449,31 +472,6 @@ export default class Mundo{
         requestAnimationFrame(animate);
     }
 
-}
-
-function createSinusoidalLink(start, end, amplitude = 1, frequency = 3, segments = 50) {
-    const points = [];
-    const direction = new THREE.Vector3().subVectors(end, start);
-    const length = direction.length();
-    direction.normalize();
-
-    // Encuentra un vector perpendicular para la onda
-    let up = new THREE.Vector3(0, 1, 0);
-    if (Math.abs(direction.dot(up)) > 0.99) up = new THREE.Vector3(1, 0, 0);
-    const perpendicular = new THREE.Vector3().crossVectors(direction, up).normalize();
-
-    for (let i = 0; i <= segments; i++) {
-        const t = i / segments;
-        const point = new THREE.Vector3().lerpVectors(start, end, t);
-        // Desplazamiento sinusoidal
-        const offset = Math.sin(t * Math.PI * frequency) * amplitude;
-        point.addScaledVector(perpendicular, offset);
-        points.push(point);
-    }
-
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const material = new THREE.LineBasicMaterial({ color: 0xff00ff, opacity: 0.8, transparent: true });
-    return new THREE.Line(geometry, material);
 }
 
 /* function update()

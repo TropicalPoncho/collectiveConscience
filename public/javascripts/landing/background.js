@@ -43,6 +43,34 @@ export default class Background {
         if(this.backgroundColor){
             this.scene.background = new THREE.Color( this.backgroundColor ); 
         }
+
+        // En tu inicialización de la escena (por ejemplo, en el constructor de Mundo)
+        const starCount = 5000;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(starCount * 3);
+
+        for (let i = 0; i < starCount; i++) {
+            const r = 800 + Math.random() * 1200; // radio de la esfera de estrellas
+            const theta = Math.random() * 2 * Math.PI;
+            const phi = Math.acos(2 * Math.random() - 1);
+
+            positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            positions[i * 3 + 2] = r * Math.cos(phi);
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        const material = new THREE.PointsMaterial({
+            color: 0x8AE2C8,
+            size: 5,
+            sizeAttenuation: true,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        const stars = new THREE.Points(geometry, material);
+        this.scene.add(stars); // Asegúrate de tener acceso a this.scene
         
         /* const axesHelper = new THREE. AxesHelper( 1000 );
         /* this.scene.add( axesHelper ); */

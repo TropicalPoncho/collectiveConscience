@@ -10,7 +10,7 @@ export class ThreeObject {
     mesh;
     counter = 1;
     speed = 0.01;
-    size = 10;
+    size = 15;
     segmentWidth = 64;
     segmentHeight = 32;
 

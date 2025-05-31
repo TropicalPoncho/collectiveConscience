@@ -61,6 +61,7 @@ section {
   padding: 15px;
   text-align: justify;
   font-size: 15px;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 textarea{
@@ -68,10 +69,10 @@ textarea{
 }
  
 .floatingInfo.der .subtitle, .floatingInfo.der .info{
-  text-align: right;
+  text-align: justify;
 }
 .floatingInfo.izq .subtitle, .floatingInfo.izq .info{
-  text-align: left;
+  text-align: justify;
 }
 .info, .infoButtons{
   padding-top: 10px;
