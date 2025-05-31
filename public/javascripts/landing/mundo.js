@@ -90,50 +90,18 @@ export default class Mundo{
             .cooldownTicks(100)
             .nodeThreeObject(node => this.threeObjectManager.createObject(node) )
             //.linkThreeObjectExtend(true)
-            //.linkThreeObject(link => this.threeObjectManager.createObject("SinLink"))
+            .linkThreeObject(link => {
+                // Crea el objeto y guarda la referencia en el propio link
+                link.type = "SinLink";
+                // Genera un id único para el link usando los ids de los nodos de inicio y fin
+                link.id = `${link.source?.id || link.source}-${link.target?.id || link.target}`;
+                const obj = this.threeObjectManager.createObject(link);
+                link._threeObj = obj;
+                return obj.mesh;
+            })
             .linkPositionUpdate((line, { start, end }, link) => {
-                // Si los nodos tienen posición, actualiza la geometría
-                if (!start || !end) return;
-
-                line.material.color.set(0x9900FF);
-                line.material.opacity = .7;
-                line.material.transparent = true;
-                line.material.needsUpdate = true;
-
-                const startVec = new THREE.Vector3(start.x, start.y, start.z);
-                const endVec = new THREE.Vector3(end.x, end.y, end.z);
-
-                // Genera los puntos de la onda
-                const amplitude = 5;
-                const frequency = 2;
-                const segments = 40;
-                const speed = 2; // velocidad de animación, ajusta a gusto
-
-                // Obtén el tiempo actual (en segundos)
-                const time = performance.now() * 0.001; // milisegundos a segundos
-
-                const points = [];
-                const direction = new THREE.Vector3().subVectors(endVec, startVec);
-                direction.normalize();
-
-                let up = new THREE.Vector3(0, 1, 0);
-                if (Math.abs(direction.dot(up)) > 0.99) up = new THREE.Vector3(1, 0, 0);
-                const perpendicular = new THREE.Vector3().crossVectors(direction, up).normalize();
-
-                for (let i = 0; i <= segments; i++) {
-                    const t = i / segments;
-                    const point = new THREE.Vector3().lerpVectors(startVec, endVec, t);
-                    const offset = Math.sin(t * Math.PI * frequency + time * speed) * amplitude;
-                    point.addScaledVector(perpendicular, offset);
-                    points.push(point);
-                }
-
-                // Actualiza la geometría de la línea
-                line.geometry.setFromPoints(points);
-                line.geometry.attributes.position.needsUpdate = true;
-
-                // Si devuelves true, evitas que la librería haga el update por defecto (¡esto es lo que quieres!)
-                return true;
+                // Si guardaste la referencia al objeto, accede a ella
+                link._threeObj.setPosition(start, end);
             })
             .onNodeHover(node => {
                 this.animateNode(node);
@@ -143,14 +111,6 @@ export default class Mundo{
                 this.setFocusWithFade(node);
                 showNeuronsCallBack(node);
             });
-
-
-/*         this.Graph.nodeAutoColorBy('group')
-            .linkWidth(globalDefaultSettings.LINK_WIDTH)
-            .linkOpacity(.8)
-            .linkDirectionalParticleWidth(globalDefaultSettings.LINK_PARTICLE_WIDTH)
-            .linkDirectionalParticles(globalDefaultSettings.LINK_PARTICLE_COUNT)
-            .linkDirectionalParticleSpeed(globalDefaultSettings.LINK_PARTICLE_SPEED); */
 
         this.insertNodesFromApi(order,0);
 
@@ -210,7 +170,7 @@ export default class Mundo{
 
         this.hoverNode = node || null;
 
-        //this.animateLinks();
+        this.animateLinks();
     }
 
     animateLinks(){
@@ -233,6 +193,9 @@ export default class Mundo{
 
         this.elements.forEach(elem => elem.animate());
         this.threeObjectManager.animate();
+
+        this.threeObjectManager.animateLinks();
+
         requestAnimationFrame(() => this.render());
         if(!arActive){
             this.renderer.render( this.scene, this.camera );

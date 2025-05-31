@@ -87,8 +87,10 @@ export class ThreeObjectManager {
             } */
             let objectInstance = new ThreeObjectClass(node);
             this._objectInstances[node.id] = objectInstance;
-
-            console.log(this._objectInstances);
+            if (objectInstance.type === "SinLink") {
+                console.log(this._objectInstances);
+                return objectInstance;
+            }
             return objectInstance.mesh;
         } catch (error) {
             console.log(error);
@@ -100,6 +102,7 @@ export class ThreeObjectManager {
      * Executes animation for each object created.
      */
     animate() {
+        //Asks if the animation type is "All" so it animates all objects, if not, it animates the one selected
         if(this.animationType == ThreeObjectManager.animationTypes[0]){
             Object.values(this._objectInstances).forEach((objectInstance) => {
                 objectInstance.animate();
@@ -109,6 +112,15 @@ export class ThreeObjectManager {
                 this._objectInstances[this.objectToAnimate].animate();
         }
         
+    }
+
+    animateLinks(){
+        // Recorre todas las instancias y anima solo las que sean de tipo "SinLink" (link)
+        Object.values(this._objectInstances).forEach((objectInstance) => {
+            if (objectInstance.type === "SinLink") {
+                objectInstance.animate();
+            }
+        });
     }
 }
 import { LinesThreeObject } from "./linesThreeObject.js";
