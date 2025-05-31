@@ -12,7 +12,12 @@ export class NoiseThreeObject extends ThreeObject  {
         .setPath( 'https://github.com/mrdoob/three.js/tree/master/examples/textures/cube/pisaHDR/' )
         .load( [ 'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr' ],
             function ( hdrTexture ) { 
-                const geometry = new THREE.SphereGeometry( this.size, 64, 32 );
+
+                const geometry = new THREE.SphereGeometry(
+                    this.size,
+                    this.segmentWidth,
+                    this.segmentHeight
+                );
 
                 //const offsetNode = timerLocal();
                 //const customUV = add( mul( normalWorld, 10 ), offsetNode );

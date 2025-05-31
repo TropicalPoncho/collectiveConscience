@@ -70,7 +70,7 @@ export class LightsThreeObject extends ThreeObject  {
 
         // create a sphere and assign the material
         this.mesh.add(new THREE.Mesh(
-            new THREE.IcosahedronGeometry( this.size, this.size ),
+            new THREE.IcosahedronGeometry( this.size, this.segmentWidth ),
             material
         ));
         

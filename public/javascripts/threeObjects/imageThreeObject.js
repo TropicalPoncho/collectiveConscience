@@ -3,6 +3,7 @@ import {ThreeObject}  from "./ThreeObject.js";
 export class ImageThreeObject extends ThreeObject  {
 
     type = 'Image';
+    imgSize = 60;
 
     constructor (node, config){
         super(node, false);
@@ -11,7 +12,7 @@ export class ImageThreeObject extends ThreeObject  {
                 var material = new THREE.SpriteMaterial({map: imgTexture, transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
                 const sprite = new THREE.Sprite(material);
 
-                var imgSize = Array.isArray(node.imgSize) ? node.imgSize : [node.imgSize || 50, node.imgSize || 50];
+                var imgSize = Array.isArray(node.imgSize) ? node.imgSize : [node.imgSize || this.imgSize, node.imgSize || this.imgSize];
 
                 sprite.scale.set(imgSize[0], imgSize[1]);
                 
