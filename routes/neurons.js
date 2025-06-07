@@ -33,7 +33,7 @@ router.get('/:order', function(req, res, next){
         NeuronsServiceInstance.getByOrder(order, req.query.page).then(result => {
                 res.json(result);
         }).catch(err => {
-                console.log(err)
+                console.log(err);
                 next(createError(500));
         });
 });
