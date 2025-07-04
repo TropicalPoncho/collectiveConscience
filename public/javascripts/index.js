@@ -131,9 +131,12 @@ jQuery(function(){
         var nodeHtml = node.html; //somasData.filter(textNode => textNode.id == node.id)[0];
         if(nodeHtml?.subtitle)
             $(".subtitle").text(nodeHtml.subtitle);
-
+        else
+            $(".subtitle").text('');
+    
         if(nodeHtml?.info){
             if(Array.isArray(nodeHtml.info)){
+                $(".info").text('');
                 nodeHtml.info.forEach(p => {
                     $(".info").append($('<p></p>').text(p));
                 });
@@ -151,6 +154,8 @@ jQuery(function(){
             }
             if(nodeHtml.next.url){
                 $(".next").attr("url",nodeHtml.next.url);
+            }else{
+                $(".next").attr("url","");
             }
             $(".next").show();
         }else{
