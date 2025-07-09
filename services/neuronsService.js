@@ -69,12 +69,18 @@ class NeuronsService {
         }
     } */
 
-    getAll ( page ) {
+    getAll ( page, filters = {} ) {
         try {
             const query = Neuron.aggregate();
             query.addFields({
                 nOrder: {$ifNull : [ "$order" , 100 ] },
             });
+
+            // Aplicar filtros si existen
+            if (Object.keys(filters).length > 0) {
+                query.match(filters);
+            }
+
             query.sort({"nOrder":1, "_id": 1 })
             if(page !== undefined && page != 0){
                 query.skip(limit*page);
@@ -99,6 +105,78 @@ class NeuronsService {
             }
 
             return query.limit(limit).exec();
+        } catch ( err ) {
+            return err;
+        }
+    }
+
+    /**
+     * @description Get neurons by dimensionId
+     * @param dimensionId {number} Dimension ID to filter
+     * @param page {number} Page number for pagination
+     * @returns {Promise<Array>}
+     */
+    getByDimensionId ( dimensionId , page ) {
+        try {
+            const query = Neuron.aggregate()
+                .addFields({
+                    nOrder: {$ifNull : [ "$order" , 100 ] },
+                })
+                .match({ dimensionId: dimensionId })
+                .sort({"nOrder":1, "_id": 1 });
+
+            if(page !== undefined && page != 0){
+                query.skip(limit*page);
+            }
+
+            return query.limit(limit).exec();
+        } catch ( err ) {
+            return err;
+        }
+    }
+
+    /**
+     * @description Get neurons by dimensionId and order
+     * @param dimensionId {number} Dimension ID to filter
+     * @param order {number} Order to filter
+     * @param page {number} Page number for pagination
+     * @returns {Promise<Array>}
+     */
+    getByDimensionIdAndOrder ( dimensionId, order, page ) {
+        try {
+            const query = Neuron.aggregate()
+                .addFields({
+                    nOrder: {$ifNull : [ "$order" , 100 ] },
+                })
+                .match({ 
+                    dimensionId: dimensionId,
+                    order: order 
+                })
+                .sort({"nOrder":1, "_id": 1 });
+
+            if(page !== undefined && page != 0){
+                query.skip(limit*page);
+            }
+
+            return query.limit(limit).exec();
+        } catch ( err ) {
+            return err;
+        }
+    }
+
+    /**
+     * @description Get all unique dimensionIds
+     * @returns {Promise<Array>}
+     */
+    getAllDimensionIds () {
+        try {
+            return Neuron.aggregate()
+                .group({
+                    _id: "$dimensionId",
+                    count: { $sum: 1 }
+                })
+                .sort({ "_id": 1 })
+                .exec();
         } catch ( err ) {
             return err;
         }

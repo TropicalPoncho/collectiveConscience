@@ -48,15 +48,17 @@ export default class Mundo{
     stats;
 
     elements = [];
+    preloadPromise;
     loadedNeurons;
+    loadedSynapses;
     showNeuronsCallBack;
 
     focusedNodeId = null;
     focusedNeighborIds = new Set();
 
     //Init graph:
-    constructor(elementId, order, showNeuronsCallBack, arActive = false){
-
+    constructor(elementId, dimensionId, showNeuronsCallBack, arActive = false){
+        
         this.showNeuronsCallBack = showNeuronsCallBack;
 
         this.threeObjectManager = new ThreeObjectManager({animationType: 'Hover'});
@@ -97,7 +99,7 @@ export default class Mundo{
                 return obj.mesh;
             })
             .linkPositionUpdate((line, { start, end }, link) => {
-                // Si guardaste la referencia al objeto, accede a ella
+                // Si existe la referencia al objeto, accede a ella
                 link._threeObj.setPosition(start, end);
             })
             .onNodeHover(node => {
@@ -108,8 +110,11 @@ export default class Mundo{
                 this.setFocusWithFade(node);
                 showNeuronsCallBack(node);
             });
-
-        this.insertNodesFromApi(order,0);
+   
+        this.preloadAllNetworks().then(() => {
+            this.insertNetworkByDimension(dimensionId,0);
+        })
+        
 
 /*         this.camera.near = 30;
         this.camera.far = 300;
@@ -217,16 +222,39 @@ export default class Mundo{
 
     insertNodesById(nodeIds, nextIdToShow = false){
         //Si encuentro los nodos ya cargados pero no insertados:
-        var newGraphData = this.loadedNeurons.filter(node => nodeIds.includes(node.id.toString()));
-        if(!newGraphData){
+        var newNeurons = this.loadedNeurons.filter(node => nodeIds.includes(node.id.toString()));
+        if(!newNeurons){
             return;
         }
-        this.insertNodes(newGraphData, nextIdToShow);
+        this.graphData.nodes.push(...newNeurons);
+
+        // Buscar sinapsis donde el nodeId esté como source o target
+        var newSynapses = this.loadedSynapses.filter(synapse => {
+            const sourceId = synapse.source?.id || synapse.source;
+            const targetId = synapse.target?.id || synapse.target;
+            return nodeIds.includes(sourceId.toString()) || nodeIds.includes(targetId.toString());
+        });
+        
+        if(newSynapses.length > 0){
+            this.graphData.links.push(...newSynapses);
+        }
+        
+        this.reloadGraph(nextIdToShow);
     }
 
-    insertNodes(newGraphData, nextIdToShow = false){                
-        this.graphData.nodes.push(...newGraphData);
-        this.graphData.links.push(...this.createLinks(this.graphData.nodes));
+    addNodes(newNeurons, newSynapses, nextIdToShow = false){
+        this.graphData.nodes.push(...newNeurons);
+        this.graphData.links.push(...newSynapses);
+        this.reloadGraph(nextIdToShow);
+    }
+
+    replaceNetwork(newNeurons, newSynapses, nextIdToShow = false){
+        this.graphData.nodes = newNeurons;
+        this.graphData.links = newSynapses;
+        this.reloadGraph(nextIdToShow);
+    }
+
+    reloadGraph(nextIdToShow = false){                
         try {
             centrarGrafoEnCero(this.graphData.nodes);
             this.Graph.graphData(this.graphData);
@@ -244,21 +272,57 @@ export default class Mundo{
         }
     }
 
-    insertNodesFromApi(order, page){
-        $.get( `/neurons`, {page: page}, ( neurons) => {
-            if(neurons.length != 0){
-                this.loadedNeurons = neurons;
-                let filtered = neurons.filter(item => item.order == order);
-                this.insertNodes(filtered);
-                //Hacerlo recursivo?
-            }else{ //Cuando termina de cargar
-                //setTimeout(() => { manageNewNeurons(); }, 5000);
-            }
-        });
+    // Método para precargar todos los datos
+    async preloadAllNetworks() {
+        try{
+            const res = await fetch('/network');
+            const { neurons, synapses } = await res.json();
+            console.log(neurons,synapses);
+            this.loadedNeurons = neurons;
+            this.loadedSynapses = synapses;
+        }catch(error){
+            console.error('Error cargando redes:', error);
+        }
     }
+
+    // Método centralizado para cargar redes
+    async insertNetworkByDimension(dimensionId, networkId) {
+        try {
+            // Esperar a que termine el preload si está en curso
+            const filteredNeurons = this.loadedNeurons.filter(item => item.dimensionId == dimensionId);
+            const filteredSynapses = this.loadedSynapses.filter(item => item.networkId == networkId);
+            console.log(filteredNeurons,filteredSynapses);
+            if (filteredNeurons.length > 0) {
+                this.replaceNetwork(filteredNeurons,filteredSynapses);
+                return;
+            }
+            // Si no hay datos precargados o no hay resultados, cargar desde API
+            this.loadNetworkByDimension(dimensionId);
+        } catch (error) {
+            console.error('Error cargando red por dimensión:', error);
+        }
+    }
+
+    async loadNetworkByDimension(dimensionId) {
+        try {
+            const res = await fetch(`/network/${dimensionId}`);
+            const { neurons, synapses } = await res.json();
+            if(neurons.length > 0 || synapses.length > 0){
+                this.loadedNeurons.push(...neurons);
+                this.loadedSynapses.push(...synapses);
+                this.replaceNetwork(neurons,synapses);
+            }else{
+                console.log("No hay datos para la dimensión " + dimensionId);
+            }
+        } catch (error) {
+            console.error('Error cargando red por dimensión:', error);
+        }
+    }
+
     activateZoomToFit(){
         this.Graph.onEngineStop(() => this.Graph.zoomToFit(700));
     } 
+
     activeNodeById(neuronId){
         var nodes = this.graphData.nodes;
         var filterNode = nodes.find(item => item.id == neuronId);
@@ -267,6 +331,7 @@ export default class Mundo{
         }
         return filterNode;
     }
+
     activeNode(node){
         try {
             this.animateNode(node, true);
@@ -409,7 +474,7 @@ export default class Mundo{
                     }
                 });
             }
-        });
+        }); 
         return nodeLinks;
     }
 
@@ -470,6 +535,50 @@ export default class Mundo{
             }
         };
         requestAnimationFrame(animate);
+    }
+
+    fadeOutNetwork(duration = 500){
+        return new Promise(resolve => {
+            const start = performance.now();
+            const animate = now => {
+                const elapsed = now - start;
+                const t = Math.min(elapsed / duration, 1);
+                const opacity = 1 - t;
+                Graph.nodeOpacity(opacity).linkOpacity(opacity);
+                if(t < 1){
+                    requestAnimationFrame(animate);
+                }else{
+                    resolve();
+                }
+            };
+            requestAnimationFrame(animate);
+        });
+    }
+    
+    fadeInNetwork(duration = 500){
+        return new Promise(resolve => {
+            const start = performance.now();
+            const animate = now => {
+                const elapsed = now - start;
+                const t = Math.min(elapsed / duration, 1);
+                Graph.nodeOpacity(t).linkOpacity(t);
+                if(t < 1){
+                    requestAnimationFrame(animate);
+                }else{
+                    resolve();
+                }
+            };
+            requestAnimationFrame(animate);
+        });
+    }
+    
+    async switchNetwork(neuronId, dimensionId){
+        if(neuronId){
+            this.activeNodeById(neuronId);
+        }
+        await this.fadeOutNetwork();
+        await this.loadNetworkByDimension(dimensionId);
+        await this.fadeInNetwork();
     }
 
 }

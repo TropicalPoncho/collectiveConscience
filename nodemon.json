@@ -1,0 +1,24 @@
+{
+  "watch": [
+    "app.js",
+    "routes/",
+    "services/",
+    "models/",
+    "utils/",
+    "bin/www",
+    "public/",
+    "views/"
+  ],
+  "ext": "js,json",
+  "ignore": [
+    "node_modules/",
+    "*.test.js"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "delay": "500",
+  "legacyWatch": true,
+  "polling": true,
+  "verbose": true
+} 

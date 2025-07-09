@@ -1,69 +1,43 @@
 const express = require('express');
-const asyncify = require('express-asyncify');
-var createError = require('http-errors');
- 
-const app = express();
-const router = asyncify(express.Router());
- 
-
+const router = express.Router();
 const NeuronsService = require('../services/neuronsService');
-const NeuronsServiceInstance = new NeuronsService();
+const SynapsesService = require('../services/synapsesService');
+const synapsesService = new SynapsesService();
+const neuronsService = new NeuronsService();
 
-// GET Network
-router.get('/', async (req, res, next) => {
-	NeuronsServiceInstance.getAll(req.query.page).then(result => {
-		console.log(result);
-		res.render("network", {
-			neurons: result
-			//ar: req.query.ar
-		});
-	}).catch(err => {
-		console.log(err)
-		next(createError(500));
-	});
-});
-
-//Make synapsis: needs fromId
-router.get('/synapsis/:fromId', async (req, res, next) => {
-	NeuronsServiceInstance.getAll(req.query.page).then(result => {
-		console.log(result);
-		res.render("network", {
-			neurons: result,
-			fromId: req.params.fromId
-			//ar: req.query.ar
-		});
-	}).catch(err => {
-		console.log(err)
-		next(createError(500));
-	});
-});
-
-//Get/aims an existing neuron
-router.get('/:myNeuronId', async (req, res, next) => {
-	NeuronsServiceInstance.getAll(req.query.page).then(result => {
-		console.log(result);
-		res.render("network", {
-			neurons: result,
-			myNeuronId: req.params.myNeuronId
-			//ar: req.query.ar
-		});
-	}).catch(err => {
-		console.log(err)
-		next(createError(500));
-	});
-});
-
-//When i reach the page, create a synapse
 /**
- * TODO:
- * - v2 Check with google account
- * - v3 Mejorar con socket
- 
-router.get('/invitation', function(req, res, next) {
-  let fromId = req.query.fromId;
-  if(!fromId) return next(createError(404));
-  createSynapse(req, res);
+ * @route GET /network
+ * @desc Get all neurons and synapses
+ * @access Public
+ */
+router.get('/', async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 0;
+        const neurons = await neuronsService.getAll(page);
+        const synapses = await synapsesService.getAll(page);
+        res.json({ neurons, synapses });
+    } catch (error) {
+        console.error('Error getting network:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
 });
-*/
 
-module.exports = router;
+/**
+ * @route GET /network/:dimensionId
+ * @desc Get neurons and synapses by dimensionId
+ * @access Public
+ */
+router.get('/:dimensionId', async (req, res) => {
+    try {
+        const dimensionId = parseInt(req.params.dimensionId);
+        const page = parseInt(req.query.page) || 0;
+        const neurons = await neuronsService.getByDimensionId(dimensionId,page);
+        const synapses = await synapsesService.getByDimensionId(dimensionId,page);
+        res.json({ neurons, synapses });
+    } catch (error) {
+        console.error('Error getting network by dimension:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+module.exports = router; 
