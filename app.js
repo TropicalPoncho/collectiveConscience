@@ -10,6 +10,7 @@ var usersRouter = require('./routes/users');
 var networkRouter = require('./routes/network');
 var somaRouter = require('./routes/somaBeta');
 var neuronsRouter = require('./routes/neurons');
+var synapsesRouter = require('./routes/synapses');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use('/network', networkRouter);
 app.use('/soma/beta', somaRouter);
 app.use('/soma', somaRouter);
 app.use('/neurons', neuronsRouter);
+app.use('/synapses', synapsesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

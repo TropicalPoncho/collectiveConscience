@@ -3,15 +3,15 @@ const Schema = mongoose.Schema;
 
 //Defino el schema:
 const neuronSchema = new Schema({
-	fromId: [{type: mongoose.ObjectId}],
+	id: Number,
+	dimensionId: Number,
 	name: String,
 	imgPath: String,
 	order: Number,
-	IP: String ,
 	graphVal: Number,
 	nickName: String,
-	nodeType: String,
-	email: String,
+	neuronType: String,
+	userId: Number,
 	comentario: String,
 	creationDate: {type: Date, default: Date.now()}
 });

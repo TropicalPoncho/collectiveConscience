@@ -1,5 +1,5 @@
-import Background from "./landing/background.js";
-import Mundo from "./landing/mundo.js";
+import Background from "./graph/background.js";
+import Mundo from "./graph/mundo.js";
 
 const globalDefaultSettings = {
     nodeSize: 4,
@@ -40,7 +40,7 @@ jQuery(function(){
             window.location.replace("https://tropicalponcho.art");
         }
 
-        goToNeuron(nextId); //Si no, solo voy a la siguiente
+        mundo.goToNeuron(nextId);
         /**
          * TODO: Acá se podría hacer más dinámico para que cargue en caso de q no encuentre ya cargada.
          * Debería buscar por nivel/distancia? -> lo de distancia sirve para sinapsis -> aunque puede haber x distancia y q sean muchas.
@@ -57,8 +57,7 @@ jQuery(function(){
         var neuronOnFocus = $(this).attr('neuronId');
         $('.floatingMenu .bn').removeClass('bnfocus');
         $(this).addClass('bnfocus');
-        var node = mundo.activeNodeById(neuronOnFocus);
-        showNeuronData(node);
+        mundo.goToNeuron(neuronOnFocus);
     });
     
     $(document).on("click", '.volver', function( event ) {
@@ -69,7 +68,7 @@ jQuery(function(){
     $(document).on("click", '#check', function( event ) {
         if($(this).prop('checked')){
             $(".floatingMenu .bn").show();
-            mundo.backToBasicsView();
+            mundo.cameraController.backToBasicsView();
         }else{
             if(bnActive){
                 goBack();
@@ -98,7 +97,7 @@ jQuery(function(){
 
     function goBack(){
         $(".floatingMenu .bn").show();
-        mundo.backToBasicsView();
+        mundo.cameraController.backToBasicsView();
         $(".floatingInfo").fadeOut(600);
         bnActive = false;
         $('#check').prop('checked', true);
@@ -106,12 +105,6 @@ jQuery(function(){
         $(".floatingTitle").fadeIn(2500);
     }
 
-    function goToNeuron(neuronId){
-        mundo.goToNeuron(neuronId, (neuronId) => {
-            var node = mundo.activeNodeById(neuronId);
-            showNeuronData(node);
-        });
-    }
 
     //Helper functions
     /* $(document).on('click', '#takeScreenshot', function(){
