@@ -6,8 +6,9 @@ import { DataLoader } from './dataLoader.js';
  * Maneja la manipulación de nodos, enlaces y actualización del grafo
  */
 export class GraphManager {
-    constructor(graph, threeObjectManager, dataLoader) {
+    constructor(graph, threeObjectManager, dataLoader, animationManager) {
         this.graph = graph;
+        this.animationManager = animationManager;
         this.threeObjectManager = threeObjectManager;
         this.dataLoader = dataLoader;
         this.graphData = { "nodes": [], "links": [] };
@@ -20,54 +21,6 @@ export class GraphManager {
      */
     setShowNeuronsCallback(callback) {
         this.showNeuronsCallBack = callback;
-    }
-
-    /**
-     * Carga las siguientes neuronas según tipos de sinapsis, con diferentes modos de carga.
-     * @param {Array} synapseTypes - Tipos de sinapsis para filtrar las neuronas a mostrar/cargar
-     * @param {string|number|boolean} nodeIdToFocus - ID de la neurona a enfocar (opcional, por defecto false)
-     * @param {string} loadType - Tipo de carga: 'add', 'goInto', 'fade'
-     */
-    loadNext(synapseTypes, nodeIdToFocus = false, loadType = 'add') {
-        // Filtrar las neuronas siguientes según los tipos de sinapsis
-        // Se asume que dataLoader tiene un método para esto, si no, hay que implementarlo
-        const result = this.dataLoader.getNextNeuronsBySynapseTypes(this.graphData.nodes, synapseTypes);
-        const { newNeurons, newSynapses } = result;
-
-        if (!newNeurons || newNeurons.length === 0) {
-            // No hay neuronas nuevas para cargar
-            return;
-        }
-
-        if (loadType === 'add') {
-            this.addNodes(newNeurons, newSynapses, nodeIdToFocus);
-        } else if (loadType === 'goInto' || loadType === 'replace') {
-            // 'replace' es sinónimo de 'goInto' según la consigna
-            this.replaceNetwork(newNeurons, newSynapses, nodeIdToFocus);
-        } else if (loadType === 'fade') {
-            // Agrega las nuevas y oculta las anteriores (asumimos que threeObjectManager puede hacer fade)
-            this.addNodes(newNeurons, newSynapses, nodeIdToFocus);
-            if (this.threeObjectManager && typeof this.threeObjectManager.fadeOutNodes === 'function') {
-                // Oculta las neuronas anteriores (las que no están en newNeurons)
-                const prevNodeIds = this.graphData.nodes
-                    .filter(n => !newNeurons.some(nn => nn.id === n.id))
-                    .map(n => n.id);
-                this.threeObjectManager.fadeOutNodes(prevNodeIds);
-            }
-        }
-
-        // Manejo de la cámara
-        if (nodeIdToFocus) {
-            if (typeof this.goToNeuron === 'function') {
-                this.goToNeuron(nodeIdToFocus);
-            } else if (this.graph && typeof this.graph.goToNeuron === 'function') {
-                this.graph.goToNeuron(nodeIdToFocus);
-            }
-        } else {
-            if (this.graph && this.graph.cameraController && typeof this.graph.cameraController.backToBasics === 'function') {
-                this.graph.cameraController.backToBasics();
-            }
-        }
     }
 
     /**
@@ -99,10 +52,10 @@ export class GraphManager {
      * @param {Array} newSynapses - Array de nuevas sinapsis
      * @param {string|number} nextIdToShow - ID del nodo a mostrar después
      */
-    addNodes(newNeurons, newSynapses, nextIdToShow = false) {
+    async addNodes(newNeurons, newSynapses, nextIdToShow = false) {
         this.graphData.nodes.push(...newNeurons);
         this.graphData.links.push(...newSynapses);
-        this.reloadGraph(nextIdToShow);
+        await this.reloadGraph(nextIdToShow);
     }
 
     /**
@@ -111,10 +64,10 @@ export class GraphManager {
      * @param {Array} newSynapses - Array de nuevas sinapsis
      * @param {string|number} nextIdToShow - ID del nodo a mostrar después
      */
-    replaceNetwork(newNeurons, newSynapses, nextIdToShow = false) {
+    async replaceNetwork(newNeurons, newSynapses, nextIdToShow = false) {
         this.graphData.nodes = newNeurons;
         this.graphData.links = newSynapses;
-        this.reloadGraph(nextIdToShow);
+        await this.reloadGraph(nextIdToShow);
     }
 
     /**
@@ -122,23 +75,35 @@ export class GraphManager {
      * @param {string|number} nextIdToShow - ID del nodo a mostrar después
      */
     reloadGraph(nextIdToShow = false) {
-        try {
-            centrarGrafoEnCero(this.graphData.nodes);
-            this.graph.graphData(this.graphData);
-            this.graph.nodeThreeObject(node => this.threeObjectManager.createObject(node));
-            this.graph.numDimensions(3);
-            this.graph.onEngineStop(() => {
-                if (nextIdToShow) {
-                    var node = this.activeNodeById(nextIdToShow);
-                    if (this.showNeuronsCallBack && node) {
-                        this.showNeuronsCallBack(node);
+        return new Promise(resolve => {
+            console.log("GraphData", this.graphData);
+            try {
+                centrarGrafoEnCero(this.graphData.nodes);
+                this.graph.graphData(this.graphData);
+                this.graph.nodeThreeObject(node => this.threeObjectManager.createObject(node));
+                this.graph.numDimensions(3);
+                this.graph.onEngineStop(() => {
+                    if (nextIdToShow) {
+                        console.log("nextIdToShow", nextIdToShow);
+                        var node = this.getNodeById(nextIdToShow);
+                        if (this.showNeuronsCallBack && node) {
+                            this.showNeuronsCallBack(node);
+                            return;
+                        }
                     }
-                }
-                this.graph.onEngineStop(() => {});
-            });
-        } catch (error) {
-            console.log(error);
-        }
+                    console.log("Reload Finished");
+                    resolve();
+                    this.graph.onEngineStop(() => {
+                        console.log("onEngineStop");
+                        resolve();
+                    });
+                });
+                console.log("voy liberando antes");
+            } catch (error) {
+                console.log(error);
+                resolve(); // O puedes usar reject(error) si prefieres manejar errores con catch
+            }
+        });
     }
 
     /**
@@ -148,7 +113,7 @@ export class GraphManager {
      */
     async insertNetworkByDimension(dimensionId, networkId) {
         try {
-            const { neurons, synapses } = await this.dataLoader.insertNetworkByDimension(dimensionId, networkId);
+            const { neurons, synapses } = await this.dataLoader.insertNetworkByDimension(dimensionId);
             if (neurons.length > 0) {
                 this.replaceNetwork(neurons, synapses);
             }
@@ -177,7 +142,7 @@ export class GraphManager {
      * @param {string|number} neuronId - ID de la neurona
      * @returns {Object|null} Nodo encontrado o null
      */
-    activeNodeById(neuronId) {
+    getNodeById(neuronId) {
         var nodes = this.graphData.nodes;
         var filterNode = nodes.find(item => item.id == neuronId);
         return filterNode || null;
@@ -223,4 +188,4 @@ export class GraphManager {
         this.graphData = { "nodes": [], "links": [] };
         this.reloadGraph();
     }
-} 
+}

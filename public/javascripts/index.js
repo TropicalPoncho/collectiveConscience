@@ -34,13 +34,18 @@ jQuery(function(){
     mundo.addElement(new Background(mundo));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
     $(document).on('click', '.next', function(){
-        var nextId = $(this).attr('id');
+        //var nextId = $(this).attr('id');
+        var thisNeuronId = $(this).attr('thisNeuronId');
+        var synapseType = $(this).attr('synapseType');
+        var loadType = $(this).attr('loadType');
 
         if($(this).attr('url')){
             window.location.replace("https://tropicalponcho.art");
         }
-
-        mundo.goToNeuron(nextId);
+        if(loadType == "goInto"){
+            $(".floatingInfo").fadeOut(600); //Muestro la data
+        }
+        mundo.loadNext(synapseType, false, loadType, thisNeuronId);
         /**
          * TODO: Acá se podría hacer más dinámico para que cargue en caso de q no encuentre ya cargada.
          * Debería buscar por nivel/distancia? -> lo de distancia sirve para sinapsis -> aunque puede haber x distancia y q sean muchas.
@@ -138,8 +143,11 @@ jQuery(function(){
             }
         }
         if(nodeHtml?.next){
-            $(".next").attr("id", nodeHtml.next.id);
-            $(".next").attr("thisNeuronId", nodeHtml.id);
+            // Agregar todos los atributos de next como atributos en .next
+            Object.entries(nodeHtml.next).forEach(([key, value]) => {
+                $(".next").attr(key, value);
+            });
+            $(".next").attr("thisNeuronId", node.id);
             if(nodeHtml.next.name){
                 $(".next").text(nodeHtml.next.name);
             }else{

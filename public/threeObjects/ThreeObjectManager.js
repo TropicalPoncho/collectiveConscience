@@ -92,6 +92,7 @@ export default class Mundo {
             })
             .onNodeClick(node => {
                 this.activeNode(node);
+                this.animationManager.setFocusWithFade(node);
                 showNeuronsCallBack(node);
             });
    
@@ -99,9 +100,9 @@ export default class Mundo {
             this.graph.insertNetworkByDimension(dimensionId);
         })
         
-        /* this.stats = new Stats();
+        this.stats = new Stats();
         this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-        document.body.appendChild(this.stats.dom); */
+        document.body.appendChild(this.stats.dom);
 
         this.cameraController.resize();
         window.addEventListener('resize', this.cameraController.resize.bind(this.cameraController), false);
@@ -143,7 +144,7 @@ export default class Mundo {
     }
 
     render(){	
-        //this.stats.begin();
+        this.stats.begin();
 
         this.elements.forEach(elem => elem.animate());
         this.animationManager.animate();
@@ -153,11 +154,11 @@ export default class Mundo {
             this.renderer.render( this.scene, this.camera );
         }
 
-        //this.stats.end();
+        this.stats.end();
     }
 
     activeNodeById(neuronId){
-        var node = this.graphManager.getNodeById(neuronId);
+        var node = this.graphManager.activeNodeById(neuronId);
         if(node){
             this.activeNode(node);
         }
@@ -185,6 +186,7 @@ export default class Mundo {
         // Si ya está agregada
         if (this.graphManager.graphData.nodes.find(node => node.id == neuronId)) {
             var node = this.activeNodeById(neuronId);
+            this.animationManager.setFocusWithFade(node);
             if (this.showNeuronsCallBack && node) {
                 this.showNeuronsCallBack(node);
             }
@@ -232,7 +234,7 @@ export default class Mundo {
         } else if (loadType === 'fade') {
 
             // Agrega las nuevas y oculta las anteriores (asumimos que threeObjectManager puede hacer fade)
-            await this.animationManager.fadeAndZoomIntoNeuron(duration);
+            await this.animationManager.fadeOutNetwork(duration);
             await this.graphManager.addNodes(neurons, synapses, nodeIdToFocus);
         }
 /* 
@@ -246,15 +248,14 @@ export default class Mundo {
     
     async goIntoNeuron(fromNeuronId, neurons, synapses, nodeIdToFocus){
 
-        // Fade out a negro
-        var node = this.graphManager.getNodeById(fromNeuronId);
-        await this.animationManager.fadeOutCanvasToBlack(node, 5000);
-
-        // Espera a que termine el reemplazo de red
+        // Zoom a la neurona y fade out de la red
+        await this.animationManager.fadeOutNetwork(3000, 10);
+        
         await this.graphManager.replaceNetwork(neurons, synapses, false);
 
-        // Fade in desde negro
-        this.animationManager.fadeInCanvasFromBlack(7000);
+        // Aleja la cámara y hace fade in de la red
+        await this.animationManager.fadeInNetwork(8000, GLOBAL_DEFAULT_SETTINGS.cameraDistance);
+
     }
     
 
@@ -275,14 +276,26 @@ export default class Mundo {
             this.animationManager.clearState();
         }
         if (this.orbitInterval) {
-            clearInterval(this.orbitInterval);
+
+
+
+
+
+
+
+
+
+const { ForceGraph3D, ForceGraphAR } = window;// ForceGraph3D y ForceGraphAR deben ser accesibles globalmente, por eso se agregan aquí}    }        document.body.removeChild(this.stats.dom);        this.stats?.hidePanel();        }            clearInterval(this.orbitInterval);            clearInterval(this.orbitInterval);
         }
         this.stopOrbit();
     }
 }
 
-
-
-
-
-
+// ...existing code...
+const material = new THREE.MeshStandardMaterial({
+    color: 0xff0000,
+    transparent: true,
+    opacity: 1 // o el valor inicial que desees
+});
+const mesh = new THREE.Mesh(geometry, material);
+// ...existing code...

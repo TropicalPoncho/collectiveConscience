@@ -85,23 +85,3 @@ export function filterSynapsesByNodeIds(synapses, nodeIds) {
         return nodeIds.includes(sourceId.toString()) || nodeIds.includes(targetId.toString());
     });
 }
-
-/**
- * Filtra neuronas por dimensión
- * @param {Array} neurons - Array de neuronas
- * @param {string|number} dimensionId - ID de la dimensión
- * @returns {Array} Neuronas filtradas
- */
-export function filterNeuronsByDimension(neurons, dimensionId) {
-    return neurons.filter(item => item.dimensionId == dimensionId);
-}
-
-/**
- * Filtra sinapsis por red
- * @param {Array} synapses - Array de sinapsis
- * @param {string|number} networkId - ID de la red
- * @returns {Array} Sinapsis filtradas
- */
-export function filterSynapsesByNetwork(synapses, networkId) {
-    return synapses.filter(item => item.networkId == networkId);
-} 
