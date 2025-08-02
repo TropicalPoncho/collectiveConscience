@@ -42,99 +42,6 @@ export class AnimationManager {
         this.hoverNode = node || null;
     }
 
-    /**
-     * Establece foco en un nodo con fade animado
-     * @param {Object} node - Nodo a enfocar
-     * @param {number} duration - Duración de la animación
-     */
-    setFocusWithFade(node, duration = ANIMATION_SETTINGS.FADE_DURATION) {
-        this.focusedNodeId = node.id;
-        this.focusedNeighborIds = new Set([node.id]);
-        
-        // Obtener enlaces del grafo actual
-        const graphData = this.graph.graphData();
-        graphData.links.forEach(link => {
-            const sourceId = link.source.id || link.source;
-            const targetId = link.target.id || link.target;
-            if (sourceId === node.id) this.focusedNeighborIds.add(targetId);
-            if (targetId === node.id) this.focusedNeighborIds.add(sourceId);
-        });
-
-        // Fade out animado
-        const start = performance.now();
-        const initialOpacity = 1;
-        const targetOpacity = 0.05;
-
-        const animate = (now) => {
-            const elapsed = now - start;
-            const t = Math.min(elapsed / duration, 1);
-            const opacity = initialOpacity + (targetOpacity - initialOpacity) * t;
-
-            this.graph
-                .nodeOpacity(n => this.focusedNeighborIds.has(n.id) ? 1 : opacity)
-                .linkOpacity(l =>
-                    this.focusedNeighborIds.has(l.source.id || l.source) &&
-                    this.focusedNeighborIds.has(l.target.id || l.target) ? 1 : opacity
-                );
-
-            if (t < 1) {
-                requestAnimationFrame(animate);
-            }
-        };
-        requestAnimationFrame(animate);
-    }
-
-    /**
-     * Fade in de todos los elementos
-     * @param {number} duration - Duración de la animación
-     */
-    fadeInAll(duration = ANIMATION_SETTINGS.FADE_DURATION) {
-        const start = performance.now();
-        const initialOpacity = 0.05;
-        const targetOpacity = 1;
-
-        const animate = (now) => {
-            const elapsed = now - start;
-            const t = Math.min(elapsed / duration, 1);
-            const opacity = initialOpacity + (targetOpacity - initialOpacity) * t;
-
-            this.graph
-                .nodeOpacity(opacity)
-                .linkOpacity(opacity);
-
-            if (t < 1) {
-                requestAnimationFrame(animate);
-            } else {
-                // Limpia el foco
-                this.focusedNodeId = null;
-                this.focusedNeighborIds = new Set();
-            }
-        };
-        requestAnimationFrame(animate);
-    }
-
-    /**
-     * Fade out de toda la red
-     * @param {number} duration - Duración de la animación
-     * @returns {Promise} Promise que se resuelve cuando termina la animación
-    
-    fadeOutNetwork(duration = ANIMATION_SETTINGS.FADE_DURATION) {
-        return new Promise(resolve => {
-            const start = performance.now();
-            const animate = now => {
-                const elapsed = now - start;
-                const t = Math.min(elapsed / duration, 1);
-                const opacity = 1 - t;
-                this.graph.nodeOpacity(opacity).linkOpacity(opacity);
-                if(t < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    resolve();
-                }
-            };
-            requestAnimationFrame(animate);
-        });
-    } */
     
     /**
      * Fade out a negro sobre el canvas de Three.js (animación suave)
@@ -148,14 +55,14 @@ export class AnimationManager {
                 { x: node.x, y: node.y, z: node.z }, // hacia dónde mira
                 duration // duración de la transición
             );
-            const fadeDuration = duration * 0.4; // Duración de la transición de opacidad
+            const fadeDuration = duration * 0.7; // Duración de la transición de opacidad
             const overlay = this.ensureBlackOverlay();
             overlay.style.transition = ''; // Desactiva transición CSS
             let start = null;
             const animate = now => {
                 if (!start) start = now;
                 const elapsed = now - start;
-                const t = Math.min(elapsed / duration, 1);
+                const t = Math.min(elapsed / fadeDuration, 1);
                 overlay.style.opacity = t;
                 if (t < 1) {
                     requestAnimationFrame(animate);
@@ -176,24 +83,19 @@ export class AnimationManager {
     fadeInCanvasFromBlack(duration = ANIMATION_SETTINGS.FADE_DURATION) {
         return new Promise(resolve => {
             this.graph.cameraPosition(
-                { x: 1500, y: 1500, z: 1500 },
+                { x: 1800, y: 1800, z: 1500 },
                 { x: 0, y: 0, z: 0 }
             );
 
-            /* this.graph.cameraPosition(
-                { x: 0, y: 0, z: GLOBAL_DEFAULT_SETTINGS.cameraDistance },
-                { x: 0, y: 0, z: 0 },
-                duration
-            ); */
-            this.graph.zoomToFit(duration, 30);
-            const fadeDuration = duration * 0.8; // Duración de la transición de opacidad
+            this.graph.zoomToFit(duration, 10);
+            const fadeDuration = duration * 1.2; // Duración de la transición de opacidad
             const overlay = this.ensureBlackOverlay();
             overlay.style.transition = ''; // Desactiva transición CSS
             let start = null;
             const animate = now => {
                 if (!start) start = now;
                 const elapsed = now - start;
-                const t = Math.min(elapsed / duration, 1);
+                const t = Math.min(elapsed / fadeDuration, 1);
                 overlay.style.opacity = 1 - t;
                 if (t < 1) {
                     requestAnimationFrame(animate);

@@ -56,19 +56,22 @@ export class CameraController {
      * @param {Object} node - Nodo al que apuntar
      * @returns {string} Lado desde donde se apunta ("izq" o "der")
      */
-    aimAtNode(node, center = false, animationDuration = ANIMATION_SETTINGS.CAMERA_TRANSITION_DURATION, distance = GLOBAL_DEFAULT_SETTINGS.aimDistance) {
+    aimAtNode(node, animationDuration = ANIMATION_SETTINGS.CAMERA_TRANSITION_DURATION, distance = GLOBAL_DEFAULT_SETTINGS.aimDistance) {
         const offsetX = GLOBAL_DEFAULT_SETTINGS.aimOffsetX;
+        const offsetY = GLOBAL_DEFAULT_SETTINGS.aimOffsetY;
 
         let lookAt = { x: node.x, y: node.y, z: node.z };
         let newPos;
         let returnSide;
+        const center = (window.innerWidth < 800);
 
         if(center){
             newPos = { 
                 x: node.x, 
-                y: node.y, 
+                y: node.y + offsetY, 
                 z: node.z + distance 
             };
+            lookAt.y = node.y - offsetY;
             returnSide = "center";
         } else if (node.x < 0) {
             // Cámara a la izquierda

@@ -1,16 +1,16 @@
 // Configuraciones globales para el grafo 3D
 export const GLOBAL_DEFAULT_SETTINGS = {
-    nodeSize: 15,
+    nodeSize: 25,
     cameraDistance: 350,
-    longDistance: 1000,
+    longDistance: 1700,
     aimDistance: 90,
     aimOffsetX: 50,
     aimOffsetY: 30,
     aimOffsetZ: 70,
     activeNodeImg: true,
-    imgSize: 50,
-    linkDistance: 140,
-    LINK_WIDTH: .5,
+    imgSize: 90,
+    linkDistance: 180,
+    LINK_WIDTH: .1,
     LINK_OPACITY: 0.8,
     LINK_PARTICLE_WIDTH: 1,
     LINK_PARTICLE_COUNT: 4,
@@ -34,7 +34,7 @@ export const ANIMATION_SETTINGS = {
     FADE_DURATION: 500,
     ORBIT_SPEED: Math.PI / 1500,
     ORBIT_INTERVAL: 10,
-    ENTER_NEURON_DURATION:15000
+    ENTER_NEURON_DURATION:5000
 };
 
 // Configuraciones de la cámara

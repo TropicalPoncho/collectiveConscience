@@ -92,7 +92,6 @@ export default class Mundo {
             })
             .onNodeClick(node => {
                 this.activeNode(node);
-                this.animationManager.setFocusWithFade(node);
                 showNeuronsCallBack(node);
             });
    
@@ -100,9 +99,9 @@ export default class Mundo {
             this.graph.insertNetworkByDimension(dimensionId);
         })
         
-        this.stats = new Stats();
+        /* this.stats = new Stats();
         this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-        document.body.appendChild(this.stats.dom);
+        document.body.appendChild(this.stats.dom); */
 
         this.cameraController.resize();
         window.addEventListener('resize', this.cameraController.resize.bind(this.cameraController), false);
@@ -144,7 +143,7 @@ export default class Mundo {
     }
 
     render(){	
-        this.stats.begin();
+        //this.stats.begin();
 
         this.elements.forEach(elem => elem.animate());
         this.animationManager.animate();
@@ -154,7 +153,7 @@ export default class Mundo {
             this.renderer.render( this.scene, this.camera );
         }
 
-        this.stats.end();
+        //this.stats.end();
     }
 
     activeNodeById(neuronId){
@@ -186,7 +185,6 @@ export default class Mundo {
         // Si ya está agregada
         if (this.graphManager.graphData.nodes.find(node => node.id == neuronId)) {
             var node = this.activeNodeById(neuronId);
-            this.animationManager.setFocusWithFade(node);
             if (this.showNeuronsCallBack && node) {
                 this.showNeuronsCallBack(node);
             }
@@ -248,15 +246,12 @@ export default class Mundo {
     
     async goIntoNeuron(fromNeuronId, neurons, synapses, nodeIdToFocus){
 
-        var node = this.graphManager.getNodeById(fromNeuronId);
-
         // Fade out a negro
+        var node = this.graphManager.getNodeById(fromNeuronId);
         await this.animationManager.fadeOutCanvasToBlack(node, 5000);
 
         // Espera a que termine el reemplazo de red
         await this.graphManager.replaceNetwork(neurons, synapses, false);
-
-        console.log("pase el reload");
 
         // Fade in desde negro
         this.animationManager.fadeInCanvasFromBlack(7000);
