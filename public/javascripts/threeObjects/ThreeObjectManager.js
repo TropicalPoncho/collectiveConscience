@@ -75,7 +75,7 @@ export class ThreeObjectManager {
     createObject(node){
         let type = node.type ?? ThreeObjectManager.defaultType; //if type not defined, i get first //TODO: define a default type
         if (typeof type !== 'string' || type.trim() === '' ) {
-            throw new TypeError(`Invalid type parameter: ${type}`);
+            throw new TypeError(`Invalid type parameter: ${type} ${node.id}`);
         }
         const ThreeObjectClass = ThreeObjectManager.ThreeObjectsTypes[type];
         if (!ThreeObjectClass) {

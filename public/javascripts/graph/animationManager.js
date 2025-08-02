@@ -1,13 +1,14 @@
-import { ANIMATION_SETTINGS } from './constants.js';
+import { ANIMATION_SETTINGS, GLOBAL_DEFAULT_SETTINGS } from './constants.js';
 
 /**
  * Gestor de animaciones para el grafo 3D
  * Maneja animaciones de nodos, enlaces y transiciones visuales
  */
 export class AnimationManager {
-    constructor(graph, threeObjectManager) {
+    constructor(graph, threeObjectManager, cameraController) {
         this.graph = graph;
         this.threeObjectManager = threeObjectManager;
+        this.cameraController = cameraController;
         
         // Estado de animaciones
         this.hoverNode = null;
@@ -116,7 +117,7 @@ export class AnimationManager {
      * Fade out de toda la red
      * @param {number} duration - Duración de la animación
      * @returns {Promise} Promise que se resuelve cuando termina la animación
-     */
+    
     fadeOutNetwork(duration = ANIMATION_SETTINGS.FADE_DURATION) {
         return new Promise(resolve => {
             const start = performance.now();
@@ -133,29 +134,79 @@ export class AnimationManager {
             };
             requestAnimationFrame(animate);
         });
-    }
+    } */
     
     /**
-     * Fade in de toda la red
-     * @param {number} duration - Duración de la animación
-     * @returns {Promise} Promise que se resuelve cuando termina la animación
+     * Fade out a negro sobre el canvas de Three.js (animación suave)
+     * @param {number} duration - Duración de la animación en ms
+     * @returns {Promise}
      */
-    fadeInNetwork(duration = ANIMATION_SETTINGS.FADE_DURATION) {
+    fadeOutCanvasToBlack(node, duration = ANIMATION_SETTINGS.FADE_DURATION) {
         return new Promise(resolve => {
-            const start = performance.now();
+            this.graph.cameraPosition(
+                { x: node.x, y: node.y, z: node.z }, // nueva posición de la cámara
+                { x: node.x, y: node.y, z: node.z }, // hacia dónde mira
+                duration // duración de la transición
+            );
+            const fadeDuration = duration * 0.4; // Duración de la transición de opacidad
+            const overlay = this.ensureBlackOverlay();
+            overlay.style.transition = ''; // Desactiva transición CSS
+            let start = null;
             const animate = now => {
+                if (!start) start = now;
                 const elapsed = now - start;
                 const t = Math.min(elapsed / duration, 1);
-                this.graph.nodeOpacity(t).linkOpacity(t);
-                if(t < 1) {
+                overlay.style.opacity = t;
+                if (t < 1) {
                     requestAnimationFrame(animate);
                 } else {
+                    overlay.style.opacity = '1';
                     resolve();
                 }
             };
             requestAnimationFrame(animate);
         });
     }
+
+    /**
+     * Fade in desde negro sobre el canvas de Three.js (animación suave)
+     * @param {number} duration - Duración de la animación en ms
+     * @returns {Promise}
+     */
+    fadeInCanvasFromBlack(duration = ANIMATION_SETTINGS.FADE_DURATION) {
+        return new Promise(resolve => {
+            this.graph.cameraPosition(
+                { x: 1500, y: 1500, z: 1500 },
+                { x: 0, y: 0, z: 0 }
+            );
+
+            /* this.graph.cameraPosition(
+                { x: 0, y: 0, z: GLOBAL_DEFAULT_SETTINGS.cameraDistance },
+                { x: 0, y: 0, z: 0 },
+                duration
+            ); */
+            this.graph.zoomToFit(duration, 30);
+            const fadeDuration = duration * 0.8; // Duración de la transición de opacidad
+            const overlay = this.ensureBlackOverlay();
+            overlay.style.transition = ''; // Desactiva transición CSS
+            let start = null;
+            const animate = now => {
+                if (!start) start = now;
+                const elapsed = now - start;
+                const t = Math.min(elapsed / duration, 1);
+                overlay.style.opacity = 1 - t;
+                if (t < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    overlay.style.opacity = '0';
+                    resolve();
+                }
+            };
+            requestAnimationFrame(animate);
+        });
+    }
+
+
 
     /**
      * Ejecuta el ciclo de animación
@@ -206,4 +257,30 @@ export class AnimationManager {
         this.focusedNodeId = null;
         this.focusedNeighborIds = new Set();
     }
-} 
+
+
+    /**
+     * Crea (si no existe) un overlay negro sobre el canvas
+     */
+    ensureBlackOverlay() {
+        let canvas = this.graph.renderer().domElement;
+        let parent = canvas.parentElement;
+        let overlay = parent.querySelector('.threejs-black-fade');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'threejs-black-fade';
+            overlay.style.position = 'absolute';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.pointerEvents = 'none';
+            overlay.style.background = '#000';
+            overlay.style.opacity = '0';
+            overlay.style.transition = '';
+            parent.appendChild(overlay);
+        }
+        return overlay;
+    }
+
+}

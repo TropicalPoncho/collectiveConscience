@@ -56,16 +56,21 @@ export class CameraController {
      * @param {Object} node - Nodo al que apuntar
      * @returns {string} Lado desde donde se apunta ("izq" o "der")
      */
-    aimAtNode(node) {
-        const distance = GLOBAL_DEFAULT_SETTINGS.aimDistance;
+    aimAtNode(node, center = false, animationDuration = ANIMATION_SETTINGS.CAMERA_TRANSITION_DURATION, distance = GLOBAL_DEFAULT_SETTINGS.aimDistance) {
         const offsetX = GLOBAL_DEFAULT_SETTINGS.aimOffsetX;
 
         let lookAt = { x: node.x, y: node.y, z: node.z };
         let newPos;
         let returnSide;
 
-        // Decide el lado según la posición X respecto al centro
-        if (node.x < 0) {
+        if(center){
+            newPos = { 
+                x: node.x, 
+                y: node.y, 
+                z: node.z + distance 
+            };
+            returnSide = "center";
+        } else if (node.x < 0) {
             // Cámara a la izquierda
             newPos = { 
                 x: node.x - offsetX, 
@@ -90,7 +95,7 @@ export class CameraController {
         this.graph.cameraPosition(
             newPos, // nueva posición de la cámara
             lookAt, // hacia dónde mira
-            ANIMATION_SETTINGS.CAMERA_TRANSITION_DURATION // duración de la transición
+            animationDuration // duración de la transición
         );
 
         return returnSide;
@@ -101,7 +106,7 @@ export class CameraController {
      * @param {number} extra - Offset vertical adicional
      * @param {number} cameraDistanceOffset - Offset adicional en la distancia de la cámara
      */
-    backToBasicsView(extra = 0, cameraDistanceOffset = 0) {
+    backToBasicsView(extra = 0, cameraDistanceOffset = 0, animationDuration = ANIMATION_SETTINGS.CAMERA_TRANSITION_DURATION) {
         this.graph.cameraPosition(
             {
                 x: 0, 
@@ -109,7 +114,7 @@ export class CameraController {
                 z: GLOBAL_DEFAULT_SETTINGS.cameraDistance + cameraDistanceOffset
             },
             { x: 0, y: extra, z: 0 },
-            ANIMATION_SETTINGS.CAMERA_TRANSITION_DURATION
+            animationDuration
         );
     }
 
@@ -213,4 +218,4 @@ export class CameraController {
         this.orbitInterval = null;
         this.somaNode = null;
     }
-} 
+}

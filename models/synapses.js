@@ -6,6 +6,7 @@ const synapseType = {
 	1: "related",
 	2: "produce",
 	3: "autorOf",
+	4: "componentOf"
 }
 
 //Defino el schema:

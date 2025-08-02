@@ -1,0 +1,90 @@
+[
+    {
+        "source": 1,
+        "target": 10,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    },
+    {
+        "source": 1,
+        "target": 11,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    },
+    {
+        "source": 1,
+        "target": 12,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    },
+    {
+        "source": 1,
+        "target": 13,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    },
+    {
+        "source": 1,
+        "target": 14,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    },
+    {
+        "source": 1,
+        "target": 15,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    },
+    {
+        "source": 1,
+        "target": 16,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    },
+    {
+        "source": 1,
+        "target": 17,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    },
+    {
+        "source": 1,
+        "target": 18,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    },
+    {
+        "source": 1,
+        "target": 19,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    },
+    {
+        "source": 1,
+        "target": 20,
+        "type": 4,
+        "distance": 100,
+        "dimensionId": 0,
+        "networkId": 0
+    }
+]

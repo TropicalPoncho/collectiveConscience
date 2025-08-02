@@ -2,6 +2,7 @@
 export const GLOBAL_DEFAULT_SETTINGS = {
     nodeSize: 15,
     cameraDistance: 350,
+    longDistance: 1000,
     aimDistance: 90,
     aimOffsetX: 50,
     aimOffsetY: 30,
@@ -32,7 +33,8 @@ export const ANIMATION_SETTINGS = {
     CAMERA_TRANSITION_DURATION: 3000,
     FADE_DURATION: 500,
     ORBIT_SPEED: Math.PI / 1500,
-    ORBIT_INTERVAL: 10
+    ORBIT_INTERVAL: 10,
+    ENTER_NEURON_DURATION:15000
 };
 
 // Configuraciones de la cámara

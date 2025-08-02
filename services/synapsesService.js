@@ -293,6 +293,86 @@ class SynapsesService {
             return err;
         }
     }
+
+    /**
+     * @description Get synapses by type with their associated neurons in separate arrays using single lookup
+     * @param types {array|number} Type of synapse (name or code)
+     * @param page {number} Page number for pagination
+     * @returns {Promise<Object>} Object with synapses array and neurons array
+     */
+    async getByTypeWithNeurons(types, page = 0) {
+        try {
+            
+            // Una sola consulta de agregación que hace lookup y separa los datos
+            // Permitir que types sea un array o un solo valor
+            let typeCodes;
+            if (Array.isArray(types)) {
+                typeCodes = types.map(t => typeof t === 'string' ? getTypeCode(t) : t).filter(Boolean);
+                if (typeCodes.length === 0) {
+                    throw new Error(`Tipos de sinapsis inválidos: ${types}`);
+                }
+            } else {
+                typeCodes = [typeof types === 'string' ? getTypeCode(types) : types];
+                if (!typeCodes[0]) {
+                    throw new Error(`Tipo de sinapsis inválido: ${types}`);
+                }
+            }
+
+            const query = Synapse.aggregate()
+                .match({ type: { $in: typeCodes } })
+                .lookup({
+                    from: 'neurons',
+                    localField: 'source',
+                    foreignField: 'id',
+                    as: 'sourceNeuron'
+                })
+                .lookup({
+                    from: 'neurons',
+                    localField: 'target',
+                    foreignField: 'id',
+                    as: 'targetNeuron'
+                })
+                .addFields({
+                    sourceNeuron: { $arrayElemAt: ['$sourceNeuron', 0] },
+                    targetNeuron: { $arrayElemAt: ['$targetNeuron', 0] }
+                })
+                .sort({"creationDate": -1, "_id": 1 });
+
+            if(page !== undefined && page != 0){
+                query.skip(limit*page);
+            }
+
+            const result = await query.limit(limit).exec();
+
+            // Separar sinapsis y neuronas únicas
+            const synapses = result.map(item => {
+                // Remover las neuronas anidadas del objeto sinapsis
+                const { sourceNeuron, targetNeuron, ...synapse } = item;
+                return synapse;
+            });
+
+            // Extraer neuronas únicas (evitando duplicados)
+            const neuronsMap = new Map();
+            result.forEach(item => {
+                if (item.sourceNeuron) {
+                    neuronsMap.set(item.sourceNeuron.id, item.sourceNeuron);
+                }
+                if (item.targetNeuron) {
+                    neuronsMap.set(item.targetNeuron.id, item.targetNeuron);
+                }
+            });
+
+            const neurons = Array.from(neuronsMap.values());
+
+            return {
+                synapses: synapses,
+                neurons: neurons
+            };
+        } catch (err) {
+            console.error('❌ Error in getByTypeWithNeurons:', err);
+            return err;
+        }
+    }
 }
 
 module.exports = SynapsesService; 
