@@ -13,7 +13,7 @@ const {
   const options = {
   };
 
-  const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+  const url = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin&retryWrites=true&w=majority`;
 
   mongoose.connect(url, options).then( function() {
     console.log('MongoDB is connected');
