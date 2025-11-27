@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
+
+// Vercel asigna 'production' automáticamente. En local suele ser undefined.
+console.log('Current Environment:', process.env.NODE_ENV);
+
+// En Vercel (producción), las variables se inyectan automáticamente en process.env.
+// Solo cargamos dotenv si NO estamos en producción (para desarrollo local).
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 
 const {
     MONGO_USERNAME,
@@ -42,18 +50,23 @@ function buildConnectionString() {
 
 const url = buildConnectionString();
 
+// DEBUG: Imprimir la URL enmascarada para verificar en los logs de Vercel si tomó la variable
+console.log('Conectando a MongoDB:', url.replace(/:([^:@]+)@/, ':****@'));
+
 const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    // Mongoose 6+ ya tiene estas opciones por defecto, se pueden omitir para evitar warnings
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true
 };
 
 mongoose.connect(url, options)
     .then(() => {
-        console.log('MongoDB conectado:', url.split('?')[0]);
+        console.log('MongoDB conectado exitosamente');
     })
     .catch(err => {
         console.error('Error conectando a MongoDB:', err);
-        process.exit(1);
+        // No hacemos process.exit(1) en serverless para no matar el contenedor frío inmediatamente,
+        // pero si es crítico, el error se registrará.
     });
 
 module.exports = mongoose;

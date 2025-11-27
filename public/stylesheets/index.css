@@ -131,6 +131,22 @@ textarea{
   transition: top 2s ease;
 }
 
+.lateralFloatingMenu {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 100;
+}
+
+.lateralFloatingMenu .bn {
+  display: block;
+  margin: 0;
+}
+
 @media screen and (max-width: 800px) {
     .floatingInfo,.floatingInfo.der{
         width: 90%;
