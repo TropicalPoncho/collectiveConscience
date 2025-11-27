@@ -69,8 +69,10 @@ class NeuronsService {
         }
     } */
 
-    getAll ( page, filters = {} ) {
+    async getAll ( page, filters = {} ) {
         try {
+            console.log('🔍 NeuronsService.getAll called with:', { page, filters });
+
             const query = Neuron.aggregate();
             query.addFields({
                 nOrder: {$ifNull : [ "$order" , 100 ] },
@@ -78,6 +80,7 @@ class NeuronsService {
 
             // Aplicar filtros si existen
             if (Object.keys(filters).length > 0) {
+                console.log('🔧 Applying filters:', filters);
                 query.match(filters);
             }
 
@@ -85,8 +88,14 @@ class NeuronsService {
             if(page !== undefined && page != 0){
                 query.skip(limit*page);
             }
-            return query.limit(limit).exec();
+
+            console.log('🚀 Executing query...');
+            const result = await query.limit(limit).exec();
+            console.log('✅ Query executed, found', result.length, 'neurons');
+            
+            return result;
         } catch ( err ) {
+            console.error('❌ Error in NeuronsService.getAll:', err);
             return err;
         }
     }

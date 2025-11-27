@@ -57,7 +57,7 @@ const options = {
     // Mongoose 6+ ya tiene estas opciones por defecto, se pueden omitir para evitar warnings
     // useNewUrlParser: true,
     // useUnifiedTopology: true
-    serverSelectionTimeoutMS: 5000, // Falla rápido (5s) si no hay conexión (ideal para serverless)
+    serverSelectionTimeoutMS: 20000, // Aumentado a 20s para tolerar latencia en cold starts
     family: 4, // Forzar IPv4: Soluciona problemas de conexión en Vercel/AWS cuando intenta usar IPv6
     dbName: MONGO_DB // Forzar el nombre de la base de datos desde la variable de entorno
 };
