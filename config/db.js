@@ -58,7 +58,8 @@ const options = {
     // useNewUrlParser: true,
     // useUnifiedTopology: true
     serverSelectionTimeoutMS: 5000, // Falla rápido (5s) si no hay conexión (ideal para serverless)
-    family: 4 // Forzar IPv4: Soluciona problemas de conexión en Vercel/AWS cuando intenta usar IPv6
+    family: 4, // Forzar IPv4: Soluciona problemas de conexión en Vercel/AWS cuando intenta usar IPv6
+    dbName: MONGO_DB // Forzar el nombre de la base de datos desde la variable de entorno
 };
 
 mongoose.connect(url, options)
