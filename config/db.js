@@ -57,6 +57,8 @@ const options = {
     // Mongoose 6+ ya tiene estas opciones por defecto, se pueden omitir para evitar warnings
     // useNewUrlParser: true,
     // useUnifiedTopology: true
+    serverSelectionTimeoutMS: 5000, // Falla rápido (5s) si no hay conexión (ideal para serverless)
+    family: 4 // Forzar IPv4: Soluciona problemas de conexión en Vercel/AWS cuando intenta usar IPv6
 };
 
 mongoose.connect(url, options)
