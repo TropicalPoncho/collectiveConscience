@@ -31,6 +31,8 @@ export default class Mundo {
     dataLoader;
     showNeuronsCallBack;
 
+    dimension = 0;
+
     //Init graph:
     constructor(elementId, dimensionId, showNeuronsCallBack, arActive = false) {
         this.showNeuronsCallBack = showNeuronsCallBack;
@@ -181,7 +183,7 @@ export default class Mundo {
      * Va a una neurona específica
      * @param {string|number} neuronId - ID de la neurona
      */
-    goToNeuron(neuronId) {
+    async goToNeuron(neuronId) {
         // Si ya está agregada
         if (this.graphManager.graphData.nodes.find(node => node.id == neuronId)) {
             var node = this.activeNodeById(neuronId);
@@ -189,7 +191,17 @@ export default class Mundo {
                 this.showNeuronsCallBack(node);
             }
         } else {
-            this.graphManager.insertNodesById([neuronId], neuronId);
+            if(this.dimension != 0){ //Esta en otra dimensión. Debo volver
+                var {neurons, synapses} = await this.dataLoader.insertNetworkByDimension(0);
+                await this.goBackFromNeuron(neurons, synapses, false);
+                var node = this.graphManager.getNodeById(neuronId);
+                if (this.showNeuronsCallBack && node) {
+                    this.showNeuronsCallBack(node);
+                    return;
+                }
+            }else{
+                this.graphManager.insertNodesById([neuronId], neuronId);
+            }
         }
     }
 
@@ -209,14 +221,13 @@ export default class Mundo {
      */
     async loadNext(synapseTypes, nodeIdToFocus = false, loadType = 'add', fromNeuronId = null) {
         // Filtrar las neuronas siguientes según los tipos de sinapsis
-        // Se asume que dataLoader tiene un método para esto, si no, hay que implementarlo
         const hideRoot = (loadType == "goInto" && fromNeuronId) ? fromNeuronId : false ;
         const result = await this.dataLoader.getNetworkBySynapseType(synapseTypes, hideRoot );
         const { neurons, synapses } = result;
 
         if (!neurons || synapses.length === 0) {
             // No hay neuronas nuevas para cargar
-            return;
+            return []; // Retornamos array vacío
         }
 
         if (loadType === 'add') {
@@ -235,6 +246,8 @@ export default class Mundo {
             await this.animationManager.fadeAndZoomIntoNeuron(duration);
             await this.graphManager.addNodes(neurons, synapses, nodeIdToFocus);
         }
+
+        return neurons; // Retornamos las neuronas cargadas para que index.js las use
 /* 
         // Manejo de la cámara
         if (nodeIdToFocus) {
@@ -244,19 +257,28 @@ export default class Mundo {
         } */
     }   
     
-    async goIntoNeuron(fromNeuronId, neurons, synapses, nodeIdToFocus){
+    async goIntoNeuron(fromNeuronId, neurons, synapses, nodeIdToFocus) {
+        this.lastDimensionNode = this.graphManager.getNodeById(fromNeuronId);
+        this.dimension++;
+        // Pasamos isBack = false (Entrando)
+        await this.goFromToNeuron(this.lastDimensionNode, neurons, synapses, nodeIdToFocus, false);
+    }
 
-        // Fade out a negro
-        var node = this.graphManager.getNodeById(fromNeuronId);
+    async goBackFromNeuron(neurons, synapses, nodeIdToFocus) {
+        this.dimension--;
+        await this.goFromToNeuron(null, neurons, synapses, nodeIdToFocus, true);
+    }
+
+    async goFromToNeuron(node, neurons, synapses, nodeIdToFocus, isBack) {
+        // 1. Fade Out
         await this.animationManager.fadeOutCanvasToBlack(node, 5000);
 
-        // Espera a que termine el reemplazo de red
-        await this.graphManager.replaceNetwork(neurons, synapses, false);
+        // 2. Reemplazar red y ESPERAR a que se completen los objetos
+        await this.graphManager.replaceNetwork(neurons, synapses, nodeIdToFocus);
 
-        // Fade in desde negro
-        this.animationManager.fadeInCanvasFromBlack(7000);
+        // 4. Fade In
+        await this.animationManager.fadeInCanvasFromBlack(7000, isBack);
     }
-    
 
     /**
      * Limpia recursos y detiene animaciones
@@ -269,10 +291,13 @@ export default class Mundo {
             this.dataLoader.clearData();
         }
         if (this.graphManager) {
-            this.graphManager.clearGraph();
+            this.graphManager.dispose();
         }
         if (this.animationManager) {
             this.animationManager.clearState();
+        }
+        if (this.threeObjectManager) {
+            this.threeObjectManager.disposeAll();
         }
         if (this.orbitInterval) {
             clearInterval(this.orbitInterval);

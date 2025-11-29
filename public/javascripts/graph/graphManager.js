@@ -76,13 +76,19 @@ export class GraphManager {
      */
     reloadGraph(nextIdToShow = false) {
         return new Promise(resolve => {
-            console.log("GraphData", this.graphData);
+            // Limpiar objetos Three.js no utilizados antes de recargar
+            const currentNodeIds = this.graphData.nodes.map(n => n.id);
+            const currentLinkIds = this.graphData.links.map(l => l.id);
+            const allIds = [...currentNodeIds, ...currentLinkIds];
+            this.threeObjectManager.disposeUnusedObjects(allIds);
+
             try {
                 centrarGrafoEnCero(this.graphData.nodes);
                 this.graph.graphData(this.graphData);
                 this.graph.nodeThreeObject(node => this.threeObjectManager.createObject(node));
                 this.graph.numDimensions(3);
                 this.graph.onEngineStop(() => {
+                    resolve();
                     if (nextIdToShow) {
                         console.log("nextIdToShow", nextIdToShow);
                         var node = this.getNodeById(nextIdToShow);
@@ -92,7 +98,6 @@ export class GraphManager {
                         }
                     }
                     console.log("Reload Finished");
-                    resolve();
                     this.graph.onEngineStop(() => {
                         console.log("onEngineStop");
                         resolve();
@@ -111,7 +116,7 @@ export class GraphManager {
      * @param {string|number} dimensionId - ID de la dimensión
      * @param {string|number} networkId - ID de la red
      */
-    async insertNetworkByDimension(dimensionId, networkId) {
+    async insertNetworkByDimension(dimensionId) {
         try {
             const { neurons, synapses } = await this.dataLoader.insertNetworkByDimension(dimensionId);
             if (neurons.length > 0) {
@@ -185,7 +190,17 @@ export class GraphManager {
      * Limpia todos los datos del grafo
      */
     clearGraph() {
+        // Liberar todos los objetos Three.js antes de limpiar
+        this.threeObjectManager.disposeAll();
         this.graphData = { "nodes": [], "links": [] };
         this.reloadGraph();
+    }
+
+    /**
+     * Libera recursos del grafo
+     */
+    dispose() {
+        this.threeObjectManager.disposeAll();
+        this.clearGraph();
     }
 }

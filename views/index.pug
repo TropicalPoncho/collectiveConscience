@@ -278,7 +278,7 @@ block content
   label.checkbtn(for="check")
     i.material-icons clear_all
   input(name="check",id="check",type="checkbox")
-  .floatingMenu
+  .floatingMenu(dimensionId=0)
     button.bn(id="nosotres", neuronId="0") CONCEPTO
     button.bn(id="obras", neuronId="1") OBRAS
     button.bn(id="audiovisuales", neuronId="2") AUDIOVISUALES
@@ -286,7 +286,7 @@ block content
     button.bn(id="proyectos", neuronId="4") TECNOLOGÍA 
     button.bn(id="laboratorios", neuronId="5") LABORATORIOS
 
-  .lateralFloatingMenu.hidden
+  .lateralFloatingMenu(dimensionId=-1).hidden
     
   .floatingInfo.hidden
     .data

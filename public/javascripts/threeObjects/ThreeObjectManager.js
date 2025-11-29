@@ -88,7 +88,6 @@ export class ThreeObjectManager {
             let objectInstance = new ThreeObjectClass(node);
             this._objectInstances[node.id] = objectInstance;
             if (objectInstance.type === "SinLink") {
-                console.log(this._objectInstances);
                 return objectInstance;
             }
             return objectInstance.mesh;
@@ -105,11 +104,15 @@ export class ThreeObjectManager {
         //Asks if the animation type is "All" so it animates all objects, if not, it animates the one selected
         if(this.animationType == ThreeObjectManager.animationTypes[0]){
             Object.values(this._objectInstances).forEach((objectInstance) => {
-                objectInstance.animate();
+                // Solo animar si no es un link (los links se animan separadamente)
+                if (objectInstance.type !== "SinLink") {
+                    objectInstance.animate();
+                }
             });
         }else{
-            if(this.objectToAnimate)
+            if(this.objectToAnimate && this._objectInstances[this.objectToAnimate]) {
                 this._objectInstances[this.objectToAnimate].animate();
+            }
         }
         
     }
@@ -121,6 +124,93 @@ export class ThreeObjectManager {
                 objectInstance.animate();
             }
         });
+    }
+
+    /**
+     * Libera recursos de objetos Three.js que ya no se usan
+     * @param {Array} nodeIdsToKeep - Array de IDs de nodos a mantener
+     */
+    disposeUnusedObjects(nodeIdsToKeep = []) {
+        const idsToKeep = new Set(nodeIdsToKeep);
+        const idsToRemove = [];
+
+        // Identificar objetos a eliminar
+        Object.keys(this._objectInstances).forEach(id => {
+            if (!idsToKeep.has(id)) {
+                idsToRemove.push(id);
+            }
+        });
+
+        // Disponer y eliminar objetos
+        idsToRemove.forEach(id => {
+            const objectInstance = this._objectInstances[id];
+            if (objectInstance) {
+                // Disponer geometría y material si existen
+                if (objectInstance.mesh) {
+                    this._disposeMesh(objectInstance.mesh);
+                }
+                delete this._objectInstances[id];
+            }
+        });
+
+        console.log(`Liberados ${idsToRemove.length} objetos. Quedan ${Object.keys(this._objectInstances).length}`);
+    }
+
+    /**
+     * Libera recursivamente un mesh y sus hijos
+     * @private
+     */
+    _disposeMesh(mesh) {
+        if (!mesh) return;
+
+        // Disponer hijos recursivamente
+        if (mesh.children && mesh.children.length > 0) {
+            mesh.children.forEach(child => this._disposeMesh(child));
+        }
+
+        // Disponer geometría
+        if (mesh.geometry) {
+            mesh.geometry.dispose();
+        }
+
+        // Disponer material(es)
+        if (mesh.material) {
+            if (Array.isArray(mesh.material)) {
+                mesh.material.forEach(material => this._disposeMaterial(material));
+            } else {
+                this._disposeMaterial(mesh.material);
+            }
+        }
+    }
+
+    /**
+     * Libera un material y sus texturas
+     * @private
+     */
+    _disposeMaterial(material) {
+        if (!material) return;
+
+        // Disponer texturas
+        Object.keys(material).forEach(prop => {
+            if (material[prop] && material[prop].isTexture) {
+                material[prop].dispose();
+            }
+        });
+
+        material.dispose();
+    }
+
+    /**
+     * Limpia todos los objetos
+     */
+    disposeAll() {
+        Object.values(this._objectInstances).forEach(objectInstance => {
+            if (objectInstance.mesh) {
+                this._disposeMesh(objectInstance.mesh);
+            }
+        });
+        this._objectInstances = {};
+        console.log('Todos los objetos Three.js han sido liberados');
     }
 }
 import { LinesThreeObject } from "./linesThreeObject.js";

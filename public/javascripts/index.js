@@ -33,7 +33,7 @@ jQuery(function(){
     var mundo = new Mundo('contentNetwork', 0, showNeuronData, arActive);
     mundo.addElement(new Background(mundo));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
-    $(document).on('click', '.next', function(){
+    $(document).on('click', '.next', async function(){ // Hacemos la función async
         //var nextId = $(this).attr('id');
         var thisNeuronId = $(this).attr('thisNeuronId');
         var synapseType = $(this).attr('synapseType');
@@ -45,7 +45,15 @@ jQuery(function(){
         if(loadType == "goInto"){
             $(".floatingInfo").fadeOut(600); //Muestro la data
         }
-        mundo.loadNext(synapseType, false, loadType, thisNeuronId);
+        
+        // Esperamos a que mundo cargue y nos devuelva las neuronas
+        const newNeurons = await mundo.loadNext(synapseType, false, loadType, thisNeuronId);
+        
+        // Actualizamos el menú lateral con las nuevas neuronas
+        if(newNeurons && newNeurons.length > 0){
+            updateLateralMenu(newNeurons);
+        }
+
         /**
          * TODO: Acá se podría hacer más dinámico para que cargue en caso de q no encuentre ya cargada.
          * Debería buscar por nivel/distancia? -> lo de distancia sirve para sinapsis -> aunque puede haber x distancia y q sean muchas.
@@ -58,15 +66,17 @@ jQuery(function(){
     });
 
     var bnActive = false;
-    $(document).on('click', '.floatingMenu .bn', function(event){
+    $(document).on('click', '.floatingMenu .bn, .lateralFloatingMenu .bn', async function(event){
         var neuronOnFocus = $(this).attr('neuronId');
-        $('.floatingMenu .bn').removeClass('bnfocus');
+        
+        $('[dimensionid="'+mundo.dimension+'"] .bn').removeClass('bnfocus');
         $(this).addClass('bnfocus');
-        mundo.goToNeuron(neuronOnFocus);
+        
+        await mundo.goToNeuron(neuronOnFocus);
     });
     
     $(document).on("click", '.volver', function( event ) {
-        $('.floatingMenu .bn').removeClass('bnfocus');
+        $('[dimensionid="'+mundo.dimension+'"] .bn').removeClass('bnfocus');
         goBack();
     });
 
@@ -106,8 +116,14 @@ jQuery(function(){
         $(".floatingInfo").fadeOut(600);
         bnActive = false;
         $('#check').prop('checked', true);
-        $(".floatingMenu").removeClass('top');
-        $(".floatingTitle").fadeIn(2500);
+        if(mundo.dimension == 0){
+            $(".floatingMenu").removeClass('top');
+            $(".floatingTitle").fadeIn(2500);
+        }
+        
+        // Opcional: Limpiar o restaurar el menú lateral al volver
+        $('.lateralFloatingMenu').fadeOut(2500);
+        $('.lateralFloatingMenu').empty(); 
     }
 
 
@@ -115,6 +131,31 @@ jQuery(function(){
     /* $(document).on('click', '#takeScreenshot', function(){
         takeScreenshot(mundo);
     }); */
+
+    /**
+     * Actualiza el menú lateral con botones para las nuevas neuronas
+     * @param {Array} neurons - Lista de neuronas cargadas
+     */
+    function updateLateralMenu(neurons) {
+        const $menu = $('.lateralFloatingMenu');
+        $menu.empty(); // Limpia el menú actual
+        
+        // Asignar la dimensión actual al contenedor para que el selector funcione
+        $menu.attr('dimensionId', mundo.dimension);
+
+        neurons.forEach(neuron => {
+            // Crea el botón con las mismas clases y atributos que espera el event listener existente
+            const $btn = $('<button>', {
+                class: 'bn',
+                id: 'neuron-' + neuron.id, // ID único para el DOM
+                neuronId: neuron.id,       // Atributo usado por el click handler
+                text: neuron.name || neuron.nickName || 'Sin Nombre'
+            });
+            $menu.append($btn);
+        });
+        
+        $menu.fadeIn(1000);
+    }
 
     function showNeuronData(node){
         if(window.innerWidth < 800){
@@ -124,8 +165,10 @@ jQuery(function(){
             $('#check').prop('checked', true);
             bnActive = true;
         }
-        $('.floatingMenu .bn').removeClass('bnfocus');
+        
+        $('[dimensionid="'+mundo.dimension+'"] .bn').removeClass('bnfocus');
         $('.bn[neuronid="'+node.id+'"]').addClass('bnfocus');
+
         var nodeHtml = node.html; //somasData.filter(textNode => textNode.id == node.id)[0];
         if(nodeHtml?.subtitle)
             $(".subtitle").text(nodeHtml.subtitle);
@@ -194,4 +237,4 @@ function takeScreenshot(mundo){
         document.body.appendChild( imgEl ); 
     }); */
 }
-    
+

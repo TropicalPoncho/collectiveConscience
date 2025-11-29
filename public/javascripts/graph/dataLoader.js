@@ -118,13 +118,24 @@ export class DataLoader {
      * @param {Array} synapseType - Tipo de sinapsis para filtrar las neuronas
      */
     getNetworkBySynapseType(synapseTypes, hideRoot = false) {
-        const filteredSynapses = this.loadedSynapses.filter(s => 
-            synapseTypes.includes(s.type) && ( !hideRoot || (s.source != hideRoot && s.target != hideRoot))
-        );
+        const filteredSynapses = this.loadedSynapses.filter(s => {
+            // Manejar si source/target son objetos (ya procesados por el grafo) o IDs
+            const sourceId = (typeof s.source === 'object' && s.source !== null) ? s.source.id : s.source;
+            const targetId = (typeof s.target === 'object' && s.target !== null) ? s.target.id : s.target;
+            
+            return synapseTypes.includes(s.type) && ( !hideRoot || (sourceId != hideRoot && targetId != hideRoot));
+        });
+
         if (!this.loadedSynapses || filteredSynapses.length === 0) {
             return this.loadNetworkBySynapseType(synapseTypes);
         }
-        const neuronIds = new Set(filteredSynapses.flatMap(s => [s.source, s.target])); 
+        
+        const neuronIds = new Set(filteredSynapses.flatMap(s => {
+            const sourceId = (typeof s.source === 'object' && s.source !== null) ? s.source.id : s.source;
+            const targetId = (typeof s.target === 'object' && s.target !== null) ? s.target.id : s.target;
+            return [sourceId, targetId];
+        })); 
+
         const filteredNeurons = this.loadedNeurons.filter(n => neuronIds.has(n.id));
         return { neurons: filteredNeurons, synapses: filteredSynapses };
     }
@@ -230,8 +241,12 @@ export class DataLoader {
      */
     filterSynapsesByFilteredNeurons(neuronsFiltradas) {
         const neuronIdsSet = new Set(neuronsFiltradas.map(n => n.id));
-        return this.loadedSynapses.filter(s =>
-            neuronIdsSet.has(s.source) && neuronIdsSet.has(s.target)
-        );
+        return this.loadedSynapses.filter(s => {
+            // Verificamos si source/target son objetos (referencias del grafo) o IDs primitivos
+            const sourceId = (typeof s.source === 'object' && s.source !== null) ? s.source.id : s.source;
+            const targetId = (typeof s.target === 'object' && s.target !== null) ? s.target.id : s.target;
+            
+            return neuronIdsSet.has(sourceId) && neuronIdsSet.has(targetId);
+        });
     }
 }

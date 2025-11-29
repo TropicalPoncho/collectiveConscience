@@ -45,66 +45,88 @@ export class AnimationManager {
     
     /**
      * Fade out a negro sobre el canvas de Three.js (animación suave)
+     * @param {Object|null} node - Nodo destino para zoom in. Si es null, hace zoom out.
      * @param {number} duration - Duración de la animación en ms
      * @returns {Promise}
      */
-    fadeOutCanvasToBlack(node, duration = ANIMATION_SETTINGS.FADE_DURATION) {
-        return new Promise(resolve => {
+    async fadeOutCanvasToBlack(node, duration = ANIMATION_SETTINGS.FADE_DURATION) {
+        if (node) {
+            // Si hay nodo, hacemos Zoom IN (entrar en la neurona)
             this.graph.cameraPosition(
-                { x: node.x, y: node.y, z: node.z }, // nueva posición de la cámara
+                { x: node.x, y: node.y, z: node.z }, // nueva posición de la cámara (pegada al nodo)
                 { x: node.x, y: node.y, z: node.z }, // hacia dónde mira
-                duration // duración de la transición
+                duration
             );
-            const fadeDuration = duration * 0.7; // Duración de la transición de opacidad
-            const overlay = this.ensureBlackOverlay();
-            overlay.style.transition = ''; // Desactiva transición CSS
-            let start = null;
-            const animate = now => {
-                if (!start) start = now;
-                const elapsed = now - start;
-                const t = Math.min(elapsed / fadeDuration, 1);
-                overlay.style.opacity = t;
-                if (t < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    overlay.style.opacity = '1';
-                    resolve();
-                }
-            };
-            requestAnimationFrame(animate);
-        });
+        } else {
+            // Si NO hay nodo, hacemos Zoom OUT (alejarse para irse)
+            this.graph.cameraPosition(
+                { x: 0, y: 0, z: GLOBAL_DEFAULT_SETTINGS.longDistance * 2 }, // Nos alejamos mucho
+                { x: 0, y: 0, z: 0 }, // Miramos al centro
+                duration
+            );
+        }
+
+        const fadeDuration = Math.max(duration * 0.7, 1); // Duración de la transición de opacidad
+        const overlay = this.ensureBlackOverlay();
+        overlay.style.opacity = '0';
+        await this.animateOverlayOpacity(overlay, 1, fadeDuration);
     }
 
     /**
      * Fade in desde negro sobre el canvas de Three.js (animación suave)
      * @param {number} duration - Duración de la animación en ms
+     * @param {boolean} zoomIn - Si es true, hace zoom in (de lejos a cerca). Si es false, hace zoom out (de cerca a lejos).
      * @returns {Promise}
      */
-    fadeInCanvasFromBlack(duration = ANIMATION_SETTINGS.FADE_DURATION) {
-        return new Promise(resolve => {
+    async fadeInCanvasFromBlack(duration = ANIMATION_SETTINGS.FADE_DURATION, zoomOut = false) {
+        const overlay = this.ensureBlackOverlay();
+        // forzamos el repaint para que requestAnimationFrame tenga algo que animar
+        overlay.getBoundingClientRect();
+        overlay.style.opacity = '1';
+        var extraDuration = 1.2; 
+        if (zoomOut) {
+            this.graph.cameraPosition(this.lastDimensionNode,this.lastDimensionNode);
             this.graph.cameraPosition(
-                { x: 1800, y: 1800, z: 1500 },
+                { x: 0, y: 0, z: GLOBAL_DEFAULT_SETTINGS.aimDistance },
+                this.lastDimensionNode,
+                duration
+            );
+            extraDuration = 0.5
+        } else {
+            // Efecto Zoom IN (entrar/explosión): Empezar lejos y acercarse
+            this.graph.cameraPosition(
+                { x: 1800, y: 1800, z: 1500 }, 
                 { x: 0, y: 0, z: 0 }
             );
-
             this.graph.zoomToFit(duration, 10);
-            const fadeDuration = duration * 1.2; // Duración de la transición de opacidad
-            const overlay = this.ensureBlackOverlay();
-            overlay.style.transition = ''; // Desactiva transición CSS
+        }
+
+        const fadeDuration = duration * extraDuration;
+        await this.animateOverlayOpacity(overlay, 0, fadeDuration);
+    }
+
+    animateOverlayOpacity(overlay, targetOpacity, duration, startOpacity = null) {
+        return new Promise(resolve => {
+            overlay.style.transition = '';
+            const fromOpacity = startOpacity !== null
+                ? startOpacity
+                : parseFloat(overlay.style.opacity) || 0;
+            const normalizedDuration = Math.max(duration, 1);
+            const delta = targetOpacity - fromOpacity;
             let start = null;
-            const animate = now => {
+            const step = now => {
                 if (!start) start = now;
                 const elapsed = now - start;
-                const t = Math.min(elapsed / fadeDuration, 1);
-                overlay.style.opacity = 1 - t;
+                const t = Math.min(elapsed / normalizedDuration, 1);
+                overlay.style.opacity = (fromOpacity + delta * t).toString();
                 if (t < 1) {
-                    requestAnimationFrame(animate);
+                    requestAnimationFrame(step);
                 } else {
-                    overlay.style.opacity = '0';
+                    overlay.style.opacity = targetOpacity.toString();
                     resolve();
                 }
             };
-            requestAnimationFrame(animate);
+            requestAnimationFrame(step);
         });
     }
 
@@ -158,6 +180,22 @@ export class AnimationManager {
         this.highlightLinks = [];
         this.focusedNodeId = null;
         this.focusedNeighborIds = new Set();
+        this.removeBlackOverlay();
+    }
+
+    /**
+     * Remueve el overlay negro si existe
+     */
+    removeBlackOverlay() {
+        if (!this.graph || !this.graph.renderer()) return;
+        let canvas = this.graph.renderer().domElement;
+        if (!canvas) return;
+        let parent = canvas.parentElement;
+        if (!parent) return;
+        let overlay = parent.querySelector('.threejs-black-fade');
+        if (overlay) {
+            overlay.remove();
+        }
     }
 
 
@@ -167,6 +205,7 @@ export class AnimationManager {
     ensureBlackOverlay() {
         let canvas = this.graph.renderer().domElement;
         let parent = canvas.parentElement;
+        let parent2 = parent.parentElement;
         let overlay = parent.querySelector('.threejs-black-fade');
         if (!overlay) {
             overlay = document.createElement('div');

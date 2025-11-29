@@ -138,13 +138,23 @@ textarea{
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 0; /* Eliminado el gap vertical */
   z-index: 100;
+  align-items: flex-start; /* Alineación a la izquierda */
 }
 
 .lateralFloatingMenu .bn {
   display: block;
   margin: 0;
+  text-align: left; /* Texto a la izquierda */
+  font-size: 12px; /* Fuente más chica */
+  padding: 5px 10px; /* Padding reducido */
+  width: 100%;
+}
+
+/* Regla específica para permitir que bnfocus funcione dentro del menú lateral */
+.lateralFloatingMenu .bn.bnfocus {
+  font-size: 36px;
 }
 
 @media screen and (max-width: 800px) {
