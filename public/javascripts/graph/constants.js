@@ -31,7 +31,7 @@ export const COLORS_ARRAY = [
 // Configuraciones de animación
 export const ANIMATION_SETTINGS = {
     CAMERA_TRANSITION_DURATION: 3000,
-    FADE_DURATION: 500,
+    FADE_DURATION: 300,
     ORBIT_SPEED: Math.PI / 1500,
     ORBIT_INTERVAL: 10,
     ENTER_NEURON_DURATION:5000

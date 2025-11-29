@@ -194,7 +194,7 @@ export default class Mundo {
             if(this.dimension != 0){ //Esta en otra dimensión. Debo volver
                 var {neurons, synapses} = await this.dataLoader.insertNetworkByDimension(0);
                 await this.goBackFromNeuron(neurons, synapses, false);
-                var node = this.graphManager.getNodeById(neuronId);
+                var node = this.activeNodeById(neuronId);
                 if (this.showNeuronsCallBack && node) {
                     this.showNeuronsCallBack(node);
                     return;
@@ -219,11 +219,12 @@ export default class Mundo {
      * @param {string|number|boolean} nodeIdToFocus - ID de la neurona a enfocar (opcional, por defecto false)
      * @param {string} loadType - Tipo de carga: 'add', 'goInto', 'fade'
      */
-    async loadNext(synapseTypes, nodeIdToFocus = false, loadType = 'add', fromNeuronId = null) {
+    async loadNext(synapseTypes, nodeIdToFocus = false, loadType = 'add', fromNeuronId = null, manageMenuesCallback) {
         // Filtrar las neuronas siguientes según los tipos de sinapsis
         const hideRoot = (loadType == "goInto" && fromNeuronId) ? fromNeuronId : false ;
         const result = await this.dataLoader.getNetworkBySynapseType(synapseTypes, hideRoot );
         const { neurons, synapses } = result;
+        
 
         if (!neurons || synapses.length === 0) {
             // No hay neuronas nuevas para cargar
@@ -237,6 +238,7 @@ export default class Mundo {
 
             //Efecto de entrar en la neurona
             await this.goIntoNeuron(fromNeuronId, neurons, synapses, nodeIdToFocus);
+            manageMenuesCallback(neurons);
         } else if(loadType === 'replace') {
 
             await this.graphManager.replaceNetwork(filteredNeurons, synapses, nodeIdToFocus);
@@ -247,6 +249,7 @@ export default class Mundo {
             await this.graphManager.addNodes(neurons, synapses, nodeIdToFocus);
         }
 
+        
         return neurons; // Retornamos las neuronas cargadas para que index.js las use
 /* 
         // Manejo de la cámara
@@ -271,13 +274,13 @@ export default class Mundo {
 
     async goFromToNeuron(node, neurons, synapses, nodeIdToFocus, isBack) {
         // 1. Fade Out
-        await this.animationManager.fadeOutCanvasToBlack(node, 5000);
+        await this.animationManager.fadeOutCanvasToBlack(node, 3000);
 
         // 2. Reemplazar red y ESPERAR a que se completen los objetos
         await this.graphManager.replaceNetwork(neurons, synapses, nodeIdToFocus);
 
         // 4. Fade In
-        await this.animationManager.fadeInCanvasFromBlack(7000, isBack);
+        await this.animationManager.fadeInCanvasFromBlack(4000, isBack);
     }
 
     /**

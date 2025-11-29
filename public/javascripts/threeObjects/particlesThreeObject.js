@@ -6,13 +6,13 @@ export class ParticlesThreeObject extends ThreeObject {
 
     type = 'Particles';
 
-    r = 20;
+    r = 40;
     showDots = false;
     showLines = true;
-    minDistance = 30;
+    minDistance = 15;
     limitConnections = true;
-    maxConnections = 80;
-    maxParticleCount = 100;
+    maxConnections = 20;
+    maxParticleCount = 50;
 
     _particlesData
     particlePositions
@@ -20,6 +20,8 @@ export class ParticlesThreeObject extends ThreeObject {
     colors;
     _pointCloud;
     _linesMesh;
+
+    rHalf = 0;
 
     constructor(node, props){
         super(node);
@@ -29,7 +31,7 @@ export class ParticlesThreeObject extends ThreeObject {
         var rX = this.r ?? node.particlesSize;
         var rY = rX;
         var rZ = rX;
-        var rHalf = rX / 2;
+        this.rHalf = rX / 2;;
         
         
 /*         _maxParticleCount = node.particles?.maxParticleCount ?? effectController.maxParticleCount;
@@ -91,8 +93,8 @@ export class ParticlesThreeObject extends ThreeObject {
 
         const geometry = new THREE.BufferGeometry();
 
-        geometry.setAttribute( 'position', new THREE.BufferAttribute( this._positions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
-        geometry.setAttribute( 'color', new THREE.BufferAttribute( this._colors, 3 ).setUsage( THREE.DynamicDrawUsage ) );
+        geometry.setAttribute( 'position', new THREE.BufferAttribute( this.positions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
+        geometry.setAttribute( 'color', new THREE.BufferAttribute( this.colors, 3 ).setUsage( THREE.DynamicDrawUsage ) );
         geometry.computeBoundingSphere();
 
         geometry.setDrawRange( 0, 0 );
@@ -109,12 +111,26 @@ export class ParticlesThreeObject extends ThreeObject {
         this.mesh = group;
     }
 
+    get particlesData() {
+        return this._particlesData;
+    }
+
+    get pointCloud() {
+        return this._pointCloud;
+    }
+
+    get linesMesh() {
+        return this._linesMesh;
+    }
+
     animate() {
+        const rHalf = this.rHalf;
         let particlesData = this.particlesData;
         let positions = this.positions; 
         let colors = this.colors;
         let pointCloud = this.pointCloud;
         let particlePositions = this.particlePositions; 
+        let limitConnections = this.limitConnections;
 
         let vertexpos = 0;
         let colorpos = 0;
@@ -141,14 +157,14 @@ export class ParticlesThreeObject extends ThreeObject {
             if ( particlePositions[ i * 3 + 2 ] < - rHalf || particlePositions[ i * 3 + 2 ] > rHalf )
                 particleData.velocity.z = - particleData.velocity.z;
 
-            if ( effectController.limitConnections && particleData.numConnections >= this.maxConnections )
+            if ( limitConnections && particleData.numConnections >= this.maxConnections )
                 continue;
 
             // Check collision
             for ( let j = i + 1; j < this.maxParticleCount; j ++ ) {
 
                 const particleDataB = particlesData[ j ];
-                if ( effectController.limitConnections && particleDataB.numConnections >= this.maxConnections )
+                if ( limitConnections && particleDataB.numConnections >= this.maxConnections )
                     continue;
 
                 const dx = particlePositions[ i * 3 ] - particlePositions[ j * 3 ];

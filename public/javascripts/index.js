@@ -33,46 +33,42 @@ jQuery(function(){
     var mundo = new Mundo('contentNetwork', 0, showNeuronData, arActive);
     mundo.addElement(new Background(mundo));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
-    $(document).on('click', '.next', async function(){ // Hacemos la función async
-        //var nextId = $(this).attr('id');
-        var thisNeuronId = $(this).attr('thisNeuronId');
-        var synapseType = $(this).attr('synapseType');
+    //Maneja la acción de los btn tipo "next"
+    $(document).on('click', '.next', async function(){
+        var thisNeuronId = $(this).attr('thisNeuronId'); //id NeuronaClickeada
+        var synapseType = $(this).attr('synapseType'); //Tipos de neurona
+        var nextDimensionId = $(this).attr('nextDimensionId'); //Siguiente dimensión (puede ser igual a la actual)
         var loadType = $(this).attr('loadType');
 
-        if($(this).attr('url')){
+        if($(this).attr('url')){ //Si tiene url es link externo
             window.location.replace("https://tropicalponcho.art");
         }
-        if(loadType == "goInto"){
-            $(".floatingInfo").fadeOut(600); //Muestro la data
-        }
-        
-        // Esperamos a que mundo cargue y nos devuelva las neuronas
-        const newNeurons = await mundo.loadNext(synapseType, false, loadType, thisNeuronId);
-        
-        // Actualizamos el menú lateral con las nuevas neuronas
-        if(newNeurons && newNeurons.length > 0){
-            updateLateralMenu(newNeurons);
-        }
 
-        /**
-         * TODO: Acá se podría hacer más dinámico para que cargue en caso de q no encuentre ya cargada.
-         * Debería buscar por nivel/distancia? -> lo de distancia sirve para sinapsis -> aunque puede haber x distancia y q sean muchas.
-         * -> en ese caso debería haber un limite de visualización y que se vayan quitando los q se alejan para atrás en "nivel"
-         * -> más que nivel sería una magnitud de "distancia cosmica ahr", pero que se debería calcular en base a otra cosa porq si es solo en cuanto a
-         * distancia de intermediarios, igual puede tenerse mucho en este nivel. entonces hay que limitar primero por distancia y luego (si excede el limite) 
-         * por nivel de afinidad y ese valor debería calcularse mediante KE? -> aleatorio u orden (orden de la relación)! 
-         * 
-         */
+        if(loadType == "goInto"){
+            $(".floatingInfo").fadeOut(600); //Oculto la data
+        }
+        
+        await mundo.loadNext(synapseType, false, loadType, thisNeuronId, manageMenues);
+        
     });
 
     var bnActive = false;
     $(document).on('click', '.floatingMenu .bn, .lateralFloatingMenu .bn', async function(event){
-        var neuronOnFocus = $(this).attr('neuronId');
+        var neuronToGo = $(this).attr('neuronId'); //id de neurona clickeada
         
-        $('[dimensionid="'+mundo.dimension+'"] .bn').removeClass('bnfocus');
+        if($(this).parent().attr('dimensionid') == 0){
+            $('.lateralFloatingMenu').fadeOut(500);
+        }
+/*         if(mundo.dimension == 0){ //Si la dimensión es 0, el menu directamente hay que ocultarlo
+            $('[dimensionid="'+mundo.dimension+'"]').fadeOut(500);
+        }
+         */
+        //Modifico btns en focus
+        $(this).siblings().removeClass('bnfocus');
         $(this).addClass('bnfocus');
-        
-        await mundo.goToNeuron(neuronOnFocus);
+
+        await mundo.goToNeuron(neuronToGo); //en este caso no debería devolver neuronas nuevas
+        manageMenues();
     });
     
     $(document).on("click", '.volver', function( event ) {
@@ -110,6 +106,13 @@ jQuery(function(){
         return false;
     });
 
+    function manageMenues(newNeurons = []){        
+        // Actualizamos el menú lateral con las nuevas neuronas
+        if(newNeurons && newNeurons.length > 0){
+            updateLateralMenu(newNeurons);
+        }
+    }
+
     function goBack(){
         $(".floatingMenu .bn").show();
         mundo.cameraController.backToBasicsView();
@@ -120,10 +123,6 @@ jQuery(function(){
             $(".floatingMenu").removeClass('top');
             $(".floatingTitle").fadeIn(2500);
         }
-        
-        // Opcional: Limpiar o restaurar el menú lateral al volver
-        $('.lateralFloatingMenu').fadeOut(2500);
-        $('.lateralFloatingMenu').empty(); 
     }
 
 
@@ -139,7 +138,7 @@ jQuery(function(){
     function updateLateralMenu(neurons) {
         const $menu = $('.lateralFloatingMenu');
         $menu.empty(); // Limpia el menú actual
-        
+        $menu.fadeIn(600);
         // Asignar la dimensión actual al contenedor para que el selector funcione
         $menu.attr('dimensionId', mundo.dimension);
 
@@ -154,7 +153,6 @@ jQuery(function(){
             $menu.append($btn);
         });
         
-        $menu.fadeIn(1000);
     }
 
     function showNeuronData(node){
@@ -205,7 +203,6 @@ jQuery(function(){
         }else{
             $(".next").hide();
         }
-        //console.log("nodeside:" + node.side);
         if(node.side == "izq"){
             $(".floatingInfo").addClass("izq");
             $(".floatingInfo").removeClass("der");

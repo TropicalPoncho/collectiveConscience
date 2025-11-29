@@ -73,7 +73,7 @@ export class CameraController {
             };
             lookAt.y = node.y - offsetY;
             returnSide = "center";
-        } else if (node.x < 0) {
+        } else if (node.x < 0 && node.dimensionId == 0) {
             // Cámara a la izquierda
             newPos = { 
                 x: node.x - offsetX, 

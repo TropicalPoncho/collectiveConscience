@@ -5,6 +5,7 @@ import { ANIMATION_SETTINGS, GLOBAL_DEFAULT_SETTINGS } from './constants.js';
  * Maneja animaciones de nodos, enlaces y transiciones visuales
  */
 export class AnimationManager {
+    lastDimensionNode;
     constructor(graph, threeObjectManager, cameraController) {
         this.graph = graph;
         this.threeObjectManager = threeObjectManager;
@@ -51,6 +52,7 @@ export class AnimationManager {
      */
     async fadeOutCanvasToBlack(node, duration = ANIMATION_SETTINGS.FADE_DURATION) {
         if (node) {
+            this.lastDimensionNode = node;
             // Si hay nodo, hacemos Zoom IN (entrar en la neurona)
             this.graph.cameraPosition(
                 { x: node.x, y: node.y, z: node.z }, // nueva posición de la cámara (pegada al nodo)
@@ -87,7 +89,7 @@ export class AnimationManager {
         if (zoomOut) {
             this.graph.cameraPosition(this.lastDimensionNode,this.lastDimensionNode);
             this.graph.cameraPosition(
-                { x: 0, y: 0, z: GLOBAL_DEFAULT_SETTINGS.aimDistance },
+                { x: this.lastDimensionNode.x, y: this.lastDimensionNode.y, z: GLOBAL_DEFAULT_SETTINGS.aimDistance },
                 this.lastDimensionNode,
                 duration
             );
