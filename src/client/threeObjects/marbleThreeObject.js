@@ -22,6 +22,8 @@ const displacementMapURL = 'https://i.imgur.com/L1pqRg9.jpeg'
  */
 export class MarbleThreeObject extends ThreeObject  {
 
+    static type = 'Marble';
+
 /*     params = {
         roughness: 0.1,
         iterations: 32,

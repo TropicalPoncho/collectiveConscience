@@ -2,7 +2,7 @@ import {ThreeObject}  from './ThreeObject.js';
 
 export class LinkThreeObject extends ThreeObject  {
 
-    type = 'SinLink';
+    static type = 'SinLink';
     start;
     end;
     segments = 30;

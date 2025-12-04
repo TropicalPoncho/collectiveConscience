@@ -1,3 +1,5 @@
+import './styles/style.css';
+import './styles/index.css';
 import Background from "./graph/background.js";
 import Mundo from "./graph/mundo.js";
 

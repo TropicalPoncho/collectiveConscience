@@ -10,7 +10,7 @@ function randomPointOnSphere(radius) {
 
 export class CrossedLinesThreeObject extends ThreeObject {
 
-    type = 'CrossedLines';
+    static type = 'CrossedLines';
 
     constructor (node, config){
         super(node);

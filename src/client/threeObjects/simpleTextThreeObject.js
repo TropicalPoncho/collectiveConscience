@@ -1,9 +1,9 @@
 import {ThreeObject}  from "./ThreeObject.js";
-import SpriteText from "//unpkg.com/three-spritetext/dist/three-spritetext.mjs";
+import SpriteText from 'three-spritetext';
 
 export class SimpleTextThreeObject extends ThreeObject  {
 
-    type = 'SimpleText';
+    static type = 'SimpleText';
 
     constructor (node, config){
         super(node, false);

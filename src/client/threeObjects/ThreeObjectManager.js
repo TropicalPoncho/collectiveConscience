@@ -213,35 +213,17 @@ export class ThreeObjectManager {
         console.log('Todos los objetos Three.js han sido liberados');
     }
 }
-import { LinesThreeObject } from "./linesThreeObject.js";
-import { ImageThreeObject } from "./imageThreeObject.js";
-import { ParticlesThreeObject } from "./particlesThreeObject.js";
-import { MarbleThreeObject } from "./marbleThreeObject.js";
-import { NoiseThreeObject } from "./noiseThreeObject.js";
-import { FireThreeObject } from "./fireThreeObject.js";
-import { LightsThreeObject } from "./lightsThreeObject.js";
-import { TwistThreeObject } from "./twistThreeObject.js";
-import { PerlinThreeObject } from "./perlinThreeObject.js";
-import { PerlinNoiseThreeObject } from "./perlinNoiseThreeObject.js";
-import { WaveLineThreeObject } from "./waveLineThreeObject.js";
-import { TextThreeObject } from "./textThreeObject.js";
-import { SimpleTextThreeObject } from "./simpleTextThreeObject.js";
-import { LinkThreeObject } from "./linkThreeObject.js";
-import { CrossedLinesThreeObject } from "./crossedLinesThreeObject.js";
-//import { LikeFireThreeObject } from "./LikeFireThreeObject.js";
-//ThreeObjectManager.registerType('Lines', LinesThreeObject, true);
-ThreeObjectManager.registerType('Image', ImageThreeObject);
-ThreeObjectManager.registerType('Particles', ParticlesThreeObject);
-ThreeObjectManager.registerType('Marble', MarbleThreeObject);
-ThreeObjectManager.registerType('Noise', NoiseThreeObject);
-ThreeObjectManager.registerType('Fire', FireThreeObject);
-ThreeObjectManager.registerType('Lights', LightsThreeObject);
-ThreeObjectManager.registerType('Twist', TwistThreeObject);
-ThreeObjectManager.registerType('Perlin', PerlinThreeObject);
-ThreeObjectManager.registerType('Perlin Noise', PerlinNoiseThreeObject);
-ThreeObjectManager.registerType('Wave Line', WaveLineThreeObject);
-ThreeObjectManager.registerType('Text', TextThreeObject);
-ThreeObjectManager.registerType('SimpleText', SimpleTextThreeObject);
-ThreeObjectManager.registerType('SinLink', LinkThreeObject);
-ThreeObjectManager.registerType('CrossedLines', CrossedLinesThreeObject);
-//ThreeObjectManager.registerType('LikeFire', LikeFireThreeObject);
+
+// Auto-register all ThreeObject subclasses found in this directory
+const modules = import.meta.glob('./*ThreeObject.js', { eager: true });
+
+for (const path in modules) {
+    const module = modules[path];
+    // Iterate over exports to find classes extending ThreeObject (or just having a static type)
+    for (const key in module) {
+        const ExportedClass = module[key];
+        if (ExportedClass && ExportedClass.type) {
+             ThreeObjectManager.registerType(ExportedClass.type, ExportedClass);
+        }
+    }
+}

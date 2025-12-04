@@ -2,7 +2,7 @@ import {ThreeObject}  from './ThreeObject.js';
 
 export class WaveLineThreeObject extends ThreeObject  {
 
-    type = 'Wave Line';
+    static type = 'Wave Line';
 
     constructor (node, config){
         super(node);

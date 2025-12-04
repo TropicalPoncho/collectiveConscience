@@ -4,7 +4,7 @@ import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 export class TextThreeObject extends ThreeObject  {
 
-    type = 'Text';
+    static type = 'Text';
 
     constructor (node, config){
         super(node, false);

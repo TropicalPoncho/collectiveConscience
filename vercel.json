@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/neurons(.*)", "destination": "/api/index.js" },
+    { "source": "/network(.*)", "destination": "/api/index.js" },
+    { "source": "/synapses(.*)", "destination": "/api/index.js" },
+    { "source": "/soma(.*)", "destination": "/api/index.js" },
+    { "source": "/users(.*)", "destination": "/api/index.js" },
+    { "source": "/submit-form(.*)", "destination": "/api/index.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

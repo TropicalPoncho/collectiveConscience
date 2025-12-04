@@ -4,7 +4,7 @@ import { HDRCubeTextureLoader } from 'three/addons/loaders/HDRCubeTextureLoader.
 
 export class NoiseThreeObject extends ThreeObject  {
 
-    type = 'Noise';
+    static type = 'Noise';
 
     constructor (node, config){
         super(node);

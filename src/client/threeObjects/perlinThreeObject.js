@@ -8,7 +8,7 @@ import { ThreeObject } from "./ThreeObject.js";
 
 export class PerlinThreeObject extends ThreeObject{
 
-    type = 'Perlin';
+    static type = 'Perlin';
 
     constructor(node){
         super(node);

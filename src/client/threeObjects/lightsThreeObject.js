@@ -2,7 +2,7 @@ import {ThreeObject}  from './ThreeObject.js';
 
 export class LightsThreeObject extends ThreeObject  {
 
-    type = 'Lights';
+    static type = 'Lights';
 
     constructor (node, config){
         super(node);

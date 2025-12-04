@@ -1,9 +1,11 @@
-import { CSS2DObject } from '//unpkg.com/three/examples/jsm/renderers/CSS2DRenderer.js';
+import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 
 /**
  * Represents a three-dimensional object.
  */
 export class ThreeObject {
+
+    get type() { return this.constructor.type; }
 
     uniforms;
     title;

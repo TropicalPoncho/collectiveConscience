@@ -3,7 +3,7 @@ import { GLOBAL_DEFAULT_SETTINGS } from '../graph/constants.js';
 
 export class ImageThreeObject extends ThreeObject  {
 
-    type = 'Image';
+    static type = 'Image';
     imgSize = GLOBAL_DEFAULT_SETTINGS.imgSize;
 
     constructor (node, config){

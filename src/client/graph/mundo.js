@@ -1,5 +1,8 @@
+import ForceGraph3D from '3d-force-graph';
+import ForceGraphAR from '3d-force-graph-ar';
+import * as THREE from 'three';
 import {ThreeObjectManager}  from '../threeObjects/ThreeObjectManager.js';
-import Stats from 'three/addons/libs/stats.module'
+import Stats from 'three/addons/libs/stats.module.js'
 import { GLOBAL_DEFAULT_SETTINGS, COLORS_ARRAY, ANIMATION_SETTINGS, CAMERA_SETTINGS } from './constants.js';
 import { getSide, createLinks } from './utils.js';
 import { CameraController } from './cameraController.js';

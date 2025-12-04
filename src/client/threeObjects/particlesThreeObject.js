@@ -4,7 +4,7 @@ function randomPosNeg() { return Math.round(Math.random()) * 2 - 1; }
 
 export class ParticlesThreeObject extends ThreeObject {
 
-    type = 'Particles';
+    static type = 'Particles';
 
     r = 40;
     showDots = false;

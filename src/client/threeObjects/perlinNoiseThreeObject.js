@@ -2,7 +2,7 @@ import {ThreeObject}  from "./ThreeObject.js";
 
 export class PerlinNoiseThreeObject extends ThreeObject {
 
-    type = 'Perlin Noise';
+    static type = 'Perlin Noise';
 
     constructor (node, config){
         super(node);
