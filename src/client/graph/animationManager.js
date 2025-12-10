@@ -189,8 +189,10 @@ export class AnimationManager {
      * Remueve el overlay negro si existe
      */
     removeBlackOverlay() {
-        if (!this.graph || !this.graph.renderer()) return;
-        let canvas = this.graph.renderer().domElement;
+        if (!this.graph || !this.graph.renderer) return;
+        let renderer = this.graph.renderer();
+        if (!renderer) return;
+        let canvas = renderer.domElement;
         if (!canvas) return;
         let parent = canvas.parentElement;
         if (!parent) return;
@@ -205,7 +207,10 @@ export class AnimationManager {
      * Crea (si no existe) un overlay negro sobre el canvas
      */
     ensureBlackOverlay() {
-        let canvas = this.graph.renderer().domElement;
+        if (!this.graph || !this.graph.renderer) return null;
+        let renderer = this.graph.renderer();
+        if (!renderer) return null;
+        let canvas = renderer.domElement;
         let parent = canvas.parentElement;
         let parent2 = parent.parentElement;
         let overlay = parent.querySelector('.threejs-black-fade');

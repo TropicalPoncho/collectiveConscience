@@ -41,8 +41,8 @@ export default class Background {
 
         //this.scene.fog = new THREE.Fog(this.backgroundColor, 1, 300000);
 
-        if(this.backgroundColor){
-            this.scene.background = new THREE.Color( this.backgroundColor ); 
+        if(this.backgroundColor && this.scene){
+            this.scene.background = new THREE.Color( this.backgroundColor );
         }
 
         // En tu inicialización de la escena (por ejemplo, en el constructor de Mundo)
@@ -71,7 +71,9 @@ export default class Background {
         });
 
         const stars = new THREE.Points(geometry, material);
-        this.scene.add(stars); // Asegúrate de tener acceso a this.scene
+        if(this.scene){
+            this.scene.add(stars); // Asegúrate de tener acceso a this.scene
+        }
         
         /* const axesHelper = new THREE. AxesHelper( 1000 );
         /* this.scene.add( axesHelper ); */

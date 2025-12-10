@@ -6,10 +6,9 @@ import { getSide } from './utils.js';
  * Maneja posicionamiento, orbit, zoom y animaciones de cámara
  */
 export class CameraController {
-    constructor(graph, camera, scene, renderer) {
+    constructor(graph, camera, renderer) {
         this.graph = graph;
         this.camera = camera;
-        this.scene = scene;
         this.renderer = renderer;
         
         // Estado del orbit

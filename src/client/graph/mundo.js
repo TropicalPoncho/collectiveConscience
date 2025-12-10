@@ -4,7 +4,10 @@ import * as THREE from 'three';
 
 let ForceGraphAR;
 if (window.location.pathname === '/ar') {
-    await import('aframe');
+    // Importar solo AR.js, ya que parece que trae A-Frame o lo registra.
+    // Si esto falla porque falta A-Frame, entonces el problema es otro.
+    // Pero el error "already been used" indica duplicidad.
+    // await import('aframe'); 
     await import('@ar-js-org/ar.js');
     ForceGraphAR = (await import('3d-force-graph-ar')).default;
 }
@@ -75,7 +78,8 @@ export default class Mundo {
                     type: 'pattern',
                     url: '/ar/sticker01.patt'
                 }); */
-            this.scene = this.Graph.scene();
+            // En modo AR, la escena puede no estar expuesta directamente o ser gestionada internamente
+            this.scene = this.Graph.scene ? this.Graph.scene() : null;
         }
         // Inicializar el controlador de cámara
         this.cameraController = new CameraController(this.Graph, this.camera, this.scene, this.renderer);
@@ -152,12 +156,14 @@ export default class Mundo {
     // ========================================
 
     consoleLogPosition(position = false){
-        var pos = position ?? this.camera.position;
+        var pos = position ?? (this.camera ? this.camera.position : {x:0, y:0, z:0});
         console.log(pos.x + " " + pos.y + " " + pos.z);
         var numMeshes = 0;
-        scene.traverse(function(o) {
-            if (o.isMesh) numMeshes++;
-        });
+        if (this.scene) {
+            this.scene.traverse(function(o) {
+                if (o.isMesh) numMeshes++;
+            });
+        }
         //console.log('There are ' + numMeshes + ' meshes in this scene.');
     }
 
