@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import {ThreeObject}  from './ThreeObject.js';
 
 export class LinkThreeObject extends ThreeObject  {
@@ -66,3 +67,4 @@ export class LinkThreeObject extends ThreeObject  {
     }
 
 }
+

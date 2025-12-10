@@ -1,4 +1,6 @@
+import * as THREE from 'three';
 import {ThreeObject}  from './ThreeObject.js';
+import { noiseFS } from '../shaders/noise.js';
 
 export class TwistThreeObject extends ThreeObject  {
 
@@ -26,7 +28,7 @@ export class TwistThreeObject extends ThreeObject  {
         var material = new THREE.ShaderMaterial( {
             uniforms: { ...this.globalUniforms, ...this.uniforms },
             vertexShader: `
-                ${document.getElementById( 'noiseFS' ).textContent}
+                ${noiseFS}
 
                 mat3 rotation3dY(float angle) {
                     float s = sin(angle);
@@ -120,3 +122,4 @@ export class TwistThreeObject extends ThreeObject  {
     }
 
 }
+

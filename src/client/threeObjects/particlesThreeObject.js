@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import {ThreeObject}  from "./ThreeObject.js";
 
 function randomPosNeg() { return Math.round(Math.random()) * 2 - 1; }

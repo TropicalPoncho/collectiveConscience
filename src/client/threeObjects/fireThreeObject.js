@@ -1,4 +1,6 @@
+import * as THREE from 'three';
 import {ThreeObject}  from './ThreeObject.js';
+import { noiseFS } from '../shaders/noise.js';
 
 export class FireThreeObject extends ThreeObject  {
 
@@ -17,7 +19,7 @@ export class FireThreeObject extends ThreeObject  {
         var material = new THREE.ShaderMaterial( {
             uniforms: {...this.globalUniforms, ...this.localUniforms},
             vertexShader: `
-                ${document.getElementById( 'noiseFS' ).textContent}
+                ${noiseFS}
                 varying vec2 vUv;
                 varying vec3 vReflect;
                 varying vec3 pos;
@@ -96,3 +98,4 @@ export class FireThreeObject extends ThreeObject  {
     }
 
 }
+

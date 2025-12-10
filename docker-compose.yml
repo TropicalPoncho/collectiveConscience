@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   collectiveconscience:
-    image: collectiveconscience:vite
+    image: collectiveconscience
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -13,25 +13,11 @@ services:
       - MONGO_HOSTNAME=mongo
       - MONGO_PORT=$MONGO_PORT
       - MONGO_DB=$MONGO_DB
+    command: npm run dev
     ports:
       - 3000:3000
     volumes:
       - ./:/usr/src/app
-
-  client:
-    image: collectiveconscience:vite
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    command: npm run dev:client
-    environment:
-      - API_URL=http://collectiveconscience:3000
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./:/usr/src/app
-    depends_on:
-      - collectiveconscience
 
   mongo:
     image: mongo

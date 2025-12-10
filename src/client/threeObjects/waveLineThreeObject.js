@@ -1,4 +1,6 @@
+import * as THREE from 'three';
 import {ThreeObject}  from './ThreeObject.js';
+import { noiseFS } from '../shaders/noise.js';
 
 export class WaveLineThreeObject extends ThreeObject  {
 
@@ -101,7 +103,7 @@ export class WaveLineThreeObject extends ThreeObject  {
                 }
             `,
             fragmentShader: `	
-                ${document.getElementById( 'noiseFS' ).textContent}
+                ${noiseFS}
                 varying vec3 vNormal;
                 uniform sampler2D tShine;
                 uniform float time;

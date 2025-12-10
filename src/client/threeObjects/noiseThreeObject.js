@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import {ThreeObject}  from './ThreeObject.js';
 
 import { HDRCubeTextureLoader } from 'three/addons/loaders/HDRCubeTextureLoader.js'; 
@@ -34,3 +35,4 @@ export class NoiseThreeObject extends ThreeObject  {
     animate(){
     }
 }
+

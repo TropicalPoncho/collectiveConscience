@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import CustomShaderMaterial from '/node_modules/three-custom-shader-material/vanilla'
 import { ThreeObject } from "./ThreeObject.js";
 
@@ -44,3 +45,4 @@ export class LikeFireThreeObject extends ThreeObject{
         this.globalUniforms.time.value = t * 0.1;
     }
 }
+

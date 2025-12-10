@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import {ThreeObject}  from "./ThreeObject.js";
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
@@ -61,4 +62,5 @@ export class TextThreeObject extends ThreeObject  {
         } );
     }
 }
+
 

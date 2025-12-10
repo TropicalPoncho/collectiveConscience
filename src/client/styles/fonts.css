@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-BlackItalic.woff2') format('woff2'),
-        url('../fonts/Roboto-BlackItalic.woff') format('woff');
+    src: url('/fonts/Roboto-BlackItalic.woff2') format('woff2'),
+        url('/fonts/Roboto-BlackItalic.woff') format('woff');
     font-weight: 900;
     font-style: italic;
     font-display: swap;
@@ -9,8 +9,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-Black.woff2') format('woff2'),
-        url('../fonts/Roboto-Black.woff') format('woff');
+    src: url('/fonts/Roboto-Black.woff2') format('woff2'),
+        url('/fonts/Roboto-Black.woff') format('woff');
     font-weight: 900;
     font-style: normal;
     font-display: swap;
@@ -18,8 +18,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-Bold.woff2') format('woff2'),
-        url('../fonts/Roboto-Bold.woff') format('woff');
+    src: url('/fonts/Roboto-Bold.woff2') format('woff2'),
+        url('/fonts/Roboto-Bold.woff') format('woff');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -27,8 +27,8 @@
 
 @font-face {
     font-family: 'Roboto Condensed';
-    src: url('../fonts/RobotoCondensed-BoldItalic.woff2') format('woff2'),
-        url('../fonts/RobotoCondensed-BoldItalic.woff') format('woff');
+    src: url('/fonts/RobotoCondensed-BoldItalic.woff2') format('woff2'),
+        url('/fonts/RobotoCondensed-BoldItalic.woff') format('woff');
     font-weight: bold;
     font-style: italic;
     font-display: swap;
@@ -36,8 +36,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-BoldItalic.woff2') format('woff2'),
-        url('../fonts/Roboto-BoldItalic.woff') format('woff');
+    src: url('/fonts/Roboto-BoldItalic.woff2') format('woff2'),
+        url('/fonts/Roboto-BoldItalic.woff') format('woff');
     font-weight: bold;
     font-style: italic;
     font-display: swap;
@@ -45,8 +45,8 @@
 
 @font-face {
     font-family: 'Roboto Condensed';
-    src: url('../fonts/RobotoCondensed-Bold.woff2') format('woff2'),
-        url('../fonts/RobotoCondensed-Bold.woff') format('woff');
+    src: url('/fonts/RobotoCondensed-Bold.woff2') format('woff2'),
+        url('/fonts/RobotoCondensed-Bold.woff') format('woff');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -54,8 +54,8 @@
 
 @font-face {
     font-family: 'Roboto Condensed';
-    src: url('../fonts/RobotoCondensed-Light.woff2') format('woff2'),
-        url('../fonts/RobotoCondensed-Light.woff') format('woff');
+    src: url('/fonts/RobotoCondensed-Light.woff2') format('woff2'),
+        url('/fonts/RobotoCondensed-Light.woff') format('woff');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -63,8 +63,8 @@
 
 @font-face {
     font-family: 'Roboto Condensed';
-    src: url('../fonts/RobotoCondensed-Italic.woff2') format('woff2'),
-        url('../fonts/RobotoCondensed-Italic.woff') format('woff');
+    src: url('/fonts/RobotoCondensed-Italic.woff2') format('woff2'),
+        url('/fonts/RobotoCondensed-Italic.woff') format('woff');
     font-weight: normal;
     font-style: italic;
     font-display: swap;
@@ -72,8 +72,8 @@
 
 @font-face {
     font-family: 'Roboto Condensed';
-    src: url('../fonts/RobotoCondensed-LightItalic.woff2') format('woff2'),
-        url('../fonts/RobotoCondensed-LightItalic.woff') format('woff');
+    src: url('/fonts/RobotoCondensed-LightItalic.woff2') format('woff2'),
+        url('/fonts/RobotoCondensed-LightItalic.woff') format('woff');
     font-weight: 300;
     font-style: italic;
     font-display: swap;
@@ -81,8 +81,8 @@
 
 @font-face {
     font-family: 'Roboto Condensed';
-    src: url('../fonts/RobotoCondensed-Regular.woff2') format('woff2'),
-        url('../fonts/RobotoCondensed-Regular.woff') format('woff');
+    src: url('/fonts/RobotoCondensed-Regular.woff2') format('woff2'),
+        url('/fonts/RobotoCondensed-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -90,8 +90,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-Italic.woff2') format('woff2'),
-        url('../fonts/Roboto-Italic.woff') format('woff');
+    src: url('/fonts/Roboto-Italic.woff2') format('woff2'),
+        url('/fonts/Roboto-Italic.woff') format('woff');
     font-weight: normal;
     font-style: italic;
     font-display: swap;
@@ -99,8 +99,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-Light.woff2') format('woff2'),
-        url('../fonts/Roboto-Light.woff') format('woff');
+    src: url('/fonts/Roboto-Light.woff2') format('woff2'),
+        url('/fonts/Roboto-Light.woff') format('woff');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -108,8 +108,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-LightItalic.woff2') format('woff2'),
-        url('../fonts/Roboto-LightItalic.woff') format('woff');
+    src: url('/fonts/Roboto-LightItalic.woff2') format('woff2'),
+        url('/fonts/Roboto-LightItalic.woff') format('woff');
     font-weight: 300;
     font-style: italic;
     font-display: swap;
@@ -117,8 +117,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-Medium.woff2') format('woff2'),
-        url('../fonts/Roboto-Medium.woff') format('woff');
+    src: url('/fonts/Roboto-Medium.woff2') format('woff2'),
+        url('/fonts/Roboto-Medium.woff') format('woff');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -126,8 +126,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-MediumItalic.woff2') format('woff2'),
-        url('../fonts/Roboto-MediumItalic.woff') format('woff');
+    src: url('/fonts/Roboto-MediumItalic.woff2') format('woff2'),
+        url('/fonts/Roboto-MediumItalic.woff') format('woff');
     font-weight: 500;
     font-style: italic;
     font-display: swap;
@@ -135,8 +135,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-Regular.woff2') format('woff2'),
-        url('../fonts/Roboto-Regular.woff') format('woff');
+    src: url('/fonts/Roboto-Regular.woff2') format('woff2'),
+        url('/fonts/Roboto-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -144,8 +144,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-ThinItalic.woff2') format('woff2'),
-        url('../fonts/Roboto-ThinItalic.woff') format('woff');
+    src: url('/fonts/Roboto-ThinItalic.woff2') format('woff2'),
+        url('/fonts/Roboto-ThinItalic.woff') format('woff');
     font-weight: 100;
     font-style: italic;
     font-display: swap;
@@ -153,8 +153,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../fonts/Roboto-Thin.woff2') format('woff2'),
-        url('../fonts/Roboto-Thin.woff') format('woff');
+    src: url('/fonts/Roboto-Thin.woff2') format('woff2'),
+        url('/fonts/Roboto-Thin.woff') format('woff');
     font-weight: 100;
     font-style: normal;
     font-display: swap;
@@ -163,8 +163,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-Black'),
-        url('../fonts/Gotham-Black.woff2') format('woff2'),
-        url('../fonts/Gotham-Black.woff') format('woff');
+        url('/fonts/Gotham-Black.woff2') format('woff2'),
+        url('/fonts/Gotham-Black.woff') format('woff');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -173,8 +173,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-Bold'),
-        url('../fonts/Gotham-Bold.woff2') format('woff2'),
-        url('../fonts/Gotham-Bold.woff') format('woff');
+        url('/fonts/Gotham-Bold.woff2') format('woff2'),
+        url('/fonts/Gotham-Bold.woff') format('woff');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -183,8 +183,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-Bold'),
-        url('../fonts/Gotham-Bold.woff2') format('woff2'),
-        url('../fonts/Gotham-Bold.woff') format('woff');
+        url('/fonts/Gotham-Bold.woff2') format('woff2'),
+        url('/fonts/Gotham-Bold.woff') format('woff');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -193,8 +193,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-BoldItalic'),
-        url('../fonts/Gotham-BoldItalic.woff2') format('woff2'),
-        url('../fonts/Gotham-BoldItalic.woff') format('woff');
+        url('/fonts/Gotham-BoldItalic.woff2') format('woff2'),
+        url('/fonts/Gotham-BoldItalic.woff') format('woff');
     font-weight: bold;
     font-style: italic;
     font-display: swap;
@@ -203,8 +203,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-Book'),
-        url('../fonts/Gotham-Book.woff2') format('woff2'),
-        url('../fonts/Gotham-Book.woff') format('woff');
+        url('/fonts/Gotham-Book.woff2') format('woff2'),
+        url('/fonts/Gotham-Book.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -213,8 +213,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-BookItalic'),
-        url('../fonts/Gotham-BookItalic.woff2') format('woff2'),
-        url('../fonts/Gotham-BookItalic.woff') format('woff');
+        url('/fonts/Gotham-BookItalic.woff2') format('woff2'),
+        url('/fonts/Gotham-BookItalic.woff') format('woff');
     font-weight: 500;
     font-style: italic;
     font-display: swap;
@@ -223,8 +223,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-BookItalic'),
-        url('../fonts/Gotham-BookItalic.woff2') format('woff2'),
-        url('../fonts/Gotham-BookItalic.woff') format('woff');
+        url('/fonts/Gotham-BookItalic.woff2') format('woff2'),
+        url('/fonts/Gotham-BookItalic.woff') format('woff');
     font-weight: normal;
     font-style: italic;
     font-display: swap;
@@ -233,8 +233,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-Light'),
-        url('../fonts/Gotham-Light.woff2') format('woff2'),
-        url('../fonts/Gotham-Light.woff') format('woff');
+        url('/fonts/Gotham-Light.woff2') format('woff2'),
+        url('/fonts/Gotham-Light.woff') format('woff');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -243,8 +243,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-Light'),
-        url('../fonts/Gotham-Light.woff2') format('woff2'),
-        url('../fonts/Gotham-Light.woff') format('woff');
+        url('/fonts/Gotham-Light.woff2') format('woff2'),
+        url('/fonts/Gotham-Light.woff') format('woff');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -253,8 +253,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-LightItalic'),
-        url('../fonts/Gotham-LightItalic.woff2') format('woff2'),
-        url('../fonts/Gotham-LightItalic.woff') format('woff');
+        url('/fonts/Gotham-LightItalic.woff2') format('woff2'),
+        url('/fonts/Gotham-LightItalic.woff') format('woff');
     font-weight: 300;
     font-style: italic;
     font-display: swap;
@@ -263,8 +263,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-Medium'),
-        url('../fonts/Gotham-Medium.woff2') format('woff2'),
-        url('../fonts/Gotham-Medium.woff') format('woff');
+        url('/fonts/Gotham-Medium.woff2') format('woff2'),
+        url('/fonts/Gotham-Medium.woff') format('woff');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -273,8 +273,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-Medium'),
-        url('../fonts/Gotham-Medium.woff2') format('woff2'),
-        url('../fonts/Gotham-Medium.woff') format('woff');
+        url('/fonts/Gotham-Medium.woff2') format('woff2'),
+        url('/fonts/Gotham-Medium.woff') format('woff');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -283,8 +283,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-MediumItalic'),
-        url('../fonts/Gotham-MediumItalic.woff2') format('woff2'),
-        url('../fonts/Gotham-MediumItalic.woff') format('woff');
+        url('/fonts/Gotham-MediumItalic.woff2') format('woff2'),
+        url('/fonts/Gotham-MediumItalic.woff') format('woff');
     font-weight: 500;
     font-style: italic;
     font-display: swap;
@@ -293,8 +293,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-Thin'),
-        url('../fonts/Gotham-Thin.woff2') format('woff2'),
-        url('../fonts/Gotham-Thin.woff') format('woff');
+        url('/fonts/Gotham-Thin.woff2') format('woff2'),
+        url('/fonts/Gotham-Thin.woff') format('woff');
     font-weight: 100;
     font-style: normal;
     font-display: swap;
@@ -303,8 +303,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-ThinItalic'),
-        url('../fonts/Gotham-ThinItalic.woff2') format('woff2'),
-        url('../fonts/Gotham-ThinItalic.woff') format('woff');
+        url('/fonts/Gotham-ThinItalic.woff2') format('woff2'),
+        url('/fonts/Gotham-ThinItalic.woff') format('woff');
     font-weight: 100;
     font-style: italic;
     font-display: swap;
@@ -313,8 +313,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-UltraItalic'),
-        url('../fonts/Gotham-UltraItalic.woff2') format('woff2'),
-        url('../fonts/Gotham-UltraItalic.woff') format('woff');
+        url('/fonts/Gotham-UltraItalic.woff2') format('woff2'),
+        url('/fonts/Gotham-UltraItalic.woff') format('woff');
     font-weight: 500;
     font-style: italic;
     font-display: swap;
@@ -323,8 +323,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-XLight'),
-        url('../fonts/Gotham-XLight.woff2') format('woff2'),
-        url('../fonts/Gotham-XLight.woff') format('woff');
+        url('/fonts/Gotham-XLight.woff2') format('woff2'),
+        url('/fonts/Gotham-XLight.woff') format('woff');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -333,8 +333,8 @@
 @font-face {
     font-family: 'Gotham';
     src: local('Gotham-XLightItalic'),
-        url('../fonts/Gotham-XLightItalic.woff2') format('woff2'),
-        url('../fonts/Gotham-XLightItalic.woff') format('woff');
+        url('/fonts/Gotham-XLightItalic.woff2') format('woff2'),
+        url('/fonts/Gotham-XLightItalic.woff') format('woff');
     font-weight: 300;
     font-style: italic;
     font-display: swap;
@@ -342,72 +342,72 @@
 
 @font-face {
     font-family: 'Briller';
-    src: url('../fonts/Briller.eot');
+    src: url('/fonts/Briller.eot');
     src: local('Briller'),
-        url('../fonts/Briller.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Briller.woff2') format('woff2'),
-        url('../fonts/Briller.woff') format('woff'),
-        url('../fonts/Briller.ttf') format('truetype');
+        url('/fonts/Briller.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/Briller.woff2') format('woff2'),
+        url('/fonts/Briller.woff') format('woff'),
+        url('/fonts/Briller.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Briller';
-    src: url('../fonts/Briller-Black.eot');
+    src: url('/fonts/Briller-Black.eot');
     src: local('Briller-Black'),
-        url('../fonts/Briller-Black.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Briller-Black.woff2') format('woff2'),
-        url('../fonts/Briller-Black.woff') format('woff'),
-        url('../fonts/Briller-Black.ttf') format('truetype');
+        url('/fonts/Briller-Black.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/Briller-Black.woff2') format('woff2'),
+        url('/fonts/Briller-Black.woff') format('woff'),
+        url('/fonts/Briller-Black.ttf') format('truetype');
     font-weight: 900;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Briller';
-    src: url('../fonts/Briller-Thin.eot');
+    src: url('/fonts/Briller-Thin.eot');
     src: local('Briller-Thin'),
-        url('../fonts/Briller-Thin.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Briller-Thin.woff2') format('woff2'),
-        url('../fonts/Briller-Thin.woff') format('woff'),
-        url('../fonts/Briller-Thin.ttf') format('truetype');
+        url('/fonts/Briller-Thin.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/Briller-Thin.woff2') format('woff2'),
+        url('/fonts/Briller-Thin.woff') format('woff'),
+        url('/fonts/Briller-Thin.ttf') format('truetype');
     font-weight: 100;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Briller';
-    src: url('../fonts/Briller-Bold.eot');
+    src: url('/fonts/Briller-Bold.eot');
     src: local('Briller-Bold'),
-        url('../fonts/Briller-Bold.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Briller-Bold.woff2') format('woff2'),
-        url('../fonts/Briller-Bold.woff') format('woff'),
-        url('../fonts/Briller-Bold.ttf') format('truetype');
+        url('/fonts/Briller-Bold.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/Briller-Bold.woff2') format('woff2'),
+        url('/fonts/Briller-Bold.woff') format('woff'),
+        url('/fonts/Briller-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Briller';
-    src: url('../fonts/Briller-Ultra.eot');
+    src: url('/fonts/Briller-Ultra.eot');
     src: local('Briller-Ultra'),
-        url('../fonts/Briller-Ultra.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Briller-Ultra.woff2') format('woff2'),
-        url('../fonts/Briller-Ultra.woff') format('woff'),
-        url('../fonts/Briller-Ultra.ttf') format('truetype');
+        url('/fonts/Briller-Ultra.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/Briller-Ultra.woff2') format('woff2'),
+        url('/fonts/Briller-Ultra.woff') format('woff'),
+        url('/fonts/Briller-Ultra.ttf') format('truetype');
     font-weight: 900;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Briller';
-    src: url('../fonts/Briller-Light.eot');
+    src: url('/fonts/Briller-Light.eot');
     src: local('Briller-Light'),
-        url('../fonts/Briller-Light.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Briller-Light.woff2') format('woff2'),
-        url('../fonts/Briller-Light.woff') format('woff'),
-        url('../fonts/Briller-Light.ttf') format('truetype');
+        url('/fonts/Briller-Light.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/Briller-Light.woff2') format('woff2'),
+        url('/fonts/Briller-Light.woff') format('woff'),
+        url('/fonts/Briller-Light.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
 }
@@ -415,8 +415,8 @@
 @font-face {
     font-family: 'Hypha';
     src: local('Hypha Regular'), local('Hypha-Regular'),
-        url('../fonts/Hypha-Regular.woff2') format('woff2'),
-        url('../fonts/Hypha-Regular.woff') format('woff');
+        url('/fonts/Hypha-Regular.woff2') format('woff2'),
+        url('/fonts/Hypha-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

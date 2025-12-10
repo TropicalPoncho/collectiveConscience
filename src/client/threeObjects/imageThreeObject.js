@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import {ThreeObject}  from "./ThreeObject.js";
 import { GLOBAL_DEFAULT_SETTINGS } from '../graph/constants.js';
 
@@ -35,4 +36,5 @@ export class ImageThreeObject extends ThreeObject  {
         );
     }
 }
+
 

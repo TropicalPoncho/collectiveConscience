@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import {ThreeObject}  from "./ThreeObject.js";
 
 function randomPointOnSphere(radius) {

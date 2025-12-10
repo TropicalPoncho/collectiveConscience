@@ -1,6 +1,14 @@
+
 import ForceGraph3D from '3d-force-graph';
-import ForceGraphAR from '3d-force-graph-ar';
 import * as THREE from 'three';
+
+let ForceGraphAR;
+if (window.location.pathname === '/ar') {
+    await import('aframe');
+    await import('@ar-js-org/ar.js');
+    ForceGraphAR = (await import('3d-force-graph-ar')).default;
+}
+
 import {ThreeObjectManager}  from '../threeObjects/ThreeObjectManager.js';
 import Stats from 'three/addons/libs/stats.module.js'
 import { GLOBAL_DEFAULT_SETTINGS, COLORS_ARRAY, ANIMATION_SETTINGS, CAMERA_SETTINGS } from './constants.js';
@@ -38,12 +46,13 @@ export default class Mundo {
 
     //Init graph:
     constructor(elementId, dimensionId, showNeuronsCallBack, arActive = false) {
+        this.arActive = arActive;
         this.showNeuronsCallBack = showNeuronsCallBack;
 
         this.threeObjectManager = new ThreeObjectManager({animationType: 'Hover'});
         this.dataLoader = new DataLoader();
 
-        if(!arActive) {
+        if(!this.arActive) {
             this.Graph = ForceGraph3D({ controlType: 'orbit'})
             (document.getElementById(elementId))
                 .nodeLabel('name')
@@ -62,6 +71,11 @@ export default class Mundo {
             
         } else {
             this.Graph = ForceGraphAR(document.getElementById(elementId));
+                /* .markerAttrs({
+                    type: 'pattern',
+                    url: '/ar/sticker01.patt'
+                }); */
+            this.scene = this.Graph.scene();
         }
         // Inicializar el controlador de cámara
         this.cameraController = new CameraController(this.Graph, this.camera, this.scene, this.renderer);
@@ -154,7 +168,7 @@ export default class Mundo {
         this.animationManager.animate();
 
         requestAnimationFrame(() => this.render());
-        if(!arActive){
+        if(!this.arActive){
             this.renderer.render( this.scene, this.camera );
         }
 
@@ -172,7 +186,7 @@ export default class Mundo {
     activeNode(node){
         try {
             this.animationManager.animateNode(node, true);
-            if (this.cameraController) {
+            if (this.cameraController && !this.arActive) {
                 node.side = this.cameraController.aimAtNode(node);
             }
         } catch (error) {

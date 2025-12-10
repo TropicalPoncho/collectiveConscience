@@ -6,13 +6,14 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon --inspect=0.0.0.0:9229 --legacy-watch ./bin/www",
-    "dev:client": "vite",
-    "build:client": "vite build",
+    "build": "vite build",
     "test": "jest"
   },
   "dependencies": {
+    "@ar-js-org/ar.js": "^3.4.7",
     "3d-force-graph": "^1.70.13",
     "3d-force-graph-ar": "^1.10.0",
+    "aframe": "^1.7.1",
     "cookie-parser": "~1.4.4",
     "d3": "^7.6.1",
     "debug": "~2.6.9",
@@ -28,7 +29,9 @@
     "pug": "^3.0.2",
     "three": "^0.154",
     "three-custom-shader-material": "^5.4.0",
-    "three-spritetext": "^1.10.0"
+    "three-forcegraph": "^1.43.0",
+    "three-spritetext": "^1.10.0",
+    "vite-express": "^0.21.1"
   },
   "devDependencies": {
     "jest": "^29.7.0",

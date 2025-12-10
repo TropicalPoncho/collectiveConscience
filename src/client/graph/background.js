@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import Utils from '../Utils.js'
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';

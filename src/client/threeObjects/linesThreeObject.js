@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import {ThreeObject}  from "./ThreeObject.js";
 
 export class LinesThreeObject extends ThreeObject {
@@ -15,10 +16,31 @@ export class LinesThreeObject extends ThreeObject {
         //const geometry = new THREE.SphereGeometry( node.val , 32, 16 );
         const geometry = new THREE.IcosahedronGeometry(this.size, this.segmentWidth);
 
+        const vertexShader = `
+            uniform float amplitude;
+            attribute vec3 displacement;
+            attribute vec3 customColor;
+            varying vec3 vColor;
+            void main() {
+                vec3 newPosition = position + amplitude * displacement;
+                vColor = customColor;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+            }
+        `;
+
+        const fragmentShader = `
+            uniform vec3 color;
+            uniform float opacity;
+            varying vec3 vColor;
+            void main() {
+                gl_FragColor = vec4( vColor * color, opacity );
+            }
+        `;
+
         const shaderMaterial = new THREE.ShaderMaterial( {
             uniforms: uniforms,
-            vertexShader: document.getElementById( 'vertexshader' ).textContent,
-            fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
             blending: THREE.AdditiveBlending,
             depthTest: true,
             transparent: true

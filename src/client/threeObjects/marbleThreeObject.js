@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import {ThreeObject}  from './ThreeObject.js';
 
 const heightMapURL = 'https://i.imgur.com/dMYV4cf.png'
@@ -178,3 +179,4 @@ export class MarbleThreeObject extends ThreeObject  {
         super.animate();
     }
 }
+

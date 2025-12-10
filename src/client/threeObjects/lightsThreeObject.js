@@ -1,4 +1,6 @@
+import * as THREE from 'three';
 import {ThreeObject}  from './ThreeObject.js';
+import { noiseFS } from '../shaders/noise.js';
 
 export class LightsThreeObject extends ThreeObject  {
 
@@ -24,7 +26,7 @@ export class LightsThreeObject extends ThreeObject  {
         var material = new THREE.ShaderMaterial( {
             uniforms: { ...this.localUniforms, ...this.globalUniforms, ...this.uniforms },
             vertexShader: `
-                ${document.getElementById( 'noiseFS' ).textContent}
+                ${noiseFS}
                 varying vec3 vNormal;
                 uniform float time;
                 uniform float weight;
@@ -39,7 +41,7 @@ export class LightsThreeObject extends ThreeObject  {
                 }
             `,
             fragmentShader: `	
-                ${document.getElementById( 'noiseFS' ).textContent}
+                ${noiseFS}
                 varying vec3 vNormal;
                 uniform sampler2D tShine;
                 uniform float time;
@@ -81,3 +83,4 @@ export class LightsThreeObject extends ThreeObject  {
     }
 
 }
+

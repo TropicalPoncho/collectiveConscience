@@ -1,9 +1,11 @@
+import * as THREE from 'three';
 /* import { EffectComposer } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/UnrealBloomPass.js'; */
 import { Vector3 } from "three";
 import { ThreeObject } from "./ThreeObject.js";
+import { noiseFS } from '../shaders/noise.js';
 
 
 export class PerlinThreeObject extends ThreeObject{
@@ -43,7 +45,7 @@ export class PerlinThreeObject extends ThreeObject{
                 shader.vertexShader = `
                 uniform float time;
                 varying vec3 rPos;
-                ${document.getElementById( 'noiseFS' ).textContent}
+                ${noiseFS}
                 float tnoise(vec3 p){
                     return cnoise(vec4(p, time));
                 }
