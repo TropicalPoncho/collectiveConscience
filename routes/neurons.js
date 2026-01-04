@@ -1,8 +1,9 @@
 const express = require('express');
 const asyncify = require('express-asyncify');
-var createError = require('http-errors');
+const createError = require('http-errors');
  
 const app = express();
+app.disable("x-powered-by");
 const router = asyncify(express.Router());
 
 const NeuronsService = require('../services/neuronsService');
@@ -12,7 +13,7 @@ const { queryToFilters } = require('../utils/helpers');
 //Create Neuron
 router.post('/', function(req, res, next) {
 	NeuronsServiceInstance.create(req.body).then(result => {
-		console.log("Neuron Created" + result);
+		console.log("Neuron Created", result);
 		res.json(result);
 	}).catch(err => {
 		console.log(err);

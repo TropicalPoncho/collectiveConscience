@@ -62,14 +62,12 @@ const options = {
     dbName: MONGO_DB // Forzar el nombre de la base de datos desde la variable de entorno
 };
 
-mongoose.connect(url, options)
-    .then(() => {
-        console.log('MongoDB conectado exitosamente');
-    })
-    .catch(err => {
-        console.error('Error conectando a MongoDB:', err);
-        // No hacemos process.exit(1) en serverless para no matar el contenedor frío inmediatamente,
-        // pero si es crítico, el error se registrará.
-    });
+try{
+    await mongoose.connect(url, options);
+    console.log('MongoDB conectado exitosamente');
+} catch(err){
+    console.error('Error conectando a MongoDB:', err);
+};
+
 
 module.exports = mongoose;

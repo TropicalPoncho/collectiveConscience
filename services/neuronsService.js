@@ -3,14 +3,7 @@ const Neuron = require('../models/neurons');
 const limit = 40;
 
 class NeuronsService {
-    /**
-     * @description Create an instance of PostService
-     */
-    constructor () {
-      // Create instance of Data Access layer using our desired model
-      //this.MongooseServiceInstance = new MongooseService( PostModel );
-    }
-  
+
     /**
      * @description Attempt to create a post with the provided object
      * @param postToCreate {object} Object containing all required fields to
@@ -19,19 +12,6 @@ class NeuronsService {
      */
     async create ( input ) {
         try{
-            /* var fromId;
-            //Si se informa un fromId
-            if(input.fromId){ //Comprueba si el id es valido
-                fromId = input.fromId;
-            }else if(input.fromNickName){ //Si no, busca el nickName
-                var fromNeuron = await Neuron.findOne({nickName: input.fromNickName},'_id').exec();
-                if(!fromNeuron){
-                    console.log(input.fromNickName + " doesn't exists");
-                    //throw new Error(input.fromNickName + " doesn't exists");
-                }
-                fromId = fromNeuron._id;
-            } */
-
             const neuron = new Neuron({
                 //name: input.name,
                 //fromId: fromId,

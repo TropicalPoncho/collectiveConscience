@@ -12,7 +12,7 @@ const queryToFilters = (query) => {
     directFilters.forEach(field => {
         if (query[field] !== undefined && query[field] !== '') {
             // Convertir a número si es posible
-            const value = isNaN(query[field]) ? query[field] : parseInt(query[field]);
+            const value = Number.isNaN(query[field]) ? query[field] : Number.parseInt(query[field]);
             filters[field] = value;
         }
     });

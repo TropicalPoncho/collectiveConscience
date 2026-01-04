@@ -12,11 +12,11 @@ const neuronsService = new NeuronsService();
  */
 router.get('/', async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 0;
-        var neurons, synapses;
+        const page = Number.parseInt(req.query.page) || 0;
+        let neurons, synapses;
         if(req.query.synapseTypes){
             const synapseTypes = req.query.synapseTypes;
-            neurons, synapses = await synapsesService.getByTypeWithNeurons(synapseTypes, page);
+            ({ neurons, synapses } = await synapsesService.getByTypeWithNeurons(synapseTypes, page));
         }else{
             neurons = await neuronsService.getAll(page);
             synapses = await synapsesService.getAll(page);
@@ -53,8 +53,8 @@ router.get('/:dimensionId', async (req, res) => {
  */
 router.get('/:synapseType', async (req, res) => {
     try {
-        const synapseTypes = parseInt(req.query.synapseTypes);
-        const page = parseInt(req.query.page) || 0;
+        const synapseTypes = Number.parseInt(req.query.synapseTypes);
+        const page = Number.parseInt(req.query.page) || 0;
         const result = await synapsesService.getByTypeWithNeurons(synapseTypes,page);
         res.json(result);
     } catch (error) {
