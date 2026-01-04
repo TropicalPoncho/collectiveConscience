@@ -52,26 +52,38 @@ function buildConnectionString() {
 
 const url = buildConnectionString();
 
-// DEBUG: Imprimir la URL enmascarada para verificar en los logs de Vercel si tomó la variable
+// DEBUG: Imprimir la URL enmascarada para verificar en los logs si tomó la variable
 console.log('Conectando a MongoDB:', url.replace(/:([^:@]+)@/, ':****@'));
 
 const options = {
-    // Mongoose 6+ ya tiene estas opciones por defecto, se pueden omitir para evitar warnings
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true
-    serverSelectionTimeoutMS: 20000, // Aumentado a 20s para tolerar latencia en cold starts
-    family: 4, // Forzar IPv4: Soluciona problemas de conexión en Vercel/AWS cuando intenta usar IPv6
-    dbName: MONGO_DB || DEFAULT_MONGO_DB // Forzar nombre de la base de datos con fallback local
+    serverSelectionTimeoutMS: 20000,
+    family: 4,
+    dbName: MONGO_DB || DEFAULT_MONGO_DB
 };
 
-mongoose.connect(url, options)
-    .then(() => {
-        console.log('MongoDB conectado exitosamente');
-    })
-    .catch(err => {
-        console.error('Error conectando a MongoDB:', err);
-        // No hacemos process.exit(1) en serverless para no matar el contenedor frío inmediatamente,
-        // pero si es crítico, el error se registrará.
-    });
+// Reutilizar conexión entre invocaciones (serverless friendly)
+let cached = global._mongoose;
+
+if (!cached) {
+    cached = global._mongoose = { conn: null, promise: null };
+}
+
+async function connect() {
+    if (cached.conn) return cached.conn;
+    if (!cached.promise) {
+        cached.promise = mongoose.connect(url, options).then((mongoose) => {
+            console.log('MongoDB conectado exitosamente');
+            return mongoose;
+        }).catch(err => {
+            console.error('Error conectando a MongoDB:', err);
+            throw err;
+        });
+    }
+    cached.conn = await cached.promise;
+    return cached.conn;
+}
+
+// Iniciar conexión inmediata en entornos tradicionales; en serverless se lazily-resolve al requerir
+connect().catch(() => {});
 
 module.exports = mongoose;
