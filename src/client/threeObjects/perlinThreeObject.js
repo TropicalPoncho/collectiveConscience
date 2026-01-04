@@ -1,9 +1,11 @@
-import * as THREE from 'three';
+import { resolveTHREE } from './threeGlobal.js';
+const THREE = resolveTHREE();
+const { Vector3 } = THREE;
 /* import { EffectComposer } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/UnrealBloomPass.js'; */
-import { Vector3 } from "three";
+// Vector3 se toma de la misma instancia THREE resuelta arriba
 import { ThreeObject } from "./ThreeObject.js";
 import { noiseFS } from '../shaders/noise.js';
 

@@ -4,6 +4,10 @@ import { getSide } from './utils.js';
 /**
  * Controlador de cámara para el grafo 3D
  * Maneja posicionamiento, orbit, zoom y animaciones de cámara
+ *
+ * @param {Object} graph - Instancia del grafo 3D que controla la posición de la cámara
+ * @param {THREE.Camera} camera - Cámara utilizada para la visualización
+ * @param {THREE.WebGLRenderer} renderer - Renderizador para ajustar el tamaño y otras propiedades
  */
 export class CameraController {
     constructor(graph, camera, renderer) {

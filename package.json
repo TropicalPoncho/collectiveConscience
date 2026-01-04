@@ -13,7 +13,7 @@
     "@ar-js-org/ar.js": "^3.4.7",
     "3d-force-graph": "^1.70.13",
     "3d-force-graph-ar": "^1.10.0",
-    "aframe": "^1.7.1",
+    "aframe": "1.4.2",
     "cookie-parser": "~1.4.4",
     "d3": "^7.6.1",
     "debug": "~2.6.9",
@@ -27,7 +27,7 @@
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "pug": "^3.0.2",
-    "three": "^0.154",
+    "three": "0.147.0",
     "three-custom-shader-material": "^5.4.0",
     "three-forcegraph": "^1.43.0",
     "three-spritetext": "^1.10.0",
@@ -38,5 +38,9 @@
     "nodemon": "^3.0.1",
     "supertest": "^7.1.1",
     "vite": "^7.2.6"
+  },
+  "overrides": {
+    "aframe": "1.4.2",
+    "three": "0.147.0"
   }
 }

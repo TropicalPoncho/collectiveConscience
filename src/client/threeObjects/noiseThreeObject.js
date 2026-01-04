@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+import { resolveTHREE } from './threeGlobal.js';
+const THREE = resolveTHREE();
 import {ThreeObject}  from './ThreeObject.js';
 
 import { HDRCubeTextureLoader } from 'three/addons/loaders/HDRCubeTextureLoader.js'; 

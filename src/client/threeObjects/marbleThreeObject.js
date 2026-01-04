@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+import { resolveTHREE } from './threeGlobal.js';
+const THREE = resolveTHREE();
 import {ThreeObject}  from './ThreeObject.js';
 
 const heightMapURL = 'https://i.imgur.com/dMYV4cf.png'
@@ -44,7 +45,7 @@ export class MarbleThreeObject extends ThreeObject  {
         colorB: '#d719c7'
     };
 
-    type = 'Marble';
+
 
     constructor (node, config){
         super(node);

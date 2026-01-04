@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+import { resolveTHREE } from './threeGlobal.js';
+const THREE = resolveTHREE();
 import {ThreeObject}  from "./ThreeObject.js";
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';

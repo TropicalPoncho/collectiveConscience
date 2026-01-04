@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+import { resolveTHREE } from './threeGlobal.js';
+const THREE = resolveTHREE();
 import {ThreeObject}  from './ThreeObject.js';
 
 export class LinkThreeObject extends ThreeObject  {

@@ -20,7 +20,6 @@ export class DataLoader {
             const res = await fetch('/network');
             const { neurons, synapses } = await res.json();
             console.log('Datos precargados:', neurons.length, 'neuronas,', synapses.length, 'sinapsis');
-            console.log('neurons:', neurons, 'synapses:',synapses); 
             this.loadedNeurons = neurons;
             this.loadedSynapses = synapses;
             

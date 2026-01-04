@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+import { resolveTHREE } from './threeGlobal.js';
+const THREE = resolveTHREE();
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 
 /**
@@ -22,7 +23,7 @@ export class ThreeObject {
         aspect: {value: innerWidth / innerHeight}
     };
 
-    colorsArray = [
+    static colorsArray = [
         "#8AE2C8",
         "#578CCB",
         "#9900FF",

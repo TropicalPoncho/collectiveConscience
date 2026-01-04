@@ -40,3 +40,11 @@ The project is a Node.js/Express web application for an interactive digital artw
 5. **Investigate Deployment Workflow** – See how GitHub Actions automate build, test, and deployment.
 
 This structure centers on Express routes calling service classes that access MongoDB, while the front-end renders an evolving network of “neurons” in 3D. Understanding these pieces will help you navigate and extend the project.
+
+## Local run (app on host, Mongo in Docker)
+
+1. Instala dependencias en el host: `npm install`.
+2. Levanta solo la base en Docker: `docker compose up -d mongo` (opcional `mongo-express`).
+3. Variables locales: por defecto se usa `mongodb://127.0.0.1:27017/collectiveconscience`; define `MONGODB_URI` si quieres otra cadena.
+4. Ejecuta la app en el host: `npm run dev` (ó `npm start`).
+5. Abre http://localhost:3000 y confirma conexión en logs (“MongoDB conectado exitosamente”).

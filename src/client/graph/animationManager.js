@@ -207,9 +207,13 @@ export class AnimationManager {
      * Crea (si no existe) un overlay negro sobre el canvas
      */
     ensureBlackOverlay() {
-        if (!this.graph || !this.graph.renderer) return null;
+        if (!this.graph || !this.graph.renderer) {
+            throw new Error("Cannot create black overlay: missing graph or renderer");
+        }
         let renderer = this.graph.renderer();
-        if (!renderer) return null;
+        if (!renderer) {
+            throw new Error("Cannot create black overlay: renderer is missing");
+        }
         let canvas = renderer.domElement;
         let parent = canvas.parentElement;
         let parent2 = parent.parentElement;

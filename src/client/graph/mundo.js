@@ -1,18 +1,37 @@
-
 import ForceGraph3D from '3d-force-graph';
-import * as THREE from 'three';
+// import * as THREE from 'three'; 
 
 let ForceGraphAR;
+let THREE;
+let ThreeObjectManager; // Variable para la clase cargada dinámicamente
+
 if (window.location.pathname === '/ar') {
-    // Importar solo AR.js, ya que parece que trae A-Frame o lo registra.
-    // Si esto falla porque falta A-Frame, entonces el problema es otro.
-    // Pero el error "already been used" indica duplicidad.
-    // await import('aframe'); 
-    await import('@ar-js-org/ar.js');
-    ForceGraphAR = (await import('3d-force-graph-ar')).default;
+    console.log("Iniciando modo AR...");
+    
+    try {
+        // Importamos A-Frame explícitamente (ahora unificado a 1.4.2)
+        await import('aframe');
+        await import('@ar-js-org/ar.js');
+        
+        // IMPORTANTE: Usar la instancia de THREE que A-Frame pone en el objeto window
+        // Esto evita el error "not an instance of THREE.Object3D"
+        THREE = window.THREE;
+
+        const module = await import('3d-force-graph-ar');
+        ForceGraphAR = module.default;
+        console.log("3d-force-graph-ar importado.", ForceGraphAR);
+    } catch (e) {
+        console.error("Error importando librerías AR:", e);
+    }
+} else {
+    THREE = await import('three');
+    window.THREE = THREE; // Exponer globalmente para consistencia
 }
 
-import {ThreeObjectManager}  from '../threeObjects/ThreeObjectManager.js';
+// Importamos ThreeObjectManager dinámicamente DESPUÉS de establecer el entorno THREE
+const tomModule = await import('../threeObjects/ThreeObjectManager.js');
+ThreeObjectManager = tomModule.ThreeObjectManager;
+
 import Stats from 'three/addons/libs/stats.module.js'
 import { GLOBAL_DEFAULT_SETTINGS, COLORS_ARRAY, ANIMATION_SETTINGS, CAMERA_SETTINGS } from './constants.js';
 import { getSide, createLinks } from './utils.js';
@@ -62,7 +81,7 @@ export default class Mundo {
                 .cameraPosition({ z: GLOBAL_DEFAULT_SETTINGS.cameraDistance });
 
             this.Graph.d3Force('link')
-                .distance(link => GLOBAL_DEFAULT_SETTINGS.linkDistance ); 
+                .distance(link => GLOBAL_DEFAULT_SETTINGS.linkDistance)
 
             this.Graph.d3Force('charge').strength(10);
 
@@ -73,16 +92,22 @@ export default class Mundo {
             this.Graph.camera = new THREE.PerspectiveCamera(CAMERA_SETTINGS.FOV, window.outerWidth / window.outerHeight, CAMERA_SETTINGS.NEAR, CAMERA_SETTINGS.FAR);
             
         } else {
-            this.Graph = ForceGraphAR(document.getElementById(elementId));
+            console.log("Instanciando ForceGraphAR...");
+            // ForceGraphAR es una factoría que devuelve la función de inicialización
+            // Debemos llamarla primero () y luego pasarle el elemento DOM
+            this.Graph = ForceGraphAR()(document.getElementById(elementId));
+            
+            console.log("ForceGraphAR instanciado:", this.Graph);
                 /* .markerAttrs({
                     type: 'pattern',
                     url: '/ar/sticker01.patt'
                 }); */
             // En modo AR, la escena puede no estar expuesta directamente o ser gestionada internamente
             this.scene = this.Graph.scene ? this.Graph.scene() : null;
+            console.log("Escena AR:", this.scene);
         }
         // Inicializar el controlador de cámara
-        this.cameraController = new CameraController(this.Graph, this.camera, this.scene, this.renderer);
+        this.cameraController = new CameraController(this.Graph, this.camera, this.renderer);
         this.cameraController.setupCamera();
         
         // Inicializar el gestor de animaciones
@@ -92,11 +117,36 @@ export default class Mundo {
         this.graphManager = new GraphManager(this.Graph, this.threeObjectManager, this.dataLoader, this.animationManager);
         this.graphManager.setShowNeuronsCallback(showNeuronsCallBack);
         
+        // Helper para corregir instancias de THREE en modo AR (Parche de prototipos)
+        const patchForAR = (obj) => {
+            if (!this.arActive || !window.THREE) return obj;
+            
+            const patch = (o) => {
+                if (!o) return;
+                // Detectar tipo y asignar prototipo de la instancia global (A-Frame)
+                let TargetType = window.THREE.Object3D;
+                if (o.isMesh) TargetType = window.THREE.Mesh;
+                else if (o.isGroup) TargetType = window.THREE.Group;
+                else if (o.isLine) TargetType = window.THREE.Line;
+                else if (o.isSprite) TargetType = window.THREE.Sprite;
+                
+                // Si el objeto no es instancia del THREE global, forzamos el prototipo
+                if (!(o instanceof TargetType)) {
+                    Object.setPrototypeOf(o, TargetType.prototype);
+                }
+                if (o.children) o.children.forEach(patch);
+            };
+            patch(obj);
+            return obj;
+        };
         
         this.Graph
             .numDimensions(3)
             .cooldownTicks(100)
-            .nodeThreeObject(node => this.threeObjectManager.createObject(node) )
+            .nodeThreeObject(node => {
+                const obj = this.threeObjectManager.createObject(node);
+                return patchForAR(obj);
+            })
             .linkThreeObject(link => {
                 // Crea el objeto y guarda la referencia en el propio link
                 link.type = "SinLink";
@@ -104,7 +154,7 @@ export default class Mundo {
                 link.id = `${link.source?.id || link.source}-${link.target?.id || link.target}`;
                 const obj = this.threeObjectManager.createObject(link);
                 link._threeObj = obj;
-                return obj.mesh;
+                return patchForAR(obj.mesh);
             })
             .linkPositionUpdate((line, { start, end }, link) => {
                 // Si existe la referencia al objeto, accede a ella

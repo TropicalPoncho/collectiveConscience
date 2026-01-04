@@ -41,7 +41,8 @@ export default class Background {
 
         //this.scene.fog = new THREE.Fog(this.backgroundColor, 1, 300000);
 
-        if(this.backgroundColor && this.scene){
+        // En AR no debemos poner background de color, debe ser transparente para ver la cámara
+        if(this.backgroundColor && this.scene && !Mundo.arActive){
             this.scene.background = new THREE.Color( this.backgroundColor );
         }
 
@@ -71,7 +72,7 @@ export default class Background {
         });
 
         const stars = new THREE.Points(geometry, material);
-        if(this.scene){
+        if(this.scene && !Mundo.arActive){
             this.scene.add(stars); // Asegúrate de tener acceso a this.scene
         }
         

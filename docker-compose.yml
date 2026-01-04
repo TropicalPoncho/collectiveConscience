@@ -1,24 +1,7 @@
 version: '3.4'
 
 services:
-  collectiveconscience:
-    image: collectiveconscience
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    env_file: .env
-    environment:
-      - MONGO_USERNAME=$MONGO_USERNAME
-      - MONGO_PASSWORD=$MONGO_PASSWORD
-      - MONGO_HOSTNAME=mongo
-      - MONGO_PORT=$MONGO_PORT
-      - MONGO_DB=$MONGO_DB
-    command: npm run dev
-    ports:
-      - 3000:3000
-    volumes:
-      - ./:/usr/src/app
-
+  # Solo MongoDB; la app corre en el host.
   mongo:
     image: mongo
     container_name: mongo
@@ -30,9 +13,12 @@ services:
       MONGO_INITDB_ROOT_USERNAME: $MONGO_USERNAME
       MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
 
+  # Opcional: UI de administración; puedes omitir este servicio si no la usas.
   mongo-express:
     image: mongo-express
     restart: always
+    depends_on:
+      - mongo
     ports:
       - 8081:8081
     env_file: .env

@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+import { resolveTHREE } from './threeGlobal.js';
+const THREE = resolveTHREE();
 import CustomShaderMaterial from '/node_modules/three-custom-shader-material/vanilla'
 import { ThreeObject } from "./ThreeObject.js";
 
