@@ -2,8 +2,8 @@ import * as ThreeModule from 'three';
 
 // Devuelve siempre la instancia vigente de THREE. Si A-Frame ya cargó, usa window.THREE; si no, usa el módulo.
 export function resolveTHREE() {
-	if (typeof window !== 'undefined' && window.THREE) {
-		return window.THREE;
+	if (typeof globalThis !== 'undefined' && globalThis.THREE) {
+		return globalThis.THREE;
 	}
 	return ThreeModule;
 }

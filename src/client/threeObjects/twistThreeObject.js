@@ -26,7 +26,7 @@ export class TwistThreeObject extends ThreeObject  {
             $.extend(this.uniforms, node.style);
         }
 
-        var material = new THREE.ShaderMaterial( {
+        const material = new THREE.ShaderMaterial( {
             uniforms: { ...this.globalUniforms, ...this.uniforms },
             vertexShader: `
                 ${noiseFS}

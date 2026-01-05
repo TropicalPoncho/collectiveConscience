@@ -85,7 +85,7 @@ export class AnimationManager {
         // forzamos el repaint para que requestAnimationFrame tenga algo que animar
         overlay.getBoundingClientRect();
         overlay.style.opacity = '1';
-        var extraDuration = 1.2; 
+        let extraDuration = 1.2; 
         if (zoomOut) {
             this.graph.cameraPosition(this.lastDimensionNode,this.lastDimensionNode);
             this.graph.cameraPosition(
@@ -110,9 +110,8 @@ export class AnimationManager {
     animateOverlayOpacity(overlay, targetOpacity, duration, startOpacity = null) {
         return new Promise(resolve => {
             overlay.style.transition = '';
-            const fromOpacity = startOpacity !== null
-                ? startOpacity
-                : parseFloat(overlay.style.opacity) || 0;
+            const parsed = Number.parseFloat(overlay.style.opacity);
+            const fromOpacity = startOpacity ?? (Number.isFinite(parsed) ? parsed : 0);
             const normalizedDuration = Math.max(duration, 1);
             const delta = targetOpacity - fromOpacity;
             let start = null;
@@ -189,7 +188,7 @@ export class AnimationManager {
      * Remueve el overlay negro si existe
      */
     removeBlackOverlay() {
-        if (!this.graph || !this.graph.renderer) return;
+        if (!this.graph?.renderer) return;
         let renderer = this.graph.renderer();
         if (!renderer) return;
         let canvas = renderer.domElement;
@@ -207,7 +206,7 @@ export class AnimationManager {
      * Crea (si no existe) un overlay negro sobre el canvas
      */
     ensureBlackOverlay() {
-        if (!this.graph || !this.graph.renderer) {
+        if (!this.graph?.renderer) {
             throw new Error("Cannot create black overlay: missing graph or renderer");
         }
         let renderer = this.graph.renderer();
@@ -216,7 +215,6 @@ export class AnimationManager {
         }
         let canvas = renderer.domElement;
         let parent = canvas.parentElement;
-        let parent2 = parent.parentElement;
         let overlay = parent.querySelector('.threejs-black-fade');
         if (!overlay) {
             overlay = document.createElement('div');

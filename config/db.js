@@ -68,7 +68,7 @@ if (!cached) {
     cached = globalThis._mongoose = { conn: null, promise: null };
 }
 
-async function connect() {
+async function connectDb() {
     if (cached.conn) return cached.conn;
     if (!cached.promise) {
         cached.promise = (async () => {
@@ -86,11 +86,4 @@ async function connect() {
     return cached.conn;
 }
 
-// Iniciar conexión inmediata en entornos tradicionales; en serverless se lazily-resolve al requerir
-try {
-    await connect();
-} catch (err) {
-    console.error('Error inicializando conexión MongoDB:', err);
-}
-
-module.exports = mongoose;
+module.exports = { mongoose, connectDb };

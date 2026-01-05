@@ -6,6 +6,10 @@ import { filterSynapsesByNodeIds } from './utils.js';
  */
 export class DataLoader {
     constructor() {
+        this.resetState();
+    }
+
+    resetState() {
         this.loadedNeurons = [];
         this.loadedSynapses = [];
         this.preloadPromise = null;
@@ -215,9 +219,7 @@ export class DataLoader {
      * Limpia todos los datos cargados
      */
     clearData() {
-        this.loadedNeurons = [];
-        this.loadedSynapses = [];
-        this.preloadPromise = null;
+        this.resetState();
     }
 
     /**
@@ -228,8 +230,8 @@ export class DataLoader {
         return {
             totalNeurons: this.loadedNeurons.length,
             totalSynapses: this.loadedSynapses.length,
-            uniqueDimensions: [...new Set(this.loadedNeurons.map(n => n.dimensionId))].length,
-            uniqueNetworks: [...new Set(this.loadedSynapses.map(s => s.networkId))].length
+            uniqueDimensions: new Set(this.loadedNeurons.map(n => n.dimensionId)).size,
+            uniqueNetworks: new Set(this.loadedSynapses.map(s => s.networkId)).size
         };
     }
 

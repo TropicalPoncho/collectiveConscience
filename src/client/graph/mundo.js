@@ -63,44 +63,44 @@ export default class Mundo {
     dimension = 0;
 
     //Init graph:
-    constructor(elementId, dimensionId, showNeuronsCallBack, arActive = false) {
+    constructor(elementId, showNeuronsCallBack, arActive = false) {
         this.arActive = arActive;
         this.showNeuronsCallBack = showNeuronsCallBack;
 
         this.threeObjectManager = new ThreeObjectManager({animationType: 'Hover'});
         this.dataLoader = new DataLoader();
 
-        if(!this.arActive) {
-            this.Graph = ForceGraph3D({ controlType: 'orbit'})
-            (document.getElementById(elementId))
-                .nodeLabel('name')
-                .cameraPosition({ z: GLOBAL_DEFAULT_SETTINGS.cameraDistance });
-
-            this.Graph.d3Force('link')
-                .distance(link => GLOBAL_DEFAULT_SETTINGS.linkDistance)
-
-            this.Graph.d3Force('charge').strength(10);
-
-            this.scene = this.Graph.scene();
-            this.renderer = this.Graph.renderer();
-            this.camera = this.Graph.camera();
-
-            this.Graph.camera = new THREE.PerspectiveCamera(CAMERA_SETTINGS.FOV, window.outerWidth / window.outerHeight, CAMERA_SETTINGS.NEAR, CAMERA_SETTINGS.FAR);
-            
-        } else {
+        if(this.arActive) {
             console.log("Instanciando ForceGraphAR...");
             // ForceGraphAR es una factoría que devuelve la función de inicialización
             // Debemos llamarla primero () y luego pasarle el elemento DOM
             this.Graph = ForceGraphAR()(document.getElementById(elementId));
             
             console.log("ForceGraphAR instanciado:", this.Graph);
-                /* .markerAttrs({
-                    type: 'pattern',
-                    url: '/ar/sticker01.patt'
+            /* .markerAttrs({
+                type: 'pattern',
+                url: '/ar/sticker01.patt'
                 }); */
-            // En modo AR, la escena puede no estar expuesta directamente o ser gestionada internamente
-            this.scene = this.Graph.scene ? this.Graph.scene() : null;
+                // En modo AR, la escena puede no estar expuesta directamente o ser gestionada internamente
+                this.scene = this.Graph.scene ? this.Graph.scene() : null;
             console.log("Escena AR:", this.scene);
+        } else {
+            this.Graph = ForceGraph3D({ controlType: 'orbit'})
+            (document.getElementById(elementId))
+                .nodeLabel('name')
+                .cameraPosition({ z: GLOBAL_DEFAULT_SETTINGS.cameraDistance });
+    
+            this.Graph.d3Force('link')
+                .distance(link => GLOBAL_DEFAULT_SETTINGS.linkDistance)
+    
+            this.Graph.d3Force('charge').strength(10);
+    
+            this.scene = this.Graph.scene();
+            this.renderer = this.Graph.renderer();
+            this.camera = this.Graph.camera();
+    
+            this.Graph.camera = new THREE.PerspectiveCamera(CAMERA_SETTINGS.FOV, window.outerWidth / window.outerHeight, CAMERA_SETTINGS.NEAR, CAMERA_SETTINGS.FAR);
+            
         }
         // Inicializar el controlador de cámara
         this.cameraController = new CameraController(this.Graph, this.camera, this.renderer);
@@ -115,16 +115,16 @@ export default class Mundo {
         
         // Helper para corregir instancias de THREE en modo AR (Parche de prototipos)
         const patchForAR = (obj) => {
-            if (!this.arActive || !window.THREE) return obj;
+            if (!this.arActive || !globalThis.THREE) return obj;
             
             const patch = (o) => {
                 if (!o) return;
                 // Detectar tipo y asignar prototipo de la instancia global (A-Frame)
-                let TargetType = window.THREE.Object3D;
-                if (o.isMesh) TargetType = window.THREE.Mesh;
-                else if (o.isGroup) TargetType = window.THREE.Group;
-                else if (o.isLine) TargetType = window.THREE.Line;
-                else if (o.isSprite) TargetType = window.THREE.Sprite;
+                let TargetType = globalThis.THREE.Object3D;
+                if (o.isMesh) TargetType = globalThis.THREE.Mesh;
+                else if (o.isGroup) TargetType = globalThis.THREE.Group;
+                else if (o.isLine) TargetType = globalThis.THREE.Line;
+                else if (o.isSprite) TargetType = globalThis.THREE.Sprite;
                 
                 // Si el objeto no es instancia del THREE global, forzamos el prototipo
                 if (!(o instanceof TargetType)) {
@@ -164,47 +164,26 @@ export default class Mundo {
                 showNeuronsCallBack(node);
             });
    
-        this.dataLoader.preloadAllNetworks().then(() => {
-            this.graph.insertNetworkByDimension(dimensionId);
-        })
-        
-        /* this.stats = new Stats();
-        this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-        document.body.appendChild(this.stats.dom); */
-
         this.cameraController.resize();
         window.addEventListener('resize', this.cameraController.resize.bind(this.cameraController), false);
         this.render();
     }
 
-    /**
-     * Acceso directo al gestor del grafo
-     */
-    get graph() { return this.graphManager; }
+    async initialize(dimensionId){
+        this.dataLoader.preloadAllNetworks().then(() => {
+            this.graphManager.insertNetworkByDimension(dimensionId);
+        });
+    }
 
-    /**
-     * Acceso directo al controlador de cámara
-     */
-    get cameraController() { return this.cameraController; }
-
-    /**
-     * Acceso directo al cargador de datos
-     */
-    get data() { return this.dataLoader; }
-
-    /**
-     * Acceso directo al gestor de animaciones
-     */
-    get animation() { return this.animationManager; }
 
     // ========================================
     // MÉTODOS INTERNOS (no parte de la API pública)
     // ========================================
 
     consoleLogPosition(position = false){
-        var pos = position ?? (this.camera ? this.camera.position : {x:0, y:0, z:0});
+        const pos = position ?? (this.camera ? this.camera.position : {x:0, y:0, z:0});
         console.log(pos.x + " " + pos.y + " " + pos.z);
-        var numMeshes = 0;
+        let numMeshes = 0;
         if (this.scene) {
             this.scene.traverse(function(o) {
                 if (o.isMesh) numMeshes++;
@@ -228,7 +207,7 @@ export default class Mundo {
     }
 
     activeNodeById(neuronId){
-        var node = this.graphManager.getNodeById(neuronId);
+        const node = this.graphManager.getNodeById(neuronId);
         if(node){
             this.activeNode(node);
         }

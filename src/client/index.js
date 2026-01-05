@@ -1,7 +1,7 @@
 import Background from "./graph/background.js";
 import Mundo from "./graph/mundo.js";
 
-const arActive = window.location.pathname === '/ar';
+const arActive = globalThis.location.pathname === '/ar';
 
 const globalDefaultSettings = {
     nodeSize: 4,
@@ -19,31 +19,23 @@ const colorsArray = [
 ];
 
 
-/* function getAndInsertNeurons(page, fromNeuronId){
-    $.get( "/neurons", {fromNeuronId: fromNeuronId, page: page}, function( neurons ) {
-        if(neurons.length != 0){
-            mundo.insertNodes({nodes: neurons , links: createLinks(nextNeurons[thisNeuronId])}, nextId, showNeuronData);
-            page++;
-            GetNeurons(page);
-        }else{ //Cuando termina de cargar
-            //setTimeout(() => { manageNewNeurons(); }, 5000);
-        }
-    });
-} */
-
 jQuery(function(){
-    var mundo = new Mundo('contentNetwork', 0, showNeuronData, arActive);
-    mundo.addElement(new Background(mundo));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+    const mundo = new Mundo('contentNetwork', showNeuronData, arActive);
+    (async () => {
+        await mundo.initialize(0);
+    })();
+
+    mundo.addElement(new Background(mundo));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 
     //Maneja la acción de los btn tipo "next"
     $(document).on('click', '.next', async function(){
-        var thisNeuronId = $(this).attr('thisNeuronId'); //id NeuronaClickeada
-        var synapseType = $(this).attr('synapseType'); //Tipos de neurona
-        var nextDimensionId = $(this).attr('nextDimensionId'); //Siguiente dimensión (puede ser igual a la actual)
-        var loadType = $(this).attr('loadType');
+        const thisNeuronId = $(this).attr('thisNeuronId'); //id NeuronaClickeada
+        const synapseType = $(this).attr('synapseType'); //Tipos de neurona
+        const nextDimensionId = $(this).attr('nextDimensionId'); //Siguiente dimensión (puede ser igual a la actual)
+        const loadType = $(this).attr('loadType');
 
         if($(this).attr('url')){ //Si tiene url es link externo
-            window.location.replace("https://tropicalponcho.art");
+            globalThis.location.replace("https://tropicalponcho.art");
         }
 
         if(loadType == "goInto"){
@@ -54,17 +46,14 @@ jQuery(function(){
         
     });
 
-    var bnActive = false;
+    let bnActive = false;
     $(document).on('click', '.floatingMenu .bn, .lateralFloatingMenu .bn', async function(event){
-        var neuronToGo = $(this).attr('neuronId'); //id de neurona clickeada
+        const neuronToGo = $(this).attr('neuronId'); //id de neurona clickeada
         
         if($(this).parent().attr('dimensionid') == 0){
             $('.lateralFloatingMenu').fadeOut(500);
         }
-/*         if(mundo.dimension == 0){ //Si la dimensión es 0, el menu directamente hay que ocultarlo
-            $('[dimensionid="'+mundo.dimension+'"]').fadeOut(500);
-        }
-         */
+
         //Modifico btns en focus
         $(this).siblings().removeClass('bnfocus');
         $(this).addClass('bnfocus');
@@ -82,23 +71,21 @@ jQuery(function(){
         if($(this).prop('checked')){
             $(".floatingMenu .bn").show();
             mundo.cameraController.backToBasicsView();
-        }else{
-            if(bnActive){
-                goBack();
-            }
+        }else if(bnActive){
+            goBack();
         }
     });
 
     $(document).on("click", '.enviar', function( event ) {
         //Llamo para crear la neurona
         event.preventDefault();
-        var data = {
+        const data = {
             nickName: $('form #nickname').val(),
             email: $('form #email').val(),
             comentario: $('form #comentario').val()
         }
         $.post( "/neurons", data, function( response ) {
-            var newNeuron = response;
+            const newNeuron = response;
             $('.formulario').fadeOut(300,function(){
                 $('.gracias').fadeIn(300);
             });
@@ -169,7 +156,7 @@ jQuery(function(){
         $('[dimensionid="'+mundo.dimension+'"] .bn').removeClass('bnfocus');
         $('.bn[neuronid="'+node.id+'"]').addClass('bnfocus');
 
-        var nodeHtml = node.html; //somasData.filter(textNode => textNode.id == node.id)[0];
+        const nodeHtml = node.html; 
         if(nodeHtml?.subtitle)
             $(".subtitle").text(nodeHtml.subtitle);
         else
@@ -219,21 +206,4 @@ jQuery(function(){
     }
 
 });
-
-function takeScreenshot(mundo){
-    // open in new window like this
-    var w = window.open('', '');
-    w.document.title = "Screenshot";
-    var img = new Image();
-    // Without 'preserveDrawingBuffer' set to true, we must render now
-    mundo.render();
-    img.src = mundo.renderer.domElement.toDataURL('image/png');
-    w.document.body.appendChild(img);  
-
-    /* const imgData = canvas.toBlob( ( blob ) => { 
-        const imgEl = document.createElement( 'img' ); 
-        imgEl.src = URL.createObjectURL( blob ); 
-        document.body.appendChild( imgEl ); 
-    }); */
-}
 

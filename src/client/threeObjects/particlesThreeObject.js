@@ -35,14 +35,6 @@ export class ParticlesThreeObject extends ThreeObject {
 
         const group = new THREE.Group();
 
-/*         if(props.helper !== undefined){
-            const helper = new THREE.BoxHelper( new THREE.Mesh( new THREE.BoxGeometry( rX, rY, rZ ) ) );
-            helper.material.color.setHex( 0xFFFFFF );
-            helper.material.blending = THREE.AdditiveBlending;
-            helper.material.transparent = true;
-            group.add( helper );  
-        } */
-
         const segments = this.maxParticleCount * this.maxParticleCount;
 
         this.positions = new Float32Array( segments * 3 );

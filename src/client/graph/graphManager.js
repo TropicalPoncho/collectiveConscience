@@ -1,5 +1,4 @@
 import { centrarGrafoEnCero } from './utils.js';
-import { DataLoader } from './dataLoader.js';
 
 /**
  * Gestor del grafo 3D
@@ -30,14 +29,14 @@ export class GraphManager {
      */
     insertNodesById(nodeIds, nextIdToShow = false) {
         // Si encuentro los nodos ya cargados pero no insertados
-        var newNeurons = this.dataLoader.findNeuronsByIds(nodeIds);
+        const newNeurons = this.dataLoader.findNeuronsByIds(nodeIds);
         if (!newNeurons || newNeurons.length === 0) {
             return;
         }
         this.graphData.nodes.push(...newNeurons);
 
         // Buscar sinapsis donde el nodeId esté como source o target
-        var newSynapses = this.dataLoader.filterSynapsesByNodeIds(nodeIds);
+        const newSynapses = this.dataLoader.filterSynapsesByNodeIds(nodeIds);
         
         if (newSynapses.length > 0) {
             this.graphData.links.push(...newSynapses);
@@ -91,7 +90,7 @@ export class GraphManager {
                     resolve();
                     if (nextIdToShow) {
                         console.log("nextIdToShow", nextIdToShow);
-                        var node = this.getNodeById(nextIdToShow);
+                        const node = this.getNodeById(nextIdToShow);
                         if (this.showNeuronsCallBack && node) {
                             this.showNeuronsCallBack(node);
                             return;
@@ -148,8 +147,8 @@ export class GraphManager {
      * @returns {Object|null} Nodo encontrado o null
      */
     getNodeById(neuronId) {
-        var nodes = this.graphData.nodes;
-        var filterNode = nodes.find(item => item.id == neuronId);
+        const nodes = this.graphData.nodes;
+        const filterNode = nodes.find(item => item.id == neuronId);
         return filterNode || null;
     }
 
