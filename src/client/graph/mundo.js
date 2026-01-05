@@ -1,4 +1,5 @@
 import ForceGraph3D from '3d-force-graph';
+// import * as THREE from 'three'; 
 
 let ForceGraphAR;
 let THREE;

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tropical Poncho</title>
+    <link rel="icon" type="image/x-icon" href="/images/isologo_blanco.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/src/client/styles/style.css">
+    <link rel="stylesheet" href="/src/client/styles/index.css">
+</head>
+<body>
+    <div id="contentNetwork"></div>
+    <div class="floatingTitle">TROPICAL PONCHO</div>
+    <label class="checkbtn" for="check">
+        <i class="material-icons">clear_all</i>
+    </label>
+    <input name="check" id="check" type="checkbox">
+    <div class="floatingMenu" dimensionId="0">
+        <button class="bn" id="nosotres" neuronId="0">CONCEPTO</button>
+        <button class="bn" id="obras" neuronId="1">OBRAS</button>
+        <button class="bn" id="audiovisuales" neuronId="2">AUDIOVISUALES</button>
+        <button class="bn" id="editorial" neuronId="3">EDITORIAL</button>
+        <button class="bn" id="proyectos" neuronId="4">TECNOLOGÍA</button>
+        <button class="bn" id="laboratorios" neuronId="5">LABORATORIOS</button>
+    </div>
+
+    <div class="lateralFloatingMenu hidden" dimensionId="-1"></div>
+    
+    <div class="floatingInfo hidden">
+        <div class="data">
+            <div class="subtitle"></div>
+            <div class="info"></div>
+            <div class="infoButtons row">
+                <button class="col s6 bn next">SEGUIR</button>
+                <button class="col s6 bn volver">VOLVER</button>
+            </div>
+        </div>
+
+        <div class="formulario hidden">
+            <h3>Registrate para la beca y saber más del proyecto:</h3>
+            <form id="registro" action="/submit-form" method="POST">
+                <div>
+                    <label for="nickname">Nickname:</label>
+                    <input type="text" id="nickname" name="nickname" required>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="labelComentario">
+                    <label for="comentario">Comentarios:</label>
+                    <textarea id="comentario" name="comentario" rows="4"></textarea>
+                </div>
+                <div>
+                    <button class="bn enviar">Enviar</button>
+                </div>
+            </form>
+        </div>
+        <div class="gracias hidden">
+            <h3>Gracias por registrarte, te vamos a enviar un email para el formulario. 0 spam, lo prometemos.</h3>
+        </div>
+    </div>
+
+    <script>
+        var arActive = false;
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="module" src="/src/client/index.js"></script>
+</body>
+</html>

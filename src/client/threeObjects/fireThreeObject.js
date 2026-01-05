@@ -12,12 +12,12 @@ export class FireThreeObject extends ThreeObject  {
 
         this.localUniforms = {
             tExplosion: { type: "t", value: new THREE.TextureLoader().load( '/images/explosion.png' ) },
-            weight: { type: "f", value: 10 }
+            weight: { type: "f", value: 10.0 }
         };
 
         this.speed = 0.009;
 
-        const material = new THREE.ShaderMaterial( {
+        var material = new THREE.ShaderMaterial( {
             uniforms: {...this.globalUniforms, ...this.localUniforms},
             vertexShader: `
                 ${noiseFS}
