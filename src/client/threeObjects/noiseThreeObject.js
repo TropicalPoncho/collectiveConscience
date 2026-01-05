@@ -21,19 +21,12 @@ export class NoiseThreeObject extends ThreeObject  {
                     this.segmentHeight
                 );
 
-                //const offsetNode = timerLocal();
-                //const customUV = add( mul( normalWorld, 10 ), offsetNode );
-
                 // left top
-
                 let material = new MeshPhysicalNodeMaterial();
-                //material.colorNode = mx_noise_vec3( customUV );
 
                 this.mesh.add(new THREE.Mesh( geometry, material ));
             }); 
     }
 
-    animate(){
-    }
 }
 

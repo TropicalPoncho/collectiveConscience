@@ -23,7 +23,6 @@ export class LinkThreeObject extends ThreeObject  {
 
         this.mesh = new THREE.Line(geometry, material);
 
-        //this.mesh.material.color.set(0x00ff00);
     }
 
     setPosition(start, end) {

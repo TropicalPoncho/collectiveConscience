@@ -8,13 +8,12 @@ export class LinesThreeObject extends ThreeObject {
 
     constructor (node, config){
         super(node);
-        var uniformColor = node.color ?? colorsArray[2];
+        let uniformColor = node.color ?? colorsArray[2];
         let uniforms = {
-            amplitude: { value: 7.0 },
+            amplitude: { value: 7 },
             opacity: { value: 0.3 },
             color: { value: new THREE.Color( uniformColor ) }
         };
-        //const geometry = new THREE.SphereGeometry( node.val , 32, 16 );
         const geometry = new THREE.IcosahedronGeometry(this.size, this.segmentWidth);
 
         const vertexShader = `

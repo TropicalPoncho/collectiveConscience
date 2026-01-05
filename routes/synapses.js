@@ -12,7 +12,7 @@ const synapsesService = new SynapsesService();
  */
 router.get('/', async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 0;
+        const page = Number.parseInt(req.query.page) || 0;
         
         const filters = queryToFilters(req.query);
 
@@ -49,7 +49,7 @@ router.get('/between/:fromId/:toId', async (req, res) => {
 router.get('/neuron/:neuronId', async (req, res) => {
     try {
         const neuronId = req.params.neuronId;
-        const page = parseInt(req.query.page) || 0;
+        const page = Number.parseInt(req.query.page) || 0;
         const synapses = await synapsesService.getByNeuronId(neuronId, page);
         res.json(synapses);
     } catch (error) {

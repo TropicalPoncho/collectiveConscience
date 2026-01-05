@@ -19,11 +19,11 @@ export class ImageThreeObject extends ThreeObject  {
 
         const imgTexture = new THREE.TextureLoader().load(`images/${node.img}`, () => {
             imgTexture.colorSpace = THREE.SRGBColorSpace;
-            var material = new THREE.SpriteMaterial({map: imgTexture, transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
+            const material = new THREE.SpriteMaterial({map: imgTexture, transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
             const sprite = new THREE.Sprite(material);
 
             // Usa el tamaño calculado en vez de imgSize
-            var imgSize = Array.isArray(node.imgSize)
+            const imgSize = Array.isArray(node.imgSize)
                 ? node.imgSize
                 : getImageSize(node, 2.1); // factor 1 = igual que el nodo
 

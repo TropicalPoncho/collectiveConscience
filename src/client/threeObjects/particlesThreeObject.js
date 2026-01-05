@@ -28,17 +28,10 @@ export class ParticlesThreeObject extends ThreeObject {
     constructor(node, props){
         super(node);
         
-        //Object.defineProperties(this, props, node.particles);
-        
         var rX = this.r ?? node.particlesSize;
         var rY = rX;
         var rZ = rX;
         this.rHalf = rX / 2;;
-        
-        
-/*         _maxParticleCount = node.particles?.maxParticleCount ?? effectController.maxParticleCount;
-        _maxConnections = node.particles?.maxConnections ?? effectController.maxConnections;
-        _minDistance = node.particles?.minDistance ?? effectController.minDistance; */
 
         var group = new THREE.Group();
 

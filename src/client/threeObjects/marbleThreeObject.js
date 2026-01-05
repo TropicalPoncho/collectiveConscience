@@ -26,15 +26,6 @@ export class MarbleThreeObject extends ThreeObject  {
 
     static type = 'Marble';
 
-/*     params = {
-        roughness: 0.1,
-        iterations: 32,
-        depth: 0.6,
-        smoothing: 0.2,
-        colorA: '#000000',
-        colorB: '#00ffaa'
-    }; */
-
     params = {
         roughness: 0.5,
         iterations: 100,
@@ -45,15 +36,8 @@ export class MarbleThreeObject extends ThreeObject  {
         colorB: '#d719c7'
     };
 
-
-
     constructor (node, config){
         super(node);
-        /*  var randomColorA = colorsArray[randomIntFromInterval(0,6)];
-        var randomColorB = colorsArray[randomIntFromInterval(0,6)]; */
-
-        /* var randomColorA = node.color ?? globalDefaultSettings.marbleColorA;
-        var randomColorB = globalDefaultSettings.marbleColorB; */
 
         const geometry = new THREE.SphereGeometry(this.size, this.segmentWidth, this.segmentHeight);
         const material = new THREE.MeshStandardMaterial({ roughness: this.params.roughness });

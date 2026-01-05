@@ -1,3 +1,7 @@
 {
-    "CodeGPT.apiKey": "CodeGPT Plus Beta"
+    "CodeGPT.apiKey": "CodeGPT Plus Beta",
+    "sonarlint.connectedMode.project": {
+        "connectionId": "tropicalponcho",
+        "projectKey": "TropicalPoncho_collectiveConscience"
+    }
 }

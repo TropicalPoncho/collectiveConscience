@@ -11,9 +11,9 @@ export class LightsThreeObject extends ThreeObject  {
         super(node);
 
         this.localUniforms = {
-            weight: { type: "f", value: 3.0 },
+            weight: { type: "f", value: 3 },
             colorR: { type: "f", value: .9},
-            colorG: { type: "f", value: .0},
+            colorG: { type: "f", value: 0},
             colorB: { type: "f", value: .8},
             colorChange: { type: "f", value: 2},
         };

@@ -6,7 +6,7 @@ const limit = 40;
 const getTypeCode = (typeName) => {
     for (const [code, name] of Object.entries(synapseType)) {
         if (name === typeName) {
-            return parseInt(code);
+            return Number.parseInt(code);
         }
     }
     return null;
@@ -16,14 +16,10 @@ const getTypeName = (typeCode) => {
     return synapseType[typeCode] || null;
 };
 
+// Nota: los filtros llegan ya transformados por queryToFilters (utils/helpers)
+
 class SynapsesService {
-    /**
-     * @description Create an instance of SynapsesService
-     */
-    constructor () {
-      // Create instance of Data Access layer using our desired model
-    }
-  
+
     /**
      * @description Attempt to create a synapse with the provided object
      * @param synapseToCreate {object} Object containing all required fields to
@@ -73,17 +69,14 @@ class SynapsesService {
             let query = Synapse.find();
             console.log('📊 Query created');
 
-            // Aplicar filtros si existen
-            if (Object.keys(filters).length > 0) {
-                console.log('🔧 Applying filters:', filters);
-                // Manejo especial para el campo 'type'
+            // Aplicar filtros recibidos (ya normalizados en queryToFilters)
+            if (filters && Object.keys(filters).length > 0) {
                 if (filters.type && typeof filters.type === 'string') {
                     const typeCode = getTypeCode(filters.type);
-                    if (!typeCode) {
-                        throw new Error(`Tipo de sinapsis inválido: ${filters.type}`);
-                    }
+                    if (!typeCode) throw new Error(`Tipo de sinapsis inválido: ${filters.type}`);
                     filters.type = typeCode;
                 }
+                console.log('🔧 Applying filters:', filters);
                 query = query.where(filters);
             }
 
