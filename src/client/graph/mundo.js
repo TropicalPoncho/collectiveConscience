@@ -1,11 +1,10 @@
 import ForceGraph3D from '3d-force-graph';
-// import * as THREE from 'three'; 
 
 let ForceGraphAR;
 let THREE;
 let ThreeObjectManager; // Variable para la clase cargada dinámicamente
 
-if (window.location.pathname === '/ar') {
+if (globalThis.location.pathname === '/ar') {
     console.log("Iniciando modo AR...");
     
     try {
@@ -13,9 +12,9 @@ if (window.location.pathname === '/ar') {
         await import('aframe');
         await import('@ar-js-org/ar.js');
         
-        // IMPORTANTE: Usar la instancia de THREE que A-Frame pone en el objeto window
+        // IMPORTANTE: Usar la instancia de THREE que A-Frame pone en el objeto globalThis
         // Esto evita el error "not an instance of THREE.Object3D"
-        THREE = window.THREE;
+        THREE = globalThis.THREE;
 
         const module = await import('3d-force-graph-ar');
         ForceGraphAR = module.default;
@@ -25,21 +24,18 @@ if (window.location.pathname === '/ar') {
     }
 } else {
     THREE = await import('three');
-    window.THREE = THREE; // Exponer globalmente para consistencia
+    globalThis.THREE = THREE; // Exponer globalmente para consistencia
 }
 
 // Importamos ThreeObjectManager dinámicamente DESPUÉS de establecer el entorno THREE
 const tomModule = await import('../threeObjects/ThreeObjectManager.js');
 ThreeObjectManager = tomModule.ThreeObjectManager;
 
-import Stats from 'three/addons/libs/stats.module.js'
-import { GLOBAL_DEFAULT_SETTINGS, COLORS_ARRAY, ANIMATION_SETTINGS, CAMERA_SETTINGS } from './constants.js';
-import { getSide, createLinks } from './utils.js';
+import { GLOBAL_DEFAULT_SETTINGS, CAMERA_SETTINGS } from './constants.js';
 import { CameraController } from './cameraController.js';
 import { DataLoader } from './dataLoader.js';
 import { GraphManager } from './graphManager.js';
 import { AnimationManager } from './animationManager.js';
-//mport { CSS2DRenderer } from '//unpkg.com/three/examples/jsm/renderers/CSS2DRenderer.js';
 
 /**
  * Mundo - Facade principal del sistema de visualización de redes neuronales

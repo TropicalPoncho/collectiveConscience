@@ -11,12 +11,12 @@ export class WaveLineThreeObject extends ThreeObject  {
         super(node);
 
         this.localUniforms = {
-            weight: { type: "f", value: 3.0 },
+            weight: { type: "f", value: 3 },
             colorR: { type: "f", value: .9},
-            colorG: { type: "f", value: .0},
+            colorG: { type: "f", value: 0},
             colorB: { type: "f", value: .8},
             colorChange: { type: "f", value: 2},
-            u_pointsize: { type: "f", value: 2.0 },
+            u_pointsize: { type: "f", value: 2 },
             u_noise_freq_1: { type: "f", value: 3},
             u_noise_amp_1: { type: "f", value: .2},
             u_spd_modifier_1: { type: "f", value: 1},
@@ -36,7 +36,7 @@ export class WaveLineThreeObject extends ThreeObject  {
 
         this.speed = 0.009;
 
-        var material = new THREE.ShaderMaterial( {
+        const material = new THREE.ShaderMaterial( {
             uniforms: { ...this.localUniforms, ...this.globalUniforms, ...this.uniforms },
             vertexShader: `
                 #define PI 3.14159265359

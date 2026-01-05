@@ -12,13 +12,13 @@ export class TwistThreeObject extends ThreeObject  {
 
         this.uniforms = {
             uNoiseStrength: { type: "f", value: 4 },
-            uNoiseDensity: { type: "f", value: 4.0 },
+            uNoiseDensity: { type: "f", value: 4 },
             uIntensity: { type: "f", value: 1.5 },
             uFrequency: { type: "f", value: 2 },
             uAmplitude: { type: "f", value: 2 },
             uBrightness: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
             uContrast: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
-            uOscilation: { value: new THREE.Vector3(2, 1.0, 0) },
+            uOscilation: { value: new THREE.Vector3(2, 1, 0) },
             uPhase: { value: new THREE.Vector3(0.3, 0.6, 0.2) }
         };
 

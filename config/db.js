@@ -62,28 +62,35 @@ const options = {
 };
 
 // Reutilizar conexión entre invocaciones (serverless friendly)
-let cached = global._mongoose;
+let cached = globalThis._mongoose;
 
 if (!cached) {
-    cached = global._mongoose = { conn: null, promise: null };
+    cached = globalThis._mongoose = { conn: null, promise: null };
 }
 
 async function connect() {
     if (cached.conn) return cached.conn;
     if (!cached.promise) {
-        cached.promise = mongoose.connect(url, options).then((mongoose) => {
-            console.log('MongoDB conectado exitosamente');
-            return mongoose;
-        }).catch(err => {
-            console.error('Error conectando a MongoDB:', err);
-            throw err;
-        });
+        cached.promise = (async () => {
+            try {
+                const conn = await mongoose.connect(url, options);
+                console.log('MongoDB conectado exitosamente');
+                return conn;
+            } catch (err) {
+                console.error('Error conectando a MongoDB:', err);
+                throw err;
+            }
+        })();
     }
     cached.conn = await cached.promise;
     return cached.conn;
 }
 
 // Iniciar conexión inmediata en entornos tradicionales; en serverless se lazily-resolve al requerir
-connect().catch(() => {});
+try {
+    await connect();
+} catch (err) {
+    console.error('Error inicializando conexión MongoDB:', err);
+}
 
 module.exports = mongoose;

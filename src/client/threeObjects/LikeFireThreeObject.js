@@ -38,7 +38,6 @@ export class LikeFireThreeObject extends ThreeObject{
           `,
         });
         this.mesh.add(new THREE.Mesh(geometry, material));
-        //this.mesh.scale.set( 3, 3, 3 );
     }
 
     animate(){

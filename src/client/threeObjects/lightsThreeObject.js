@@ -24,7 +24,7 @@ export class LightsThreeObject extends ThreeObject  {
 
         this.speed = 0.009;
 
-        var material = new THREE.ShaderMaterial( {
+        const material = new THREE.ShaderMaterial( {
             uniforms: { ...this.localUniforms, ...this.globalUniforms, ...this.uniforms },
             vertexShader: `
                 ${noiseFS}

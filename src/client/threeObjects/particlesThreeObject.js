@@ -28,12 +28,12 @@ export class ParticlesThreeObject extends ThreeObject {
     constructor(node, props){
         super(node);
         
-        var rX = this.r ?? node.particlesSize;
-        var rY = rX;
-        var rZ = rX;
+        const rX = this.r ?? node.particlesSize;
+        const rY = rX;
+        const rZ = rX;
         this.rHalf = rX / 2;;
 
-        var group = new THREE.Group();
+        const group = new THREE.Group();
 
 /*         if(props.helper !== undefined){
             const helper = new THREE.BoxHelper( new THREE.Mesh( new THREE.BoxGeometry( rX, rY, rZ ) ) );

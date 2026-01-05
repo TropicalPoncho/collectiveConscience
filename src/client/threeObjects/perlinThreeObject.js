@@ -1,11 +1,7 @@
 import { resolveTHREE } from './threeGlobal.js';
 const THREE = resolveTHREE();
 const { Vector3 } = THREE;
-/* import { EffectComposer } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/ShaderPass.js';
-import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/UnrealBloomPass.js'; */
-// Vector3 se toma de la misma instancia THREE resuelta arriba
+
 import { ThreeObject } from "./ThreeObject.js";
 import { noiseFS } from '../shaders/noise.js';
 
@@ -16,11 +12,6 @@ export class PerlinThreeObject extends ThreeObject{
 
     constructor(node){
         super(node);
-        /* bloomComposer.setSize( innerWidth, innerHeight );
-            finalComposer.setSize( innerWidth, innerHeight );
-            rt.setSize(innerWidth, innerHeight);
-            globalUniforms.aspect.value = camera.aspect;
-        */
         let cubeMap = createCubeMap();
 
         // <OBJECT>
@@ -81,7 +72,6 @@ export class PerlinThreeObject extends ThreeObject{
                     rPos = transformed;
                 `
                 );
-                //console.log(shader.vertexShader);
                 shader.fragmentShader = `
                 #define ss(a, b, c) smoothstep(a, b, c)
                 uniform float bloom;
@@ -111,20 +101,18 @@ export class PerlinThreeObject extends ThreeObject{
                     
                 `
                 );
-                //console.log(shader.fragmentShader);
             }
         });
-        var perlinMesh = new THREE.Mesh(g, m);
+        const perlinMesh = new THREE.Mesh(g, m);
         perlinMesh.scale.set( 3, 3, 3 );
         this.mesh.add(perlinMesh);
 
         const geometry = new THREE.SphereGeometry(this.size, this.segmentWidth, this.segmentHeight);
         const material = new THREE.MeshStandardMaterial({ transparent: true });
-        var obj = new THREE.Mesh(geometry, material);
+        const obj = new THREE.Mesh(geometry, material);
         obj.visible = false;
         this.mesh.add(obj);
 
-        // </OBJECT>
     }
 
     animate(){
