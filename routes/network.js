@@ -13,15 +13,22 @@ const neuronsService = new NeuronsService();
 router.get('/', async (req, res) => {
     try {
         const page = Number.parseInt(req.query.page) || 0;
-        let neurons, synapses;
+        const cursor = req.query.cursor;
+        let neuronsResult, synapses;
+
         if(req.query.synapseTypes){
             const synapseTypes = req.query.synapseTypes;
-            ({ neurons, synapses } = await synapsesService.getByTypeWithNeurons(synapseTypes, page));
-        }else{
-            neurons = await neuronsService.getAll(page);
+            ({ neurons: neuronsResult, synapses } = await synapsesService.getByTypeWithNeurons(synapseTypes, page));
+        } else {
+            neuronsResult = await neuronsService.getAll(cursor);
             synapses = await synapsesService.getAll(page);
         }
-        res.json({ neurons, synapses });
+
+        const neurons = Array.isArray(neuronsResult) ? neuronsResult : neuronsResult.items;
+        const nextCursor = Array.isArray(neuronsResult) ? null : neuronsResult.nextCursor;
+        if (nextCursor) res.set('X-Next-Cursor', nextCursor);
+
+        res.json({ neurons, synapses, nextCursor });
     } catch (error) {
         console.error('Error getting network:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
