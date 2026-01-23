@@ -2,11 +2,16 @@
 
 import app from '../app.js';
 import debugLib from 'debug';
+import cors from 'cors';
 import { createServer } from 'node:http';
 import ViteExpress from 'vite-express';
 import db from '../config/db.js';
 
 const debug = debugLib('collective-conscience:server');
+
+app.use(cors({
+    origin: 'http://localhost:5173' // Allow only your frontend origin
+}));
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);

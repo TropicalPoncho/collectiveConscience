@@ -23,22 +23,16 @@ router.post('/', function(req, res, next) {
 
 router.get('/', function(req, res, next){
 	const filters = queryToFilters(req.query);
-	NeuronsServiceInstance.getAll(req.query.page, filters).then(result => {
+	const cursor = req.query.cursor;
+	NeuronsServiceInstance.getAll(cursor, filters).then(result => {
+		if (result.nextCursor) {
+			res.set('X-Next-Cursor', result.nextCursor);
+		}
 		res.json(result);
 	}).catch(err => {
 		console.log(err)
 		next(createError(500));
 	});
-});
-
-router.get('/:order', function(req, res, next){
-        const order = req.params.order;
-        NeuronsServiceInstance.getByOrder(order, req.query.page).then(result => {
-                res.json(result);
-        }).catch(err => {
-                console.log(err);
-                next(createError(500));
-        });
 });
 
 /**

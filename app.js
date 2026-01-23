@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('node:path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const db = require('./config/db');
+const { connectDb } = require('./config/db');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -14,6 +14,19 @@ const synapsesRouter = require('./routes/synapses');
 
 const app = express();
 app.disable("x-powered-by");
+
+// Start Mongo connection once and reuse across invocations (Vercel cold starts)
+const dbReady = connectDb();
+
+// Ensure DB is connected before handling requests
+app.use(async (req, res, next) => {
+  try {
+    await dbReady;
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -16,6 +16,7 @@
     "3d-force-graph-ar": "^1.10.0",
     "aframe": "1.4.2",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "d3": "^7.6.1",
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",

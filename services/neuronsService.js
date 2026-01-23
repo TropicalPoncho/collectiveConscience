@@ -1,4 +1,5 @@
 const Neuron = require('../models/neurons');
+const { Types } = require('mongoose');
 
 const limit = 40;
 
@@ -49,53 +50,28 @@ class NeuronsService {
         }
     } */
 
-    async getAll ( page, filters = {} ) {
+    async getAll ( cursor, filters = {} ) {
         try {
-            console.log('🔍 NeuronsService.getAll called with:', { page, filters });
+            const query = Neuron.find(filters)
+                .sort({ _id: 1 })
+                .limit(limit + 1); // Fetch one extra to detect next cursor
 
-            const query = Neuron.aggregate();
-            query.addFields({
-                nOrder: {$ifNull : [ "$order" , 100 ] },
-            });
-
-            // Aplicar filtros si existen
-            if (Object.keys(filters).length > 0) {
-                console.log('🔧 Applying filters:', filters);
-                query.match(filters);
+            if (cursor) {
+                if (!Types.ObjectId.isValid(cursor)) {
+                    throw new Error('Invalid cursor');
+                }
+                query.where('_id').gt(new Types.ObjectId(cursor));
             }
 
-            query.sort({"nOrder":1, "_id": 1 })
-            if(page !== undefined && page != 0){
-                query.skip(limit*page);
-            }
+            const result = await query.exec();
+            const hasNext = result.length > limit;
+            const items = hasNext ? result.slice(0, limit) : result;
+            const nextCursor = hasNext ? items.at(-1)._id.toString() : null;
 
-            console.log('🚀 Executing query...');
-            const result = await query.limit(limit).exec();
-            console.log('✅ Query executed, found', result.length, 'neurons');
-            
-            return result;
+            return { items, nextCursor };
         } catch ( err ) {
             console.error('❌ Error in NeuronsService.getAll:', err);
-            return err;
-        }
-    }
-
-    getByOrder ( order , page ) {
-        try {
-            const query = Neuron.aggregate()
-                .addFields({
-                    nOrder: {$ifNull : [ "$order" , 100 ] },
-                })
-                .match({ order: order })
-                .sort({"nOrder":1, "_id": 1 });
-
-            if(page !== undefined && page != 0){
-                query.skip(limit*page);
-            }
-
-            return query.limit(limit).exec();
-        } catch ( err ) {
-            return err;
+            throw err;
         }
     }
 
