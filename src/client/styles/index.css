@@ -27,64 +27,8 @@ section {
   font-style: normal;
   font-size: 45px;
   color: white;
-}
-
-.floatingInfo{
-  position: absolute;
-  top:  20%;
-  left: 5%;
-  width: 40%;
-  max-height: 70%;
-  overflow: scroll;
-  color: white;
-  padding: 15px;
-  text-align: justify;
-  font-size: 15px;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-textarea{
-  color: white;
-}
- 
-.floatingInfo.der .subtitle, .floatingInfo.der .info{
-  text-align: justify;
-}
-.floatingInfo.izq .subtitle, .floatingInfo.izq .info{
-  text-align: justify;
-}
-.info, .infoButtons{
-  padding-top: 10px;
-}
-.floatingInfo.der .infoButtons{
-  display: flex;
-  justify-content: flex-end;
-  float: right;
-}
-
-.floatingMenu.top{
-  top:2%;
-  transition: top 2s ease;
-}
-
-.checkbtn{
-  position: absolute;
-  top:  2%;
-  right: 2%;
-  font-size: 30px;
-  color: #fff;
-  float: right;
-  line-height: 80px;
-  margin-right: 20px;
-  cursor: pointer;
-  display: none;
-}
-.checkbtn i{
-  font-size: 50px;
-}
-
-#check{
-  display: none;
+  z-index: 60;
+  pointer-events: none;
 }
 
 .floatingInfo{
@@ -92,8 +36,8 @@ textarea{
   top: 20%;
   left: 5%;
   width: 40%;
-  max-height: 70%;
-  overflow: auto;
+  max-height: 70vh;
+  overflow: hidden;
   color: white;
   padding: 18px;
   text-align: justify;
@@ -107,6 +51,33 @@ textarea{
   isolation: isolate;
   --glow-x: 50%;
   --glow-y: 50%;
+}
+
+/* Contenido interno scrollable; el wrapper mantiene el fondo fijo */
+.floatingInfo .data,
+.floatingInfo .formulario,
+.floatingInfo .gracias{
+  max-height: calc(70vh - 36px);
+  overflow: auto;
+}
+
+.floatingInfo.der .subtitle, .floatingInfo.der .info{
+  text-align: justify;
+}
+.floatingInfo.izq .subtitle, .floatingInfo.izq .info{
+  text-align: justify;
+}
+
+.floatingInfo.der{
+  right: 5%;
+  left: auto;
+  transform: translate(0, 0);
+}
+
+.floatingInfo.izq{
+  left: 5%;
+  right: auto;
+  transform: translate(0, 0);
 }
 
 .floatingInfo::before{
@@ -149,6 +120,59 @@ textarea{
   z-index: 1;
 }
 
+.info, .infoButtons{
+  padding-top: 10px;
+}
+.floatingInfo .infoButtons{
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  width: 100%;
+}
+.floatingInfo .infoButtons .bn{
+  flex: 1;
+  text-align: center;
+}
+
+.floatingMenu.top{
+  top:2%;
+  transition: top 2s ease;
+}
+
+.checkbtn{
+  position: absolute;
+  top:  2%;
+  right: 2%;
+  font-size: 30px;
+  color: #fff;
+  float: right;
+  line-height: 80px;
+  margin-right: 20px;
+  cursor: pointer;
+  display: none;
+}
+.checkbtn i{
+  font-size: 50px;
+}
+
+#check{
+  display: none;
+}
+
+/* Menú principal bajo el título por defecto; sube al top cuando se oculta el título */
+.floatingMenu{
+  position: absolute;
+  top: 13%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  z-index: 40;
+  transition: top 0.6s ease, transform 0.6s ease;
+}
 
 .lateralFloatingMenu {
   position: absolute;
@@ -157,21 +181,20 @@ textarea{
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 0; /* Eliminado el gap vertical */
+  gap: 0;
   z-index: 100;
-  align-items: flex-start; /* Alineación a la izquierda */
+  align-items: flex-start;
 }
 
 .lateralFloatingMenu .bn {
   display: block;
   margin: 0;
-  text-align: left; /* Texto a la izquierda */
-  font-size: 12px; /* Fuente más chica */
-  padding: 5px 10px; /* Padding reducido */
+  text-align: left;
+  font-size: 12px;
+  padding: 5px 10px;
   width: 100%;
 }
 
-/* Regla específica para permitir que bnfocus funcione dentro del menú lateral */
 .lateralFloatingMenu .bn.bnfocus {
   font-size: 36px;
 }
@@ -179,10 +202,23 @@ textarea{
 @media screen and (max-width: 800px) {
     .floatingInfo,.floatingInfo.der{
         width: 90%;
-        top: 50%;
-        max-height: 45%;
+    top: 50%;
+    max-height: 45vh;
         left: 50%;
+        right: auto;
         transform: translate(-50%, 0);
+    }
+  .floatingInfo .data,
+  .floatingInfo .formulario,
+  .floatingInfo .gracias{
+    max-height: calc(45vh - 36px);
+  }
+    .floatingInfo .infoButtons{
+        flex-direction: column;
+        gap: 8px;
+    }
+    .floatingInfo .infoButtons .bn{
+        width: 100%;
     }
     .floatingTitle{
         font-size: 16px;
@@ -217,228 +253,223 @@ textarea{
     }
 }
 
+button {
+  appearance: none;
+  position: relative;
+  padding: 1em 2em;
+  border: 0;
+  background-color: rgba(0,0,0,0);
+  font-family: 'Briller', Gotham, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffff;
+  z-index: 2;
+}
   
- /* Style the navigation container */
+button::after {
+  --m-i: linear-gradient(#000, #000);
+  --m-o: content-box, padding-box;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--border-width);
+  background-image: conic-gradient(
+    #ff0080,
+    #ff0080,
+    #ff0080,
+    #ff0080,
+    #ff0080,
+    #ff0080,
+    #ff0080
+  );
+  -webkit-mask-image: var(--m-i), var(--m-i);
+  mask-image: var(--m-i), var(--m-i);
+  -webkit-mask-origin: var(--m-o);
+  mask-origin: var(--m-o);
+  mask-clip: var(--m-o);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+  filter: hue-rotate(0);
+  animation: rotate-hue634 linear 100ms infinite;
+  animation-play-state: paused;
+  border-radius: 20px;
+  border-color: #000;
+}
+  
+button:hover::after {
+  animation-play-state: running;
+  border-radius: 10px;
+}
+  
+@keyframes rotate-hue634 {
+  to {
+    filter: hue-rotate(1turn);
+  }
+}
+  
+button,
+button::after {
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+  
+button:active {
+  --border-width: 5px;
+}
+  
+.bn {
+  display: inline;
+  padding: 0.9em 1.6em;
+  border: none;
+  outline: none;
+  color: #FFF;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 32px;
+  vertical-align: middle;
+  transition: font-size 2s ease;
+}
+  
+.bn::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(46, 46, 46);
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+  
+.bn::before {
+  content: "";
+  background: linear-gradient(
+      45deg,
+      #07d888, #e40851, #2f00ff, #00ff37,
+        #ec0808, #2600ff, #0bd157, #2f00ff
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 600%;
+  z-index: -1;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  filter: blur(8px);
+  animation: glowing345 20s linear infinite;
+  transition: opacity .1s ease-in-out;
+  border-radius: 20px;
+  opacity: 0;
+}
+  
+@keyframes glowing345 {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+  
+.bn:hover::before {
+  opacity: 1;
+}
+  
+.bn:active:after, button:focus {
+  background: transparent;
+}
 
-  button {
-    appearance: none;
-    position: relative;
-    padding: 1em 2em;
-    border: 0;
-    background-color: rgba(0,0,0,0);
-    font-family: 'Briller', Gotham, sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    color: #ffff;
-    z-index: 2;
-  }
-  
-  button::after {
-    --m-i: linear-gradient(#000, #000);
-    --m-o: content-box, padding-box;
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    padding: var(--border-width);
-    background-image: conic-gradient(
-      #ff0080,
-      #ff0080,
-      #ff0080,
-      #ff0080,
-      #ff0080,
-      #ff0080,
-      #ff0080
-    );
-    -webkit-mask-image: var(--m-i), var(--m-i);
-    mask-image: var(--m-i), var(--m-i);
-    -webkit-mask-origin: var(--m-o);
-    mask-origin: var(--m-o);
-    mask-clip: var(--m-o);
-    mask-composite: exclude;
-    -webkit-mask-composite: destination-out;
-    filter: hue-rotate(0);
-    animation: rotate-hue634 linear 100ms infinite;
-    animation-play-state: paused;
-    border-radius: 20px;
-    border-color: #000;
-  }
-  
-  button:hover::after {
-    animation-play-state: running;
-    border-radius: 10px;
-  }
-  
-  @keyframes rotate-hue634 {
-    to {
-      filter: hue-rotate(1turn);
-    }
-  }
-  
-  button,
-  button::after {
-    box-sizing: border-box;
-    border-radius: 20px;
-  }
-  
-  button:active {
-    --border-width: 5px;
-  }
-  
-  .bn {
-    display: inline;
-    padding: 0.9em 1.6em;
-    border: none;
-    outline: none;
-    color: #FFF;
-    font-family: inherit;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    border-radius: 32px;
-    vertical-align: middle;
-    transition: font-size 2s ease;
-  }
-  
-  .bn::after {
-    content: "";
-    z-index: -1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(46, 46, 46);
-    left: 0;
-    top: 0;
-    border-radius: 10px;
-  }
-  
-  .bn::before {
-    content: "";
-    background: linear-gradient(
-        45deg,
-        #07d888, #e40851, #2f00ff, #00ff37,
-          #ec0808, #2600ff, #0bd157, #2f00ff
-    );
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    background-size: 600%;
-    z-index: -1;
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    filter: blur(8px);
-    animation: glowing345 20s linear infinite;
-    transition: opacity .1s ease-in-out;
-    border-radius: 20px;
-    opacity: 0;
-  }
-  
-  @keyframes glowing345 {
-    0% {
-      background-position: 0 0;
-    }
-  
-    50% {
-      background-position: 400% 0;
-    }
-  
-    100% {
-      background-position: 0 0;
-    }
-  }
-  
-  .bn:hover::before {
-    opacity: 1;
-  }
-  
-  .bn:active:after, button:focus {
-    background: transparent;
-  }
-
- .bnfocus{
-    text-shadow: 
-    -1px -1px 0 #000,  
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
-    padding: 0;
-    background-color: transparent;
-    font-size: 36px;
-  } 
+.bnfocus{
+  text-shadow: 
+  -1px -1px 0 #000,  
+  1px -1px 0 #000,
+  -1px 1px 0 #000,
+  1px 1px 0 #000;
+  padding: 0;
+  background-color: transparent;
+  font-size: 36px;
+} 
 
 
-  .bnfocus#nosotres{
-    color: var(--ColorPalette-Turquesa);
-  }
+.bnfocus#nosotres{
+  color: var(--ColorPalette-Turquesa);
+}
 
-  .bnfocus#obras{
-    color: var(--ColorPalette-Cian);
-  }
+.bnfocus#obras{
+  color: var(--ColorPalette-Cian);
+}
 
-  .bnfocus#audiovisuales{
-    color: var(--ColorPalette-Violeta);
-  }
+.bnfocus#audiovisuales{
+  color: var(--ColorPalette-Violeta);
+}
 
-  .bnfocus#editorial{
-    color: var(--ColorPalette-Fuccia);
-  }
+.bnfocus#editorial{
+  color: var(--ColorPalette-Fuccia);
+}
 
-  .bnfocus#proyectos{
-    color: var(--ColorPalette-Amarillo);
-  }
+.bnfocus#proyectos{
+  color: var(--ColorPalette-Amarillo);
+}
 
-  .bnfocus#laboratorios{
-    color: var(--ColorPalette-Turquesa);
-  }
+.bnfocus#laboratorios{
+  color: var(--ColorPalette-Turquesa);
+}
 
-  .bnfocus#amigues{
-    color: var(--ColorPalette-Fuccia);
-  }
+.bnfocus#amigues{
+  color: var(--ColorPalette-Fuccia);
+}
 
-  .bnfocus#contacto{
-    color: var(--ColorPalette-Amarillo);
-  }
+.bnfocus#contacto{
+  color: var(--ColorPalette-Amarillo);
+}
   
-  .bnfocus:active {
-    color: #000;
-    font-weight: bold;
-  }
+.bnfocus:active {
+  color: #000;
+  font-weight: bold;
+}
 
-  .subtitle{
-    font-size: 26px;
-  }
+.subtitle{
+  font-size: 26px;
+}
 
-  .labelComentario{
-    text-align: left;
-  }
+.labelComentario{
+  text-align: left;
+}
   
-  .ico {
-    display: inline-block;
-    width: 32px; height: 32px;
-    background-repeat: no-repeat;
-  }
-  .ig{
-    background-image: url('/icons/instagram.png');
-  }
-  .fb{
-    background-image: url('/icons/facebook.png');
-  }
-  .spotify{
-    background-image: url('/icons/spotify.png');
-  }
-  .web{
-    background-image: url('/icons/web.png');
-  }
-  .wpp{
-    background-image: url('/icons/whatsapp.png');
-  }
-  .youtube{
-    background-image: url('/icons/youtube.png');
-  }
+.ico {
+  display: inline-block;
+  width: 32px; height: 32px;
+  background-repeat: no-repeat;
+}
+.ig{
+  background-image: url('/icons/instagram.png');
+}
+.fb{
+  background-image: url('/icons/facebook.png');
+}
+.spotify{
+  background-image: url('/icons/spotify.png');
+}
+.web{
+  background-image: url('/icons/web.png');
+}
+.wpp{
+  background-image: url('/icons/whatsapp.png');
+}
+.youtube{
+  background-image: url('/icons/youtube.png');
+}
 
 @keyframes grain {
   0%, 100% { transform:translate(0, 0) }
