@@ -8,13 +8,33 @@ export class LinesThreeObject extends ThreeObject {
 
     constructor (node, config){
         super(node);
-        let uniformColor = node.color ?? colorsArray[2];
-        let uniforms = {
+
+        const uniformColor = node.color ?? ThreeObject.colorsArray[2];
+        const uniforms = {
             amplitude: { value: 7 },
             opacity: { value: 0.3 },
-            color: { value: new THREE.Color( uniformColor ) }
+            color: { value: new THREE.Color(uniformColor) }
         };
-        const geometry = new THREE.IcosahedronGeometry(this.size, this.segmentWidth);
+
+        const detail = Math.max(1, Math.min(3, this.segmentWidth || 1)); // reduce subdivisiones
+        const geometryKey = `lines-${this.size}-${detail}`;
+        const geometry = ThreeObject.getSharedGeometry(geometryKey, () => {
+            const geo = new THREE.IcosahedronGeometry(this.size, detail);
+            const count = geo.attributes.position.count;
+
+            const displacement = new THREE.Float32BufferAttribute(count * 3, 3);
+            geo.setAttribute('displacement', displacement);
+
+            const customColor = new THREE.Float32BufferAttribute(count * 3, 3);
+            geo.setAttribute('customColor', customColor);
+
+            const color = new THREE.Color(0xffffff);
+            for (let i = 0, l = customColor.count; i < l; i++) {
+                color.setHSL(i / l, 0.5, 0.5);
+                color.toArray(customColor.array, i * customColor.itemSize);
+            }
+            return geo;
+        });
 
         const vertexShader = `
             uniform float amplitude;
@@ -37,29 +57,15 @@ export class LinesThreeObject extends ThreeObject {
             }
         `;
 
-        const shaderMaterial = new THREE.ShaderMaterial( {
-            uniforms: uniforms,
-            vertexShader: vertexShader,
-            fragmentShader: fragmentShader,
+        const shaderMaterial = new THREE.ShaderMaterial({
+            uniforms,
+            vertexShader,
+            fragmentShader,
             blending: THREE.AdditiveBlending,
             depthTest: true,
             transparent: true
-        } );
-        const count = geometry.attributes.position.count;
+        });
 
-        const displacement = new THREE.Float32BufferAttribute( count * 3, 3 );
-        geometry.setAttribute( 'displacement', displacement );
-
-        const customColor = new THREE.Float32BufferAttribute( count * 3, 3 );
-        geometry.setAttribute( 'customColor', customColor );
-
-        const color = new THREE.Color( 0xffffff );
-
-        for ( let i = 0, l = customColor.count; i < l; i ++ ) {
-            color.setHSL( i / l, 0.5, 0.5 );
-            color.toArray( customColor.array, i * customColor.itemSize );
-        }
         this.mesh.add(new THREE.Line( geometry, shaderMaterial ));
     }
-
 }

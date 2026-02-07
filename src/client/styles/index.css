@@ -143,15 +143,19 @@ section {
 
 .checkbtn{
   position: absolute;
-  top:  2%;
-  right: 2%;
+  top: 2%;
+  left: 2%;
   font-size: 30px;
   color: #fff;
-  float: right;
+  float: left;
   line-height: 80px;
-  margin-right: 20px;
+  margin-left: 10px;
   cursor: pointer;
   display: none;
+  z-index: 120;
+}
+.checkbtn.show{
+  display: block;
 }
 .checkbtn i{
   font-size: 50px;
@@ -175,28 +179,62 @@ section {
 }
 
 .lateralFloatingMenu {
-  position: absolute;
-  left: 20px;
+  position: fixed;
+  left: 24px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(0, -50%);
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 4px;
   z-index: 100;
   align-items: flex-start;
+  padding: 12px 10px;
+  min-width: 200px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.75), rgba(0,0,0,0.6));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+  backdrop-filter: blur(6px);
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  position: fixed;
+  padding-top: 36px;
+  box-sizing: border-box;
+}
+
+.lateralFloatingMenu.hidden {
+  display: flex;
+  opacity: 0;
+  transform: translate(-120%, -50%);
+  pointer-events: none;
 }
 
 .lateralFloatingMenu .bn {
   display: block;
   margin: 0;
   text-align: left;
-  font-size: 12px;
-  padding: 5px 10px;
+  font-size: 13px;
+  padding: 8px 10px;
   width: 100%;
+  color: #fff;
+}
+
+.lateralFloatingMenu .close-lateral {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
 }
 
 .lateralFloatingMenu .bn.bnfocus {
-  font-size: 36px;
+  font-size: 18px;
+  letter-spacing: 0.5px;
 }
 
 @media screen and (max-width: 800px) {
@@ -250,6 +288,41 @@ section {
     }
     .floatingMenu button{
       padding: 5px 5px;
+    }
+
+    /* Responsive sidebar inspired by MagicPatterns design */
+    .lateralFloatingMenu {
+      top: 0;
+      left: 0;
+      height: 100vh;
+      transform: translateX(-110%);
+      border-radius: 0 12px 12px 0;
+      min-width: 240px;
+      gap: 8px;
+      justify-content: flex-start;
+      padding: 20px 16px;
+    }
+    #check:checked ~ .lateralFloatingMenu {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .lateralFloatingMenu.hidden {
+      display: flex;
+      transform: translateX(-110%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .lateralFloatingMenu .bn {
+      font-size: 16px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+    }
+    .lateralFloatingMenu .bn.bnfocus {
+      font-size: 18px;
+      background: rgba(255,255,255,0.08);
     }
 }
 

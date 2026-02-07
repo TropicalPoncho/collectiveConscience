@@ -55,6 +55,7 @@ export default class Mundo {
     threeObjectManager;
 
     stats;
+    rendererInfoInterval;
 
     elements = [];
     dataLoader;
@@ -167,6 +168,12 @@ export default class Mundo {
         this.cameraController.resize();
         window.addEventListener('resize', this.cameraController.resize.bind(this.cameraController), false);
         this.render();
+
+        // Debug-only renderer info logging
+        const isDev = (typeof import.meta !== 'undefined' && import.meta?.env?.DEV) || (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development') || ['localhost','127.0.0.1'].includes(globalThis.location?.hostname);
+        if (isDev) {
+            this.startRendererInfoDebug();
+        }
     }
 
     async initialize(dimensionId){
@@ -353,7 +360,38 @@ export default class Mundo {
         if (this.orbitInterval) {
             clearInterval(this.orbitInterval);
         }
+        if (this.rendererInfoInterval) {
+            clearInterval(this.rendererInfoInterval);
+        }
         this.stopOrbit();
+    }
+
+    startRendererInfoDebug(retries = 10) {
+        // Obtén renderer si aún no está
+        if (!this.renderer && this.Graph?.renderer) {
+            this.renderer = this.Graph.renderer();
+        }
+
+        if (!this.renderer) {
+            if (retries > 0) {
+                setTimeout(() => this.startRendererInfoDebug(retries - 1), 300);
+            }
+            return;
+        }
+
+        const info = this.renderer.info;
+        const logInfo = () => {
+            console.log('[renderer.info]', {
+                calls: info.render.calls,
+                triangles: info.render.triangles,
+                points: info.render.points,
+                lines: info.render.lines,
+                geometries: info.memory.geometries,
+                textures: info.memory.textures
+            });
+        };
+        logInfo();
+        this.rendererInfoInterval = setInterval(logInfo, 5000);
     }
 }
 

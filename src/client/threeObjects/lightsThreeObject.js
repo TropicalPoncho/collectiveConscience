@@ -72,10 +72,11 @@ export class LightsThreeObject extends ThreeObject  {
         } );
 
         // create a sphere and assign the material
-        this.mesh.add(new THREE.Mesh(
-            new THREE.IcosahedronGeometry( this.size, this.segmentWidth ),
-            material
-        ));
+        const detail = Math.max(1, Math.min(3, this.segmentWidth || 1));
+        const geometryKey = `lights-${this.size}-${detail}`;
+        const geometry = ThreeObject.getSharedGeometry(geometryKey, () => new THREE.IcosahedronGeometry(this.size, detail));
+
+        this.mesh.add(new THREE.Mesh(geometry, material));
         
     }
 

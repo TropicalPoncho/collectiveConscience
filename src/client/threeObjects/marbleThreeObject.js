@@ -38,8 +38,10 @@ export class MarbleThreeObject extends ThreeObject  {
 
     constructor (node, config){
         super(node);
-
-        const geometry = new THREE.SphereGeometry(this.size, this.segmentWidth, this.segmentHeight);
+        const widthSegments = Math.max(8, Math.min(32, this.segmentWidth || 16));
+        const heightSegments = Math.max(6, Math.min(24, this.segmentHeight || 12));
+        const geometryKey = `marble-${this.size}-${widthSegments}-${heightSegments}`;
+        const geometry = ThreeObject.getSharedGeometry(geometryKey, () => new THREE.SphereGeometry(this.size, widthSegments, heightSegments));
         const material = new THREE.MeshStandardMaterial({ roughness: this.params.roughness });
         
          // Load heightmap and displacement textures

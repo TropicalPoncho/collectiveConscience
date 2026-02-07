@@ -15,7 +15,9 @@ export class PerlinThreeObject extends ThreeObject{
         let cubeMap = createCubeMap();
 
         // <OBJECT>
-        let g = new THREE.IcosahedronGeometry(1, 70);
+        const detail = this.segmentWidth ?? 70;
+        const geometryKey = `perlin-core-1-${detail}`;
+        const g = ThreeObject.getSharedGeometry(geometryKey, () => new THREE.IcosahedronGeometry(1, detail));
         let localUniforms = {
             color1: {value: new THREE.Color(0xFF0074)}, 
             color2: {value: new THREE.Color(0x9900FF)},
@@ -107,7 +109,10 @@ export class PerlinThreeObject extends ThreeObject{
         perlinMesh.scale.set( 3, 3, 3 );
         this.mesh.add(perlinMesh);
 
-        const geometry = new THREE.SphereGeometry(this.size, this.segmentWidth, this.segmentHeight);
+        const widthSegments = Math.max(8, Math.min(32, this.segmentWidth || 16));
+        const heightSegments = Math.max(6, Math.min(24, this.segmentHeight || 12));
+        const sphereKey = `perlin-shell-${this.size}-${widthSegments}-${heightSegments}`;
+        const geometry = ThreeObject.getSharedGeometry(sphereKey, () => new THREE.SphereGeometry(this.size, widthSegments, heightSegments));
         const material = new THREE.MeshStandardMaterial({ transparent: true });
         const obj = new THREE.Mesh(geometry, material);
         obj.visible = false;

@@ -21,6 +21,13 @@ const colorsArray = [
 
 jQuery(function(){
     const mundo = new Mundo('contentNetwork', showNeuronData, arActive);
+    const $hamburger = $('.checkbtn');
+    const $lateral = $('.lateralFloatingMenu');
+
+    const setHamburgerVisible = (isVisible) => {
+        $hamburger.toggleClass('show', isVisible);
+    };
+
     (async () => {
         await mundo.initialize(0);
     })();
@@ -51,13 +58,13 @@ jQuery(function(){
         const neuronToGo = $(this).attr('neuronId'); //id de neurona clickeada
         
         if($(this).parent().attr('dimensionid') == 0){
-            $('.lateralFloatingMenu').fadeOut(500);
+            $lateral.addClass('hidden');
         }
 
         //Modifico btns en focus
         $(this).siblings().removeClass('bnfocus');
         $(this).addClass('bnfocus');
-
+        
         await mundo.goToNeuron(neuronToGo); //en este caso no debería devolver neuronas nuevas
         manageMenues();
     });
@@ -67,12 +74,24 @@ jQuery(function(){
         goBack();
     });
 
+    $(document).on('click', '.lateralFloatingMenu .close-lateral, .lateralFloatingMenu .bn', function(){
+        closeLateral();
+    });
+
     $(document).on("click", '#check', function( event ) {
-        if($(this).prop('checked')){
+        const isChecked = $(this).prop('checked');
+
+        if(isChecked){
             $(".floatingMenu .bn").show();
-            mundo.cameraController.backToBasicsView();
-        }else if(bnActive){
-            goBack();
+            //mundo.cameraController.backToBasicsView();
+            $lateral.removeClass('hidden');
+            setHamburgerVisible(false);
+        }else{
+            $lateral.addClass('hidden');
+            setHamburgerVisible(true);
+            if(bnActive){
+                goBack();
+            }
         }
     });
 
@@ -95,8 +114,7 @@ jQuery(function(){
         return false;
     });
 
-    function manageMenues(newNeurons = []){        
-        // Actualizamos el menú lateral con las nuevas neuronas
+    function manageMenues(newNeurons = []){
         if(newNeurons && newNeurons.length > 0){
             updateLateralMenu(newNeurons);
         }
@@ -112,6 +130,7 @@ jQuery(function(){
             $(".floatingMenu").removeClass('top');
             $(".floatingTitle").fadeIn(2500);
         }
+        // No extra menu rebuilding needed
     }
 
 
@@ -126,15 +145,15 @@ jQuery(function(){
      */
     function updateLateralMenu(neurons) {
         const $menu = $('.lateralFloatingMenu');
-        $menu.empty(); // Limpia el menú actual
-        $menu.fadeIn(600);
-        // Asignar la dimensión actual al contenedor para que el selector funcione
+        $menu.find('.dynamic-item').remove(); // limpia sólo los items agregados dinámicamente
+        $menu.removeClass('hidden');
         $menu.attr('dimensionId', mundo.dimension);
+        setHamburgerVisible(false);
 
         neurons.forEach(neuron => {
             // Crea el botón con las mismas clases y atributos que espera el event listener existente
             const $btn = $('<button>', {
-                class: 'bn',
+                class: 'bn dynamic-item',
                 id: 'neuron-' + neuron.id, // ID único para el DOM
                 neuronId: neuron.id,       // Atributo usado por el click handler
                 text: neuron.name || neuron.nickName || 'Sin Nombre'
@@ -142,6 +161,12 @@ jQuery(function(){
             $menu.append($btn);
         });
         
+    }
+
+    function closeLateral(){
+        $lateral.addClass('hidden');
+        $('#check').prop('checked', false);
+        setHamburgerVisible(true);
     }
 
     function showNeuronData(node){

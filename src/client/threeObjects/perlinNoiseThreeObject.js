@@ -83,7 +83,11 @@ export class PerlinNoiseThreeObject extends ThreeObject {
           
         };
         // Create a plane or any geometry to apply the shader material
-        const geometry = new THREE.SphereGeometry(this.size, this.segmentWidth, this.segmentHeight);
+        const widthSegments = Math.max(8, Math.min(32, this.segmentWidth || 16));
+        const heightSegments = Math.max(6, Math.min(24, this.segmentHeight || 12));
+        const geometryKey = `perlin-noise-${this.size}-${widthSegments}-${heightSegments}`;
+        const geometry = ThreeObject.getSharedGeometry(geometryKey, () => new THREE.SphereGeometry(this.size, widthSegments, heightSegments));
+
         this.mesh.add(new THREE.Mesh(geometry, customMaterial));
         
         // Set the iResolution uniform (screen resolution)

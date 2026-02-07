@@ -33,6 +33,16 @@ export class ThreeObject {
         "#FFFFFF"
     ];
 
+    // Compartimos geometrías entre instancias para evitar recrear buffers por nodo
+    static geometryCache = new Map();
+
+    static getSharedGeometry(key, factory) {
+        if (!ThreeObject.geometryCache.has(key)) {
+            ThreeObject.geometryCache.set(key, factory());
+        }
+        return ThreeObject.geometryCache.get(key);
+    }
+
     /**
      * Creates a new instance of a ThreeObject.
      * @param {Object} node - The node object to be represented by the ThreeObject.

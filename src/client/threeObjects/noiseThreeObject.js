@@ -15,11 +15,14 @@ export class NoiseThreeObject extends ThreeObject  {
         .load( [ 'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr' ],
             function ( hdrTexture ) { 
 
-                const geometry = new THREE.SphereGeometry(
+                const widthSegments = Math.max(8, Math.min(32, this.segmentWidth || 16));
+                const heightSegments = Math.max(6, Math.min(24, this.segmentHeight || 12));
+                const geometryKey = `noise-${this.size}-${widthSegments}-${heightSegments}`;
+                const geometry = ThreeObject.getSharedGeometry(geometryKey, () => new THREE.SphereGeometry(
                     this.size,
-                    this.segmentWidth,
-                    this.segmentHeight
-                );
+                    widthSegments,
+                    heightSegments
+                ));
 
                 // left top
                 let material = new MeshPhysicalNodeMaterial();

@@ -133,11 +133,12 @@ export class WaveLineThreeObject extends ThreeObject  {
                 } `
         } );
 
-        // create a sphere and assign the material
-        this.mesh.add(new THREE.Mesh(
-            new THREE.PlaneGeometry(4, 4, 100, 32),
-            material
-        ));
+        const segmentsX = 100;
+        const segmentsY = 32;
+        const geometryKey = `wave-line-4-4-${segmentsX}-${segmentsY}`;
+        const geometry = ThreeObject.getSharedGeometry(geometryKey, () => new THREE.PlaneGeometry(4, 4, segmentsX, segmentsY));
+
+        this.mesh.add(new THREE.Mesh(geometry, material));
         
     }
 
